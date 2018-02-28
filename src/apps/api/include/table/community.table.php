@@ -3,15 +3,15 @@ namespace re\rgx;
 
 /*
   +-----------------------------------------------------------------
-  + 方案 表模型
+  + 小区表 表模型
   + ----------------------------------------------------------------
-  + @date 2018-02-28 16:35:24
+  + @date 2018-02-28 17:26:48
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
-  + @cmd  php rgx/build.php --prefix=./apps/admin
+  + @cmd  php rgx/build.php --prefix=./apps/api
   + @generator RGX v1.0.0.20171212_RC
   +-----------------------------------------------------------------
 */
-class scheme_table extends table {
+class community_table extends table {
 
     /*
       +--------------------------
@@ -26,73 +26,63 @@ class scheme_table extends table {
       +--------------------------
     */
     protected $_fields = [
-        'ps_id' => [
-            'name'               => 'ps_id',
+        'pco_id' => [
+            'name'               => 'pco_id',
             'type'               => 'int',
             'field_type'         => 'int',
             'min'                => 0,
             'max'                => 4294967295,
-            'label'              => '方案编号',
+            'label'              => '小区ID',
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
-        'ps_name' => [
-            'name'               => 'ps_name',
+        'pco_region0' => [
+            'name'               => 'pco_region0',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '所在省份',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'pco_region1' => [
+            'name'               => 'pco_region1',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '所在城市',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'pco_region2' => [
+            'name'               => 'pco_region2',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '所有区县',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'pco_name' => [
+            'name'               => 'pco_name',
             'type'               => 'char',
             'field_type'         => 'varchar',
             'min'                => 0,
-            'max'                => 45,
-            'label'              => '方案名称',
+            'max'                => 32,
+            'label'              => '小区名称',
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
-        'ps_cus_id' => [
-            'name'               => 'ps_cus_id',
-            'type'               => 'int',
-            'field_type'         => 'int',
+        'pco_addr' => [
+            'name'               => 'pco_addr',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
             'min'                => 0,
-            'max'                => 4294967295,
-            'label'              => '所属客户',
-            'allow_empty_string' => false,
-            'allow_null'         => false
-        ],
-        'ps_cs_id' => [
-            'name'               => 'ps_cs_id',
-            'type'               => 'int',
-            'field_type'         => 'int',
-            'min'                => 0,
-            'max'                => 4294967295,
-            'label'              => '所属客服',
-            'allow_empty_string' => false,
-            'allow_null'         => false
-        ],
-        'ps_atime' => [
-            'name'               => 'ps_atime',
-            'type'               => 'int',
-            'field_type'         => 'int',
-            'min'                => 0,
-            'max'                => 4294967295,
-            'label'              => '创建时间',
-            'allow_empty_string' => false,
-            'allow_null'         => false
-        ],
-        'ps_utime' => [
-            'name'               => 'ps_utime',
-            'type'               => 'int',
-            'field_type'         => 'int',
-            'min'                => 0,
-            'max'                => 4294967295,
-            'label'              => '更新时间',
-            'allow_empty_string' => false,
-            'allow_null'         => false
-        ],
-        'ps_total' => [
-            'name'               => 'ps_total',
-            'type'               => 'float',
-            'field_type'         => 'decimal',
-            'min'                => 12,
-            'max'                => 2,
-            'label'              => '方案价格',
+            'max'                => 64,
+            'label'              => '详细地址',
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
@@ -104,7 +94,7 @@ class scheme_table extends table {
       +--------------------------
     */
     protected $_primary_key = [
-        'key' => 'ps_id',
+        'key' => 'pco_id',
         'inc' => true
     ];
 
@@ -114,13 +104,12 @@ class scheme_table extends table {
       +--------------------------
     */
     public $defaults = [
-        'ps_id'       => 0,
-        'ps_name'     => '',
-        'ps_cus_id'   => 0,
-        'ps_cs_id'    => 0,
-        'ps_atime'    => 0,
-        'ps_utime'    => 0,
-        'ps_total'    => 0.00,
+        'pco_id'      => 0,
+        'pco_region0' => 0,
+        'pco_region1' => 0,
+        'pco_region2' => 0,
+        'pco_name'    => '',
+        'pco_addr'    => '',
     ];
 
     /*
@@ -129,13 +118,12 @@ class scheme_table extends table {
       +--------------------------
     */
     public $filter = [
-        'ps_id'       => ['re\rgx\filter', 'int'],
-        'ps_name'     => ['re\rgx\filter', 'char'],
-        'ps_cus_id'   => ['re\rgx\filter', 'int'],
-        'ps_cs_id'    => ['re\rgx\filter', 'int'],
-        'ps_atime'    => ['re\rgx\filter', 'int'],
-        'ps_utime'    => ['re\rgx\filter', 'int'],
-        'ps_total'    => ['re\rgx\filter', 'float'],
+        'pco_id'      => ['re\rgx\filter', 'int'],
+        'pco_region0' => ['re\rgx\filter', 'int'],
+        'pco_region1' => ['re\rgx\filter', 'int'],
+        'pco_region2' => ['re\rgx\filter', 'int'],
+        'pco_name'    => ['re\rgx\filter', 'char'],
+        'pco_addr'    => ['re\rgx\filter', 'char'],
     ];
 
     /*

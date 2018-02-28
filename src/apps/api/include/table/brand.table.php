@@ -3,15 +3,15 @@ namespace re\rgx;
 
 /*
   +-----------------------------------------------------------------
-  + 采购员 表模型
+  + pre_brand 表模型
   + ----------------------------------------------------------------
-  + @date 2018-02-28 16:35:24
+  + @date 2018-02-28 17:26:48
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
-  + @cmd  php rgx/build.php --prefix=./apps/admin
+  + @cmd  php rgx/build.php --prefix=./apps/api
   + @generator RGX v1.0.0.20171212_RC
   +-----------------------------------------------------------------
 */
-class buyer_table extends table {
+class brand_table extends table {
 
     /*
       +--------------------------
@@ -26,13 +26,23 @@ class buyer_table extends table {
       +--------------------------
     */
     protected $_fields = [
-        'pb_uid' => [
-            'name'               => 'pb_uid',
+        'pb_id' => [
+            'name'               => 'pb_id',
             'type'               => 'int',
             'field_type'         => 'int',
             'min'                => 0,
             'max'                => 4294967295,
-            'label'              => '用户ID',
+            'label'              => '品牌编号',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'pb_name' => [
+            'name'               => 'pb_name',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 32,
+            'label'              => '品牌名称',
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
@@ -44,8 +54,8 @@ class buyer_table extends table {
       +--------------------------
     */
     protected $_primary_key = [
-        'key' => 'pb_uid',
-        'inc' => false
+        'key' => 'pb_id',
+        'inc' => true
     ];
 
     /*
@@ -54,7 +64,8 @@ class buyer_table extends table {
       +--------------------------
     */
     public $defaults = [
-        'pb_uid'  => 0,
+        'pb_id'   => 0,
+        'pb_name' => '',
     ];
 
     /*
@@ -63,7 +74,8 @@ class buyer_table extends table {
       +--------------------------
     */
     public $filter = [
-        'pb_uid'  => ['re\rgx\filter', 'int'],
+        'pb_id'   => ['re\rgx\filter', 'int'],
+        'pb_name' => ['re\rgx\filter', 'char'],
     ];
 
     /*

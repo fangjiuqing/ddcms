@@ -1,5 +1,5 @@
 <?php
-namespace com\admin_admin;
+namespace com\admin_api;
 use \re\rgx as R;
 
 class index_module extends R\module {

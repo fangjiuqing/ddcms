@@ -522,7 +522,6 @@ class table_build extends build {
         }
         $app_config['prefix'] = realpath($app_config['prefix']);
         
-        var_dump($app_config);
         $entry_file = $app_config['prefix'] . "/index.php";
         if (!file_exists($entry_file)) {
             $this->halt("entry file not found {$entry_file}");
