@@ -1,8 +1,8 @@
 wiki
 node_modules
-apps/admin/data/cache/*
-apps/admin/data/temp/*
-apps/admin/data/attachment/*
-apps/admin/data/log/*
+src/apps/admin/data/cache/*
+src/apps/admin/data/temp/*
+src/apps/admin/data/attachment/*
+src/apps/admin/data/log/*
 */.DS_Store
 ./.idea
