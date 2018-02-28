@@ -1,0 +1,8 @@
+wiki
+node_modules
+apps/admin/data/cache/*
+apps/admin/data/temp/*
+apps/admin/data/attachment/*
+apps/admin/data/log/*
+*/.DS_Store
+./.idea
