@@ -65,6 +65,18 @@ class base_iface extends rgx {
     }
 
     /**
+     * [注销登录]
+     * @return [type] [description]
+     */
+    public function del_login () {
+        if ( $this->mod->sess_set('pfm_login', []) ) {
+            admin_helper::add_log($user['admin_id'], 'user/logout', 1, '注销成功');
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 数据验证
      * @param  [type] $rules [description]
      * @return [type]        [description]
