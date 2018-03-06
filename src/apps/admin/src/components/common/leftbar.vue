@@ -2,7 +2,7 @@
   <div class="app_leftbar">
     <nav class="navbar navbar-default">
         <ul class="nav navbar-nav">
-          <li v-for="(item) in navigates[$store.state.admin_level]" :key="item.url" @click="set_active(item, $index)" :class="{'active':item.active}">
+          <li v-for="(item, $index) in navigates[$store.state.admin_level]" :key="item.url" @click="set_active(item, $index)" :class="{'active':active_id == $index}">
               <router-link :to="item.url">
                 <span class="icon-wrapper"><i :class="item.icon"></i></span>
                 {{item.name}}
@@ -32,17 +32,17 @@ export default {
   store,
   data () {
     return {
-      navigates: navigate
+      navigates: navigate,
+      active_id: -1
     }
   },
   methods: {
-    set_active (item, i) {
-      console.log(this.navigates)
-      this.navigates['admin1'].forEach((item) => {
-        item.active = false
-      })
-      item.active = true
-      // this.$router.push(aa)
+    set_active (obj, i) {
+      if (this.active_id === i) {
+        this.active_id = -1
+      } else {
+        this.active_id = i
+      }
     }
   }
 }

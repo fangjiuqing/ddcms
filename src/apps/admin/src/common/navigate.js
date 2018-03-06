@@ -6,13 +6,13 @@ export default {
       icon: 'fa fa-home',
       children: [
         {
-          url: '/profile',
+          url: '/user/profile',
           name: '我的资料',
           icon: 'fa fa-cog',
           active: false
         },
         {
-          url: '/passwd',
+          url: '/user/passwd',
           name: '密码修改',
           icon: 'fa fa-key',
           active: false

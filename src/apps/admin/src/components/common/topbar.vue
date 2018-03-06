@@ -1,7 +1,10 @@
 <template>
   <div class="app_topbar">
     <nav class="navbar navbar-default">
-      <a class="navbar-brand" slot="brand" href="#">Brand</a>
+      <a class="navbar-brand" slot="brand" href="#">
+        业务管理平台
+        <small style="font-size: 12px;">&copy;道达智装</small>
+      </a>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
         </ul>

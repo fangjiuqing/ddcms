@@ -1,3 +1,13 @@
+html {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+#app {
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
 .app_mask {
   position: fixed;
   width: 100%;
@@ -29,8 +39,10 @@
 .app_topbar .navbar .navbar-brand {
     background: #16AA93;
     padding-left: 0px;
-    width: 220px;
+    width: 200px;
     color: #fff;
+    font-size: 16px;
+    text-align: center;
 }
 .app_topbar .navbar-nav >li>a {
     padding: 0;
@@ -46,7 +58,7 @@
     border: none;
 }
 .app_leftbar {
-    width: 220px;
+    width: 200px;
     position: fixed;
     height: calc(100vh - 50px);
     left: 0;
@@ -55,6 +67,7 @@
 }
 .app_leftbar .navbar-default {
     border-radius: 0;
+    background: transparent;
 }
 .app_leftbar .navbar-default .navbar-nav {
     float: none;
@@ -62,12 +75,32 @@
 .app_leftbar .navbar-default .navbar-nav>li {
     text-align: left;
     float: none;
+    border-top: 1px solid #f7f7f7;
+    border-bottom: 1px solid #f7f7f7;
 }
 .app_leftbar .navbar-default .navbar-nav>li>a {
     display: block;
 }
 .app_leftbar .app_leftbar_sub_nav {
-    background: rgba(255, 255, 255, 0.51)
+    background: rgba(255, 255, 255, 0.51);
+    max-height: 0;
+    position: relative;
+    overflow: hidden;
+    -webkit-transition: max-height 0.3s;
+    -moz-transition: max-height 0.3s;
+    -o-transition: max-height 0.3s;
+    transition: max-height 0.3s;
+}
+.app_leftbar li.active .app_leftbar_sub_nav {
+    max-height: 120px;
+}
+.app_leftbar .navbar-default .navbar-nav>li.active > a,
+.app_leftbar .navbar-default .navbar-nav>li:hover > a {
+    color:  #16AA93;
+}
+.app_leftbar li.active .fa-angle-double-right:before {
+    content: "\f103";
+    color: #16AA93
 }
 .app_leftbar .app_leftbar_sub_nav li a {
     padding-left: 30px;
