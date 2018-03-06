@@ -5,7 +5,7 @@ namespace re\rgx;
   +-----------------------------------------------------------------
   + 方案 表模型
   + ----------------------------------------------------------------
-  + @date 2018-02-28 17:26:48
+  + @date 2018-03-05 11:05:11
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
   + @cmd  php rgx/build.php --prefix=./apps/api
   + @generator RGX v1.0.0.20171212_RC
@@ -56,8 +56,8 @@ class scheme_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
-        'ps_cs_id' => [
-            'name'               => 'ps_cs_id',
+        'ps_adm_id' => [
+            'name'               => 'ps_adm_id',
             'type'               => 'int',
             'field_type'         => 'int',
             'min'                => 0,
@@ -117,7 +117,7 @@ class scheme_table extends table {
         'ps_id'       => 0,
         'ps_name'     => '',
         'ps_cus_id'   => 0,
-        'ps_cs_id'    => 0,
+        'ps_adm_id'   => 0,
         'ps_atime'    => 0,
         'ps_utime'    => 0,
         'ps_total'    => 0.00,
@@ -132,7 +132,7 @@ class scheme_table extends table {
         'ps_id'       => ['re\rgx\filter', 'int'],
         'ps_name'     => ['re\rgx\filter', 'char'],
         'ps_cus_id'   => ['re\rgx\filter', 'int'],
-        'ps_cs_id'    => ['re\rgx\filter', 'int'],
+        'ps_adm_id'   => ['re\rgx\filter', 'int'],
         'ps_atime'    => ['re\rgx\filter', 'int'],
         'ps_utime'    => ['re\rgx\filter', 'int'],
         'ps_total'    => ['re\rgx\filter', 'float'],

@@ -1,0 +1,85 @@
+.app_mask {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: right bottom;
+  -webkit-transition: all .7s;
+  transition: all .7s;
+  background-image: url('../../assets/themes/v1/images/bg.jpg')
+}
+.app_topbar {
+    height: 50px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+}
+.app_topbar .navbar {
+    margin-bottom: 0;
+    background: #1082D3;
+    padding: 0 15px 0 0;
+    border-radius: 0;
+    border: none;
+}
+.app_topbar .navbar .navbar-brand {
+    background: #16AA93;
+    padding-left: 0px;
+    width: 220px;
+    color: #fff;
+}
+.app_topbar .navbar-nav >li>a {
+    padding: 0;
+    height: 50px;
+    line-height: 50px;
+}
+.app_topbar .navbar-nav >li>a .topbar_avatar {
+    border-radius: 50%;
+}
+.app_topbar .navbar-default .navbar-collapse, 
+.app_topbar .navbar-default .navbar-form {
+    background: none;
+    border: none;
+}
+.app_leftbar {
+    width: 220px;
+    position: fixed;
+    height: calc(100vh - 50px);
+    left: 0;
+    top: 50px;
+    background: #E8EAEB;
+}
+.app_leftbar .navbar-default {
+    border-radius: 0;
+}
+.app_leftbar .navbar-default .navbar-nav {
+    float: none;
+}
+.app_leftbar .navbar-default .navbar-nav>li {
+    text-align: left;
+    float: none;
+}
+.app_leftbar .navbar-default .navbar-nav>li>a {
+    display: block;
+}
+.app_leftbar .app_leftbar_sub_nav {
+    background: rgba(255, 255, 255, 0.51)
+}
+.app_leftbar .app_leftbar_sub_nav li a {
+    padding-left: 30px;
+    color: #888;
+}
+.app_leftbar_rightico {
+    padding-right: 0px;
+    color: #777;
+    font-size: 12px;
+    line-height: 16px;
+}
+.icon-wrapper {
+    display: inline-block;
+    width: 18px;
+}

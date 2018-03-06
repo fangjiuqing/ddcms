@@ -5,7 +5,7 @@ namespace re\rgx;
   +-----------------------------------------------------------------
   + 方案材料 表模型
   + ----------------------------------------------------------------
-  + @date 2018-02-28 17:26:48
+  + @date 2018-03-05 11:05:11
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
   + @cmd  php rgx/build.php --prefix=./apps/api
   + @generator RGX v1.0.0.20171212_RC
@@ -116,8 +116,8 @@ class scheme_material_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
-        'psm_cs_id' => [
-            'name'               => 'psm_cs_id',
+        'psm_adm_id' => [
+            'name'               => 'psm_adm_id',
             'type'               => 'int',
             'field_type'         => 'int',
             'min'                => 0,
@@ -173,7 +173,7 @@ class scheme_material_table extends table {
         'psm_type'    => 0,
         'psm_total'   => 0.00,
         'psm_cus_id'  => 0,
-        'psm_cs_id'   => 0,
+        'psm_adm_id'  => 0,
         'psm_atime'   => 0,
         'psm_utime'   => 0,
     ];
@@ -193,7 +193,7 @@ class scheme_material_table extends table {
         'psm_type'    => ['re\rgx\filter', 'int'],
         'psm_total'   => ['re\rgx\filter', 'float'],
         'psm_cus_id'  => ['re\rgx\filter', 'int'],
-        'psm_cs_id'   => ['re\rgx\filter', 'int'],
+        'psm_adm_id'  => ['re\rgx\filter', 'int'],
         'psm_atime'   => ['re\rgx\filter', 'int'],
         'psm_utime'   => ['re\rgx\filter', 'int'],
     ];

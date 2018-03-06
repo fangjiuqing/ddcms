@@ -5,7 +5,7 @@ namespace re\rgx;
   +-----------------------------------------------------------------
   + 跟单日志 表模型
   + ----------------------------------------------------------------
-  + @date 2018-02-28 17:26:48
+  + @date 2018-03-05 11:05:11
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
   + @cmd  php rgx/build.php --prefix=./apps/api
   + @generator RGX v1.0.0.20171212_RC
@@ -36,8 +36,8 @@ class customer_trace_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
-        'pct_cs_id' => [
-            'name'               => 'pct_cs_id',
+        'pct_adm_id' => [
+            'name'               => 'pct_adm_id',
             'type'               => 'int',
             'field_type'         => 'int',
             'min'                => 0,
@@ -46,8 +46,8 @@ class customer_trace_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
-        'pct_cs_nick' => [
-            'name'               => 'pct_cs_nick',
+        'pct_adm_nick' => [
+            'name'               => 'pct_adm_nick',
             'type'               => 'char',
             'field_type'         => 'varchar',
             'min'                => 0,
@@ -105,8 +105,8 @@ class customer_trace_table extends table {
     */
     public $defaults = [
         'pct_id'      => 0,
-        'pct_cs_id'   => 0,
-        'pct_cs_nick' => '',
+        'pct_adm_id'  => 0,
+        'pct_adm_nick'=> '',
         'pct_cus_id'  => 0,
         'pct_memo'    => '',
         'pct_atime'   => 0,
@@ -119,8 +119,8 @@ class customer_trace_table extends table {
     */
     public $filter = [
         'pct_id'      => ['re\rgx\filter', 'int'],
-        'pct_cs_id'   => ['re\rgx\filter', 'int'],
-        'pct_cs_nick' => ['re\rgx\filter', 'char'],
+        'pct_adm_id'  => ['re\rgx\filter', 'int'],
+        'pct_adm_nick'=> ['re\rgx\filter', 'char'],
         'pct_cus_id'  => ['re\rgx\filter', 'int'],
         'pct_memo'    => ['re\rgx\filter', 'char'],
         'pct_atime'   => ['re\rgx\filter', 'int'],

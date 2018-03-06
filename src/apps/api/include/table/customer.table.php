@@ -5,7 +5,7 @@ namespace re\rgx;
   +-----------------------------------------------------------------
   + 客户 表模型
   + ----------------------------------------------------------------
-  + @date 2018-02-28 17:26:48
+  + @date 2018-03-05 11:05:11
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
   + @cmd  php rgx/build.php --prefix=./apps/api
   + @generator RGX v1.0.0.20171212_RC
@@ -66,13 +66,23 @@ class customer_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
-        'pc_cs_id' => [
-            'name'               => 'pc_cs_id',
+        'pc_adm_id' => [
+            'name'               => 'pc_adm_id',
             'type'               => 'int',
             'field_type'         => 'int',
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '所属客服',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'pc_adm_nick' => [
+            'name'               => 'pc_adm_nick',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 32,
+            'label'              => '客服姓名',
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
@@ -188,7 +198,8 @@ class customer_table extends table {
         'pc_nick'         => '',
         'pc_mobile'       => '',
         'pc_status'       => 0,
-        'pc_cs_id'        => 0,
+        'pc_adm_id'       => 0,
+        'pc_adm_nick'     => '',
         'pc_atime'        => 0,
         'pc_utime'        => 0,
         'pc_via'          => 0,
@@ -210,7 +221,8 @@ class customer_table extends table {
         'pc_nick'         => ['re\rgx\filter', 'char'],
         'pc_mobile'       => ['re\rgx\filter', 'char'],
         'pc_status'       => ['re\rgx\filter', 'int'],
-        'pc_cs_id'        => ['re\rgx\filter', 'int'],
+        'pc_adm_id'       => ['re\rgx\filter', 'int'],
+        'pc_adm_nick'     => ['re\rgx\filter', 'char'],
         'pc_atime'        => ['re\rgx\filter', 'int'],
         'pc_utime'        => ['re\rgx\filter', 'int'],
         'pc_via'          => ['re\rgx\filter', 'int'],
