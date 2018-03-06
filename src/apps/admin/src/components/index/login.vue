@@ -18,13 +18,15 @@
 </template>
 
 <style scoped>
+    .login {
+      margin-top: 50px;
+    }
     .login-wrapper .login-form {
       background-color: rgba(255, 255, 255, 0.3);
       padding: 30px 40px;
       border-radius: 5px;
       border-radius: 2px;
     }
-
     .login-wrapper h3 {
       font-size: 13px;
       font-weight: 200;

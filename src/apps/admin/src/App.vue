@@ -4,7 +4,15 @@
     <vue-progress-bar></vue-progress-bar>
     <transition name="right-fade">
       <keep-alive>
-        <router-view></router-view>
+      <div class="app_wrap">
+        <div class="app_layer">
+          <Topbar/>
+          <Leftbar/>
+          <section class="app_main">
+              <router-view/>
+          </section>
+        </div>
+      </div>
       </keep-alive>
     </transition>
   </div>

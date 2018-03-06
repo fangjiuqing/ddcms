@@ -4,6 +4,8 @@ import Router from 'vue-router'
 import Index from '@/components/index/index'
 import Login from '@/components/index/login'
 
+import Profile from '@/components/user/profile'
+
 Vue.use(Router)
 
 Vue.directive('focus', {
@@ -15,6 +17,7 @@ Vue.directive('focus', {
 })
 
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -25,6 +28,11 @@ const router = new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/user/profile',
+      name: 'Profile',
+      component: Profile
     }
   ]
 })

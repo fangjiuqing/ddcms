@@ -1,7 +1,7 @@
 export default {
   admin1: [
     {
-      url: '',
+      url: '/user',
       name: '我的资料',
       icon: 'fa fa-home',
       children: [

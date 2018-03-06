@@ -39,11 +39,9 @@ Vue.use(VueProgressBar, {
   height: '2px'
 })
 
-/* import commonSidebar from './components/common/sidebar' */
-
 Vue.component('Topbar', Topbar)
 Vue.component('Leftbar', Leftbar)
-/* Vue.component('common-sidebar', commonSidebar) */
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
