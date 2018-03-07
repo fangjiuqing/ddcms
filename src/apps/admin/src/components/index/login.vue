@@ -92,7 +92,7 @@ export default {
           this[d.data.via + '_focus'] = true
           this.$notify({
             content: d.msg,
-            duration: 2000,
+            duration: 12000,
             type: 'danger'
           })
         } else {

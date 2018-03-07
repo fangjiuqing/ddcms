@@ -2,7 +2,7 @@
   <div id="app">
     <div class="app_mask"></div>
     <vue-progress-bar></vue-progress-bar>
-    <transition name="right-fade">
+    <transition name="bounce">
       <keep-alive>
       <div class="app_wrap">
         <div class="app_layer">
