@@ -37,7 +37,7 @@ export default {
       children: [
         {
           url: '/case/add',
-          name: '新增客户',
+          name: '新增案例',
           icon: 'fa fa-plus-square',
           active: false
         },
@@ -89,6 +89,12 @@ export default {
           name: '采购订单',
           icon: 'fa fa-shopping-bag',
           active: false
+        },
+        {
+          url: '/material/stock',
+          name: '仓库管理',
+          icon: 'fa fa-rebel',
+          active: false
         }
       ]
     },
@@ -126,6 +132,12 @@ export default {
           url: '/operate/index',
           name: '首页案例',
           icon: 'fa fa-plus-square',
+          active: false
+        },
+        {
+          url: '/operate/desinger',
+          name: '设计师',
+          icon: 'fa fa-address-book',
           active: false
         }
       ]
