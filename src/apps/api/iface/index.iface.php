@@ -45,4 +45,15 @@ class index_iface extends base_iface {
         $this->failure('账号或密码有误', 103);
     }
 
+    /**
+     * [注销登录]
+     * @return [type] [description]
+     */
+    public function logout_action () {
+        if ( $this->del_login() ) {
+            $this->success('注销成功');
+        }
+        $this->failure('注销失败', 100);
+    }
+
 }
