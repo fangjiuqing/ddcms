@@ -59,8 +59,8 @@ class base_iface extends rgx {
      * @param [type] $user [description]
      */
     public function set_login ($user) {
-        $this->mod->sess_set('pfm_login', $user);
-        $this->mod->sess_set('pfm_lastip', ip2long(app::get_ip()));
+        $this->mod->sess_set('admin_login', $user);
+        $this->mod->sess_set('admin_lastip', ip2long(app::get_ip()));
         admin_helper::add_log($user['admin_id'], 'user/login', 1, '登录成功');
     }
 
@@ -69,7 +69,7 @@ class base_iface extends rgx {
      * @return [type] [description]
      */
     public function del_login () {
-        if ( $this->mod->sess_set('pfm_login', []) ) {
+        if ( $this->mod->sess_set('admin_login', []) ) {
             admin_helper::add_log($user['admin_id'], 'user/logout', 1, '注销成功');
             return true;
         }

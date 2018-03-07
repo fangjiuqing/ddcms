@@ -7,7 +7,9 @@ Vue.use(Vuex)
 
 const state = {
   admin_level: 'admin1',
-  left_active_key: ''
+  left_active_key: '',
+  is_login: false,
+  loader_left: 0
 }
 
 export default new Vuex.Store({

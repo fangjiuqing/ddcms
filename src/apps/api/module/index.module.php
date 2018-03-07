@@ -38,9 +38,9 @@ class index_module extends R\module {
         $login = $this->sess_get('admin_login') ?: null;
         if (!empty($login)) {
             // IP 绑定 RSID
-            $last_ip = $this->sess_get('pfm_lastip');
+            $last_ip = $this->sess_get('admin_lastip');
             if (empty($last_ip) || $last_ip != ip2long(R\app::get_ip())) {
-                $this->sess_del(['admin_login', 'pfm_lastip']);
+                $this->sess_del(['admin_login', 'admin_lastip']);
                 $this->ajax_failure('请先登录', 900);
             }
         }

@@ -1,25 +1,31 @@
 <template>
   <div class="login">
-      <div class="login-wrapper">
-        <div class="login-form">
-          <form>
-            <div class="form-group">
-              <input type="email" class="form-control" v-model.lazy="account" v-focus="account_focus" placeholder="用户名">
-            </div>
-            <div class="form-group">
-              <input type="password" class="form-control" autocomplete="off" v-model.lazy="passwd" v-focus="passwd_focus" placeholder="密码" maxlength="32">
-            </div>
-            <button type="button" @click="submit" class="btn btn-primary btn-default">登录</button>
-          </form>
-        </div>
-        <h3>&copy; 道达智装 业务管理平台 v1.0.0 </h3>
+    <div class="login-wrapper">
+      <div class="login-form">
+        <form>
+          <div class="form-group">
+            <input type="email" class="form-control" v-model.lazy="account" v-focus="account_focus" placeholder="用户名">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" autocomplete="off" v-model.lazy="passwd" v-focus="passwd_focus" placeholder="密码" maxlength="32">
+          </div>
+          <button type="button" @click="submit" class="btn btn-primary btn-default">登录</button>
+        </form>
       </div>
+      <h3>&copy; 道达智装 业务管理平台 v1.0.0 </h3>
+    </div>
 </div>
 </template>
 
 <style scoped>
     .login {
-      margin-top: 50px;
+      margin-top: 0;
+      padding-top: 60px;
+      background: #17a2b8;
+      height: calc(100%);
+      position: fixed;
+      width: 100%;
+      top: 0;
     }
     .login-wrapper .login-form {
       background-color: rgba(255, 255, 255, 0.3);
@@ -49,7 +55,7 @@
 export default {
   name: 'Login',
   metaInfo: {
-    title: '平台管理登录 - 未来家'
+    title: '登录 - 道达智装'
   },
   props: {
     verify: 123333
@@ -68,14 +74,16 @@ export default {
         this.$notify({
           content: '请输入您的用户名',
           duration: 2000,
-          type: 'info'
+          type: 'info',
+          dismissible: false
         })
         this.account_focus = true
       } else if (this.passwd === '') {
         this.$notify({
           content: '请输入您的密码',
           duration: 2000,
-          type: 'info'
+          type: 'info',
+          dismissible: false
         })
         this.passwd_focus = true
       } else {
@@ -84,21 +92,45 @@ export default {
     },
 
     exec_login: function () {
+      this.$loader.show({
+        'msg': '请求中, 请稍后 ...',
+        left_offset: '0px',
+        type: 'loading'
+      })
       this.$http.post('index/login', {
         account: this.account,
         passwd: this.passwd
       }).then(d => {
         if (d.code !== 0) {
           this[d.data.via + '_focus'] = true
+          this.$loader.hide()
           this.$notify({
             content: d.msg,
-            duration: 12000,
-            type: 'danger'
+            duration: 2000,
+            type: 'danger',
+            dismissible: false
           })
         } else {
-          this.$sess.login = true
-          this.$cache.set('login', true)
-          this.$router.push({path: '/'})
+          this.$loader.show({
+            msg: '获取信息中 ...',
+            type: 'info',
+            left_offset: '0px'
+          })
+          this.$cache.set('access_token', d.data['access_token'])
+          this.$http.post('user/info', {}).then(d => {
+            this.$loader.hide()
+            if (d.code !== 0) {
+              this.$notify({
+                content: d.msg,
+                duration: 2000,
+                type: 'danger',
+                dismissible: false
+              })
+            } else {
+              this.$cache.set('login', d.data)
+              location.href = '/'
+            }
+          })
         }
       })
     }

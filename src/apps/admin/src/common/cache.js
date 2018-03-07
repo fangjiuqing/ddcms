@@ -50,7 +50,7 @@ export default {
   },
 
   del: function (k) {
-    localStorage.removeItem(this.pre + '-' + k)
+    localStorage.removeItem(this.pre + '-' + this.hash(k))
   },
 
   keys: function (regex) {

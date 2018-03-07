@@ -145,7 +145,7 @@ export default {
     {
       url: '/system',
       name: '系统管理',
-      icon: 'fa fa-terminal',
+      icon: 'fa fa-delicious',
       children: [
         {
           url: '/user',
@@ -172,12 +172,6 @@ export default {
           active: false
         }
       ]
-    },
-    {
-      url: '/logout',
-      name: '注销登录',
-      icon: 'fa fa-sign-out',
-      active: false
     }
   ]
 }
