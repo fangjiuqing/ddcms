@@ -72,7 +72,7 @@ class category_iface extends base_iface {
     /**
      * [获取分类接口]
      * @return [type] [description]
-     * * @uri [string] [请求的接口category/add]
+     * @uri [string] [请求的接口category/list]
      * @data [array] 
      * [ 
      *     "cat_type"    => "CAT_MET：分类类别",
@@ -89,9 +89,40 @@ class category_iface extends base_iface {
         ]);
 
         $list = category_helper::to_tree($list);
+        admin_helper::add_log($user['admin_id'], 'category/list', 1, '获取分类列表');
         $this->success('获取分类成功', $list, '201');
     }
 
-    
+    /**
+     * [删除分类接口]
+     * @uri    [string] [请求的接口category/del]
+     * @return [type] [description]
+     */
+    public function del_action () {
+        $id = intval($this->data['cat_id']);
+
+        if ( !$id ) {
+            $this->failure('分类ID必须为大于0的数字', 101);
+        }
+
+        if (OBJ('category_table')->where([
+                'cat_id'    => $id
+            ])->count() == 0) {
+            $this->failure('分类不存在', 102);
+        }
+
+        if (OBJ('category_table')->where([
+                'cat_parent'    => $id
+            ])->count() > 0) {
+            $this->failure('请先删除子类别', 103);
+        }
+
+        // 删除
+        if (OBJ('category_table')->delete(['cat_id' => $id])['code'] === 0) {
+            $this->success('删除成功', '', '201');
+            admin_helper::add_log($user['admin_id'], 'category/del', 1, '删除分类，ID：' . $id);
+        }
+        $this->failure('请先删除子类别', 102);
+    }
 
 }//Class End
