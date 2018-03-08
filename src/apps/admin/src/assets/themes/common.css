@@ -1302,3 +1302,6 @@ a {
     text-align: left;
     color: #999;
 }
+.breadcrumb li  {
+  font-size: 12px;
+}
