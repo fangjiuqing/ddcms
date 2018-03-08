@@ -7,6 +7,12 @@ html {
 body {
     background: #f7f7f7;
 }
+a {
+    cursor: pointer;
+}
+.dropdown-menu {
+    min-width: 90px;
+}
 #app {
   text-align: center;
   color: #2c3e50;
@@ -31,6 +37,7 @@ body {
     top: 0;
     right: 0;
     width: 100%;
+    z-index: 101;
 }
 .app_topbar .navbar {
     margin-bottom: 0;
@@ -54,8 +61,13 @@ body {
     height: 50px;
     line-height: 50px;
 }
-.app_topbar .navbar-nav >li>a .topbar_avatar {
+.app_topbar .btn-group {
+    margin: 5px 1px;
+}
+.topbar_avatar {
     border-radius: 50%;
+    cursor: pointer;
+    height: 40px;
 }
 .app_topbar .navbar-default .navbar-collapse, 
 .app_topbar .navbar-default .navbar-form {
@@ -131,6 +143,7 @@ body {
     height: calc(100% - 50px);
     overflow-x: hidden;
     overflow-y: auto;
+    z-index: 100;
 }
 .breadcrumb {
     text-align: left;
@@ -147,6 +160,7 @@ body {
   position: relative;
   padding: 20px 15px;
   line-height: 20px;
+  z-index: 120;
 }
 .alert b {
   font-weight: 500;

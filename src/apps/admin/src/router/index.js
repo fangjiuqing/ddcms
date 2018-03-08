@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Meta from 'vue-meta'
 
 import Index from '@/components/index/index'
 import Login from '@/components/index/login'
@@ -7,6 +8,7 @@ import Login from '@/components/index/login'
 import Profile from '@/components/user/profile'
 
 Vue.use(Router)
+Vue.use(Meta)
 
 Vue.directive('focus', {
   update: function (el, {value}) {
@@ -38,15 +40,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  // 登录
-  if (!this.a.app.$sess.login && to.name.toLowerCase() !== 'login') {
-    next({
-      path: '/login',
-      query: { redirect: to.fullPath }
-    })
-  } else {
-    next()
-  }
+  next()
 })
 
 export default router

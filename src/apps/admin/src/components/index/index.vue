@@ -13,10 +13,11 @@
 <script>
 export default {
   name: 'Index',
+  metaInfo: {
+    title: '首页 - 道达智装'
+  },
   data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
+    return {}
   }
 }
 </script>

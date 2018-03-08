@@ -5,5 +5,9 @@ export default {
     this.login = opt.cache.get('login')
     this.access_token = opt.cache.get('access_token') || ''
     v.prototype.$sess = this
+  },
+  logout: function (c) {
+    c.del('login')
+    c.del('access_token')
   }
 }

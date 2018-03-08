@@ -1,20 +1,24 @@
 <template>
-  <div class="common-loading" v-show="open">
+  <div class="common-loading" v-show="open" :style="get_style()">
     <div class="common-loadding-wrap">
-      <h5><i class="fa fa-cog"></i> {{msg}}</h5>
+      <h5>
+          <i class="fa fa-spinner" v-if="type === 'loading'"></i>
+          <i class="fa fa-check-circle" v-if="type === 'success'"></i>
+          <i class="fa fa-info-circle" v-if="type === 'info'"></i>
+          &nbsp;<span>{{msg}}</span>
+      </h5>
     </div>
   </div>
 </template>
 
 <style scoped>
 .common-loading {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.5);
   z-index: 1000;
   position: fixed;
-  width: calc(100%  - 200px);
-  height: calc(100% - 50px);
-  left: 200px;
-  top: 50px;
+  height: calc(100%);
+  width: 100%;
+  top: 0px;
 }
 .common-loadding-wrap {
   position: relative;
@@ -26,18 +30,20 @@
   position: absolute;
   margin: auto;
   height: 50px;
-  width: 200px;
+  width: 500px;
   text-align: center;
   left: 0;
-  top: 0;
+  top: 40%;
   right: 0;
-  bottom: 0;
-  font-size: 36px;
+  font-size: 16px;
   vertical-align: middle;
   color: #fff;
-  font-weight: 150;
+  font-weight: 350;
 }
-i.fa {
+.common-loading h5 span {
+  font-size: 14px;
+}
+i.fa-spinner {
   display: inline-block;
   -moz-animation: fa-spin 3s infinite linear;
   -o-animation: fa-spin 3s infinite linear;
@@ -92,11 +98,14 @@ i.fa {
 }
 </style>
 <script>
+
 export default {
   data () {
     return {
       open: false,
-      msg: ''
+      msg: '',
+      type: 'loading',
+      left_offset: 100
     }
   },
   created () {
@@ -104,9 +113,17 @@ export default {
   mounted () {
   },
   methods: {
+    get_style: function () {
+      return {
+        left: this.left_offset,
+        width: 'calc(100% - ' + this.left_offset + ')'
+      }
+    },
     show: function (opt) {
       this.open = true
-      this.msg = opt.msg
+      this.msg = opt.msg || '加载中, 请稍后 ...'
+      this.type = opt.type || 'loading'
+      this.left_offset = opt.left_offset || '200px'
     },
     hide: function () {
       this.open = false
