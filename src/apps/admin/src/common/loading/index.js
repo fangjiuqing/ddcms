@@ -1,14 +1,12 @@
 import Vue from 'Vue'
-import {default as loader} from './loader.vue'
-
-import store from '@/store'
+import {default as loading} from './loading.vue'
 
 export default {
   LoaderCls: null,
   div: null,
   instance: null,
   install: function (v) {
-    v.prototype.$loader = this
+    v.prototype.$loading = this
   },
   show: function (opt) {
     opt = opt || {
@@ -17,12 +15,11 @@ export default {
       left_offset: '200px'
     }
     if (!this.instance) {
-      this.LoaderCls = Vue.extend(loader)
+      this.LoadingCls = Vue.extend(loading)
       let div = document.createElement('div')
       document.getElementById('app').appendChild(div)
       this.instance = new Vue({
-        store,
-        extends: this.LoaderCls
+        extends: this.LoadingCls
       })
       this.instance.$mount(div)
     }

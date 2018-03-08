@@ -108,10 +108,6 @@ export default {
       left_offset: 100
     }
   },
-  created () {
-  },
-  mounted () {
-  },
   methods: {
     get_style: function () {
       return {

@@ -61,5 +61,15 @@ export default {
       }
       return d
     })
+  },
+  get (uri, data) {
+    data = data || {}
+    return this.post(uri + '/get', data)
+  },
+  del (uri, data) {
+    return this.post(uri + '/del', data)
+  },
+  save (uri, data) {
+    return this.post(uri + '/save', data)
   }
 }

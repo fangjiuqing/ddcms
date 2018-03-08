@@ -8,7 +8,7 @@ Vue.use(Vuex)
 const state = {
   admin_level: 'admin1',
   left_active_key: '',
-  is_login: false,
+  is_login: true,
   loader_left: 0
 }
 

@@ -37,6 +37,7 @@ export default {
         this.$store.state.is_login = true
         this.$cache.set('login', d.data)
       } else {
+        this.$store.state.is_login = false
         this.$router.push({path: '/login'})
       }
     })

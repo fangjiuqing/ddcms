@@ -92,7 +92,7 @@ export default {
     },
 
     exec_login: function () {
-      this.$loader.show({
+      this.$loading.show({
         'msg': '请求中, 请稍后 ...',
         left_offset: '0px',
         type: 'loading'
@@ -103,7 +103,7 @@ export default {
       }).then(d => {
         if (d.code !== 0) {
           this[d.data.via + '_focus'] = true
-          this.$loader.hide()
+          this.$loading.hide()
           this.$notify({
             content: d.msg,
             duration: 2000,
@@ -111,14 +111,14 @@ export default {
             dismissible: false
           })
         } else {
-          this.$loader.show({
+          this.$loading.show({
             msg: '获取信息中 ...',
             type: 'info',
             left_offset: '0px'
           })
           this.$cache.set('access_token', d.data['access_token'])
           this.$http.post('user/info', {}).then(d => {
-            this.$loader.hide()
+            this.$loading.hide()
             if (d.code !== 0) {
               this.$notify({
                 content: d.msg,

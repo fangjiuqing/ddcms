@@ -18,7 +18,7 @@ import Topbar from '@/components/common/topbar'
 import Leftbar from '@/components/common/leftbar'
 
 import * as uiv from 'uiv'
-import loader from '@/common/loader'
+import loading from '@/common/loading'
 import VueProgressBar from 'vue-progressbar'
 
 Vue.config.productionTip = false
@@ -34,7 +34,7 @@ Vue.use(cache)
 Vue.use(sess, {cache})
 Vue.use(http, {sess, cache})
 Vue.use(uiv)
-Vue.use(loader)
+Vue.use(loading)
 Vue.use(VueProgressBar, {
   color: 'rgb(143, 255, 199)',
   failedColor: 'red',

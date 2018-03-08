@@ -32,6 +32,12 @@ class base_iface extends rgx {
     public $login = null;
 
     /**
+     * 操作类型
+     * @var string
+     */
+    public $action = 'post';
+
+    /**
      * 架构函数
      * @param [type] $mod   [description]
      * @param [type] $data  [description]
@@ -42,6 +48,9 @@ class base_iface extends rgx {
         $this->log = $mod->log;
         $this->data = $data;
         $this->login = $login;
+        if (isset($this->data['__action__'])) {
+            $this->action = $this->data['__action__'];
+        }
     }
 
     /**
@@ -85,9 +94,15 @@ class base_iface extends rgx {
         foreach ($rules as $k => $rule) {
             $result = true;
             $value  = $this->data[$k] ?: null;
-
+            //  跳过可为空的字段
+            if ($rule['allow_empty'] && ($value == '' || $value == null)) {
+                continue;
+            }
             if (is_callable($rule['rule'])) {
                 $result = $rule['rule']($value);
+            }
+            else if (is_array($rule['rule'])) {
+                $result = call_user_func_array($rule['rule'], [$value]);
             }
             else {
                 $result = preg_match($rule['rule'], $value);
