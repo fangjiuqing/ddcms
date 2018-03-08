@@ -11,6 +11,7 @@ class category_iface extends base_iface {
      * @uri [string] [请求的接口category/add]
      * @data [array] 
      * [ 
+     *     "cat_id"      => "1,分类ID,有则修改"
      *     "cat_name"    => "灯具：分类名", 
      *     "cat_parent"  => "0：上级ID，顶级分类则传0",
      *     "cat_sort"    => "99：分类排序",
@@ -46,6 +47,10 @@ class category_iface extends base_iface {
             if (empty($parent)) {
                 $this->failure('无效的父级分类', 102);
             }
+
+            if ( intval($this->data['cat_id'] == $cat['cat_parent']) ) {
+                $this->failure('父级分类不能是自己', 103);
+            }
             $cat['cat_type']  = $parent['cat_type'];
             $cat['cat_paths'] = $parent['cat_paths'] . "{$parent['cat_id']}#";
             $cat['cat_level'] = $parent['cat_level'] + 1;
@@ -61,12 +66,12 @@ class category_iface extends base_iface {
         if ($tab->load($cat)) {
             $ret = $tab->save();
             if ($ret['code'] === 0) {
-                $this->success('分类添加成功', '', '201');
+                $this->success('操作成功', '', '201');
                 admin_helper::add_log($user['admin_id'], 'category/add', 1, '添加分类【' . $cat['cat_name'] . '】');
             }
             
         }
-        $this->failure('分类添加失败', 106);
+        $this->failure('分类添加失败', 104);
     }
 
     /**
