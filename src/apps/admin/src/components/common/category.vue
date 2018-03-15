@@ -78,15 +78,18 @@
 
 <script>
 export default {
-  name: 'NCategory',
-  metaInfo: {
-    title: '资讯分类 - 道达智装'
+  name: 'Category',
+  props: ['label', 'code'],
+  metaInfo() {
+    return {
+      title: this.label + '分类 - 道达智装'
+    }
   },
   data () {
     return {
       items: [
         {text: '首页', to: '/'},
-        {text: '资讯', to: '/news/category'},
+        {text: this.label, to: '/' + this.code + '/category'},
         {text: '分类列表', href: '#'}
       ],
       rows: [],
@@ -106,7 +109,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.get('news/category', {id: id, parent: 1}).then(d => {
+      this.$http.get(this.code + '/category', {id: id, parent: 1}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_data = d.data
@@ -120,7 +123,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.save('news/category', this.modal_data).then(d => {
+      this.$http.save(this.code + '/category', this.modal_data).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_data = d.data
@@ -133,7 +136,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.list('news/category').then(d => {
+      this.$http.list(this.code + '/category').then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data
@@ -146,7 +149,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.del('news/category', {id: id}).then(d => {
+      this.$http.del(this.code + '/category', {id: id}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.$notify({
@@ -167,15 +170,16 @@ export default {
       })
     }
   },
-  mounted: function () {
-    this.$store.state.left_active_key = '/news'
+  created: function () {
+    this.$store.state.left_active_key = '/' + this.code
     this.refresh()
+    this.page_title = this.label
   },
   destroyed: function () {
     this.$loading.hide()
   },
   activated: function () {
-    this.$store.state.left_active_key = '/user'
+    this.$store.state.left_active_key = '/' + this.code
   }
 }
 </script>

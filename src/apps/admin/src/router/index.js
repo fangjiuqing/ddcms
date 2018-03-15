@@ -6,7 +6,7 @@ import Index from '@/components/index/index'
 import Login from '@/components/index/login'
 
 import Profile from '@/components/user/profile'
-import NCategory from '@/components/news/category'
+import Category from '@/components/common/category'
 
 Vue.use(Router)
 Vue.use(Meta)
@@ -39,8 +39,12 @@ const router = new Router({
     },
     {
       path: '/news/category',
-      name: 'NCategory',
-      component: NCategory
+      name: 'Category',
+      component: Category,
+      props: {
+        code: 'news',
+        label: '资讯'
+      }
     }
   ]
 })
