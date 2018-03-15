@@ -1,11 +1,6 @@
 export default {
   admin1: [
     {
-      url: '/',
-      name: '我的主页',
-      icon: 'fa fa-home'
-    },
-    {
       url: '/customer',
       name: '客户管理',
       icon: 'fa fa-user-circle',
@@ -94,6 +89,12 @@ export default {
           url: '/material/stock',
           name: '仓库管理',
           icon: 'fa fa-rebel',
+          active: false
+        },
+        {
+          url: '/material/brand',
+          name: '品牌管理',
+          icon: 'fa fa-coffee',
           active: false
         }
       ]

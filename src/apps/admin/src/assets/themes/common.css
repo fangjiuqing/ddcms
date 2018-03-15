@@ -128,7 +128,7 @@ a {
 }
 
 .app_leftbar li.active .app_leftbar_sub_nav {
-  max-height: 240px;
+  max-height: 280px;
 }
 
 .app_leftbar .navbar-default .navbar-nav>li.active>a,

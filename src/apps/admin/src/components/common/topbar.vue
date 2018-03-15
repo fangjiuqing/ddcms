@@ -13,6 +13,8 @@
             <dropdown ref="dropdown">
               <img src="@/assets/images/avatar.jpg" class="dropdown-toggle topbar_avatar">
               <template slot="dropdown">
+                <li><router-link :to="{path: '/', extra: true}">管理主页</router-link></li>
+                <li role="separator" class="divider"></li>
                 <li><router-link :to="{path: '/user/profile', extra: true}">我的资料</router-link></li>
                 <li><router-link :to="{path: '/user/passwd', extra: true}">修改密码</router-link></li>
                 <li role="separator" class="divider"></li>
