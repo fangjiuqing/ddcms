@@ -10,22 +10,31 @@ class category_helper extends rgx {
      * 是否合法
      * @var [type]
      */
-    public static $cat_type = [
-        'CAT_MET'   => ['id' => 1, 'name' => '材料分类'],
-        'CAT_PRO'   => ['id' => 2, 'name' => '产品分类'],
-        'CAT_ART'   => ['id' => 3, 'name' => '文章分类'],
+    public static $type = [
+        1   => '材料分类',
+        2   => '产品分类',
+        3   => '文章分类',
     ];
 
     /**
-     * [获取并验证分类类别是否合法]
-     * @param  [type] $cat_type [description]
-     * @return [type]           [description]
+     * 获取选择 opts
+     * @param  [type]  $type_id   [description]
+     * @param  integer $parent    [description]
+     * @param  integer $except_id [description]
+     * @return [type]             [description]
      */
-    public static function cat_type($cat_type) {
-        if ( TRUE == ($item = self::$cat_type[$cat_type]) ) {
-            return $item;
+    public static function get_options ($type_id, $parent = 0, $except_id = 0) {
+        $tab = OBJ('category_table');
+        if ($parent > 0) {
+            $tab->where("cat_parent = {$parent}");
         }
-        return [];
+        if ($except_id > 0) {
+            $tab->where("cat_id != " . $except_id);
+        }
+        $ret = $tab->get_all([
+            'cat_type'  => $type_id
+        ]);
+        return self::to_tree($ret, 1);
     }
 
     /**
@@ -78,4 +87,4 @@ class category_helper extends rgx {
         }, $result);
         return $result->data;
     }
-}//Class End
+}

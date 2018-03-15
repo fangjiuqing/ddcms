@@ -71,5 +71,11 @@ export default {
   },
   save (uri, data) {
     return this.post(uri + '/save', data)
+  },
+  update (uri, data) {
+    return this.post(uri + '/update', data)
+  },
+  list (uri, data) {
+    return this.post(uri + '/list', data)
   }
 }

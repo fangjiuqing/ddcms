@@ -6,128 +6,118 @@ namespace re\rgx;
  */
 class category_iface extends base_iface {
 
+
+    /**
+     * 分类类型ID
+     * @var integer
+     */
+    public $type_id = 0;
+
+    /**
+     * 构造方法
+     * @param [type] $mod   [description]
+     * @param [type] $data  [description]
+     * @param [type] $login [description]
+     */
+    public function __construct ($mod, $data, $login) {
+        parent::__construct($mod, $data, $login);
+        if (!isset(category_helper::$type[$this->type_id])) {
+            $this->failure('无效的类型');
+        }
+    }
+
+    /**
+     * 获取分类详情
+     * @return [type] [description]
+     */
+    public function get_action () {
+        $this->data['id'] = intval($this->data['id']);
+        $out = OBJ('category_table')->fields([
+            'cat_id', 'cat_name', 'cat_parent', 'cat_type', 'cat_sort'
+        ])->get(
+            (int)$this->data['id']
+        );
+        if ($this->data['parent']) {
+            $out['parent_options'] = category_helper::get_options($this->type_id, 0, $this->data['id']);
+            array_unshift($out['parent_options'], ['cat_id' => 0, 'cat_name' => '作为一级分类', 'cat_level' => 0]);
+            foreach ((array)$out['parent_options'] as $k => $v) {
+                $out['parent_options'][$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . $v['cat_name'];
+            }
+        }
+        $out['cat_parent'] = intval($out['cat_parent']);
+        $this->success('', $out);
+    }
+
     /**
      * 添加分类接口
-     * @uri [string] [请求的接口category/add]
-     * @data [array] 
-     * [ 
-     *     "cat_id"      => "1,分类ID,有则修改"
-     *     "cat_name"    => "灯具：分类名", 
-     *     "cat_parent"  => "0：上级ID，顶级分类则传0",
-     *     "cat_sort"    => "99：分类排序",
-     *     "cat_user_id" => "0：所属用户ID，0为平台所属",
-     *     "cat_type"    => "CAT_MET：分类类别，系统内定常量，参考下表",
-     * ]
-     * category::helper::$cat_type
      */
-    public function add_action () {
-        $this->verify([
-            'cat_name' => [
-                'code' => 100,
-                'msg' => '请输入分类名称',
-                'rule' => function ($v) {
-                    return !empty($v);
-                }
-            ]
-        ]);
-
-        $cat = $this->data;
-
-        $cat_type = category_helper::cat_type($cat['cat_type']);
-        if ( empty($cat_type) ) {
-            $this->failure('分类类别非法', 101);
-        }
-        $cat['cat_type']  =  $cat_type['id'];
-
+    public function save_action () {
+        $this->data['cat_type'] = $this->type_id;
         $tab = OBJ('category_table');
-        if ($cat['cat_parent'] > 0) {
-            $parent = $tab->get([
-                'cat_id'    => $cat['cat_parent']
-            ]);
+        $this->data['cat_paths'] = '#0#';
+        $this->data['cat_level'] = 0;
+        $this->data['cat_parent'] = (int)$this->data['cat_parent'];
+        $this->data['cat_sort'] = (int)$this->data['cat_sort'];
+        $this->data['cat_user_id'] = (int)$this->data['cat_user_id'];
+        if ($this->data['cat_parent'] > 0) {
+            $parent = $tab->get((int)$this->data['cat_parent']);
             if (empty($parent)) {
-                $this->failure('无效的父级分类', 102);
+                $this->failure('无效的父级分类');
             }
-
-            if ( intval($this->data['cat_id'] == $cat['cat_parent']) ) {
-                $this->failure('父级分类不能是自己', 103);
+            if ($this->data['cat_id'] == $this->data['cat_parent']) {
+                $this->failure('父级分类不能是自己');
             }
-            $cat['cat_type']  = $parent['cat_type'];
-            $cat['cat_paths'] = $parent['cat_paths'] . "{$parent['cat_id']}#";
-            $cat['cat_level'] = $parent['cat_level'] + 1;
-        }
-        else {
-            $cat['cat_paths'] = '#0#';
-            $cat['cat_level'] = 0;
+            $this->data['cat_paths'] = $parent['cat_paths'] . "{$parent['cat_id']}#";
+            $this->data['cat_level'] = $parent['cat_level'] + 1;
         }
 
-        $cat['cat_parent']    = intval($cat['cat_parent']);
-        $cat['cat_sort']      = intval($cat['cat_sort']);
-        $cat['cat_user_id']   = intval($cat['cat_user_id']);
-        if ($tab->load($cat)) {
+        if ($tab->load($this->data)) {
             $ret = $tab->save();
             if ($ret['code'] === 0) {
                 $this->success('操作成功', '', '201');
-                admin_helper::add_log($user['admin_id'], 'category/add', 1, '添加分类【' . $cat['cat_name'] . '】');
+                admin_helper::add_log($this->login['admin_id'], 'category/add', 1,
+                    ($this->data['cat_id'] ? '编辑' : '新增') . '分类[' . $this->data['cat_name'] . ']'
+                );
             }
-            
         }
-        $this->failure('分类添加失败', 104);
+        $this->failure($tab->get_first_error());
     }
 
     /**
-     * [获取分类接口]
-     * @return [type] [description]
-     * @uri [string] [请求的接口category/list]
-     * @data [array] 
-     * [ 
-     *     "cat_type"    => "CAT_MET：分类类别",
-     * ]
+     * 列表
      */
     public function list_action () {
-        $cat_type = category_helper::cat_type($this->data['cat_type']);
-        if ( empty($cat_type) ) {
-            $this->failure('分类类别非法', 101);
+        $out = array_values(category_helper::to_tree(OBJ('category_table')->order('cat_sort desc')->get_all([
+            'cat_type'  =>  $this->type_id
+        ]), 1));
+        foreach ((array)$out as $k => $v) {
+            $out[$k]['class'] = 'category_before category_before_' . $v['cat_level'];
         }
-
-        $list = OBJ('category_table')->get_all([
-            'cat_type'  =>  $cat_type['id']
-        ]);
-
-        $list = category_helper::to_tree($list);
-        admin_helper::add_log($user['admin_id'], 'category/list', 1, '获取分类列表');
-        $this->success('获取分类成功', $list, '201');
+        $this->success('', $out);
     }
 
     /**
-     * [删除分类接口]
-     * @uri    [string] [请求的接口category/del]
-     * @return [type] [description]
+     *  删除
      */
     public function del_action () {
-        $id = intval($this->data['cat_id']);
-
-        if ( !$id ) {
-            $this->failure('分类ID必须为大于0的数字', 101);
+        $id  = intval($this->data['id']);
+        $tab = OBJ('category_table');
+        $cat = $tab->get($id);
+        if (empty($cat)) {
+            $this->failure('该分类不存在');
         }
 
-        if (OBJ('category_table')->where([
-                'cat_id'    => $id
-            ])->count() == 0) {
-            $this->failure('分类不存在', 102);
-        }
-
-        if (OBJ('category_table')->where([
-                'cat_parent'    => $id
+        if ($tab->where([
+                "cat_parent"    => $cat['cat_id']
             ])->count() > 0) {
-            $this->failure('请先删除子类别', 103);
+            $this->failure('请先删除下属分类');
         }
-
         // 删除
-        if (OBJ('category_table')->delete(['cat_id' => $id])['code'] === 0) {
-            $this->success('删除成功', '', '201');
-            admin_helper::add_log($user['admin_id'], 'category/del', 1, '删除分类，ID：' . $id);
+        if ($tab->delete(['cat_id' => $id])['code'] === 0) {
+            $this->success('删除成功');
+            admin_helper::add_log($this->login['admin_id'], 'category/del', 1, '删除分类，ID：' . $id);
         }
-        $this->failure('请先删除子类别', 102);
+        $this->failure('请先删除子类别');
     }
 
-}//Class End
+}
