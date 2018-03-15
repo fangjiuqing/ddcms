@@ -39,11 +39,29 @@ const router = new Router({
     },
     {
       path: '/news/category',
-      name: 'Category',
+      name: 'NCategory',
       component: Category,
       props: {
         code: 'news',
         label: '资讯'
+      }
+    },
+    {
+      path: '/material/category',
+      name: 'MCategory',
+      component: Category,
+      props: {
+        code: 'material',
+        label: '材料'
+      }
+    },
+    {
+      path: '/case/category',
+      name: 'CCategory',
+      component: Category,
+      props: {
+        code: 'case',
+        label: '案例'
       }
     }
   ]

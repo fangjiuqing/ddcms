@@ -12,8 +12,8 @@ class category_helper extends rgx {
      */
     public static $type = [
         1   => '材料分类',
-        2   => '产品分类',
-        3   => '文章分类',
+        2   => '案例分类',
+        3   => '文章分类'
     ];
 
     /**

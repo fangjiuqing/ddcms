@@ -80,9 +80,16 @@
 export default {
   name: 'Category',
   props: ['label', 'code'],
-  metaInfo() {
+  metaInfo () {
     return {
       title: this.label + '分类 - 道达智装'
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+      if (to.name.match(/Category$/) && from.name.match(/Category$/)) {
+        this.refresh()
+      }
     }
   },
   data () {
@@ -133,6 +140,11 @@ export default {
       })
     },
     refresh: function () {
+      this.items = [
+        {text: '首页', to: '/'},
+        {text: this.label, to: '/' + this.code + '/category'},
+        {text: '分类列表', href: '#'}
+      ]
       this.$loading.show({
         msg: '加载中 ...'
       })
@@ -170,16 +182,16 @@ export default {
       })
     }
   },
-  created: function () {
+  mounted: function () {
     this.$store.state.left_active_key = '/' + this.code
     this.refresh()
-    this.page_title = this.label
   },
   destroyed: function () {
     this.$loading.hide()
   },
   activated: function () {
     this.$store.state.left_active_key = '/' + this.code
+    this.refresh()
   }
 }
 </script>

@@ -2,14 +2,14 @@
 namespace re\rgx;
 
 /**
- * 资讯分类接口类
+ * 案例分类接口类
  * @author reginx
  */
-class news_category_iface extends category_iface {
+class case_category_iface extends category_iface {
 
     /**
      * 资讯分类
      * @var integer
      */
-    public $type_id = 3;
+    public $type_id = 2;
 }
