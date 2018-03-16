@@ -2701,3 +2701,6 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-rose.active {
     border-width: 0.1em;
     color: #dedddd;
 }
+.distpicker-address-wrapper select {
+  min-width: 115px;
+}

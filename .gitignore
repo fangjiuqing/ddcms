@@ -7,6 +7,6 @@ src/apps/api/data/log/*
 */.DS_Store
 ./.idea
 *.log
-*.json
+*.lock
 .gitignore
 .idea/

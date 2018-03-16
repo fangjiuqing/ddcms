@@ -87,16 +87,14 @@
                 <label class="col-sm-3 label-on-left">所在地</label>
                 <div class="col-sm-9">
                     <div class="form-group">
-                        <v-distpicker></v-distpicker>
+                        <v-distpicker @selected="onSelected"></v-distpicker>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <label class="col-sm-3 label-on-left">详细地址</label>
                 <div class="col-sm-9">
-                    <div class="form-group">
-                        <input class="form-control" v-model="modal_data.sup_address"  v-focus="modal_data.sup_address"  type="text" placeholder="详细地址">
-                    </div>
+                    <input class="form-control" v-model="modal_data.sup_address"  v-focus="modal_data.sup_address"  type="text" placeholder="详细地址">
                 </div>
             </div>
           </div>
@@ -135,6 +133,11 @@ export default {
     }
   },
   methods: {
+    onSelected (d) {
+      this.modal_data.sup_region0 = d.province.code
+      this.modal_data.sup_region1 = d.city.code
+      this.modal_data.sup_region2 = d.area.code
+    },
     modify: function (id) {
       this.modal_open = true
       if (id === '0') {
