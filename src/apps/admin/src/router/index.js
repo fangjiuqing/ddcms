@@ -8,6 +8,7 @@ import Login from '@/components/index/login'
 import Profile from '@/components/user/profile'
 import Category from '@/components/common/category'
 import Brand from '@/components/material/brand'
+import Supplier from '@/components/material/supplier'
 
 Vue.use(Router)
 Vue.use(Meta)
@@ -60,6 +61,11 @@ const router = new Router({
       path: '/material/brand',
       name: 'Brand',
       component: Brand
+    },
+    {
+      path: '/material/supplier',
+      name: 'Supplier',
+      component: Supplier
     },
     {
       path: '/case/category',

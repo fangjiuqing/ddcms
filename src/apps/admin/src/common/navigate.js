@@ -6,12 +6,6 @@ export default {
       icon: 'fa fa-user-circle',
       children: [
         {
-          url: '/customer/add',
-          name: '新增客户',
-          icon: 'fa fa-plus-square',
-          active: false
-        },
-        {
           url: '/customer',
           name: '客户列表',
           icon: 'fa fa-th-list',
@@ -56,12 +50,6 @@ export default {
       icon: 'fa fa-superpowers',
       children: [
         {
-          url: '/material/add',
-          name: '新增材料',
-          icon: 'fa fa-plus-square',
-          active: false
-        },
-        {
           url: '/material',
           name: '材料列表',
           icon: 'fa fa-th-list',
@@ -71,12 +59,6 @@ export default {
           url: '/material/category',
           name: '材料分类',
           icon: 'fa fa-tags',
-          active: false
-        },
-        {
-          url: '/material/order',
-          name: '新增采购',
-          icon: 'fa fa-ambulance',
           active: false
         },
         {
@@ -96,6 +78,12 @@ export default {
           name: '品牌管理',
           icon: 'fa fa-coffee',
           active: false
+        },
+        {
+          url: '/material/supplier',
+          name: '供应商',
+          icon: 'fa fa-bullhorn',
+          active: false
         }
       ]
     },
@@ -104,12 +92,6 @@ export default {
       name: '资讯管理',
       icon: 'fa fa-newspaper-o',
       children: [
-        {
-          url: '/news/add',
-          name: '新增资讯',
-          icon: 'fa fa-plus-square',
-          active: false
-        },
         {
           url: '/news',
           name: '资讯列表',

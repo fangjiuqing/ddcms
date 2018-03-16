@@ -96,6 +96,26 @@ class supplier_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
+        'sup_contact' => [
+            'name'               => 'sup_contact',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 32,
+            'label'              => '联系人',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'sup_mobile' => [
+            'name'               => 'sup_mobile',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 32,
+            'label'              => '手机号码',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
         'sup_adate' => [
             'name'               => 'sup_adate',
             'type'               => 'int',
@@ -106,12 +126,12 @@ class supplier_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
-        'sup_cat_id' => [
-            'name'               => 'sup_cat_id',
+        'sup_type' => [
+            'name'               => 'sup_type',
             'type'               => 'int',
-            'field_type'         => 'int',
+            'field_type'         => 'tinyint',
             'min'                => 0,
-            'max'                => 4294967295,
+            'max'                => 255,
             'label'              => '供应商类型',
             'allow_empty_string' => false,
             'allow_null'         => false
@@ -141,8 +161,10 @@ class supplier_table extends table {
         'sup_region2' => 0,
         'sup_address' => '',
         'sup_admin_id'=> 0,
+        'sup_contact' => '',
+        'sup_mobile'  => '',
         'sup_adate'   => 0,
-        'sup_cat_id'  => 0,
+        'sup_type'    => 0,
     ];
 
     /*
@@ -158,8 +180,10 @@ class supplier_table extends table {
         'sup_region2' => ['re\rgx\filter', 'int'],
         'sup_address' => ['re\rgx\filter', 'char'],
         'sup_admin_id'=> ['re\rgx\filter', 'int'],
+        'sup_contact' => ['re\rgx\filter', 'char'],
+        'sup_mobile'  => ['re\rgx\filter', 'char'],
         'sup_adate'   => ['re\rgx\filter', 'int'],
-        'sup_cat_id'  => ['re\rgx\filter', 'int'],
+        'sup_type'    => ['re\rgx\filter', 'int'],
     ];
 
     /*

@@ -186,7 +186,7 @@ a {
   position: relative;
   padding: 20px 15px;
   line-height: 20px;
-  z-index: 120;
+  z-index: 99999;
 }
 
 .alert b {
