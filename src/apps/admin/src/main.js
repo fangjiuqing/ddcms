@@ -32,9 +32,9 @@ if (process.env.NODE_ENV !== 'development') {
 
 Vue.use(cache)
 Vue.use(sess, {cache})
-Vue.use(http, {sess, cache})
 Vue.use(uiv)
 Vue.use(loading)
+Vue.use(http, {sess, cache, loading})
 Vue.use(VueProgressBar, {
   color: 'rgb(143, 255, 199)',
   failedColor: 'red',

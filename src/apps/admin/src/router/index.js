@@ -7,6 +7,7 @@ import Login from '@/components/index/login'
 
 import Profile from '@/components/user/profile'
 import Category from '@/components/common/category'
+import Brand from '@/components/material/brand'
 
 Vue.use(Router)
 Vue.use(Meta)
@@ -54,6 +55,11 @@ const router = new Router({
         code: 'material',
         label: '材料'
       }
+    },
+    {
+      path: '/material/brand',
+      name: 'Brand',
+      component: Brand
     },
     {
       path: '/case/category',

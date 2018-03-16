@@ -74,8 +74,8 @@ class category_iface extends base_iface {
         if ($tab->load($this->data)) {
             $ret = $tab->save();
             if ($ret['code'] === 0) {
-                $this->success('操作成功', '', '201');
-                admin_helper::add_log($this->login['admin_id'], 'category/add', 1,
+                $this->success('操作成功');
+                admin_helper::add_log($this->login['admin_id'], 'category/save', 1,
                     ($this->data['cat_id'] ? '编辑' : '新增') . '分类[' . $this->data['cat_name'] . ']'
                 );
             }

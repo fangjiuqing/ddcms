@@ -19,9 +19,11 @@ export default {
   gateway: '',
   token: '',
   cache: null,
+  loading: null,
   install: function (v, opt) {
     this.token = opt.sess.access_token || ''
     this.cache = opt.cache
+    this.loading = opt.loading
 
     this.handle.defaults.timeout = 5000
 
