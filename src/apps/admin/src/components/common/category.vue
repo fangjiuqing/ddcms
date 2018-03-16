@@ -1,15 +1,21 @@
 <template>
   <div class="profile">
-    <breadcrumbs :items="items"/>
+    <breadcrumbs :items="items">
+      <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
+        {{v.text}}
+      </breadcrumb-item>
+      <breadcrumb-item active class="pull-right">
+        <a @click="modify('0')" class="btn btn-xs btn-info pull-right">
+          <i class="fa fa-plus-square"></i> 新增
+        </a>
+      </breadcrumb-item>
+    </breadcrumbs>
     <div class="app_page">
       <form action="/" id="profile_form" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
         <div class="app_content">
           <div class="content table-responsive">
-            <h4 class="card-title">
-              <a class="btn btn-xs btn-success pull-right" @click="modify('0')">新增分类</a>
-            </h4>
             <table class="table table-striped">
-              <thead class="text-primary">
+              <thead>
                   <tr>
                     <th class="text-left">名称</th>
                     <th class="text-center" width="80">排序</th>
