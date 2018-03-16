@@ -24,11 +24,13 @@ class material_supplier_iface extends admin_iface {
      */
     public function save_action () {
         $tab = OBJ('supplier_table');
+        $this->data['sup_admin_id'] = $this->login['admin_id'];
+        $this->data['sup_adate'] = REQUEST_TIME;
         if ($tab->load($this->data)) {
             $ret = $tab->save();
             if ($ret['code'] === 0) {
                 admin_helper::add_log($this->login['admin_id'], 'supplier/save', 1,
-                    ($this->data['pb_id'] ? '编辑' : '新增') . '品牌[' . $this->data['pb_name'] . ']'
+                    ($this->data['pb_id'] ? '编辑' : '新增') . '供应商[' . $this->data['sup_realname'] . ']'
                 );
                 $this->success('操作成功');
             }
@@ -61,13 +63,13 @@ class material_supplier_iface extends admin_iface {
     public function del_action () {
         $id  = intval($this->data['id']);
         $tab = OBJ('supplier_table');
-        $cat = $tab->get($id);
-        if (empty($cat)) {
-            $this->failure('该品牌不存在');
+        $sup = $tab->get($id);
+        if (empty($sup)) {
+            $this->failure('该供应商不存在');
         }
         // 删除
-        if ($tab->delete(['pb_id' => $id])['code'] === 0) {
-            admin_helper::add_log($this->login['admin_id'], 'supplier/del', 1, '删除分类，ID：' . $id);
+        if ($tab->delete(['sup_id' => $id])['code'] === 0) {
+            admin_helper::add_log($this->login['admin_id'], 'supplier/del', 1, '删除供应商 ID：' . $id);
             $this->success('删除成功');
         }
         $this->failure('删除失败了');

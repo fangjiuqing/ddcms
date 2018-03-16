@@ -40,15 +40,15 @@ class material_brand_iface extends admin_iface {
      * 列表
      */
     public function list_action () {
-        $suplier_ids = [];
+        $supplier_ids = [];
         $out['list'] = OBJ('brand_table')->map(function ($row) use (&$supplier_ids) {
-            $suplier_ids[$row['pb_sup_id']] = 0;
+            $supplier_ids[$row['pb_sup_id']] = 0;
             return $row;
         })->get_all();
         $out['attrs']['paging'] = [];
         $out['attrs']['type'] = material_helper::$type;
         $out['attrs']['supplier'] = OBJ('supplier_table')->fields('sup_id,sup_realname')->akey('sup_id')->get_all([
-            'sup_id'    => array_keys($suplier_ids ?: [0])
+            'sup_id'    => array_keys($supplier_ids ?: [0])
         ]);
         $this->success('', $out);
     }

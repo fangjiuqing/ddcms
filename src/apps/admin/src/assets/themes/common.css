@@ -1673,7 +1673,7 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-rose.active {
 .btn-group-xs .btn,
 .navbar .navbar-nav>li>a.btn.btn-xs,
 .btn-group-xs .navbar .navbar-nav>li>a.btn {
-  padding: 1px 3px;
+  padding: 1px 5px;
   font-size: 10px;
   margin: 3px 1px;
 }
@@ -2703,4 +2703,7 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-rose.active {
 }
 .distpicker-address-wrapper select {
   min-width: 115px;
+}
+.breadcrumb>.active.pull-right:before {
+  display: none;
 }
