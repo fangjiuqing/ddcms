@@ -27,7 +27,7 @@ class news_iface extends base_iface {
         if ($article_tab->load($this->data)) {
             $ret = $article_tab->save();
             if ($ret['code'] != 0) {
-                $this->failure('添加资讯失败');
+                $this->failure('资讯添加失败', '102');
             }
         }
         $this->data['article_id'] = $ret['row_id'];
@@ -36,7 +36,7 @@ class news_iface extends base_iface {
             $result = $content_tab->save();
             if ($result['code'] === 0) {
                 admin_helper::add_log($this->login['admin_id'], 'news_category/save', '1', '资讯添加成功');
-                $this->success('操作成功');
+                $this->success('资讯添加成功');
             }
         }
         $this->failure($article_tab->get_first_error());
@@ -46,25 +46,12 @@ class news_iface extends base_iface {
      * 资讯列表获取/筛选接口
      */
     public function get_action () {
-        if (isset($this->data['article_cat_id'])) {
-            $this->data['article_cat_id'] = intval($this->data['article_cat_id']);
-            $out = OBJ('article_table')->fields([
-                'article_id',
-                'article_title',
-                'article_cat_id',
-                'article_cover',
-            ])->get_all([
-                'article_cat_id' => $this->data['article_cat_id'],
-            ]);
-        }
-        else {
-            $out = OBJ('article_table')->fields([
-                'article_id',
-                'article_title',
-                'article_cat_id',
-                'article_cover',
-            ])->get_all();
-        }
+        $out = OBJ('article_table')->fields([
+            'article_id',
+            'article_title',
+            'article_cat_id',
+            'article_cover',
+        ])->get_all();
         $this->success('资讯列表获取成功', $out);
     }
 
@@ -72,12 +59,12 @@ class news_iface extends base_iface {
      * 资讯删除接口
      */
     public function del_action () {
-        $this->data['id'] = intval($this->data['article_id']);
+        $this->data['id'] = intval($this->data['id']);
         if (OBJ('article_content_table')->delete([
-                'article_id' => $this->data['article_id'],
+                'article_id' => $this->data['id'],
             ])['code'] === 0) {
             if (OBJ('article_table')->delete([
-                    'article_id' => $this->data['article_id'],
+                    'article_id' => $this->data['id'],
                 ])['code'] === 0) {
                 $this->success('资讯删除成功');
             }
