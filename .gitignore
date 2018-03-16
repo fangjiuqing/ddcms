@@ -9,3 +9,4 @@ src/apps/api/data/log/*
 *.log
 *.json
 .gitignore
+.idea/
