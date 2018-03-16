@@ -46,6 +46,26 @@ class brand_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
+        'pb_sup_id' => [
+            'name'               => 'pb_sup_id',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '所属供应商',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'pb_type' => [
+            'name'               => 'pb_type',
+            'type'               => 'int',
+            'field_type'         => 'tinyint',
+            'min'                => 0,
+            'max'                => 255,
+            'label'              => '所属类别',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
     ];
 
     /*
@@ -64,8 +84,10 @@ class brand_table extends table {
       +--------------------------
     */
     public $defaults = [
-        'pb_id'   => 0,
-        'pb_name' => '',
+        'pb_id'       => 0,
+        'pb_name'     => '',
+        'pb_sup_id'   => 0,
+        'pb_type'     => 0,
     ];
 
     /*
@@ -74,8 +96,10 @@ class brand_table extends table {
       +--------------------------
     */
     public $filter = [
-        'pb_id'   => ['re\rgx\filter', 'int'],
-        'pb_name' => ['re\rgx\filter', 'char'],
+        'pb_id'       => ['re\rgx\filter', 'int'],
+        'pb_name'     => ['re\rgx\filter', 'char'],
+        'pb_sup_id'   => ['re\rgx\filter', 'int'],
+        'pb_type'     => ['re\rgx\filter', 'int'],
     ];
 
     /*

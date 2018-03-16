@@ -13,9 +13,9 @@ class material_brand_iface extends admin_iface {
     public function get_action () {
         $this->data['id'] = intval($this->data['id']);
         $out = OBJ('brand_table')->get($this->data['id']);
-        if ($this->data['parent']) {
+        if ($this->data['attrs']) {
+            $out['attrs']['supplier'] = OBJ('supplier_table')->fields('sup_id,sup_realname')->get_all();
         }
-        $out['cat_parent'] = intval($out['cat_parent']);
         $this->success('', $out);
     }
 
@@ -27,10 +27,10 @@ class material_brand_iface extends admin_iface {
         if ($tab->load($this->data)) {
             $ret = $tab->save();
             if ($ret['code'] === 0) {
-                $this->success('操作成功');
                 admin_helper::add_log($this->login['admin_id'], 'brand/save', 1,
-                    ($this->data['cat_id'] ? '编辑' : '新增') . '分类[' . $this->data['pb_name'] . ']'
+                    ($this->data['pb_id'] ? '编辑' : '新增') . '品牌[' . $this->data['pb_name'] . ']'
                 );
+                $this->success('操作成功');
             }
         }
         $this->failure($tab->get_first_error());
@@ -40,7 +40,15 @@ class material_brand_iface extends admin_iface {
      * 列表
      */
     public function list_action () {
-        $this->success('', []);
+        $suplier_ids = [];
+        $out['list'] = OBJ('brand_table')->map(function ($row) use (&$supplier_ids) {
+            $suplier_ids[$row['pb_sup_id']] = 0;
+            return $row;
+        })->get_all();
+        $out['paging'] = [];
+        $out['attrs']['type'] = material_helper::$type;
+        $out['attrs']['supplier'] = OBJ('supplier_table')->fields('sup_id,sup_realname')->akey('sup_id')->get_all();
+        $this->success('', $out);
     }
 
     /**
@@ -61,8 +69,8 @@ class material_brand_iface extends admin_iface {
         }
         // 删除
         if ($tab->delete(['cat_id' => $id])['code'] === 0) {
-            $this->success('删除成功');
             admin_helper::add_log($this->login['admin_id'], 'brand/del', 1, '删除分类，ID：' . $id);
+            $this->success('删除成功');
         }
         $this->failure('请先删除子类别');
     }

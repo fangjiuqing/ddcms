@@ -74,10 +74,10 @@ class category_iface extends base_iface {
         if ($tab->load($this->data)) {
             $ret = $tab->save();
             if ($ret['code'] === 0) {
-                $this->success('操作成功');
                 admin_helper::add_log($this->login['admin_id'], 'category/save', 1,
                     ($this->data['cat_id'] ? '编辑' : '新增') . '分类[' . $this->data['cat_name'] . ']'
                 );
+                $this->success('操作成功');
             }
         }
         $this->failure($tab->get_first_error());
@@ -114,8 +114,8 @@ class category_iface extends base_iface {
         }
         // 删除
         if ($tab->delete(['cat_id' => $id])['code'] === 0) {
-            $this->success('删除成功');
             admin_helper::add_log($this->login['admin_id'], 'category/del', 1, '删除分类，ID：' . $id);
+            $this->success('删除成功');
         }
         $this->failure('请先删除子类别');
     }

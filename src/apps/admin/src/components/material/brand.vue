@@ -6,24 +6,30 @@
         <div class="app_content">
           <div class="content table-responsive">
             <h4 class="card-title">
-              <a class="btn btn-xs btn-success pull-right" @click="modify('0')">新增</a>
+              <btn class="btn btn-xs btn-success pull-right" @click="modify('0')">
+                <i class="fa fa-plus-square"></i> 新增
+              </btn>
             </h4>
             <table class="table table-striped">
               <thead class="text-primary">
                   <tr>
                     <th class="text-left">名称</th>
-                    <th class="text-center" width="80">排序</th>
+                    <th class="text-center" width="300">供应商</th>
+                    <th class="text-center" width="300">类型</th>
                     <th class="text-center" width="80">操作</th>
                   </tr>
               </thead>
               <tbody>
                   <tr v-for="(v) in rows" :key="v.cat_id">
                       <td class="text-left">
-                        <a @click="modify(v.cat_id)"><span :class="v.class"></span>{{v.cat_name}}</a>
+                        <a @click="modify(v.pb_id)">{{v.pb_name}}</a>
                       </td>
-                      <td class="text-center">{{v.cat_sort}}</td>
                       <td class="text-center">
-                          <btn class="btn btn-xs btn-rose" @click="del(v.cat_id)"><i class="fa fa-trash-o"></i></btn>
+                        <router-link :to="{path: '/supplier/' + v.pb_sup_id}">{{attrs.supplier[v.pb_sup_id].sup_realname}}</router-link>
+                      </td>
+                      <td class="text-center">{{attrs.type[v.pb_type]}}</td>
+                      <td class="text-center">
+                          <btn class="btn btn-xs btn-rose" @click="del(v.pb_id)"><i class="fa fa-trash-o"></i></btn>
                       </td>
                   </tr>
               </tbody>
@@ -43,7 +49,19 @@
                 <label class="col-sm-3 label-on-left">名称</label>
                 <div class="col-sm-9">
                     <div class="form-group">
-                        <input class="form-control" v-model="modal_data.pb_name"  v-focus="modal_data.pb_name"  type="text" placeholder="分类名称">
+                        <input class="form-control" v-model="modal_data.pb_name"  v-focus="modal_data.pb_name"  type="text" placeholder="品牌名称">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-sm-3 label-on-left">类型</label>
+                <div class="col-sm-9">
+                    <div class="form-group">
+                        <select v-model="modal_data.pb_type" class="form-control">
+                          <option v-for="(v, k) in attrs.type" v-bind:key="k" :value="k">
+                            {{v}}
+                          </option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -52,7 +70,8 @@
                 <div class="col-sm-9">
                     <div class="form-group">
                         <select v-model="modal_data.pb_sup_id" class="form-control">
-                          <option v-for="(v) in modal_data.suppliers" v-bind:key="v.pb_id" :value="v.pb_id" v-html="v.space">
+                          <option v-for="(v) in suppliers" v-bind:key="v.sup_id" :value="v.sup_id">
+                            {{v.sup_realname}}
                           </option>
                         </select>
                     </div>
@@ -84,9 +103,11 @@ export default {
         {text: '列表', href: '#'}
       ],
       rows: [],
+      attrs: {},
       modal_open: false,
       modal_title: '',
-      modal_data: {}
+      modal_data: {},
+      suppliers: []
     }
   },
   methods: {
@@ -100,10 +121,11 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.get('material/brand', {id: id, parent: 1}).then(d => {
+      this.$http.get('material/brand', {id: id, attrs: 1}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_data = d.data
+          this.suppliers = d.data.attrs.supplier
         } else {
           this.modal_data = []
         }
@@ -130,7 +152,8 @@ export default {
       this.$http.list('material/brand').then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          this.rows = d.data
+          this.rows = d.data.list
+          this.attrs = d.data.attrs
         } else {
           this.rows = []
         }
