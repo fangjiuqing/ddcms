@@ -4,7 +4,8 @@ namespace re\rgx;
 /**
  * 资讯操作接口类
  */
-class news_iface extends base_iface {
+class article_iface extends base_iface
+{
 
     /**
      * 添加资讯接口
@@ -12,13 +13,16 @@ class news_iface extends base_iface {
      * @article_cat_id [int] 资讯分类id
      * @article_cover [str] 资讯封面图片名称
      * @article_content [str] 资讯内容
+     * @article_adate [int] 资讯发布时间(可选参数)
+     * @article_stat_view [int] 浏览量(可选参数)
      */
-    public function save_action () {
+    public function save_action()
+    {
         $this->data['article_title'] = filter::text($this->data['article_title']);
         $this->verify([
             'article_cat_id' => [
                 'code' => '101',
-                'msg'  => '请输入正确的分类id',
+                'msg' => '请输入正确的分类id',
                 'rule' => filter::$rules['integer']
             ],
         ]);
@@ -32,7 +36,7 @@ class news_iface extends base_iface {
         if ($article_tab->load($this->data)) {
             $ret = $article_tab->save();
             if ($ret['code'] != 0) {
-                $this->failure('资讯添加失败', '102');
+                $this->failure('操作失败', '102');
             }
         }
         $this->data['article_id'] = $ret['row_id'];
@@ -40,8 +44,10 @@ class news_iface extends base_iface {
         if ($content_tab->load($this->data)) {
             $result = $content_tab->save();
             if ($result['code'] === 0) {
-                admin_helper::add_log($this->login['admin_id'], 'news_category/save', '1', '资讯添加成功');
-                $this->success('资讯添加成功');
+                admin_helper::add_log($this->login['admin_id'], 'news/save', '2',
+                    ($this->data['article_adate'] == $this->data['article_udate'] ? '资讯新增ID:' : '资讯编辑ID:') .
+                    $this->data['article_id']);
+                $this->success('操作成功');
             }
         }
         $this->failure($article_tab->get_first_error());
@@ -49,9 +55,10 @@ class news_iface extends base_iface {
 
     /**
      * 获取单条资讯
-     * @id [int] 要获取的资讯的id
+     * @id [int] 要获取资讯的id
      */
-    public function get_action () {
+    public function get_action()
+    {
         $id = intval($this->data['id']);
         $out = OBJ('article_table')->get($id);
         if (empty($out)) {
@@ -70,7 +77,8 @@ class news_iface extends base_iface {
     /**
      * 获取资讯列表接口
      */
-    public function list_action () {
+    public function list_action()
+    {
         $article = OBJ('article_table')->get_all();
         if (empty($article)) {
             $this->success('没有资讯信息');
@@ -92,12 +100,14 @@ class news_iface extends base_iface {
 
     /**
      * 资讯删除接口
-     * @id [int] 删除资讯的id
+     * @id [int] 要删除资讯的id
      */
-    public function del_action () {
+    public function del_action()
+    {
         $id = intval($this->data['id']);
-        if (empty($id)) {
-            $this->failure('请输入正确的资讯id');
+        $ret = OBJ('article_table')->get($id);
+        if (empty($ret)) {
+            $this->failure('该资讯不存在');
         }
         if (OBJ('article_content_table')->delete([
                 'article_id' => $id,
@@ -105,7 +115,7 @@ class news_iface extends base_iface {
             if (OBJ('article_table')->delete([
                     'article_id' => $id,
                 ])['code'] === 0) {
-                admin_helper::add_log($this->login['admin_id'], 'news/del', '1', '删除资讯，ID：' . $id);
+                admin_helper::add_log($this->login['admin_id'], 'news/del', '3', '删除资讯ID:' . $id);
                 $this->success('资讯删除成功');
             }
         }
