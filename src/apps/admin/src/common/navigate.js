@@ -88,18 +88,18 @@ export default {
       ]
     },
     {
-      url: '/news',
+      url: '/article',
       name: '资讯管理',
       icon: 'fa fa-newspaper-o',
       children: [
         {
-          url: '/news',
+          url: '/article',
           name: '资讯列表',
           icon: 'fa fa-th-list',
           active: false
         },
         {
-          url: '/news/category',
+          url: '/article/category',
           name: '资讯分类',
           icon: 'fa fa-tags',
           active: false
