@@ -13,6 +13,7 @@ class article_iface extends base_iface
      * @article_cat_id [int] 资讯分类id
      * @article_cover [str] 资讯封面图片名称
      * @article_content [str] 资讯内容
+     * @article_id [int] 资讯id(可选参数)
      * @article_adate [int] 资讯发布时间(可选参数)
      * @article_stat_view [int] 浏览量(可选参数)
      */
@@ -28,12 +29,18 @@ class article_iface extends base_iface
         ]);
         $this->data['article_cover'] = filter::normal($this->data['article_cover']);
         $this->data['article_content'] = filter::text($this->data['article_content']);
-        $this->data['article_admin_id'] = $this->login['admin_id'];
+        $this->data['article_admin_id'] = (int)$this->login['admin_id'];
         $this->data['article_adate'] = (int)$this->data['article_adate'] ?: REQUEST_TIME;
         $this->data['article_udate'] = REQUEST_TIME;
         $this->data['article_stat_view'] = (int)$this->data['article_stat_view'] ?: 0;
-        $flag = empty($this->data['article_id']);
         $article_tab = OBJ('article_table');
+        $flag = !$article_tab->get((int)$this->data['article_id']);
+        if ($flag) {
+            unset($this->data['article_id']);
+        }
+        else {
+            $this->data['article_id'] = intval($this->data['article_id']);
+        }
         if ($article_tab->load($this->data)) {
             $ret = $flag ? $article_tab->save() : $article_tab->update($this->data);
             if ($ret['code'] != 0) {
@@ -59,12 +66,12 @@ class article_iface extends base_iface
     public function get_action()
     {
         $id = intval($this->data['id']);
-        $out = OBJ('article_table')->map(function ($out) use ($id) {
-            $out['article_content'] = OBJ('article_content_table')->get([
+        $out = OBJ('article_table')->map(function ($arg) use ($id) {
+            $arg['article_content'] = OBJ('article_content_table')->get([
                 'article_id' => $id,
             ])['article_content'] ?: '';
-            $out['cat_name'] = OBJ('category_table')->get($out['article_cat_id'])['cat_name'] ?: '';
-            return $out;
+            $arg['cat_name'] = OBJ('category_table')->get($arg['article_cat_id'])['cat_name'] ?: '';
+            return $arg;
         })->get($id);
         if (empty($out)) {
             $this->failure('查询的资讯不存在');
