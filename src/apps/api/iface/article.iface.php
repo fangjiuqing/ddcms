@@ -66,8 +66,12 @@ class article_iface extends base_iface
     public function get_action()
     {
         $id = intval($this->data['id']);
-        $out = OBJ('article_table')->left_join('article_content_table', 'article_id', 'article_id')
-            ->left_join('category_table', 'article_cat_id', 'cat_id')->get($id);
+        $out = OBJ('article_table')->left_join('article_content_table', 'article_id', 'article_id')->get($id);
+        $out['parent_options'] = category_helper::get_options(3, 0, $this->data['id']);
+        array_unshift($out['parent_options'], ['cat_id' => 0, 'cat_name' => '作为一级分类', 'cat_level' => 0]);
+        foreach ((array)$out['parent_options'] as $k => $v) {
+            $out['parent_options'][$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . $v['cat_name'];
+        }
         if (empty($out)) {
             $this->failure('查询的资讯不存在');
         }
@@ -90,9 +94,7 @@ class article_iface extends base_iface
         foreach ((array)$arts as $k => $v) {
             $arts[$k]['cat_name'] = isset($cat_list[$v['article_cat_id']]) ? $cat_list[$v['article_cat_id']]['cat_name'] : '';
         }
-        $data['content_list'] = $arts;
-        $data['cat_list'] = $cat_list;
-        $this->success('资讯列表获取成功', $data);
+        $this->success('资讯列表获取成功', $arts);
     }
 
     /**
