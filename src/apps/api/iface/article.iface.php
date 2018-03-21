@@ -66,13 +66,8 @@ class article_iface extends base_iface
     public function get_action()
     {
         $id = intval($this->data['id']);
-        $out = OBJ('article_table')->map(function ($arg) use ($id) {
-            $arg['article_content'] = OBJ('article_content_table')->get([
-                'article_id' => $id,
-            ])['article_content'] ?: '';
-            $arg['cat_name'] = OBJ('category_table')->get($arg['article_cat_id'])['cat_name'] ?: '';
-            return $arg;
-        })->get($id);
+        $out = OBJ('article_table')->left_join('article_content_table', 'article_id', 'article_id')
+            ->left_join('category_table', 'article_cat_id', 'cat_id')->get($id);
         if (empty($out)) {
             $this->failure('查询的资讯不存在');
         }
@@ -95,7 +90,9 @@ class article_iface extends base_iface
         foreach ((array)$arts as $k => $v) {
             $arts[$k]['cat_name'] = isset($cat_list[$v['article_cat_id']]) ? $cat_list[$v['article_cat_id']]['cat_name'] : '';
         }
-        $this->success('资讯列表获取成功', $arts);
+        $data['content_list'] = $arts;
+        $data['cat_list'] = $cat_list;
+        $this->success('资讯列表获取成功', $data);
     }
 
     /**
