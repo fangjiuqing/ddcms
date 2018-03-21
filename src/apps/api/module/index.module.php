@@ -1,5 +1,5 @@
 <?php
-namespace com\admin_api;
+namespace com\default_api;
 use re\rgx as R;
 
 /**

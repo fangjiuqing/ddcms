@@ -63,6 +63,7 @@ class lang extends rgx {
      */
     public static function set_local ($local = null) {
         self::$local = $local ?: self::$local;
+        self::load(self::$local);
     }
 
     /**

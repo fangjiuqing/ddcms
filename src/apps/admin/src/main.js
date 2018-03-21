@@ -13,6 +13,7 @@ import store from '@/store'
 import http from '@/common/http'
 import cache from '@/common/cache'
 import sess from '@/common/sess'
+import uploader from '@/common/uploader'
 
 import Topbar from '@/components/common/topbar'
 import Leftbar from '@/components/common/leftbar'
@@ -35,6 +36,7 @@ Vue.use(sess, {cache})
 Vue.use(uiv)
 Vue.use(loading)
 Vue.use(http, {sess, cache, loading})
+Vue.use(uploader)
 Vue.use(VueProgressBar, {
   color: 'rgb(143, 255, 199)',
   failedColor: 'red',

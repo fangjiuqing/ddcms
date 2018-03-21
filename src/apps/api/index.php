@@ -23,7 +23,7 @@ define('DS', DIRECTORY_SEPARATOR);
 define('APP_ID', 'api');
 
 // app name
-define('APP_NAME', 'admin');
+define('APP_NAME', 'default');
 
 // app root path
 define('APP_PATH', realpath('./') . DS);
@@ -35,7 +35,7 @@ define('INC_PATH', realpath('include') . DS);
 define('DATA_PATH', realpath('data') . DS);
 
 // app namespace
-define('NS', 'com\\admin_api');
+define('NS', 'com\\default_api');
 
 // load bootstrap file
 include('../../rgx/rgx.php');
