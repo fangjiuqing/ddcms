@@ -10,6 +10,9 @@ import Category from '@/components/common/category'
 import Brand from '@/components/material/brand'
 import Supplier from '@/components/material/supplier'
 
+import Article from '@/components/article/index'
+import ArticleAdd from '@/components/article/add'
+
 Vue.use(Router)
 Vue.use(Meta)
 
@@ -40,11 +43,21 @@ const router = new Router({
       component: Profile
     },
     {
-      path: '/news/category',
+      path: '/article',
+      name: 'Article',
+      component: Article
+    },
+    {
+      path: '/article/add',
+      name: 'ArticleAdd',
+      component: ArticleAdd
+    },
+    {
+      path: '/article/category',
       name: 'NCategory',
       component: Category,
       props: {
-        code: 'news',
+        code: 'article',
         label: '资讯'
       }
     },

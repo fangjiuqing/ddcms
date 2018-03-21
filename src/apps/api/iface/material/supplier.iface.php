@@ -12,7 +12,17 @@ class material_supplier_iface extends admin_iface {
      */
     public function get_action () {
         $this->data['id'] = intval($this->data['id']);
-        $out = OBJ('supplier_table')->get($this->data['id']);
+        $out = OBJ('supplier_table')->map(function ($row) {
+            $regions = OBJ('region_table')->akey('region_code')->get_all([
+                $row['sup_region0'] ?: 0,
+                $row['sup_region1'] ?: 0,
+                $row['sup_region2'] ?: 0
+            ]);
+            $row['province'] = $regions[$row['sup_region0']] ? $regions[$row['sup_region0']]['region_name'] : '';
+            $row['city'] = $regions[$row['sup_region1']] ? $regions[$row['sup_region1']]['region_name'] : '';
+            $row['area'] = $regions[$row['sup_region2']] ? $regions[$row['sup_region2']]['region_name'] : '';
+            return $row;
+        })->get($this->data['id']);
         if ($this->data['attrs']) {
             $out['attrs']['type'] = material_helper::$type;
         }
