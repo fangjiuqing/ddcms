@@ -39,6 +39,30 @@ export default {
       this.$refs.simple_upload_input.multiple = this.opts.multiple
       this.$refs.simple_upload_input.click()
     },
+    exec (opts) {
+      this.el = opts.el
+      this.pre = opts.pre || 'default'
+      this.post(opts.data)
+    },
+    post (form) {
+      let vm = this
+      var xhr = new XMLHttpRequest()
+      xhr.open('POST', this.el.$http.gateway)
+      this.$refs.simple_upload_input.value = ''
+      xhr.onloadstart = function (e) {
+        vm.emitter('start', e)
+      }
+      xhr.onloadend = function (e) {
+        let res = JSON.parse(xhr.responseText)
+        if (res.code !== 0) {
+          vm.emitter('error', res.msg)
+        } else {
+          vm.emitter('finish', res.data)
+        }
+      }
+      xhr.upload.onprogress = vm.uploadProgress
+      xhr.send(form)
+    },
     onFileChange (e) {
       let vm = this
       let files = e.target.files || e.dataTransfer.files
@@ -54,23 +78,7 @@ export default {
         'access_token': this.el.$sess.access_token
       }))
       formData.append('file', this.file)
-      var xhr = new XMLHttpRequest()
-      xhr.open('POST', this.el.$http.gateway)
-      this.$refs.simple_upload_input.value = ''
-      xhr.onloadstart = function (e) {
-        vm.emitter('start', e)
-      }
-      xhr.onloadend = function (e) {
-        let res = JSON.parse(xhr.responseText)
-        if (res.code !== 0) {
-          vm.emitter('error', res.msg)
-        } else {
-          vm.emitter('finish', res.data)
-        }
-      }
-
-      xhr.upload.onprogress = vm.uploadProgress
-      xhr.send(formData)
+      this.post(formData)
     }
   }
 }

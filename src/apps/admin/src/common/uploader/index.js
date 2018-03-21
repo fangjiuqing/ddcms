@@ -20,6 +20,19 @@ export default {
     }
     this.instance.select(opt)
   },
+  exec: function (opt) {
+    opt = opt || {}
+    if (!this.instance) {
+      this.UploadCls = Vue.extend(upload)
+      let div = document.createElement('div')
+      document.getElementById('app').appendChild(div)
+      this.instance = new Vue({
+        extends: this.UploadCls
+      })
+      this.instance.$mount(div)
+    }
+    this.instance.exec(opt)
+  },
   upload: function () {},
   cancle: function () {}
 }
