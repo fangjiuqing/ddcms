@@ -106,6 +106,16 @@ class article_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
+        'article_via' => [
+            'name'               => 'article_via',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 64,
+            'label'              => '来源',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
     ];
 
     /*
@@ -132,6 +142,7 @@ class article_table extends table {
         'article_adate'       => 0,
         'article_udate'       => 0,
         'article_stat_view'   => 0,
+        'article_via'         => '',
     ];
 
     /*
@@ -148,6 +159,7 @@ class article_table extends table {
         'article_adate'       => ['re\rgx\filter', 'int'],
         'article_udate'       => ['re\rgx\filter', 'int'],
         'article_stat_view'   => ['re\rgx\filter', 'int'],
+        'article_via'         => ['re\rgx\filter', 'char'],
     ];
 
     /*
