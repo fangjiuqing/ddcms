@@ -31,7 +31,7 @@ class category_helper extends rgx {
         if ($except_id > 0) {
             $tab->where("cat_id != " . $except_id);
         }
-        $ret = $tab->get_all([
+        $ret = $tab->order('cat_level asc,cat_sort desc')->get_all([
             'cat_type'  => $type_id
         ]);
         return self::to_tree($ret, 1);

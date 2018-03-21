@@ -4,8 +4,7 @@ namespace re\rgx;
 /**
  * 资讯操作接口类
  */
-class article_iface extends base_iface
-{
+class article_iface extends base_iface {
 
     /**
      * 添加资讯接口
@@ -17,63 +16,47 @@ class article_iface extends base_iface
      * @article_adate [int] 资讯发布时间(可选参数)
      * @article_stat_view [int] 浏览量(可选参数)
      */
-    public function save_action()
-    {
+    public function save_action() {
         $this->data['article_title'] = filter::text($this->data['article_title']);
         $this->verify([
             'article_cat_id' => [
-                'code' => '101',
-                'msg' => '请输入正确的分类id',
-                'rule' => filter::$rules['integer']
+                'code'  => '101',
+                'msg'   => '请选择资讯所属分类',
+                'rule'  => filter::$rules['integer'],
             ],
         ]);
         $this->data['article_cover'] = filter::normal($this->data['article_cover']);
-        $this->data['article_content'] = filter::text($this->data['article_content']);
-        $this->data['article_admin_id'] = (int)$this->login['admin_id'];
-        $this->data['article_adate'] = (int)$this->data['article_adate'] ?: REQUEST_TIME;
+        $this->data['article_content'] = filter::html($this->data['article_content']);
+        $this->data['article_admin_id'] = (int) $this->login['admin_id'];
+        $this->data['article_adate'] = (int) $this->data['article_adate'] ?: REQUEST_TIME;
         $this->data['article_udate'] = REQUEST_TIME;
-        $this->data['article_stat_view'] = (int)$this->data['article_stat_view'] ?: 0;
-        $article_tab = OBJ('article_table');
-        $flag = !$article_tab->get((int)$this->data['article_id']);
-        if ($flag) {
-            unset($this->data['article_id']);
-        }
-        else {
-            $this->data['article_id'] = intval($this->data['article_id']);
-        }
-        if ($article_tab->load($this->data)) {
-            $ret = $flag ? $article_tab->save() : $article_tab->update($this->data);
-            if ($ret['code'] != 0) {
-                $this->failure('操作失败', '102');
-            }
-        }
-        $this->data['article_id'] = $flag ? $ret['row_id'] : $this->data['article_id'];
-        $content_tab = OBJ('article_content_table');
-        if ($content_tab->load($this->data)) {
-            $result = $flag ? $content_tab->save() : $content_tab->update($this->data);
-            if ($result['code'] === 0) {
-                admin_helper::add_log($this->login['admin_id'], 'article/save', '2', ($flag ? '资讯新增' : '资讯修改') . 'ID:' . $this->data['article_id']);
+        $this->data['article_stat_view'] = (int) $this->data['article_stat_view'] ?: 0;
+        $tab = OBJ('article_table');
+        if ($tab->load($this->data)) {
+            $ret = $tab->save();
+            if ($ret['code'] === 0) {
+                $row_id = $this->data['article_id'] ?: $ret['row_id'];
+                $ret = OBJ('article_content_table')->replace([
+                    'article_id'        => $row_id,
+                    'article_content'   => $this->data['article_content']
+                ]);
+                admin_helper::add_log($this->login['admin_id'], 'article/save', '2', ($this->data['article_id'] ? '资讯新增' : '资讯修改') . ' ID:' . $row_id);
                 $this->success('操作成功');
             }
         }
-        $this->failure($article_tab->get_first_error());
+        $this->failure($tab->get_error_desc());
     }
 
     /**
      * 获取单条资讯
      * @id [int] 要获取资讯的id
      */
-    public function get_action()
-    {
+    public function get_action() {
         $id = intval($this->data['id']);
-        $out = OBJ('article_table')->left_join('article_content_table', 'article_id', 'article_id')->get($id);
-        $out['parent_options'] = category_helper::get_options(3, 0, $this->data['id']);
-        array_unshift($out['parent_options'], ['cat_id' => 0, 'cat_name' => '作为一级分类', 'cat_level' => 0]);
-        foreach ((array)$out['parent_options'] as $k => $v) {
-            $out['parent_options'][$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . $v['cat_name'];
-        }
-        if (empty($out)) {
-            $this->failure('查询的资讯不存在');
+        $out['article'] = OBJ('article_table')->left_join('article_content_table', 'article_id', 'article_id')->get($id);
+        $out['attrs']['category'] = category_helper::get_options(3, 0, 0);
+        foreach ((array) $out['attrs']['category'] as $k => $v) {
+            $out['attrs']['category'][$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . $v['cat_name'];
         }
         $this->success('资讯获取成功', $out);
     }
@@ -81,17 +64,16 @@ class article_iface extends base_iface
     /**
      * 获取资讯列表接口
      */
-    public function list_action()
-    {
+    public function list_action() {
         $cat_ids = [];
         $arts = OBJ('article_table')->map(function ($row) use (&$cat_ids) {
             $cat_ids[$row['article_cat_id']] = 1;
             return $row;
         })->get_all();
         $cat_list = OBJ('category_table')->akey('cat_id')->get_all([
-            'cat_id' => array_keys($cat_ids ?: [0])
+            'cat_id' => array_keys($cat_ids ?: [0]),
         ]);
-        foreach ((array)$arts as $k => $v) {
+        foreach ((array) $arts as $k => $v) {
             $arts[$k]['cat_name'] = isset($cat_list[$v['article_cat_id']]) ? $cat_list[$v['article_cat_id']]['cat_name'] : '';
         }
         $this->success('资讯列表获取成功', $arts);
@@ -101,15 +83,14 @@ class article_iface extends base_iface
      * 资讯删除接口
      * @id [int] 要删除资讯的id
      */
-    public function del_action()
-    {
+    public function del_action() {
         $id = intval($this->data['id']);
         $ret = OBJ('article_table')->get($id);
         if (empty($ret)) {
             $this->failure('该资讯不存在');
         }
-        if (OBJ('article_content_table')->delete(['article_id' => $id,])['code'] === 0) {
-            if (OBJ('article_table')->delete(['article_id' => $id,])['code'] === 0) {
+        if (OBJ('article_content_table')->delete(['article_id' => $id])['code'] === 0) {
+            if (OBJ('article_table')->delete(['article_id' => $id])['code'] === 0) {
                 admin_helper::add_log($this->login['admin_id'], 'article/del', '3', '删除资讯ID:' . $id);
                 $this->success('资讯删除成功');
             }

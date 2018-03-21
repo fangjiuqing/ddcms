@@ -15,20 +15,23 @@
         <div class="row" style="width: 91.66666667%;margin:0 auto;">
           <div class="col-sm-7" style="padding-left:0">
               <div class="form-group">
-                  <input class="form-control" v-model="form.article_title"  v-focus="form.article_title"  type="text" placeholder="资讯标题">
+                  <input class="form-control" name="article_title" v-model="form.article_title"  v-focus="form.article_title"  type="text" placeholder="资讯标题">
               </div>
 
               <div class="form-group">
-                  <input class="form-control" v-model="form.article_via"  v-focus="form.article_via"  type="text" placeholder="资讯来源">
+                  <input class="form-control" name="article_via" v-model="form.article_via"  v-focus="form.article_via"  type="text" placeholder="资讯来源">
               </div>
 
               <div class="form-group">
-                  <input class="form-control" v-model="form.article_cat_id"  v-focus="form.article_cat_id"  type="text" placeholder="所属分类">
+                  <select v-model="form.article_cat_id"  name="article_cat_id" class="form-control">
+                    <option v-for="(v) in categories" v-bind:key="v.cat_id" :value="v.cat_id" v-html="v.space">
+                    </option>
+                  </select>
               </div>
           </div>
           <div class="col-sm-5">
             <img class="preview_article_cover" style="width: 200px; height: 120px;" :src="article_cover" @click="upload_cover">
-            <input type="hidden" name="" v-model="form.article_cover">
+            <input type="hidden" name="article_cover" v-model="form.article_cover">
           </div>
         </div>
         <div class="row">
@@ -63,7 +66,8 @@ export default {
       ],
       form: {},
       article_cover: '',
-      extra: {}
+      extra: {},
+      categories: []
     }
   },
   methods: {
@@ -158,11 +162,11 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.get('material/brand', {id: id, attrs: 1}).then(d => {
+      this.$http.get('article', {id: id, attrs: 1}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          this.form = d.data
-          this.categories = d.data.attrs.categories
+          this.form = d.data.article || {}
+          this.categories = d.data.attrs.category
         } else {
           this.form = []
         }
@@ -175,7 +179,12 @@ export default {
       this.$http.save('article', this.form).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          this.form = d.data
+          this.$notify({
+            content: d.msg,
+            duration: 1500,
+            type: 'success',
+            dismissible: false
+          })
         } else {
           this.$notify({
             content: d.msg,
@@ -189,6 +198,7 @@ export default {
   },
   mounted: function () {
     this.$store.state.left_active_key = '/article'
+    this.modify()
   },
   destroyed: function () {
     this.$loading.hide()

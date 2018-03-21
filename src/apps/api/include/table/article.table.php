@@ -42,7 +42,7 @@ class article_table extends table {
             'field_type'         => 'varchar',
             'min'                => 0,
             'max'                => 255,
-            'label'              => '资讯编号',
+            'label'              => '资讯标题',
             'allow_empty_string' => false,
             'allow_null'         => false
         ],

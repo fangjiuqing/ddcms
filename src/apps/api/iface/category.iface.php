@@ -87,7 +87,7 @@ class category_iface extends base_iface {
      * 列表
      */
     public function list_action () {
-        $out = array_values(category_helper::to_tree(OBJ('category_table')->order('cat_sort desc')->get_all([
+        $out = array_values(category_helper::to_tree(OBJ('category_table')->order('cat_level asc, cat_sort desc')->get_all([
             'cat_type'  =>  $this->type_id
         ]), 1));
         foreach ((array)$out as $k => $v) {
