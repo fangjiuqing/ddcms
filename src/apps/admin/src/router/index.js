@@ -18,7 +18,7 @@ Vue.use(Meta)
 
 Vue.directive('focus', {
   update: function (el, {value}) {
-    if (value) {
+    if (false && value) {
       el.focus()
     }
   }

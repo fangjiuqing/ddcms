@@ -179,11 +179,8 @@ export default {
       this.$http.save('article', this.form).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          this.$notify({
-            content: d.msg,
-            duration: 1500,
-            type: 'success',
-            dismissible: false
+          this.$router.push({
+            path: '/article'
           })
         } else {
           this.$notify({
