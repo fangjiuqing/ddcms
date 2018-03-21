@@ -27,7 +27,7 @@
               </div>
           </div>
           <div class="col-sm-5">
-            <img class="preview_article_cover" style="width: 200px; height: 120px;" :src="article_cover" @click="foo">
+            <img class="preview_article_cover" style="width: 200px; height: 120px;" :src="article_cover" @click="upload_cover">
             <input type="hidden" name="" v-model="form.article_cover">
           </div>
         </div>
@@ -35,7 +35,7 @@
           <div class="col-md-11" style="margin:0 auto; float: none">
             <vue-editor id="editor"
               useCustomImageHandler
-              @imageAdded="foo1" v-model="form.article_content">
+              @imageAdded="upload_image" v-model="form.article_content">
             </vue-editor>
             <btn type="success" v-on:click="save" class="btn btn-success pull-right">保存</btn>
           </div>
@@ -132,7 +132,7 @@ export default {
         })
       }
     },
-    foo1 (file, Editor, cursorLocation, resetUploader) {
+    upload_image (file, Editor, cursorLocation, resetUploader) {
       let formData = new FormData()
       formData.append('raw', JSON.stringify({
         'uri': 'upload/image',
@@ -147,7 +147,7 @@ export default {
         data: formData
       })
     },
-    foo () {
+    upload_cover () {
       this.$uploader.select({
         uri: 'upload/image',
         el: this,
@@ -162,7 +162,7 @@ export default {
         this.$loading.hide()
         if (d.code === 0) {
           this.form = d.data
-          this.suppliers = d.data.attrs.supplier
+          this.categories = d.data.attrs.categories
         } else {
           this.form = []
         }
@@ -172,16 +172,19 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.save('material/brand', this.form).then(d => {
+      this.$http.save('article', this.form).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.form = d.data
+        } else {
+          this.$notify({
+            content: d.msg,
+            duration: 1500,
+            type: 'danger',
+            dismissible: false
+          })
         }
-        this.refresh()
       })
-    },
-    upload_image () {
-      console.log(2)
     }
   },
   mounted: function () {
