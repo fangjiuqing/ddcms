@@ -13,6 +13,9 @@ import Supplier from '@/components/material/supplier'
 import Article from '@/components/article/index'
 import ArticleAdd from '@/components/article/add'
 
+import Material from '@/components/material/index'
+import MaterialAdd from '@/components/material/add'
+
 Vue.use(Router)
 Vue.use(Meta)
 
@@ -67,6 +70,16 @@ const router = new Router({
         code: 'article',
         label: '资讯'
       }
+    },
+    {
+      path: '/material',
+      name: 'Material',
+      component: Material
+    },
+    {
+      path: '/material/add',
+      name: 'MaterialAdd',
+      component: MaterialAdd
     },
     {
       path: '/material/category',

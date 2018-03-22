@@ -5,7 +5,7 @@
         {{v.text}}
       </breadcrumb-item>
       <breadcrumb-item active class="pull-right">
-        <router-link :to="{path:'/article/add'}" class="btn btn-xs btn-info pull-right">
+        <router-link :to="{path:'/material/add'}" class="btn btn-xs btn-info pull-right">
           <i class="fa fa-plus-square"></i> 新增
         </router-link>
       </breadcrumb-item>
@@ -56,17 +56,17 @@
 <script>
 
 export default {
-  name: 'Article',
+  name: 'Material',
   metaInfo () {
     return {
-      title: '资讯管理 - 道达智装'
+      title: '材料管理 - 道达智装'
     }
   },
   data () {
     return {
       items: [
         {text: '首页', to: '/'},
-        {text: '资讯', to: '/article'},
+        {text: '材料', to: '/material'},
         {text: '列表', href: '#'}
       ],
       rows: [],
@@ -78,7 +78,7 @@ export default {
   methods: {
     modify (id) {
       this.$router.push({
-        path: '/article/add',
+        path: '/material/add',
         query: {id}
       })
     },
@@ -86,7 +86,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.list('article', {pn: this.pn}).then(d => {
+      this.$http.list('material', {pn: this.pn}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data.list
@@ -101,7 +101,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.del('article', {id: id}).then(d => {
+      this.$http.del('material', {id: id}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.$notify({
@@ -123,14 +123,14 @@ export default {
     }
   },
   mounted: function () {
-    this.$store.state.left_active_key = '/article'
+    this.$store.state.left_active_key = '/material'
     this.refresh()
   },
   destroyed: function () {
     this.$loading.hide()
   },
   activated: function () {
-    this.$store.state.left_active_key = '/article'
+    this.$store.state.left_active_key = '/material'
     this.refresh()
   }
 }

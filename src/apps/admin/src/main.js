@@ -21,6 +21,7 @@ import Leftbar from '@/components/common/leftbar'
 import * as uiv from 'uiv'
 import loading from '@/common/loading'
 import VueProgressBar from 'vue-progressbar'
+import IBox from '@/common/ui/ibox'
 
 Vue.config.productionTip = false
 
@@ -45,6 +46,7 @@ Vue.use(VueProgressBar, {
 
 Vue.component('Topbar', Topbar)
 Vue.component('Leftbar', Leftbar)
+Vue.component('IBox', IBox)
 
 /* eslint-disable no-new */
 new Vue({

@@ -54,20 +54,17 @@ class article_iface extends base_iface {
      */
     public function get_action () {
         $id = intval($this->data['id']);
-        $out['article'] = OBJ('article_table')->left_join('article_content_table', 'article_id', 'article_id')
-            ->get($id);
-        if (!$out['article']) {
-            $this->failure('资讯不存在');
+        $out['row'] = OBJ('article_table')->left_join('article_content_table', 'article_id', 'article_id')
+            ->get($id) ?: [];
+        if ($out['row']) {
+            $out['row']['article_content'] = htmlspecialchars_decode($out['row']['article_content'], ENT_QUOTES);
+            $out['row']['article_cover_thumb'] = UPLOAD_URL . image::get_thumb_name($out['row']['article_cover'], '500x309');
         }
-        $out['attrs']['category'] = category_helper::get_options(3, 0, 0);
-        foreach ((array)$out['attrs']['category'] as $k => $v) {
-            $out['attrs']['category'][$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . $v['cat_name'];
+        $out['category'] = category_helper::get_options(3, 0, 0);
+        foreach ((array)$out['category'] as $k => $v) {
+            $out['category'][$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . $v['cat_name'];
         }
-        if ($out['article']) {
-            $out['article']['article_content'] = htmlspecialchars_decode($out['article']['article_content'], ENT_QUOTES);
-            $out['article']['article_cover_thumb'] = UPLOAD_URL . image::get_thumb_name($out['article']['article_cover'], '500x309');
-        }
-        $this->success('资讯获取成功', $out);
+        $this->success('', $out);
     }
 
     /**

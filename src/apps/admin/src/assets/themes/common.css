@@ -2718,3 +2718,54 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-rose.active {
   border: 1px solid #f7f7f7;
   box-shadow: 0 2px 2px 0 rgba(0, 188, 212, 0.14);
 }
+.field-label {
+  padding: 0 20px 0 0;
+  margin: 0 0 15px 0;
+  height: 34px;
+  line-height: 34px;
+  font-weight: 300;
+  font-size: 14px;
+  color: #777;
+  text-align: right;
+}
+.input-label {
+  padding: 0;
+  margin: 0 0 15px 0;
+}
+.ibox {
+    border: 1px solid #a2c9e6;
+    border-radius: 3px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+    color: rgba(0, 0, 0, 0.87);
+    background: #fff;
+    clear: both;
+    margin-bottom: 25px;
+    margin-top: 0;
+    padding: 0;
+}
+.ibox-title {
+    border-top: 0;
+    padding: 0px;
+    min-height: 32px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    background-color: #fff;
+    border-color: #e7eaec;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 4px 0 0;
+    color: inherit;
+    margin-bottom: 0;
+}
+.ibox-content {
+    clear: both;
+    background-color: #fff;
+    color: inherit;
+    padding: 15px 20px 20px;
+    border-color: #e7eaec;
+    -webkit-border-image: none;
+    -o-border-image: none;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 1px 0;
+}
