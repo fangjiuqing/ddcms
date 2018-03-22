@@ -64,6 +64,7 @@ export default {
         {text: '资讯', to: '/article'},
         {text: '编辑', href: '#'}
       ],
+      id: this.$route.query['id'] || 0,
       form: {},
       article_cover: '',
       extra: {},
@@ -162,10 +163,11 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.get('article', {id: id, attrs: 1}).then(d => {
+      this.$http.get('article', {id: this.id, attrs: 1}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.form = d.data.article || {}
+          this.article_cover = this.form['article_cover_thumb'] || ''
           this.categories = d.data.attrs.category
         } else {
           this.form = []
