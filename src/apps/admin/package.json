@@ -16,6 +16,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "3.3.7",
+    "dateformat": "^3.0.3",
     "eslint-plugin-vue": "^4.3.0",
     "font-awesome": "^4.7.0",
     "style-loader": "^0.20.2",
