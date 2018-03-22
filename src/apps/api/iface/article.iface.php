@@ -58,6 +58,8 @@ class article_iface extends base_iface {
         foreach ((array) $out['attrs']['category'] as $k => $v) {
             $out['attrs']['category'][$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . $v['cat_name'];
         }
+        $out['article']['article_content'] = htmlspecialchars_decode($out['article']['article_content'], ENT_QUOTES);
+        $out['article']['article_cover_thumb'] = UPLOAD_URL . image::get_thumb_name($out['article']['article_cover'], '500x309');
         $this->success('资讯获取成功', $out);
     }
 

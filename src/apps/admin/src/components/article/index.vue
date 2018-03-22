@@ -21,7 +21,7 @@
                     <th class="text-center" width="120">分类</th>
                     <th class="text-center" width="80">浏览</th>
                     <th class="text-center" width="150">时间</th>
-                    <th class="text-center" width="80"></th>
+                    <th class="text-center" width="100"></th>
                   </tr>
               </thead>
               <tbody>
@@ -39,6 +39,7 @@
                         <small>{{v.article_udate|time('yyyy-mm-dd HH:MM:ss')}}</small>
                       </td>
                       <td class="text-center">
+                          <btn class="btn btn-xs btn-success" @click="modify(v.article_id)"><i class="fa fa-pencil"></i></btn>
                           <btn class="btn btn-xs btn-rose" @click="del(v.article_id)"><i class="fa fa-trash-o"></i></btn>
                       </td>
                   </tr>
@@ -75,6 +76,12 @@ export default {
     }
   },
   methods: {
+    modify (id) {
+      this.$router.push({
+        path: '/article/add',
+        query: {id}
+      })
+    },
     refresh: function () {
       this.$loading.show({
         msg: '加载中 ...'
