@@ -41,7 +41,7 @@ class article_iface extends base_iface {
                     'article_content' => $this->data['article_content'],
                 ]);
                 admin_helper::add_log($this->login['admin_id'], 'article/save', '2', ($this->data['article_id'] ? '资讯修改'
-                        : '资讯新增') . '[@' . $row_id . $this->data['article_title'] . ']');
+                        : '资讯新增') . '[' . $row_id . '@' . $this->data['article_title'] . ']');
                 $this->success('操作成功');
             }
         }
@@ -111,7 +111,7 @@ class article_iface extends base_iface {
         if (OBJ('article_content_table')->delete(['article_id' => $id])['code'] === 0) {
             if (OBJ('article_table')->delete(['article_id' => $id])['code'] === 0) {
                 admin_helper::add_log($this->login['admin_id'], 'article/del', '3',
-                    '删除资讯[@' . $id . $ret['article_title'] . ']');
+                    '删除资讯[' . $id . '@' . $ret['article_title'] . ']');
                 $this->success('资讯删除成功');
             }
         }
