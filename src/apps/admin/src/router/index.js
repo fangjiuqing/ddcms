@@ -18,10 +18,17 @@ Vue.use(Meta)
 
 Vue.directive('focus', {
   update: function (el, {value}) {
-    if (false && value) {
-      el.focus()
+    if (value) {
+      // el.focus()
     }
   }
+})
+
+var dateFormat = require('dateformat')
+Vue.filter('time', function (value, format) {
+  var d = new Date()
+  d.setTime(value * 1000)
+  return dateFormat(d, format)
 })
 
 const router = new Router({

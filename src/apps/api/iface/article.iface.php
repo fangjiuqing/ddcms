@@ -76,7 +76,9 @@ class article_iface extends base_iface {
         foreach ((array) $arts as $k => $v) {
             $arts[$k]['cat_name'] = isset($cat_list[$v['article_cat_id']]) ? $cat_list[$v['article_cat_id']]['cat_name'] : '';
         }
-        $this->success('资讯列表获取成功', $arts);
+        $this->success('资讯列表获取成功', [
+            'list'  => array_values($arts)
+        ]);
     }
 
     /**

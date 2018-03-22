@@ -17,23 +17,29 @@
             <table class="table table-striped">
               <thead>
                   <tr>
-                    <th class="text-left">名称</th>
-                    <th class="text-center" width="300">供应商</th>
-                    <th class="text-center" width="300">类型</th>
-                    <th class="text-center" width="80">操作</th>
+                    <th class="text-left">标题</th>
+                    <th class="text-center" width="120">分类</th>
+                    <th class="text-center" width="80">浏览</th>
+                    <th class="text-center" width="150">时间</th>
+                    <th class="text-center" width="80"></th>
                   </tr>
               </thead>
               <tbody>
-                  <tr v-for="(v) in rows" :key="v.cat_id">
+                  <tr v-for="(v) in rows" :key="v.article_id">
                       <td class="text-left">
-                        <a @click="modify(v.pb_id)">{{v.pb_name}}</a>
+                        <a @click="modify(v.pb_id)">{{v.article_title}}</a>
                       </td>
                       <td class="text-center">
-                        <router-link :to="{path: '/supplier/' + v.pb_sup_id}">{{attrs.supplier[v.pb_sup_id].sup_realname}}</router-link>
+                        <small>{{v.cat_name}}</small>
                       </td>
-                      <td class="text-center">{{attrs.type[v.pb_type]}}</td>
                       <td class="text-center">
-                          <btn class="btn btn-xs btn-rose" @click="del(v.pb_id)"><i class="fa fa-trash-o"></i></btn>
+                        <code>{{v.article_stat_view}}</code>
+                      </td>
+                      <td class="text-center">
+                        <small>{{v.article_udate|time('yyyy-mm-dd HH:MM:ss')}}</small>
+                      </td>
+                      <td class="text-center">
+                          <btn class="btn btn-xs btn-rose" @click="del(v.article_id)"><i class="fa fa-trash-o"></i></btn>
                       </td>
                   </tr>
               </tbody>
@@ -77,7 +83,6 @@ export default {
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data.list
-          this.attrs = d.data.attrs
         } else {
           this.rows = []
         }

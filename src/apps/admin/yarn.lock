@@ -2043,6 +2043,10 @@ date-now@^0.1.4:
   version "0.1.4"
   resolved "http://registry.npm.taobao.org/date-now/download/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
 
+dateformat@^3.0.3:
+  version "3.0.3"
+  resolved "http://registry.npm.taobao.org/dateformat/download/dateformat-3.0.3.tgz#a6e37499a4d9a9cf85ef5872044d62901c9889ae"
+
 daycaca@^0.1.1:
   version "0.1.2"
   resolved "http://registry.npm.taobao.org/daycaca/download/daycaca-0.1.2.tgz#45dab5c72246cc4aa48399117e3c7debc6190ee6"
