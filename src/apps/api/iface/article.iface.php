@@ -37,10 +37,11 @@ class article_iface extends base_iface {
             if ($ret['code'] === 0) {
                 $row_id = $this->data['article_id'] ?: $ret['row_id'];
                 $ret = OBJ('article_content_table')->replace([
-                    'article_id' => $row_id,
+                    'article_id'      => $row_id,
                     'article_content' => $this->data['article_content'],
                 ]);
-                admin_helper::add_log($this->login['admin_id'], 'article/save', '2', ($this->data['article_id'] ? '资讯新增' : '资讯修改') . ' ID:' . $row_id);
+                admin_helper::add_log($this->login['admin_id'], 'article/save', '2', ($this->data['article_id'] ? '资讯修改'
+                        : '资讯新增') . '[@' . $row_id . $this->data['article_title'] . ']');
                 $this->success('操作成功');
             }
         }
@@ -53,8 +54,11 @@ class article_iface extends base_iface {
      */
     public function get_action () {
         $id = intval($this->data['id']);
-        $out['article'] = OBJ('article_table')->left_join('article_content_table', 'article_id', 'article_id')->
-        get($id);
+        $out['article'] = OBJ('article_table')->left_join('article_content_table', 'article_id', 'article_id')
+            ->get($id);
+        if (!$out['article']) {
+            $this->failure('资讯不存在');
+        }
         $out['attrs']['category'] = category_helper::get_options(3, 0, 0);
         foreach ((array)$out['attrs']['category'] as $k => $v) {
             $out['attrs']['category'][$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . $v['cat_name'];
@@ -75,10 +79,11 @@ class article_iface extends base_iface {
             'cat_id' => array_keys($cat_ids ?: [0]),
         ]);
         foreach ((array)$arts as $k => $v) {
-            $arts[$k]['cat_name'] = isset($cat_list[$v['article_cat_id']]) ? $cat_list[$v['article_cat_id']]['cat_name'] : '';
+            $arts[$k]['cat_name'] = isset($cat_list[$v['article_cat_id']]) ?
+                $cat_list[$v['article_cat_id']]['cat_name'] : '';
         }
         $this->success('资讯列表获取成功', [
-            'list'  => array_values($arts)
+            'list' => array_values($arts),
         ]);
     }
 
@@ -94,7 +99,8 @@ class article_iface extends base_iface {
         }
         if (OBJ('article_content_table')->delete(['article_id' => $id])['code'] === 0) {
             if (OBJ('article_table')->delete(['article_id' => $id])['code'] === 0) {
-                admin_helper::add_log($this->login['admin_id'], 'article/del', '3', '删除资讯ID:' . $id);
+                admin_helper::add_log($this->login['admin_id'], 'article/del', '3',
+                    '删除资讯[@' . $id . $ret['article_title'] . ']');
                 $this->success('资讯删除成功');
             }
         }
