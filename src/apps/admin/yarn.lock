@@ -7645,6 +7645,12 @@ vue-router@^3.0.1:
   version "3.0.1"
   resolved "http://registry.npm.taobao.org/vue-router/download/vue-router-3.0.1.tgz#d9b05ad9c7420ba0f626d6500d693e60092cc1e9"
 
+vue-scroll@^2.1.7:
+  version "2.1.7"
+  resolved "http://registry.npm.taobao.org/vue-scroll/download/vue-scroll-2.1.7.tgz#40a49c20ebbaee8f93b1f81924d15b1b2cbb4f69"
+  dependencies:
+    lodash "^4.17.4"
+
 vue-style-loader@^3.0.0, vue-style-loader@^3.0.1:
   version "3.1.2"
   resolved "http://registry.npm.taobao.org/vue-style-loader/download/vue-style-loader-3.1.2.tgz#6b66ad34998fc9520c2f1e4d5fa4091641c1597a"

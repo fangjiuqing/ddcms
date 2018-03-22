@@ -27,7 +27,7 @@
               <tbody>
                   <tr v-for="(v) in rows" :key="v.article_id">
                       <td class="text-left">
-                        <a @click="modify(v.pb_id)">{{v.article_title}}</a>
+                        <a @click="modify(v.article_id)">{{v.article_title}}</a>
                       </td>
                       <td class="text-center">
                         <small>{{v.cat_name}}</small>
@@ -45,6 +45,7 @@
                   </tr>
               </tbody>
             </table>
+            <pagination v-model="pn" :total-page="total" @change="refresh" size="sm"/>
           </div>
         </div>
       </form>
@@ -53,6 +54,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'Article',
   metaInfo () {
@@ -69,10 +71,9 @@ export default {
       ],
       rows: [],
       attrs: {},
-      modal_open: false,
-      modal_title: '',
-      modal_data: {},
-      suppliers: []
+      suppliers: [],
+      pn: 1,
+      total: 1
     }
   },
   methods: {
@@ -86,10 +87,12 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.list('article').then(d => {
+      this.$http.list('article', {pn: this.pn}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data.list
+          this.pn = d.data.paging.pn
+          this.total = d.data.paging.max
         } else {
           this.rows = []
         }
