@@ -63,8 +63,10 @@ class article_iface extends base_iface {
         foreach ((array)$out['attrs']['category'] as $k => $v) {
             $out['attrs']['category'][$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . $v['cat_name'];
         }
-        $out['article']['article_content'] = htmlspecialchars_decode($out['article']['article_content'], ENT_QUOTES);
-        $out['article']['article_cover_thumb'] = UPLOAD_URL . image::get_thumb_name($out['article']['article_cover'], '500x309');
+        if ($out['article']) {
+            $out['article']['article_content'] = htmlspecialchars_decode($out['article']['article_content'], ENT_QUOTES);
+            $out['article']['article_cover_thumb'] = UPLOAD_URL . image::get_thumb_name($out['article']['article_cover'], '500x309');
+        }
         $this->success('资讯获取成功', $out);
     }
 
@@ -72,11 +74,19 @@ class article_iface extends base_iface {
      * 获取资讯列表接口
      */
     public function list_action () {
+        $tab = OBJ('article_table');
+
+        // 分页
+        $paging = new paging_helper($tab, $this->data['pn'] ?: 1, 12);
+
         $cat_ids = [];
-        $arts = OBJ('article_table')->map(function ($row) use (&$cat_ids) {
+        // 获取记录
+        $arts = $tab->map(function ($row) use (&$cat_ids) {
             $cat_ids[$row['article_cat_id']] = 1;
             return $row;
-        })->get_all();
+        })->order('article_adate desc')->get_all();
+
+        // 获取对应分类记录
         $cat_list = OBJ('category_table')->akey('cat_id')->get_all([
             'cat_id' => array_keys($cat_ids ?: [0]),
         ]);
@@ -84,8 +94,10 @@ class article_iface extends base_iface {
             $arts[$k]['cat_name'] = isset($cat_list[$v['article_cat_id']]) ?
                 $cat_list[$v['article_cat_id']]['cat_name'] : '';
         }
+
         $this->success('资讯列表获取成功', [
-            'list' => array_values($arts),
+            'list'      => array_values($arts),
+            'paging'    => $paging->to_array()
         ]);
     }
 

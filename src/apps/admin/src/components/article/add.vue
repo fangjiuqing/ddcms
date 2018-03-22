@@ -36,7 +36,7 @@
         </div>
         <div class="row">
           <div class="col-md-11" style="margin:0 auto; float: none">
-            <vue-editor id="editor"
+            <vue-editor ref="editor" id="editor"
               useCustomImageHandler
               @imageAdded="upload_image" v-model="form.article_content">
             </vue-editor>
@@ -209,6 +209,14 @@ export default {
 </script>
 
 <style>
+  #editor {
+  }
+  .quillWrapper {
+    position: relative;
+  }
+  .quillWrapper .ql-snow.ql-toolbar {
+    width: 100%;
+  }
   .ql-editor {
     min-height: 360px;
   }
