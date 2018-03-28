@@ -5,7 +5,7 @@ namespace re\rgx;
  * 系统管理操作类
  */
 class system_iface extends base_iface {
-
+    
     /**
      * 操作日志获取接口
      */
@@ -21,7 +21,6 @@ class system_iface extends base_iface {
             'admin_id' => array_keys($user_ids ?: [0]),
         ]);
         foreach ((array)$arts as $k => $v) {
-            $arts[$k]['al_adate'] = date('Y-m-d H:i:s', $v['al_adate']);
             $arts[$k]['al_ip'] = long2ip($v['al_ip']);
             $arts[$k]['al_name'] = isset($user_list[$v['al_admin_id']]) ?
                 $user_list[$v['al_admin_id']]['admin_account'] : '';
@@ -30,6 +29,10 @@ class system_iface extends base_iface {
             $arts[$k]['al_act'] = $temp[0];
             $arts[$k]['al_action_id'] = $id_title[0];
             $arts[$k]['al_title'] = rtrim($id_title[1], ']');
+            unset($arts[$k]['al_year']);
+            unset($arts[$k]['al_month']);
+            unset($arts[$k]['al_day']);
+            unset($arts[$k]['al_memo']);
         }
         $this->success('操作日志获取成功', [
             'list'   => array_values($arts),
