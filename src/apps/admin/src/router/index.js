@@ -6,6 +6,7 @@ import Index from '@/components/index/index'
 import Login from '@/components/index/login'
 
 import Profile from '@/components/user/profile'
+import Passwd from '@/components/user/passwd'
 import Category from '@/components/common/category'
 import Brand from '@/components/material/brand'
 import Supplier from '@/components/material/supplier'
@@ -15,6 +16,10 @@ import ArticleAdd from '@/components/article/add'
 
 import Material from '@/components/material/index'
 import MaterialAdd from '@/components/material/add'
+
+import Customer from '@/components/customer/customer'
+
+import Logs from '@/components/system/logs'
 
 Vue.use(Router)
 Vue.use(Meta)
@@ -51,6 +56,11 @@ const router = new Router({
       path: '/user/profile',
       name: 'Profile',
       component: Profile
+    },
+    {
+      path: '/customer',
+      name: 'Customer',
+      component: Customer
     },
     {
       path: '/article',
@@ -108,6 +118,16 @@ const router = new Router({
         code: 'case',
         label: '案例'
       }
+    },
+    {
+      path: '/system/logs',
+      name: 'Logs',
+      component: Logs
+    },
+    {
+      path: '/user/passwd',
+      name: 'Passwd',
+      component: Passwd
     }
   ]
 })
