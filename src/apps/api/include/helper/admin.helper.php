@@ -7,6 +7,15 @@ namespace re\rgx;
 class admin_helper extends rgx {
 
     /**
+     * add_log接口action说明
+     */
+    public static $type = [
+        '1' => '查询操作',
+        '2' => '新增/修改操作',
+        '3' => '删除操作',
+    ];
+    
+    /**
      * 验证用户密码
      * @param  [type] $src_pwd [description]
      * @param  [type] $passwd  [description]
