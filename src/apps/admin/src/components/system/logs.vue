@@ -15,7 +15,7 @@
               <thead>
                 <tr>
                   <th class="text-left" width="150">时间</th>
-                  <th class="text-center" width="200">操作人</th>
+                  <th class="text-center" width="200">标题</th>
                   <th class="text-center">说明</th>
                   <th class="text-center" width="20">IP</th>
                 </tr>

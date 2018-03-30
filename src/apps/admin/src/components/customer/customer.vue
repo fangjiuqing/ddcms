@@ -82,9 +82,6 @@ export default {
         {text: '列表', href: '#'}
       ],
       rows: [],
-      attr: [
-        {status_del: ''}
-      ],
       pn: 1,
       total: 1
     }
