@@ -5,28 +5,28 @@
         {{v.text}}
       </breadcrumb-item>
     </breadcrumbs>
-    <form class="form-horizontal">
+    <form class="form">
       <div class="form-group">
-        <label for="passwd" class="col-sm-1 control-label">旧密码：</label>
-        <div class="col-sm-2">
+        <label for="passwd" class="control-label">*旧 &nbsp;密 &nbsp;码：</label>
+        <div>
           <input type="password" class="form-control" id="passwd" placeholder="请输入旧密码" v-model.lazy="passwd" v-focus="passwd_focus">
         </div>
       </div>
       <div class="form-group">
-        <label for="newpasswd" class="col-sm-1 control-label">设置密码：</label>
-        <div class="col-sm-2">
+        <label for="newpasswd" class="control-label">*设置密码：</label>
+        <div>
           <input type="password" class="form-control" id="newpasswd" placeholder="请输入新密码"  autocomplete="off" v-model.lazy="newpasswd" v-focus="newpasswd_focus">
         </div>
       </div>
       <div class="form-group">
-        <label for="renewpasswd" class="col-sm-1 control-label">确认密码：</label>
-        <div class="col-sm-2">
+        <label for="renewpasswd" class="control-label">*确认密码：</label>
+        <div>
           <input type="password" class="form-control" id="renewpasswd" placeholder="两次输入的新密码保持一致" v-model.lazy="renewpasswd" v-focus="renewpasswd_focus">
         </div>
       </div>
       <div>
-        <div class=" col-sm-4">
-          <button type="submit" class="btn btn-primary btn-default" @click.prevent="submit">确认修改</button>
+        <div>
+          <button type="submit" class="btn btn-success btn-default" @click.prevent="submit">确认修改</button>
         </div>
       </div>
     </form>
@@ -71,21 +71,18 @@ export default {
         renewpasswd: this.renewpasswd
       }).then(d => {
         this.$loading.hide()
-        this.passwd = d.data.newpasswd
-        this.$cache.set('access_token', d.data['access_token'])
         if (d.code === 0) {
           this.$notify({
             content: d.msg,
             duration: 2000,
-            type: 'danger',
+            type: 'success',
             dismissible: false
           })
-          this.$sess.logout(this.$cache)
-          this.$store.state.is_login = false
-          this.$router.push({path: '/login'})
-          this.passwd = d.data.passwd
-          this.newpasswd = ''
-          this.renewpasswd = ''
+          setTimeout(() => {
+            this.$sess.logout(this.$cache)
+            this.$store.state.is_login = false
+            this.$router.push({path: '/login'})
+          }, 1500)
         } else {
           this.$notify({
             content: d.msg,
@@ -101,7 +98,7 @@ export default {
         this.$notify({
           content: '请您输入旧密码',
           duration: 2000,
-          type: 'info',
+          type: 'danger',
           dismissible: false
         })
         this.passwd_focus = true
@@ -109,7 +106,7 @@ export default {
         this.$notify({
           content: '请输入您新的密码',
           duration: 2000,
-          type: 'info',
+          type: 'danger',
           dismissible: false
         })
         this.newpasswd_focus = true
@@ -117,7 +114,7 @@ export default {
         this.$notify({
           content: '请两次输入的密码保持一致',
           duration: 2000,
-          type: 'info',
+          type: 'danger',
           dismissible: false
         })
         this.renewpasswd_focus = true
@@ -133,17 +130,25 @@ export default {
   height: calc(100%);
   position: fixed;
   width: 100%;
-  background: url("../../assets/themes/v1/images/image_placeholder.jpg") center/cover no-repeat;
+  /* background: #33CCFF; */
+  background: #17a2b8;
 }
 label {
   float: left;
   font-size: 18px;
   margin: 0;
-  color: yellowgreen;
+  color: #FF6666;
 }
-.form-horizontal {
-  width: 1700px;
-  padding: 100px 0 0 50px;
+input:focus {
+  border: 1px solid #090;
+}
+.form {
+  width: 360px;
+  margin: 150px auto;
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 60px 50px;
+  border-radius: 5px;
+  border-radius: 2px;
 }
 .btn {
   font-size: 16px;
