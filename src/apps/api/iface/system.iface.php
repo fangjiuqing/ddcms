@@ -7,7 +7,7 @@ namespace re\rgx;
 class system_iface extends base_iface {
     
     /**
-     * 操作日志获取接口
+     * 操作日志列表获取接口
      */
     public function list_action () {
         $tab = OBJ('admin_log_table');
@@ -29,10 +29,6 @@ class system_iface extends base_iface {
             $arts[$k]['al_act'] = $temp[0];
             $arts[$k]['al_action_id'] = $id_title[0];
             $arts[$k]['al_title'] = rtrim($id_title[1], ']');
-            unset($arts[$k]['al_year']);
-            unset($arts[$k]['al_month']);
-            unset($arts[$k]['al_day']);
-            unset($arts[$k]['al_memo']);
         }
         $this->success('操作日志获取成功', [
             'list'   => array_values($arts),

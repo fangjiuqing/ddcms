@@ -8,8 +8,8 @@ class admin_iface extends base_iface {
     
     /**
      * 验证基类
-     * @param $mod [模块]
-     * @param $data [用户输入信息]
+     * @param $mod   [模块]
+     * @param $data  [用户输入信息]
      * @param $login [用户是否登录]
      */
     public function __construct ($mod, $data, $login) {
@@ -19,7 +19,6 @@ class admin_iface extends base_iface {
     
     /**
      * 管理员修改个人密码接口
-     * @passwd
      */
     public function passwd_action () {
         $this->verify([
@@ -46,10 +45,12 @@ class admin_iface extends base_iface {
         $this->data['admin_passwd'] = md5(md5($this->data['newpasswd']) . $this->login['admin_salt']);
         $this->data['admin_id'] = $this->login['admin_id'];
         if (OBJ('admin_table')->update($this->data)['rows']) {
-            admin_helper::add_log($this->login['admin_id'], 'admin/passwd', '2', '修改管理员修改密码成功');
+            admin_helper::add_log($this->login['admin_id'], 'admin/passwd', '2',
+                '修改管理员密码成功[' . $this->login['admin_id'] . '@]');
             $this->success('密码修改成功');
         }
-        admin_helper::add_log($this->login['admin_id'], 'admin/passwd', '2', '修改管理员密码失败');
+        admin_helper::add_log($this->login['admin_id'], 'admin/passwd', '2',
+            '修改管理员密码失败[' . $this->login['admin_id'] . '@]');
         $this->failure('密码修改失败', '105');
     }
     

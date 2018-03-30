@@ -104,12 +104,13 @@ class article_iface extends base_iface {
      */
     public function del_action () {
         $id = intval($this->data['id']);
-        $ret = OBJ('article_table')->get($id);
+        $tab = OBJ('article_table');
+        $ret = $tab->get($id);
         if (empty($ret)) {
             $this->failure('该资讯不存在');
         }
         if (OBJ('article_content_table')->delete(['article_id' => $id])['code'] === 0) {
-            if (OBJ('article_table')->delete(['article_id' => $id])['code'] === 0) {
+            if ($tab->delete(['article_id' => $id])['code'] === 0) {
                 admin_helper::add_log($this->login['admin_id'], 'article/del', '3',
                     '删除资讯[' . $id . '@' . $ret['article_title'] . ']');
                 $this->success('资讯删除成功');
