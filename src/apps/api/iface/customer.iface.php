@@ -80,9 +80,18 @@ class customer_iface extends base_iface {
         if (!$ret) {
             $this->failure('该用户不存在');
         }
+<<<<<<< HEAD
         $pco = OBJ('community_table')->fields('pco_id, pco_name')->get($ret['pc_co_id']);
         $ret['pc_co_name'] = $pco['pco_name'];
         $this->success('操作成功', $ret);
+=======
+        $pco = OBJ('community_table')->get_all();
+        $ret['pc_co_name'] = $pco[$ret['pc_co_id']]['pco_name'];
+        $this->success('操作成功', [
+            'ret' => $ret,
+            'pco' => $pco,
+        ]);
+>>>>>>> 388a6e889d6a3fbdccc93a830d979f4249189273
     }
     
     /**
