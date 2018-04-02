@@ -53,8 +53,8 @@ class material_table extends table {
             'min'                => 0,
             'max'                => 32,
             'label'              => '材料封面',
-            'allow_empty_string' => false,
-            'allow_null'         => false
+            'allow_empty_string' => true,
+            'allow_null'         => true
         ],
         'mat_type' => [
             'name'               => 'mat_type',
@@ -86,26 +86,6 @@ class material_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
-        'mat_cost_price' => [
-            'name'               => 'mat_cost_price',
-            'type'               => 'float',
-            'field_type'         => 'decimal',
-            'min'                => 10,
-            'max'                => 2,
-            'label'              => '成本价',
-            'allow_empty_string' => false,
-            'allow_null'         => false
-        ],
-        'mat_price' => [
-            'name'               => 'mat_price',
-            'type'               => 'float',
-            'field_type'         => 'decimal',
-            'min'                => 10,
-            'max'                => 2,
-            'label'              => '售价',
-            'allow_empty_string' => false,
-            'allow_null'         => false
-        ],
         'mat_buyer_id' => [
             'name'               => 'mat_buyer_id',
             'type'               => 'int',
@@ -125,6 +105,46 @@ class material_table extends table {
             'label'              => '库存数',
             'allow_empty_string' => false,
             'allow_null'         => false
+        ],
+        'mat_atime' => [
+            'name'               => 'mat_atime',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => ' 入库时间',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'mat_status' => [
+            'name'               => 'mat_status',
+            'type'               => 'int',
+            'field_type'         => 'tinyint',
+            'min'                => 0,
+            'max'                => 255,
+            'label'              => '记录状态',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'mat_min_price' => [
+            'name'               => 'mat_min_price',
+            'type'               => 'float',
+            'field_type'         => 'decimal',
+            'min'                => 10,
+            'max'                => 2,
+            'label'              => '最低售价',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
+        'mat_max_price' => [
+            'name'               => 'mat_max_price',
+            'type'               => 'float',
+            'field_type'         => 'decimal',
+            'min'                => 10,
+            'max'                => 2,
+            'label'              => '最高售价',
+            'allow_empty_string' => true,
+            'allow_null'         => true
         ],
     ];
 
@@ -150,10 +170,12 @@ class material_table extends table {
         'mat_type'        => 0,
         'mat_cat_id'      => 0,
         'mat_brand_id'    => 0,
-        'mat_cost_price'  => 0.00,
-        'mat_price'       => 0.00,
         'mat_buyer_id'    => 0,
         'mat_stocks'      => 0,
+        'mat_atime'       => 0,
+        'mat_status'      => 0,
+        'mat_min_price'   => 0.00,
+        'mat_max_price'   => 0.00,
     ];
 
     /*
@@ -168,10 +190,12 @@ class material_table extends table {
         'mat_type'        => ['re\rgx\filter', 'int'],
         'mat_cat_id'      => ['re\rgx\filter', 'int'],
         'mat_brand_id'    => ['re\rgx\filter', 'int'],
-        'mat_cost_price'  => ['re\rgx\filter', 'float'],
-        'mat_price'       => ['re\rgx\filter', 'float'],
         'mat_buyer_id'    => ['re\rgx\filter', 'int'],
         'mat_stocks'      => ['re\rgx\filter', 'int'],
+        'mat_atime'       => ['re\rgx\filter', 'int'],
+        'mat_status'      => ['re\rgx\filter', 'int'],
+        'mat_min_price'   => ['re\rgx\filter', 'float'],
+        'mat_max_price'   => ['re\rgx\filter', 'float'],
     ];
 
     /*

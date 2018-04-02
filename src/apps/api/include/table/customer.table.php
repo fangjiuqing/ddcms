@@ -7,7 +7,7 @@ namespace re\rgx;
   + ----------------------------------------------------------------
   + @date 2018-03-05 11:05:11
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
-  + @cmd  php rgx/build.php --prefix=./apps/api
+  + @cmd  php ./rgx/build.php --prefix=./apps/api
   + @generator RGX v1.0.0.20171212_RC
   +-----------------------------------------------------------------
 */
@@ -33,6 +33,26 @@ class customer_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '客户ID',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'pc_sn' => [
+            'name'               => 'pc_sn',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 16,
+            'label'              => '客户编号',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'pc_sid' => [
+            'name'               => 'pc_sid',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 18,
+            'label'              => '身份证',
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
@@ -176,6 +196,36 @@ class customer_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
+        'pc_gender' => [
+            'name'               => 'pc_gender',
+            'type'               => 'int',
+            'field_type'         => 'tinyint',
+            'min'                => 0,
+            'max'                => 255,
+            'label'              => '性别',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'pc_memo' => [
+            'name'               => 'pc_memo',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 255,
+            'label'              => '备注',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'pc_score' => [
+            'name'               => 'pc_score',
+            'type'               => 'int',
+            'field_type'         => 'tinyint',
+            'min'                => 0,
+            'max'                => 255,
+            'label'              => '成功率评分',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
     ];
 
     /*
@@ -195,6 +245,8 @@ class customer_table extends table {
     */
     public $defaults = [
         'pc_id'           => 0,
+        'pc_sn'           => '',
+        'pc_sid'          => '',
         'pc_nick'         => '',
         'pc_mobile'       => '',
         'pc_status'       => 0,
@@ -209,6 +261,9 @@ class customer_table extends table {
         'pc_region2'      => 0,
         'pc_addr'         => '',
         'pc_co_id'        => 0,
+        'pc_gender'       => 0,
+        'pc_memo'         => '',
+        'pc_score'        => 0,
     ];
 
     /*
@@ -218,6 +273,8 @@ class customer_table extends table {
     */
     public $filter = [
         'pc_id'           => ['re\rgx\filter', 'int'],
+        'pc_sn'           => ['re\rgx\filter', 'char'],
+        'pc_sid'          => ['re\rgx\filter', 'char'],
         'pc_nick'         => ['re\rgx\filter', 'char'],
         'pc_mobile'       => ['re\rgx\filter', 'char'],
         'pc_status'       => ['re\rgx\filter', 'int'],
@@ -232,6 +289,9 @@ class customer_table extends table {
         'pc_region2'      => ['re\rgx\filter', 'int'],
         'pc_addr'         => ['re\rgx\filter', 'char'],
         'pc_co_id'        => ['re\rgx\filter', 'int'],
+        'pc_gender'       => ['re\rgx\filter', 'int'],
+        'pc_memo'         => ['re\rgx\filter', 'char'],
+        'pc_score'        => ['re\rgx\filter', 'int'],
     ];
 
     /*

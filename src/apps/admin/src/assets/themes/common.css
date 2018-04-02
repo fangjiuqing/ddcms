@@ -159,17 +159,9 @@ a {
 }
 
 .app_main {
-    background: rgba(255, 255, 255, 0.5);
-    /* margin: 0; */
-    /* position: fixed; */
     margin-top: 50px;
     margin-left: 200px;
     padding-right: 0px;
-    /* width: calc(100% - 200px); */
-    /* height: calc(100% - 50px); */
-    /* overflow-x: hidden; */
-    /* overflow-y: auto; */
-    /* z-index: 100; */
 }
 
 .breadcrumb {
@@ -178,7 +170,6 @@ a {
 }
 
 .app_page {
-  background: #fff;
 }
 
 .alert {
@@ -2719,8 +2710,6 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-rose.active {
   box-shadow: 0 2px 2px 0 rgba(0, 188, 212, 0.14);
 }
 .field-label {
-  padding: 0 20px 0 0;
-  margin: 0 0 15px 0;
   height: 34px;
   line-height: 34px;
   font-weight: 300;
@@ -2729,13 +2718,11 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-rose.active {
   text-align: right;
 }
 .input-label {
-  padding: 0;
-  margin: 0 0 15px 0;
 }
 .ibox {
-    border: 1px solid #a2c9e6;
+    border: 1px solid #ddd;
     border-radius: 3px;
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
     color: rgba(0, 0, 0, 0.87);
     background: #fff;
     clear: both;
@@ -2745,27 +2732,48 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-rose.active {
 }
 .ibox-title {
     border-top: 0;
-    padding: 0px;
+    padding: 0px 10px;
     min-height: 32px;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     background-color: #fff;
-    border-color: #e7eaec;
-    border-image: none;
-    border-style: solid solid none;
-    border-width: 4px 0 0;
     color: inherit;
     margin-bottom: 0;
 }
 .ibox-content {
+    text-align: left;
     clear: both;
     background-color: #fff;
     color: inherit;
-    padding: 15px 20px 20px;
-    border-color: #e7eaec;
-    -webkit-border-image: none;
-    -o-border-image: none;
-    border-image: none;
-    border-style: solid solid none;
-    border-width: 1px 0;
+    padding: 15px 10px;
+    border-top:1px solid #ddd;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+.ibox .ibox-title h5 {
+  text-align: left;
+  line-height: 32px;
+  color: #454545;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 350;
+}
+.ibox .ibox-title h5 i {
+  color: #666;
+}
+.app_panel {
+  background: #fff;
+}
+.material_field_input {
+    border-radius: 3px;
+    width: 100%;
+    font-size: 12px;
+    margin: 0;
+    border: 1px solid #ccc;
+    padding: 3px 5px;
+    line-height: normal;
+}
+.material_field_text {
+    line-height: 23px;
+    font-size: 12px;
 }

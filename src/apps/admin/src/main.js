@@ -14,6 +14,7 @@ import http from '@/common/http'
 import cache from '@/common/cache'
 import sess from '@/common/sess'
 import uploader from '@/common/uploader'
+import util from '@/common/util'
 
 import Topbar from '@/components/common/topbar'
 import Leftbar from '@/components/common/leftbar'
@@ -32,6 +33,7 @@ if (process.env.NODE_ENV !== 'development') {
   http.gateway = 'http://ddcms.d/api/index.php'
 }
 
+Vue.use(util)
 Vue.use(cache)
 Vue.use(sess, {cache})
 Vue.use(uiv)

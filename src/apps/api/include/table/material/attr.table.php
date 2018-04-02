@@ -3,15 +3,15 @@ namespace re\rgx;
 
 /*
   +-----------------------------------------------------------------
-  + 跟单日志 表模型
+  + pre_material_attr 表模型
   + ----------------------------------------------------------------
-  + @date 2018-03-05 11:05:11
+  + @date 2018-03-30 14:39:05
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
-  + @cmd  php ./rgx/build.php --prefix=./apps/api
+  + @cmd  php rgx/build.php --prefix=./apps/api
   + @generator RGX v1.0.0.20171212_RC
   +-----------------------------------------------------------------
 */
-class customer_trace_table extends table {
+class material_attr_table extends table {
 
     /*
       +--------------------------
@@ -26,63 +26,43 @@ class customer_trace_table extends table {
       +--------------------------
     */
     protected $_fields = [
-        'pct_id' => [
-            'name'               => 'pct_id',
-            'type'               => 'int',
-            'field_type'         => 'int',
-            'min'                => -2147483648,
-            'max'                => 2147483647,
-            'label'              => '记录ID',
-            'allow_empty_string' => false,
-            'allow_null'         => false
-        ],
-        'pct_adm_id' => [
-            'name'               => 'pct_adm_id',
+        'pma_id' => [
+            'name'               => 'pma_id',
             'type'               => 'int',
             'field_type'         => 'int',
             'min'                => 0,
             'max'                => 4294967295,
-            'label'              => '操作客服',
+            'label'              => ' 编号',
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
-        'pct_adm_nick' => [
-            'name'               => 'pct_adm_nick',
+        'pma_name' => [
+            'name'               => 'pma_name',
             'type'               => 'char',
             'field_type'         => 'varchar',
             'min'                => 0,
             'max'                => 16,
-            'label'              => '客服姓名',
+            'label'              => '属性名称',
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
-        'pct_cus_id' => [
-            'name'               => 'pct_cus_id',
+        'pma_cat_id' => [
+            'name'               => 'pma_cat_id',
             'type'               => 'int',
             'field_type'         => 'int',
             'min'                => 0,
             'max'                => 4294967295,
-            'label'              => '客户ID',
+            'label'              => '所属分类',
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
-        'pct_memo' => [
-            'name'               => 'pct_memo',
-            'type'               => 'char',
-            'field_type'         => 'varchar',
-            'min'                => 0,
-            'max'                => 255,
-            'label'              => '备注信息',
-            'allow_empty_string' => false,
-            'allow_null'         => false
-        ],
-        'pct_atime' => [
-            'name'               => 'pct_atime',
+        'pma_sort' => [
+            'name'               => 'pma_sort',
             'type'               => 'int',
-            'field_type'         => 'int',
+            'field_type'         => 'smallint',
             'min'                => 0,
-            'max'                => 4294967295,
-            'label'              => '录入时间',
+            'max'                => 65535,
+            'label'              => '排序值',
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
@@ -94,7 +74,7 @@ class customer_trace_table extends table {
       +--------------------------
     */
     protected $_primary_key = [
-        'key' => 'pct_id',
+        'key' => 'pma_id',
         'inc' => true
     ];
 
@@ -104,12 +84,10 @@ class customer_trace_table extends table {
       +--------------------------
     */
     public $defaults = [
-        'pct_id'      => 0,
-        'pct_adm_id'  => 0,
-        'pct_adm_nick'=> '',
-        'pct_cus_id'  => 0,
-        'pct_memo'    => '',
-        'pct_atime'   => 0,
+        'pma_id'      => 0,
+        'pma_name'    => '',
+        'pma_cat_id'  => 0,
+        'pma_sort'    => 0,
     ];
 
     /*
@@ -118,12 +96,10 @@ class customer_trace_table extends table {
       +--------------------------
     */
     public $filter = [
-        'pct_id'      => ['re\rgx\filter', 'int'],
-        'pct_adm_id'  => ['re\rgx\filter', 'int'],
-        'pct_adm_nick'=> ['re\rgx\filter', 'char'],
-        'pct_cus_id'  => ['re\rgx\filter', 'int'],
-        'pct_memo'    => ['re\rgx\filter', 'char'],
-        'pct_atime'   => ['re\rgx\filter', 'int'],
+        'pma_id'      => ['re\rgx\filter', 'int'],
+        'pma_name'    => ['re\rgx\filter', 'char'],
+        'pma_cat_id'  => ['re\rgx\filter', 'int'],
+        'pma_sort'    => ['re\rgx\filter', 'int'],
     ];
 
     /*

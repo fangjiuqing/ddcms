@@ -3,15 +3,15 @@ namespace re\rgx;
 
 /*
   +-----------------------------------------------------------------
-  + 跟单日志 表模型
+  + 客户预约 表模型
   + ----------------------------------------------------------------
-  + @date 2018-03-05 11:05:11
+  + @date 2018-04-02 18:06:26
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
   + @cmd  php ./rgx/build.php --prefix=./apps/api
   + @generator RGX v1.0.0.20171212_RC
   +-----------------------------------------------------------------
 */
-class customer_trace_table extends table {
+class customer_order_table extends table {
 
     /*
       +--------------------------
@@ -26,63 +26,73 @@ class customer_trace_table extends table {
       +--------------------------
     */
     protected $_fields = [
-        'pct_id' => [
-            'name'               => 'pct_id',
-            'type'               => 'int',
-            'field_type'         => 'int',
-            'min'                => -2147483648,
-            'max'                => 2147483647,
-            'label'              => '记录ID',
-            'allow_empty_string' => false,
-            'allow_null'         => false
-        ],
-        'pct_adm_id' => [
-            'name'               => 'pct_adm_id',
+        'pco_id' => [
+            'name'               => 'pco_id',
             'type'               => 'int',
             'field_type'         => 'int',
             'min'                => 0,
             'max'                => 4294967295,
-            'label'              => '操作客服',
+            'label'              => '预约编号',
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
-        'pct_adm_nick' => [
-            'name'               => 'pct_adm_nick',
-            'type'               => 'char',
-            'field_type'         => 'varchar',
-            'min'                => 0,
-            'max'                => 16,
-            'label'              => '客服姓名',
-            'allow_empty_string' => false,
-            'allow_null'         => false
-        ],
-        'pct_cus_id' => [
-            'name'               => 'pct_cus_id',
+        'pco_type' => [
+            'name'               => 'pco_type',
             'type'               => 'int',
-            'field_type'         => 'int',
-            'min'                => 0,
-            'max'                => 4294967295,
-            'label'              => '客户ID',
-            'allow_empty_string' => false,
-            'allow_null'         => false
-        ],
-        'pct_memo' => [
-            'name'               => 'pct_memo',
-            'type'               => 'char',
-            'field_type'         => 'varchar',
+            'field_type'         => 'tinyint',
             'min'                => 0,
             'max'                => 255,
-            'label'              => '备注信息',
+            'label'              => '预约类型',
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
-        'pct_atime' => [
-            'name'               => 'pct_atime',
+        'pco_stime' => [
+            'name'               => 'pco_stime',
             'type'               => 'int',
             'field_type'         => 'int',
             'min'                => 0,
             'max'                => 4294967295,
-            'label'              => '录入时间',
+            'label'              => '预约开始时间',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'pco_etime' => [
+            'name'               => 'pco_etime',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '预约结束时间',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'pco_pc_id' => [
+            'name'               => 'pco_pc_id',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '所属客户',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'pco_admin_id' => [
+            'name'               => 'pco_admin_id',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '所属客服',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'pco_atime' => [
+            'name'               => 'pco_atime',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '添加时间',
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
@@ -94,7 +104,7 @@ class customer_trace_table extends table {
       +--------------------------
     */
     protected $_primary_key = [
-        'key' => 'pct_id',
+        'key' => 'pco_id',
         'inc' => true
     ];
 
@@ -104,12 +114,13 @@ class customer_trace_table extends table {
       +--------------------------
     */
     public $defaults = [
-        'pct_id'      => 0,
-        'pct_adm_id'  => 0,
-        'pct_adm_nick'=> '',
-        'pct_cus_id'  => 0,
-        'pct_memo'    => '',
-        'pct_atime'   => 0,
+        'pco_id'      => 0,
+        'pco_type'    => 0,
+        'pco_stime'   => 0,
+        'pco_etime'   => 0,
+        'pco_pc_id'   => 0,
+        'pco_admin_id'=> 0,
+        'pco_atime'   => 0,
     ];
 
     /*
@@ -118,12 +129,13 @@ class customer_trace_table extends table {
       +--------------------------
     */
     public $filter = [
-        'pct_id'      => ['re\rgx\filter', 'int'],
-        'pct_adm_id'  => ['re\rgx\filter', 'int'],
-        'pct_adm_nick'=> ['re\rgx\filter', 'char'],
-        'pct_cus_id'  => ['re\rgx\filter', 'int'],
-        'pct_memo'    => ['re\rgx\filter', 'char'],
-        'pct_atime'   => ['re\rgx\filter', 'int'],
+        'pco_id'      => ['re\rgx\filter', 'int'],
+        'pco_type'    => ['re\rgx\filter', 'int'],
+        'pco_stime'   => ['re\rgx\filter', 'int'],
+        'pco_etime'   => ['re\rgx\filter', 'int'],
+        'pco_pc_id'   => ['re\rgx\filter', 'int'],
+        'pco_admin_id'=> ['re\rgx\filter', 'int'],
+        'pco_atime'   => ['re\rgx\filter', 'int'],
     ];
 
     /*

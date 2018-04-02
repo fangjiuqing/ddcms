@@ -25,9 +25,9 @@
                   </tr>
               </thead>
               <tbody>
-                  <tr v-for="(v) in rows" :key="v.article_id">
+                  <tr v-for="(v) in rows" :key="v.mat_id">
                       <td class="text-left">
-                        <a @click="modify(v.article_id)">{{v.article_title}}</a>
+                        <a @click="modify(v.mat_id)">{{v.mat_name}}</a>
                       </td>
                       <td class="text-center">
                         <small>{{v.cat_name}}</small>
@@ -36,7 +36,7 @@
                         <code>{{v.article_stat_view}}</code>
                       </td>
                       <td class="text-center">
-                        <small>{{v.article_udate|time('yyyy-mm-dd HH:MM:ss')}}</small>
+                        <small>{{v.mat_atime|time('yyyy-mm-dd HH:MM')}}</small>
                       </td>
                       <td class="text-center">
                           <btn class="btn btn-xs btn-success" @click="modify(v.article_id)"><i class="fa fa-pencil"></i></btn>
