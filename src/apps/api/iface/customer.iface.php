@@ -62,11 +62,11 @@ class customer_iface extends base_iface {
         $result = $tab->update($this->data);
         if ($result['rows']) {
             admin_helper::add_log($this->login['admin_id'], 'customer/del', '3',
-                '删除顾客信息成功[' . $this->login['admin_id'] . '@' . $id . ']');
+                '删除顾客信息成功[' . $id . '@]');
             $this->success('删除成功');
         }
         admin_helper::add_log($this->login['admin_id'], 'customer/del', '3',
-            '删除顾客信息失败[' . $this->login['admin_id'] . '@' . $id . ']');
+            '删除顾客信息失败[' . $id . '@]');
         $this->failure('删除失败', '101');
     }
     
@@ -80,7 +80,12 @@ class customer_iface extends base_iface {
         if (!$ret) {
             $this->failure('该用户不存在');
         }
-        $this->success('操作成功', $ret);
+        $pco = OBJ('community_table')->get_all();
+        $ret['pc_co_name'] = $pco[$ret['pc_co_id']]['pco_name'];
+        $this->success('操作成功', [
+            'ret' => $ret,
+            'pco' => $pco,
+        ]);
     }
     
     /**
@@ -111,9 +116,9 @@ class customer_iface extends base_iface {
         $this->data['pc_sid'] = filter::int($this->data['sid']);
         $this->data['pc_nick'] = filter::char($this->data['pc_nick']);
         $this->data['pc_status'] = filter::int($this->data['pc_status']);
-        $this->data['pc_adm_id'] = filter::int($this->data['pc_adm_id']);
-        $this->data['pc_adm_nick'] = filter::char($this->data['pc_adm_nick']);
-        $this->data['pc_atime'] = filter::timestamp($this->data['pc_atime']);
+        $this->data['pc_adm_id'] = $this->login['admin_id'];
+        $this->data['pc_adm_nick'] = $this->login['admin_account'];
+        $this->data['pc_atime'] = (int)$this->data['pc_atime'] ?: REQUEST_TIME;
         $this->data['pc_utime'] = REQUEST_TIME;
         $this->data['pc_via'] = filter::int($this->data['pc_via']);
         $this->data['pc_status_del'] = filter::int($this->data['pc_status_del']);
@@ -121,6 +126,10 @@ class customer_iface extends base_iface {
         $this->data['pc_region1'] = filter::int($this->data['pc_region1']);
         $this->data['pc_region2'] = filter::int($this->data['pc_region2']);
         $this->data['pc_addr'] = filter::text($this->data['pc_addr']);
+        $this->data['pc_co_id'] = filter::int($this->data['pc_co_id']);
+        $this->data['pc_gender'] = filter::int($this->data['pc_gender']);
+        $this->data['pc_memo'] = filter::text($this->data['pc_memo']);
+        $this->data['pc_score'] = filter::int($this->data['pc_score']);
         $this->verify([
             'pc_mobile' => [
                 'code' => 100,
@@ -128,6 +137,13 @@ class customer_iface extends base_iface {
                 'rule' => filter::$rules['phone'],
             ],
         ]);
-        dump($this->data);
+        $ret = OBJ('customer_table')->update($this->data);
+        if ($ret['rows']) {
+            admin_helper::add_log($this->login['admin_id'], 'customer/save', '2',
+                '修改用户信息[' . $this->data['pc_id'] . '@' . ']');
+            $this->success('修改用户信息成功');
+        }
+        $this->failure('修改用户信息失败');
     }
+    
 }
