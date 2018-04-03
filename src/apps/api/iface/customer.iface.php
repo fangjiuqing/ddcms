@@ -80,8 +80,6 @@ class customer_iface extends base_iface {
         if (!$ret) {
             $this->failure('该用户不存在');
         }
-        $pco = OBJ('community_table')->fields('pco_id, pco_name')->get($ret['pc_co_id']);
-        $ret['pc_co_name'] = $pco['pco_name'];
         $this->success('操作成功', $ret);
     }
     
@@ -108,12 +106,10 @@ class customer_iface extends base_iface {
      * @param int    $pc_score      成功率
      */
     public function save_action () {
-        $this->data['pc_id'] = intval($this->data['id']);
-        $this->data['pc_sn'] = filter::text($this->data['pc_sn']);
-        $this->data['pc_sid'] = filter::int($this->data['sid']);
+        $this->data['pc_sn'] = filter::char($this->data['pc_sn']);
         $this->data['pc_nick'] = filter::char($this->data['pc_nick']);
         $this->data['pc_status'] = filter::int($this->data['pc_status']);
-        $this->data['pc_adm_id'] = $this->login['admin_id'];
+        $this->data['pc_adm_id'] = (int)$this->login['admin_id'];
         $this->data['pc_adm_nick'] = $this->login['admin_account'];
         $this->data['pc_atime'] = (int)$this->data['pc_atime'] ?: REQUEST_TIME;
         $this->data['pc_utime'] = REQUEST_TIME;
@@ -122,7 +118,7 @@ class customer_iface extends base_iface {
         $this->data['pc_region0'] = filter::int($this->data['pc_region0']);
         $this->data['pc_region1'] = filter::int($this->data['pc_region1']);
         $this->data['pc_region2'] = filter::int($this->data['pc_region2']);
-        $this->data['pc_addr'] = filter::text($this->data['pc_addr']);
+        $this->data['pc_addr'] = filter::normal($this->data['pc_addr']);
         $this->data['pc_co_id'] = filter::int($this->data['pc_co_id']);
         $this->data['pc_gender'] = filter::int($this->data['pc_gender']);
         $this->data['pc_memo'] = filter::text($this->data['pc_memo']);
@@ -130,17 +126,26 @@ class customer_iface extends base_iface {
         $this->verify([
             'pc_mobile' => [
                 'code' => 100,
-                'msg'  => '请输入合法的客户编号',
-                'rule' => filter::$rules['phone'],
+                'msg'  => '请输入合法的手机号',
+                'rule' => filter::$rules['mobile'],
+            ],
+            'pc_sid'    => [
+                'code' => 101,
+                'msg'  => '请输入正确的身份证号',
+                'rule' => filter::$rules['cn_id'],
             ],
         ]);
-        $ret = OBJ('customer_table')->update($this->data);
-        if ($ret['rows']) {
-            admin_helper::add_log($this->login['admin_id'], 'customer/save', '2',
-                '修改用户信息[' . $this->data['pc_id'] . '@' . ']');
-            $this->success('修改用户信息成功');
+        $tab = OBJ('customer_table');
+        if ($tab->load($this->data)) {
+            $ret = $tab->save();
+            if ($ret['code'] === 0) {
+                admin_helper::add_log($this->login['admin_id'], 'customer/save', '2',
+                    '用户信息' . ($this->data['pc_id'] ? '修改[' . $this->data['pc_id'] : '新增[' . $ret['row_id']) . '@]');
+                $this->success('操作成功');
+            }
         }
-        $this->failure('修改用户信息失败');
+        dump($tab->get_error());
+        $this->failure('操作失败');
     }
     
 }
