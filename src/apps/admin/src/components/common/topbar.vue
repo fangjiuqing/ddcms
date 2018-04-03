@@ -2,8 +2,7 @@
   <div class="app_topbar">
     <nav class="navbar navbar-default">
       <router-link class="navbar-brand" slot="brand" :to="{path: '/', exact: true}">
-        业务管理平台
-        <small style="font-size: 12px;">&copy;道达智装</small>
+        道达智装
       </router-link>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">

@@ -57,7 +57,7 @@ a {
 .app_topbar .navbar .navbar-brand {
   background: #16AA93;
   padding-left: 0px;
-  width: 200px;
+  width: 160px;
   color: #fff;
   font-size: 16px;
   text-align: center;
@@ -88,7 +88,7 @@ a {
 }
 
 .app_leftbar {
-  width: 190px;
+  width: 160px;
   position: fixed;
   height: calc(100vh - 50px);
   left: 0;
@@ -114,6 +114,7 @@ a {
 
 .app_leftbar .navbar-default .navbar-nav>li>a {
   display: block;
+  padding: 12px 15px;
 }
 
 .app_leftbar .app_leftbar_sub_nav {
@@ -142,8 +143,9 @@ a {
 }
 
 .app_leftbar .app_leftbar_sub_nav li a {
-  padding-left: 30px;
+  padding: 7px 15px 7px 30px;
   color: #888;
+  font-size: 13px;
 }
 
 .app_leftbar_rightico {
@@ -160,7 +162,7 @@ a {
 
 .app_main {
     margin-top: 50px;
-    margin-left: 200px;
+    margin-left: 170px;
     padding-right: 0px;
 }
 

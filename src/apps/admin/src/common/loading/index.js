@@ -12,7 +12,7 @@ export default {
     opt = opt || {
       msg: '加载中, 请稍后 ...',
       type: 'loading',
-      left_offset: '200px'
+      left_offset: '160px'
     }
     if (!this.instance) {
       this.LoadingCls = Vue.extend(loading)

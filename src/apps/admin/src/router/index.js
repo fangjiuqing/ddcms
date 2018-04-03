@@ -128,6 +128,42 @@ const router = new Router({
         code: 'article',
         label: '资讯'
       }
+    },
+    {
+      path: '/category/style',
+      name: 'STCategory',
+      component: Category,
+      props: {
+        code: 'style',
+        label: '风格'
+      }
+    },
+    {
+      path: '/category/space',
+      name: 'SPCategory',
+      component: Category,
+      props: {
+        code: 'space',
+        label: '空间'
+      }
+    },
+    {
+      path: '/category/type',
+      name: 'TCategory',
+      component: Category,
+      props: {
+        code: 'type',
+        label: '户型'
+      }
+    },
+    {
+      path: '/category/layout',
+      name: 'LCategory',
+      component: Category,
+      props: {
+        code: 'layout',
+        label: '布局'
+      }
     }
   ]
 })

@@ -115,19 +115,43 @@ export default {
         {
           url: '/category/article',
           name: '资讯分类',
-          icon: 'fa fa-tags',
+          icon: 'fa fa-newspaper-o',
           active: false
         },
         {
           url: '/category/material',
           name: '材料分类',
-          icon: 'fa fa-tags',
+          icon: 'fa fa-bath',
           active: false
         },
         {
           url: '/category/case',
           name: '案例分类',
-          icon: 'fa fa-tags',
+          icon: 'fa fa-image',
+          active: false
+        },
+        {
+          url: '/category/style',
+          name: '风格分类',
+          icon: 'fa fa-magic',
+          active: false
+        },
+        {
+          url: '/category/space',
+          name: '空间分类',
+          icon: 'fa fa-hotel',
+          active: false
+        },
+        {
+          url: '/category/type',
+          name: '户型分类',
+          icon: 'fa fa-superpowers',
+          active: false
+        },
+        {
+          url: '/category/layout',
+          name: '布局分类',
+          icon: 'fa fa-delicious',
           active: false
         }
       ]

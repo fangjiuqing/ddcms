@@ -105,7 +105,7 @@ export default {
       open: false,
       msg: '',
       type: 'loading',
-      left_offset: 100
+      left_offset: 160
     }
   },
   methods: {
@@ -119,7 +119,7 @@ export default {
       this.open = true
       this.msg = opt.msg || '加载中, 请稍后 ...'
       this.type = opt.type || 'loading'
-      this.left_offset = opt.left_offset || '200px'
+      this.left_offset = opt.left_offset || '160px'
     },
     hide: function () {
       this.open = false
