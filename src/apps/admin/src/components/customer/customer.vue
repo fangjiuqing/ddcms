@@ -5,9 +5,9 @@
         {{v.text}}
       </breadcrumb-item>
       <breadcrumb-item active class="pull-right">
-        <router-link :to="{path:'/material/add'}" class="btn btn-xs btn-info pull-right">
+        <a @click="modify('0')" class="btn btn-xs btn-info pull-right">
           <i class="fa fa-plus-square"></i> 新增
-        </router-link>
+        </a>
       </breadcrumb-item>
     </breadcrumbs>
     <div class="app_page">
@@ -28,7 +28,7 @@
                 </tr>
               </thead>
               <tbody>
-                  <tr v-for="(v) in rows" :key="v.article_id">
+                  <tr v-for="(v) in rows" :key="v.pc_id">
                     <td class="text-left">
                       <span>{{v.pc_sn}}</span>
                     </td>
@@ -51,8 +51,8 @@
                       <small>{{v.pc_area}}</small>
                     </td>
                     <td class="text-center">
-                      <btn class="btn btn-xs btn-success" @click="modify(v.article_id)"><i class="fa fa-pencil"></i></btn>
-                      <btn class="btn btn-xs btn-rose" @click="del(v.article_id)"><i class="fa fa-trash-o"></i></btn>
+                      <btn class="btn btn-xs btn-success" @click="modify(v.pc_id)"><i class="fa fa-pencil"></i></btn>
+                      <btn class="btn btn-xs btn-rose" @click="del(v.pc_id)"><i class="fa fa-trash-o"></i></btn>
                     </td>
                   </tr>
               </tbody>
@@ -62,18 +62,79 @@
         </div>
       </form>
     </div>
+    <modal v-model="modal_open" title="{modal_title}">
+      <div slot="title" class="text-left">
+        {{modal_title}}
+      </div>
+      <div slot="default">
+        <form action="" method="post" accept-charset="utf-8">
+          <div style="padding-right:80px;">
+            <div class="row">
+              <label class="col-sm-3 label-on-left">客户编号</label>
+              <div class="col-sm-9">
+                <div class="form-group">
+                  <input class="form-control" v-model="modal_data.pc_sn"  v-focus="modal_data.pc_sn" type="text" placeholder="客户编号">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3 label-on-left">客户姓名</label>
+              <div class="col-sm-9">
+                <div class="form-group">
+                  <input class="form-control" v-model="modal_data.pc_nick"  v-focus="modal_data.pc_nick" type="text" placeholder="客户姓名">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3 label-on-left">电话</label>
+              <div class="col-sm-9">
+                <div class="form-group">
+                  <input class="form-control" v-model="modal_data.pc_mobile"  v-focus="modal_data.pc_mobile"  type="text" placeholder="联系电话">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-2 label-on-left">所在地</label>
+              <div class="col-sm-9">
+                <div class="form-group">
+                  <v-distpicker :province="modal_data.pc_region0" :city="modal_data.pc_region1" :area="modal_data.pc_region2" @selected="onSelected"></v-distpicker>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3 label-on-left">详细地址</label>
+              <div class="col-sm-9">
+                <input class="form-control" v-model="modal_data.pc_addr"  v-focus="modal_data.pc_addr"  type="text" placeholder="详细地址">
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3 label-on-left">小区</label>
+              <div class="col-sm-9">
+                <div class="form-group">
+                  <input class="form-control" v-model="modal_data.pc_co_id"  v-focus="modal_data.pc_co_id"  type="text" placeholder="小区">
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div slot="footer">
+        <btn @click="save" type="success" class="btn-sm">确认</btn>
+      </div>
+    </modal>
   </div>
 </template>
 
 <script>
-
+import VDistpicker from 'v-distpicker'
 export default {
   name: 'Customer',
   metaInfo () {
     return {
-      title: '材料管理 - 道达智装'
+      title: '客户列表 - 道达智装'
     }
   },
+  components: { VDistpicker },
   data () {
     return {
       items: [
@@ -83,15 +144,63 @@ export default {
       ],
       rows: [],
       pn: 1,
-      total: 1
+      total: 1,
+      attrs: {},
+      modal_open: false,
+      modal_title: '',
+      modal_data: {}
     }
   },
-
   methods: {
-    modify (id) {
-      this.$router.push({
-        path: '/customer',
-        query: {id}
+    onSelected (d) {
+      console.log(d)
+      this.modal_data.pc_region0 = d.province.code
+      this.modal_data.pc_region1 = d.city.code
+      this.modal_data.pc_region2 = d.area.code
+    },
+    modify: function (id) {
+      this.modal_open = true
+      if (id === '0') {
+        this.modal_title = '新增客户'
+      } else {
+        this.modal_title = '编辑客户'
+      }
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$http.post('customer/get', {id: id, attrs: 1}).then(d => {
+        this.$loading.hide()
+        if (d.code === 0) {
+          this.modal_data = d.data
+        } else {
+          this.modal_data = []
+        }
+        this.modal_open = true
+      })
+    },
+    save: function () {
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$http.post('customer/save', this.modal_data).then(d => {
+        this.$loading.hide()
+        if (d.code === 0) {
+          this.modal_open = false
+          this.refresh()
+          this.$notify({
+            content: d.msg,
+            duration: 2000,
+            type: 'success',
+            dismissible: false
+          })
+        } else {
+          this.$notify({
+            content: d.msg,
+            duration: 2000,
+            type: 'danger',
+            dismissible: false
+          })
+        }
       })
     },
     refresh: function () {
@@ -100,12 +209,37 @@ export default {
       })
       this.$http.post('customer/list', {pn: this.pn}).then(d => {
         this.$loading.hide()
+        console.log(d.data)
         if (d.code === 0) {
           this.rows = d.data.list
           this.pn = d.data.paging.pn
           this.total = d.data.paging.max
         } else {
           this.rows = []
+        }
+      })
+    },
+    del: function (id) {
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$http.post('customer/del', {id: id}).then(d => {
+        this.$loading.hide()
+        if (d.code === 0) {
+          this.$notify({
+            content: d.msg,
+            duration: 2000,
+            type: 'success',
+            dismissible: false
+          })
+          this.refresh()
+        } else {
+          this.$notify({
+            content: d.msg,
+            duration: 2000,
+            type: 'danger',
+            dismissible: false
+          })
         }
       })
     }
@@ -120,6 +254,7 @@ export default {
   activated: function () {
     this.$store.state.left_active_key = '/customer'
     this.refresh()
+    this.onSelected()
   }
 }
 </script>
