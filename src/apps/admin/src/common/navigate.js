@@ -35,12 +35,6 @@ export default {
           name: '案例列表',
           icon: 'fa fa-th-list',
           active: false
-        },
-        {
-          url: '/case/category',
-          name: '案例分类',
-          icon: 'fa fa-tags',
-          active: false
         }
       ]
     },
@@ -53,12 +47,6 @@ export default {
           url: '/material',
           name: '材料列表',
           icon: 'fa fa-th-list',
-          active: false
-        },
-        {
-          url: '/material/category',
-          name: '材料分类',
-          icon: 'fa fa-tags',
           active: false
         },
         {
@@ -97,12 +85,6 @@ export default {
           name: '资讯列表',
           icon: 'fa fa-th-list',
           active: false
-        },
-        {
-          url: '/article/category',
-          name: '资讯分类',
-          icon: 'fa fa-tags',
-          active: false
         }
       ]
     },
@@ -121,6 +103,31 @@ export default {
           url: '/operate/desinger',
           name: '设计师',
           icon: 'fa fa-address-book',
+          active: false
+        }
+      ]
+    },
+    {
+      url: '/category',
+      name: '分类管理',
+      icon: 'fa fa-rocket',
+      children: [
+        {
+          url: '/category/article',
+          name: '资讯分类',
+          icon: 'fa fa-tags',
+          active: false
+        },
+        {
+          url: '/category/material',
+          name: '材料分类',
+          icon: 'fa fa-tags',
+          active: false
+        },
+        {
+          url: '/category/case',
+          name: '案例分类',
+          icon: 'fa fa-tags',
           active: false
         }
       ]

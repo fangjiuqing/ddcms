@@ -73,15 +73,6 @@ const router = new Router({
       component: ArticleAdd
     },
     {
-      path: '/article/category',
-      name: 'NCategory',
-      component: Category,
-      props: {
-        code: 'article',
-        label: '资讯'
-      }
-    },
-    {
       path: '/material',
       name: 'Material',
       component: Material
@@ -90,15 +81,6 @@ const router = new Router({
       path: '/material/add',
       name: 'MaterialAdd',
       component: MaterialAdd
-    },
-    {
-      path: '/material/category',
-      name: 'MCategory',
-      component: Category,
-      props: {
-        code: 'material',
-        label: '材料'
-      }
     },
     {
       path: '/material/brand',
@@ -111,15 +93,6 @@ const router = new Router({
       component: Supplier
     },
     {
-      path: '/case/category',
-      name: 'CCategory',
-      component: Category,
-      props: {
-        code: 'case',
-        label: '案例'
-      }
-    },
-    {
       path: '/system/logs',
       name: 'Logs',
       component: Logs
@@ -128,6 +101,33 @@ const router = new Router({
       path: '/user/passwd',
       name: 'Passwd',
       component: Passwd
+    },
+    {
+      path: '/category/case',
+      name: 'CCategory',
+      component: Category,
+      props: {
+        code: 'case',
+        label: '案例'
+      }
+    },
+    {
+      path: '/category/material',
+      name: 'MCategory',
+      component: Category,
+      props: {
+        code: 'material',
+        label: '材料'
+      }
+    },
+    {
+      path: '/category/article',
+      name: 'NCategory',
+      component: Category,
+      props: {
+        code: 'article',
+        label: '资讯'
+      }
     }
   ]
 })

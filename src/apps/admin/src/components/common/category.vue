@@ -102,8 +102,8 @@ export default {
     return {
       items: [
         {text: '首页', to: '/'},
-        {text: this.label, to: '/' + this.code + '/category'},
-        {text: '分类列表', href: '#'}
+        {text: '分类管理', to: '/category'},
+        {text: this.label + '分类', href: '#'}
       ],
       rows: [],
       modal_open: false,
@@ -122,7 +122,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.get(this.code + '/category', {id: id, parent: 1}).then(d => {
+      this.$http.get('category/' + this.code, {id: id, parent: 1}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_data = d.data
@@ -136,7 +136,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.save(this.code + '/category', this.modal_data).then(d => {
+      this.$http.save('category/' + this.code, this.modal_data).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_data = d.data
@@ -148,13 +148,13 @@ export default {
     refresh: function () {
       this.items = [
         {text: '首页', to: '/'},
-        {text: this.label, to: '/' + this.code + '/category'},
-        {text: '分类列表', href: '#'}
+        {text: '分类管理', href: '#'},
+        {text: this.label + '分类', href: '#'}
       ]
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.list(this.code + '/category').then(d => {
+      this.$http.list('category/' + this.code).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data
@@ -167,7 +167,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.del(this.code + '/category', {id: id}).then(d => {
+      this.$http.del('category/' + this.code, {id: id}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.$notify({
@@ -189,14 +189,14 @@ export default {
     }
   },
   mounted: function () {
-    this.$store.state.left_active_key = '/' + this.code
+    this.$store.state.left_active_key = '/category'
     this.refresh()
   },
   destroyed: function () {
     this.$loading.hide()
   },
   activated: function () {
-    this.$store.state.left_active_key = '/' + this.code
+    this.$store.state.left_active_key = '/category'
     this.refresh()
   }
 }
