@@ -43,8 +43,7 @@
                       </select>
                     </div>
                   </div>
-                </div>
-                <div class="col-md-6">
+
                   <div class="row">
                     <label class="col-sm-2 field-label">分类</label>
                     <div class="col-sm-10 input-label">
@@ -55,17 +54,27 @@
                       </select>
                     </div>
                   </div>
+
+                </div>
+                <div class="col-md-6">
+
                   <div class="row">
-                    <label class="col-sm-2 field-label">售价</label>
+                    <label class="col-sm-2 field-label">状态</label>
                     <div class="col-sm-10 input-label">
-                      <input class="form-control" name="mat_price" v-model="form.mat_price"  v-focus="form.mat_price"  type="text" placeholder="材料售价">
+                      <select v-model="form.mat_status"  name="mat_status" class="form-control">
+                        <option disabled value="">请选择</option>
+                        <option v-for="(v, k) in status" v-bind:key="k" :value="v">
+                          {{v}}
+                        </option>
+                      </select>
                     </div>
                   </div>
+
                 </div>
               </div>
           </div>
-          <div class="col-sm-3">
-              <img class="preview_article_cover" style="width: 200px;" :src="mat_cover" @click="upload_cover">
+          <div class="col-md-3">
+              <img class="preview_article_cover" :src="mat_cover" @click="upload_cover">
               <input type="hidden" name="mat_cover" v-model="form.mat_cover">
               <div class="clearfix"></div>
           </div>
@@ -82,10 +91,11 @@
           <table class="table table-striped">
             <thead>
               <tr style="background-color:#f0f0f0">
-                <th v-for="(v, k) in fields" :key="k" width="14%" v-if="k !== 'id'">
+                <th v-for="(v, k) in fields" :key="k" width="13%" v-if="k !== 'id'">
                   <input class="material_field_input" @focus="set_active(k)" v-model="fields[k]" :placeholder="v"/>
                 </th>
-                <th width="8%" class="text-center"><span class="material_field_text">价格</span></th>
+                <th width="7%" class="text-center"><span class="material_field_text">售价</span></th>
+                <th width="7%" class="text-center"><span class="material_field_text">成本</span></th>
                 <th width="7%" class="text-center"><span class="material_field_text">库存</span></th>
                 <th></th>
               </tr>
@@ -96,7 +106,10 @@
                   <input class="material_field_input" v-model="rows[row_key][k]" :placeholder='"请输入" + v'/>
                 </td>
                 <td >
-                  <input class="material_field_input" v-model="rows[row_key]['price']" value="" placeholder="价格" />
+                  <input class="material_field_input" v-model="rows[row_key]['price']" value="" placeholder="售价" />
+                </td>
+                <td >
+                  <input class="material_field_input" v-model="rows[row_key]['cost_price']" value="" placeholder="成本" />
                 </td>
                 <td>
                   <input class="material_field_input" v-model="rows[row_key]['stocks']" value="" placeholder="库存数" />
@@ -135,8 +148,8 @@ export default {
       form: {
         mat_type: '',
         mat_cat_id: '',
-        mat_brand_id: ''
-
+        mat_brand_id: '',
+        mat_status: ''
       },
       mat_cover: '',
       extra: {},
@@ -145,6 +158,7 @@ export default {
       brands: [],
       selected: '',
       field_key: '',
+      status: {},
       rows: [
         {
           id: 0
@@ -175,9 +189,7 @@ export default {
     },
     add_row () {
       let row = {
-        id: 0,
-        'price': 0,
-        'stocks': 0
+        id: 0
       }
       for (var key in this.fields) {
         if (this.fields.hasOwnProperty(key)) {
@@ -251,6 +263,7 @@ export default {
           this.brands = d.data.brands
           this.fields = d.data.fields || {}
           this.rows = d.data.goods || []
+          this.status = d.data.status
         }
       })
     },
@@ -293,18 +306,10 @@ export default {
 </script>
 
 <style>
-  #editor {
-  }
-  .quillWrapper {
-    position: relative;
-  }
-  .quillWrapper .ql-snow.ql-toolbar {
-    width: 100%;
-  }
-  .ql-editor {
-    min-height: 360px;
-  }
-  .ql-toolbar {
-    text-align: left;
+  .preview_article_cover {
+    width: 200px;
+    height: 150px;
+    border-radius: 3px;
+    background: #ccc;
   }
 </style>

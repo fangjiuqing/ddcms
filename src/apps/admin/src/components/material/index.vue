@@ -90,8 +90,8 @@ export default {
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data.list
-          this.pn = d.data.paging.pn
-          this.total = d.data.paging.max
+          this.pn = d.data.paging.pn || 1
+          this.total = d.data.paging.max || 1
         } else {
           this.rows = []
         }

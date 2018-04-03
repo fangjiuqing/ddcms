@@ -21,6 +21,7 @@ class material_iface extends base_iface {
         }
         $out['type'] = material_helper::$type;
         $out['brands'] = OBJ('brand_table')->get_all();
+        $out['status'] = material_helper::$status;
         $out['goods'] = OBJ('material_goods_table')->map(function ($row) use (&$out) {
             $ret = [
                 'id'        => $row['pmg_id'],
