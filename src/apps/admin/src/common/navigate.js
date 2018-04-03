@@ -110,7 +110,7 @@ export default {
     {
       url: '/category',
       name: '分类管理',
-      icon: 'fa fa-rocket',
+      icon: 'fa fa-yelp',
       children: [
         {
           url: '/category/article',
