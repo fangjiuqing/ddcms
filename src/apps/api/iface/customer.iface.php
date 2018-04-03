@@ -144,6 +144,7 @@ class customer_iface extends base_iface {
                 $this->success('操作成功');
             }
         }
+        dump($tab->get_error());
         $this->failure('操作失败');
     }
     
