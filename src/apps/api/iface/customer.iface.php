@@ -121,15 +121,12 @@ class customer_iface extends base_iface {
         $this->data['pc_gender'] = filter::int($this->data['pc_gender']);
         $this->data['pc_memo'] = filter::text($this->data['pc_memo']);
         $this->data['pc_score'] = filter::int($this->data['pc_score']);
-        
-        //$this->data['pc_mobile'] = filter::int($this->data['pc_mobile']);
         $this->verify([
             'pc_mobile' => [
                 'code' => 100,
                 'msg'  => '请输入正确的手机号',
                 'rule' => filter::$rules['mobile'],
             ],
-        
         ]);
         $tab = OBJ('customer_table');
         if ($tab->load($this->data)) {
@@ -140,7 +137,7 @@ class customer_iface extends base_iface {
                 $this->success('操作成功');
             }
         }
-        $this->failure($tab->get_error());
+        $this->failure($tab->get_error_desc());
     }
     
 }

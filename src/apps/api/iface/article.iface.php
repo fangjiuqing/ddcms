@@ -61,6 +61,7 @@ class article_iface extends base_iface {
             $out['row']['article_cover_thumb'] = UPLOAD_URL . image::get_thumb_name($out['row']['article_cover'], '500x309');
         }
         $out['category'] = category_helper::get_options(3, 0, 0);
+        $out['row']['article_admin_name'] = OBJ('admin_table')->get($out['row']['article_admin_id'])['admin_account'];
         foreach ((array)$out['category'] as $k => $v) {
             $out['category'][$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . $v['cat_name'];
         }
