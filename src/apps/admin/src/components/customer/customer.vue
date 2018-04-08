@@ -45,7 +45,7 @@
                       <small>{{v.pc_adm_nick}}</small>
                     </td>
                     <td class="text-center">
-                      <small>{{v.pc_region00}} {{v.pc_region10}} {{v.pc_region20}} {{v.pc_addr}}</small>
+                      <small>{{v.pc_region0_label}} {{v.pc_region1_label}} {{v.pc_region2_label}} {{v.pc_addr}}</small>
                     </td>
                     <td class="text-center">
                       <small>{{v.pc_area}}</small>
@@ -94,10 +94,10 @@
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 label-on-left">所在地</label>
+              <label class="col-sm-3 label-on-left">所在地</label>
               <div class="col-sm-9">
                 <div class="form-group">
-                  <v-distpicker :province="modal_data.pc_region0" :city="modal_data.pc_region1" :area="modal_data.pc_region2" @selected="onSelected"></v-distpicker>
+                  <v-distpicker :province="modal_data.pc_region0_label" :city="modal_data.pc_region1_label" :area="modal_data.pc_region2_label" @selected="onSelected"></v-distpicker>
                 </div>
               </div>
             </div>
@@ -153,10 +153,9 @@ export default {
   },
   methods: {
     onSelected (d) {
-      console.log(d)
-      this.modal_data.pc_region0 = d.province.code
-      this.modal_data.pc_region1 = d.city.code
-      this.modal_data.pc_region2 = d.area.code
+      this.modal_data.pc_region0_label = d.province.value
+      this.modal_data.pc_region1_label = d.city.value
+      this.modal_data.pc_region2_label = d.area.value
     },
     modify: function (id) {
       this.modal_open = true
@@ -168,7 +167,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.post('customer/get', {id: id, attrs: 1}).then(d => {
+      this.$http.get('customer', {id: id, attrs: 1}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_data = d.data
@@ -182,7 +181,8 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.post('customer/save', this.modal_data).then(d => {
+      this.$http.save('customer', this.modal_data).then(d => {
+        console.log(this.modal_data)
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_open = false
@@ -207,9 +207,8 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.post('customer/list', {pn: this.pn}).then(d => {
+      this.$http.list('customer', {pn: this.pn}).then(d => {
         this.$loading.hide()
-        console.log(d.data)
         if (d.code === 0) {
           this.rows = d.data.list
           this.pn = d.data.paging.pn
@@ -223,7 +222,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.post('customer/del', {id: id}).then(d => {
+      this.$http.del('customer', {id: id}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.$notify({
@@ -258,3 +257,8 @@ export default {
   }
 }
 </script>
+<style>
+.distpicker-address-wrapper select {
+  max-width: 115px!important;
+}
+</style>
