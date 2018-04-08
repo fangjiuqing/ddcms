@@ -172,8 +172,6 @@ export default {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_data = d.data
-        } else {
-          this.modal_data = []
         }
         this.modal_open = true
       })

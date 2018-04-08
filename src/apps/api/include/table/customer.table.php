@@ -53,8 +53,8 @@ class customer_table extends table {
             'min'                => 0,
             'max'                => 18,
             'label'              => '身份证',
-            'allow_empty_string' => false,
-            'allow_null'         => false
+            'allow_empty_string' => true,
+            'allow_null'         => true
         ],
         'pc_nick' => [
             'name'               => 'pc_nick',
