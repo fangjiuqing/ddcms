@@ -168,7 +168,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.post('customer/get', {id: id, attrs: 1}).then(d => {
+      this.$http.get('customer', {id: id, attrs: 1}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_data = d.data
@@ -182,7 +182,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.post('customer/save', this.modal_data).then(d => {
+      this.$http.save('customer', this.modal_data).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_open = false
