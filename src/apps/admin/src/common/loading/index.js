@@ -1,4 +1,4 @@
-import Vue from 'Vue'
+import Vue from 'vue'
 import {default as loading} from './loading.vue'
 
 export default {
