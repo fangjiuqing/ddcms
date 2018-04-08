@@ -14,6 +14,9 @@ import Supplier from '@/components/material/supplier'
 import Article from '@/components/article/index'
 import ArticleAdd from '@/components/article/add'
 
+// import Case from '@/components/case/index'
+// import CaseAdd from '@/components/case/add'
+
 import Material from '@/components/material/index'
 import MaterialAdd from '@/components/material/add'
 
@@ -72,6 +75,16 @@ const router = new Router({
       name: 'ArticleAdd',
       component: ArticleAdd
     },
+    // {
+    //   path: '/case',
+    //   name: 'Case',
+    //   component: Case
+    // },
+    // {
+    //   path: '/case/add',
+    //   name: 'CaseAdd',
+    //   component: CaseAdd
+    // },
     {
       path: '/material',
       name: 'Material',
