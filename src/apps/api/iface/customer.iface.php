@@ -124,7 +124,7 @@ class customer_iface extends base_iface {
         $this->verify([
             'pc_mobile' => [
                 'code' => 100,
-                'msg'  => '请输入正确的手机号',
+                'msg'  => $this->data,
                 'rule' => filter::$rules['mobile'],
             ],
             'pc_sid'    => [
