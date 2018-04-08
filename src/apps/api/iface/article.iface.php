@@ -76,10 +76,14 @@ class article_iface extends base_iface {
         // 分页
         $paging = new paging_helper($tab, $this->data['pn'] ?: 1, 12);
 
-        $cat_ids = [];
+        $cat_ids    = [];
+        $article_id = [];
+        $admin_id = [];
         // 获取记录
-        $arts = $tab->map(function ($row) use (&$cat_ids) {
+        $arts = $tab->map(function ($row) use (&$cat_ids, &$article_id, &$admin_id) {
             $cat_ids[$row['article_cat_id']] = 1;
+            $article_id[$row['article_id']]  = 1;
+            $admin_id[$row['article_admin_id']] = 1;
             return $row;
         })->order('article_adate desc')->get_all();
 
@@ -87,9 +91,24 @@ class article_iface extends base_iface {
         $cat_list = OBJ('category_table')->akey('cat_id')->get_all([
             'cat_id' => array_keys($cat_ids ?: [0]),
         ]);
+        
+        //获取对应文章内容
+        $article_list = OBJ('article_content_table')->akey('article_id')->get_all([
+            'article_id' => array_keys($article_id ?: [0]),
+        ]);
+        
+        //获取作者列表
+        $admin_list = OBJ('admin_table')->akey('admin_id')->get_all([
+            'admin_id' => array_keys($admin_id ?: [0]),
+        ]);
+        
         foreach ((array)$arts as $k => $v) {
             $arts[$k]['cat_name'] = isset($cat_list[$v['article_cat_id']]) ?
                 $cat_list[$v['article_cat_id']]['cat_name'] : '';
+            $arts[$k]['article_content'] = isset($article_list[$v['article_id']]) ?
+                $article_list[$v['article_id']]['article_content'] : '';
+            $arts[$k]['article_admin_nick'] = isset($admin_list[$v['article_admin_id']]) ?
+                $admin_list[$v['article_admin_id']]['admin_account'] : '';
         }
 
         $this->success('资讯列表获取成功', [

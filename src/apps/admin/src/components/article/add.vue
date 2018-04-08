@@ -163,10 +163,10 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.get('article', {id: this.id, attrs: 1}).then(d => {
+      this.$http.get('article', {id: this.id || 0, attrs: 1}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          this.form = d.data.row || {}
+          this.form = this.id ? d.data.row : {}
           this.article_cover = this.form['article_cover_thumb'] || ''
           this.categories = d.data.category
         } else {

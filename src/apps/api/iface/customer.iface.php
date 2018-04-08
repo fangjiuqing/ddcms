@@ -32,11 +32,11 @@ class customer_iface extends base_iface {
             'pco_id' => array_keys($area_ids ?: [0]),
         ]);
         foreach ($arts as $k => $v) {
-            $arts[$k]['pc_region00'] = isset($region_list[$v['pc_region0']]) ?
+            $arts[$k]['pc_region0_label'] = isset($region_list[$v['pc_region0']]) ?
                 $region_list[$v['pc_region0']]['region_name'] : '';
-            $arts[$k]['pc_region10'] = isset($region_list[$v['pc_region1']]) ?
+            $arts[$k]['pc_region1_label'] = isset($region_list[$v['pc_region1']]) ?
                 $region_list[$v['pc_region1']]['region_name'] : '';
-            $arts[$k]['pc_region20'] = isset($region_list[$v['pc_region2']]) ?
+            $arts[$k]['pc_region2_label'] = isset($region_list[$v['pc_region2']]) ?
                 $region_list[$v['pc_region2']]['region_name'] : '';
             $arts[$k]['pc_area'] = isset($area_list[$v['pc_co_id']]) ? $area_list[$v['pc_co_id']]['pco_name'] : '';
         }
@@ -91,8 +91,6 @@ class customer_iface extends base_iface {
      * @param string $pc_nick       用户名
      * @param int    $pc_mobile     手机号
      * @param int    $pc_status     用户状态
-     * @param int    $pc_adm_id     用户所属客服ID
-     * @param string $pc_adm_nick   用户所属客服姓名
      * @param int    $pc_atime      添加时间
      * @param int    $pc_via        客户来源
      * @param int    $pc_status_del 用户是否被删除
@@ -123,17 +121,15 @@ class customer_iface extends base_iface {
         $this->data['pc_gender'] = filter::int($this->data['pc_gender']);
         $this->data['pc_memo'] = filter::text($this->data['pc_memo']);
         $this->data['pc_score'] = filter::int($this->data['pc_score']);
+        
+        //$this->data['pc_mobile'] = filter::int($this->data['pc_mobile']);
         $this->verify([
             'pc_mobile' => [
                 'code' => 100,
-                'msg'  => '请输入合法的手机号',
+                'msg'  => '请输入正确的手机号',
                 'rule' => filter::$rules['mobile'],
             ],
-            'pc_sid'    => [
-                'code' => 101,
-                'msg'  => '请输入正确的身份证号',
-                'rule' => filter::$rules['cn_id'],
-            ],
+        
         ]);
         $tab = OBJ('customer_table');
         if ($tab->load($this->data)) {
@@ -144,8 +140,7 @@ class customer_iface extends base_iface {
                 $this->success('操作成功');
             }
         }
-        dump($tab->get_error());
-        $this->failure('操作失败');
+        $this->failure($tab->get_error());
     }
     
 }
