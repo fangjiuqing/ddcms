@@ -32,7 +32,8 @@ class upload_iface extends admin_iface {
         }
         $this->success('', [
             'url'   => UPLOAD_URL . $out['data']['url'],
-            'image' => $out['data']['url']
+            'image' => $out['data']['url'],
+            'thumb' => UPLOAD_URL . $out['data']['url'] . '!500x309'
         ]);
     }
 }
