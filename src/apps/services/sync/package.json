@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "sync": "node index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chokidar": "^2.0.3"
+    "chokidar": "^2.0.3",
+    "qiniu": "^7.1.3"
   }
 }

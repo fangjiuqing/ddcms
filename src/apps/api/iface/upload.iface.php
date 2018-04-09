@@ -27,14 +27,14 @@ class upload_iface extends admin_iface {
         }
         else {
             $sfile = UPLOAD_PATH . $out['data']['url'];
-            image::get_instance()->thumb($sfile, '500x309');
-            image::get_instance()->thumb($sfile, '1200xauto');
+            // image::get_instance()->thumb($sfile, '500x309');
+            // image::get_instance()->thumb($sfile, '1200xauto');
         }
         $this->success('', [
             'url'   => UPLOAD_URL . $out['data']['url'],
             'image' => $out['data']['url'],
-            'thumb' => UPLOAD_URL . image::get_thumb_name($out['data']['url'], '500x309'),
-            'big'   => UPLOAD_URL . image::get_thumb_name($out['data']['url'], '1200xauto')
+            'thumb' => UPLOAD_URL . $out['data']['url'] . '/500x309',
+            'big'   => UPLOAD_URL . $out['data']['url'] . '/1200xauto
         ]);
     }
 }
