@@ -1,4 +1,4 @@
-import Vue from 'Vue'
+import Vue from 'vue'
 import {default as upload} from './simple_upload.vue'
 
 export default {
