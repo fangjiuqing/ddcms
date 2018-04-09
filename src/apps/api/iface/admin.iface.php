@@ -89,10 +89,29 @@ class admin_iface extends base_iface {
     }
     
     /**
+     * 管理员账号信息获取
+     */
+    public function get_action () {
+        $id = intval($this->data['id']);
+        if ($ret = OBJ('admin_table')->get($id)) {
+            unset($ret['admin_passwd']);
+            unset($ret['admin_salt']);
+            $this->success('操作成功', $ret);
+        }
+        $this->failure('操作失败');
+    }
+    
+    /**
      * 管理员账号新增
      */
     public function save_action () {
-    
+        $this->verify([
+            'admin_account' => [
+                'msg'  => '请输入合法的账号',
+                'code' => '100',
+                'rule' => filter::is_account($this->data['admin_account']),
+            ],
+        ]);
     }
     
     
