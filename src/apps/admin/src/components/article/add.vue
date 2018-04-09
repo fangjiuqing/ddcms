@@ -95,7 +95,7 @@ export default {
         dismissible: false
       })
       this.form.article_cover = d.image
-      this.article_cover = d.thumb
+      this.article_cover = d.image + '!500x309'
     },
     on_cover_progress (e) {
       if (e) {
