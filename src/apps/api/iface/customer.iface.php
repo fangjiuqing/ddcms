@@ -24,7 +24,7 @@ class customer_iface extends base_iface {
             $region_ids[$row['pc_region2']] = 1;
             $area_ids[$row['pc_co_id']] = 1;
             return $row;
-        })->get_all(['pc_status_del' => 0]);
+        })->get_all();
         $region_list = OBJ('region_table')->akey('region_code')->get_all([
             'region_code' => array_keys($region_ids ?: [0]),
         ]);
