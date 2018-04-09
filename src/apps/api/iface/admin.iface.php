@@ -54,4 +54,23 @@ class admin_iface extends base_iface {
         $this->failure('密码修改失败', '105');
     }
     
+    /**
+     * 管理员账号列表
+     */
+    public function list_action () {
+        $tab = OBJ('admin_table');
+        $paging = new paging_helper($tab, $this->data['pn'] ?: 1, 12);
+        $arts = $tab->order('admin_account')->get_all();
+        $rets = [];
+        foreach ((array)$arts as $k => $v) {
+            unset($v['admin_passwd']);
+            unset($v['admin_salt']);
+            $rets[$k] = $v;
+        }
+        $this->success('操作成功', [
+            'list'   => array_values($rets),
+            'paging' => $paging->to_array(),
+        ]);
+    }
+    
 }
