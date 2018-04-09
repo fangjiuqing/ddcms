@@ -54,12 +54,4 @@ class admin_iface extends base_iface {
         $this->failure('密码修改失败', '105');
     }
     
-    /**
-     * 退出登录
-     */
-    public function logout_action () {
-        admin_helper::add_log($this->login['admin_id'], 'admin/logout', '2', '登出成功');
-        $this->del_login();
-        $this->success('登出成功');
-    }
 }
