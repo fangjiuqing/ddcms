@@ -107,7 +107,7 @@ class article_iface extends base_iface {
             $arts[$k]['cat_name'] = isset($cat_list[$v['article_cat_id']]) ?
                 $cat_list[$v['article_cat_id']]['cat_name'] : '';
             $arts[$k]['article_content'] = isset($article_list[$v['article_id']]) ?
-                $article_list[$v['article_id']]['article_content'] : '';
+                htmlspecialchars_decode($article_list[$v['article_id']]['article_content']) : '';
             $arts[$k]['article_admin_nick'] = isset($admin_list[$v['article_admin_id']]) ?
                 $admin_list[$v['article_admin_id']]['admin_account'] : '';
         }
