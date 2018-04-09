@@ -28,7 +28,7 @@ Vue.config.productionTip = false
 
 // 接口配置
 if (process.env.NODE_ENV !== 'development') {
-  http.gateway = 'http://api.ddzz360.com/index.php'
+  http.gateway = 'http://api.dev.ddzz360.com/index.php'
 } else {
   http.gateway = 'http://ddcms.d/api/index.php'
 }
