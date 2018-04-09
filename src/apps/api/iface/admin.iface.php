@@ -73,4 +73,27 @@ class admin_iface extends base_iface {
         ]);
     }
     
+    /**
+     * 删除管理员账号
+     */
+    public function del_action () {
+        $id = intval($this->data['id']);
+        $tab = OBJ('admin_table');
+        if ($tab->get($id)) {
+            if ($tab->delete(['admin_id' => $id])['rows'] === 1) {
+                admin_helper::add_log($this->login['admin_id'], 'admin/del', '3', '删除管理员账号');
+                $this->success('操作成功');
+            }
+        }
+        $this->failure('操作失败');
+    }
+    
+    /**
+     * 管理员账号新增
+     */
+    public function save_action () {
+    
+    }
+    
+    
 }
