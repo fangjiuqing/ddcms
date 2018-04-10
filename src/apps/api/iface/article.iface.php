@@ -5,7 +5,7 @@ namespace re\rgx;
  * 资讯操作接口类
  */
 class article_iface extends base_iface {
-
+    
     /**
      * 添加资讯接口
      * @article_title [str] 资讯标题
@@ -17,6 +17,7 @@ class article_iface extends base_iface {
      * @article_stat_view [int] 浏览量(可选参数)
      */
     public function save_action () {
+        $this->check_login();
         $this->data['article_title'] = filter::text($this->data['article_title']);
         $this->verify([
             'article_cat_id' => [
@@ -47,7 +48,7 @@ class article_iface extends base_iface {
         }
         $this->failure($tab->get_error_desc());
     }
-
+    
     /**
      * 获取单条资讯
      * @id [int] 要获取资讯的id
@@ -67,27 +68,27 @@ class article_iface extends base_iface {
         }
         $this->success('', $out);
     }
-
+    
     /**
      * 获取资讯列表接口
      */
     public function list_action () {
         $tab = OBJ('article_table');
-
+        
         // 分页
         $paging = new paging_helper($tab, $this->data['pn'] ?: 1, 12);
-
-        $cat_ids    = [];
+        
+        $cat_ids = [];
         $article_id = [];
         $admin_id = [];
         // 获取记录
         $arts = $tab->map(function ($row) use (&$cat_ids, &$article_id, &$admin_id) {
             $cat_ids[$row['article_cat_id']] = 1;
-            $article_id[$row['article_id']]  = 1;
+            $article_id[$row['article_id']] = 1;
             $admin_id[$row['article_admin_id']] = 1;
             return $row;
         })->order('article_adate desc')->get_all();
-
+        
         // 获取对应分类记录
         $cat_list = OBJ('category_table')->akey('cat_id')->get_all([
             'cat_id' => array_keys($cat_ids ?: [0]),
@@ -111,18 +112,19 @@ class article_iface extends base_iface {
             $arts[$k]['article_admin_nick'] = isset($admin_list[$v['article_admin_id']]) ?
                 $admin_list[$v['article_admin_id']]['admin_account'] : '';
         }
-
+        
         $this->success('资讯列表获取成功', [
-            'list'      => array_values($arts),
-            'paging'    => $paging->to_array()
+            'list'   => array_values($arts),
+            'paging' => $paging->to_array(),
         ]);
     }
-
+    
     /**
      * 资讯删除接口
      * @id [int] 要删除资讯的id
      */
     public function del_action () {
+        $this->check_login();
         $id = intval($this->data['id']);
         $tab = OBJ('article_table');
         $ret = $tab->get($id);
@@ -138,5 +140,5 @@ class article_iface extends base_iface {
         }
         $this->failure('资讯删除失败', '101');
     }
-
+    
 }
