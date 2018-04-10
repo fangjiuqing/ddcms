@@ -105,13 +105,42 @@ class admin_iface extends base_iface {
      * 管理员账号新增
      */
     public function save_action () {
+        if (!filter::is_account($this->data['admin_account'])) {
+            $this->failure('请输入正确的账号');
+        }
+        $this->data['admin_salt'] = misc::randstr();
+        $this->data['admin_email'] = '';
+        $this->data['admin_wechat'] = '';
+        if (!filter::is_account($this->data['admin_nick'])) {
+            $this->failure('请输入正确名字', 101);
+        }
+        $this->data['admin_group_id'] = 1;
+        $this->data['admin_type'] = 1;
+        $this->data['admin_date_add'] = $this->data['admin_date_add'] ?: REQUEST_TIME;
+        $this->data['admin_date_login'] = $this->data['admin_date_login'] ?: REQUEST_TIME;
         $this->verify([
-            'admin_account' => [
-                'msg'  => '请输入合法的账号',
-                'code' => '100',
-                'rule' => filter::is_account($this->data['admin_account']),
+            'admin_passwd'  => [
+                'code' => 102,
+                'msg'  => '请输入正确的密码',
+                'rule' => filter::$rules['passwd'],
+            ],
+            'admin_mobile'  => [
+                'code' => 103,
+                'msg'  => '请输入正确的手机号',
+                'rule' => filter::$rules['mobile'],
             ],
         ]);
+        $this->data['admin_passwd'] = md5(md5($this->data['admin_passwd']) . $this->data['admin_salt']);
+        $tab = OBJ('admin_table');
+        if ($tab->load($this->data)) {
+            $ret = $tab->save();
+            if ($ret['code'] === 0) {
+                admin_helper::add_log($this->login['admin_id'], 'admin/save', '2', '管理员' .
+                    ($this->data['admin_id'] ? '修改[' . $this->data['admin_id'] : '新增[' . $ret['row_id']) . '@]');
+                $this->success('操作成功');
+            }
+        }
+        $this->failure($tab->get_error_desc(), 104);
     }
     
     

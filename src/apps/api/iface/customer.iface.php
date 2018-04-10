@@ -105,7 +105,9 @@ class customer_iface extends base_iface {
      */
     public function save_action () {
         $this->data['pc_sn'] = filter::char($this->data['pc_sn']);
-        $this->data['pc_nick'] = filter::char($this->data['pc_nick']);
+        if (!filter::is_account($this->data['pc_nick'])) {
+            $this->failure('请输入正确的用户名');
+        }
         $this->data['pc_status'] = filter::int($this->data['pc_status']);
         $this->data['pc_adm_id'] = (int)$this->login['admin_id'];
         $this->data['pc_adm_nick'] = $this->login['admin_account'];
