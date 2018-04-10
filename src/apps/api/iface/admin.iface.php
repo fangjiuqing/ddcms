@@ -109,23 +109,37 @@ class admin_iface extends base_iface {
             $this->failure('请输入正确的账号');
         }
         $this->data['admin_salt'] = misc::randstr();
-        $this->data['admin_email'] = '';
-        $this->data['admin_wechat'] = '';
+        if ($this->data['admin_email']) {
+            $this->verify([
+                'admin_email' => [
+                    'code' => 101,
+                    'msg'  => '请输入正确的邮箱',
+                    'rule' => filter::$rules['email'],
+                ],
+            ]);
+        }
+        if ($this->data['admin_wechat']) {
+            $this->verify([
+                'admin_wechat' => [
+                    'code' => 102,
+                    'msg'  => '请输入正确的微信号',
+                    'rule' => filter::$rules['wechat'],
+                ],
+            ]);
+        }
         if (!filter::is_account($this->data['admin_nick'])) {
             $this->failure('请输入正确名字', 101);
         }
-        $this->data['admin_group_id'] = 1;
-        $this->data['admin_type'] = 1;
         $this->data['admin_date_add'] = $this->data['admin_date_add'] ?: REQUEST_TIME;
         $this->data['admin_date_login'] = $this->data['admin_date_login'] ?: REQUEST_TIME;
         $this->verify([
-            'admin_passwd'  => [
-                'code' => 102,
+            'admin_passwd' => [
+                'code' => 103,
                 'msg'  => '请输入正确的密码',
                 'rule' => filter::$rules['passwd'],
             ],
-            'admin_mobile'  => [
-                'code' => 103,
+            'admin_mobile' => [
+                'code' => 104,
                 'msg'  => '请输入正确的手机号',
                 'rule' => filter::$rules['mobile'],
             ],
@@ -140,7 +154,7 @@ class admin_iface extends base_iface {
                 $this->success('操作成功');
             }
         }
-        $this->failure($tab->get_error_desc(), 104);
+        $this->failure($tab->get_error_desc(), 105);
     }
     
     
