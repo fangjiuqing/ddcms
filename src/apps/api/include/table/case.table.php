@@ -236,6 +236,16 @@ class case_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
+        'case_images' => [
+            'name'               => 'case_images',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 255,
+            'label'              => '图片',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
     ];
 
     /*
@@ -275,6 +285,7 @@ class case_table extends table {
         'case_price'          => '',
         'case_area'           => '',
         'case_community_id'   => 0,
+        'case_images'         => '',
     ];
 
     /*
@@ -304,6 +315,7 @@ class case_table extends table {
         'case_price'          => ['re\rgx\filter', 'char'],
         'case_area'           => ['re\rgx\filter', 'char'],
         'case_community_id'   => ['re\rgx\filter', 'int'],
+        'case_images'         => ['re\rgx\filter', 'char'],
     ];
 
     /*

@@ -4,7 +4,7 @@ namespace re\rgx;
 /**
  * 顾客操作类
  */
-class customer_iface extends base_iface {
+class customer_iface extends ubase_iface {
     
     /**
      * 获取顾客列表接口

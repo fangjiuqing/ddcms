@@ -4,7 +4,7 @@ namespace re\rgx;
 /**
  * 资讯操作接口类
  */
-class article_iface extends base_iface {
+class article_iface extends ubase_iface {
 
     /**
      * 添加资讯接口

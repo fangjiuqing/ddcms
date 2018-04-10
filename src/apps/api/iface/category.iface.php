@@ -4,7 +4,7 @@ namespace re\rgx;
 /**
  * 分类
  */
-class category_iface extends base_iface {
+class category_iface extends ubase_iface {
 
 
     /**
