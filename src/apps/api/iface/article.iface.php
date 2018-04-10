@@ -112,6 +112,7 @@ class article_iface extends base_iface {
                 htmlspecialchars_decode($article_list[$v['article_id']]['article_content']) : '';
             $arts[$k]['article_admin_nick'] = isset($admin_list[$v['article_admin_id']]) ?
                 $admin_list[$v['article_admin_id']]['admin_account'] : '';
+            $arts[$k]['article_cover_thumb'] = IMAGE_URL . $v['article_cover'] . '!500x309';
         }
         
         $this->success('资讯列表获取成功', [
