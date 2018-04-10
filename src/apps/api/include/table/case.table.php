@@ -176,6 +176,16 @@ class case_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
+        'case_designer_id' => [
+            'name'               => 'case_designer_id',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '所属设计师',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
     ];
 
     /*
@@ -209,6 +219,7 @@ class case_table extends table {
         'case_image_count'=> 0,
         'case_adate'      => 0,
         'case_udate'      => 0,
+        'case_designer_id'=> 0,
     ];
 
     /*
@@ -232,6 +243,7 @@ class case_table extends table {
         'case_image_count'=> ['re\rgx\filter', 'int'],
         'case_adate'      => ['re\rgx\filter', 'int'],
         'case_udate'      => ['re\rgx\filter', 'int'],
+        'case_designer_id'=> ['re\rgx\filter', 'int'],
     ];
 
     /*

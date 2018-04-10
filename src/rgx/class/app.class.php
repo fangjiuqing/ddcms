@@ -57,7 +57,10 @@ class app extends rgx {
         define('STATIC_URL', CFG('static_url') ?: (BASE_URL . 'static/'));
         // defines
         foreach ((array)CFG('defines') as $key => $val) {
-            define(strtoupper($key), $val);
+            $key = strtoupper($key);
+            if (!defined($key)) {
+                define($key, $val);
+            }
         }
         // router init
         IS_CLI ? router::parse_cli() : router::parse((CFG('route') ?: []) + parse_url(APP_URL));
