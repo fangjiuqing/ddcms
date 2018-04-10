@@ -156,6 +156,16 @@ class designer_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
+        'des_case_id' => [
+            'name'               => 'des_case_id',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '代表案例',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
     ];
 
     /*
@@ -187,6 +197,7 @@ class designer_table extends table {
         'des_cover'       => '',
         'des_slogan'      => '',
         'des_price'       => '',
+        'des_case_id'     => 0,
     ];
 
     /*
@@ -208,6 +219,7 @@ class designer_table extends table {
         'des_cover'       => ['re\rgx\filter', 'char'],
         'des_slogan'      => ['re\rgx\filter', 'char'],
         'des_price'       => ['re\rgx\filter', 'char'],
+        'des_case_id'     => ['re\rgx\filter', 'int'],
     ];
 
     /*
