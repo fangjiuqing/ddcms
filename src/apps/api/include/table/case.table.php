@@ -176,6 +176,66 @@ class case_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
+        'case_designer_id' => [
+            'name'               => 'case_designer_id',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '所属设计师',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'case_region0' => [
+            'name'               => 'case_region0',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '省份',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'case_region1' => [
+            'name'               => 'case_region1',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '城市',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'case_price' => [
+            'name'               => 'case_price',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 16,
+            'label'              => '造价',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'case_area' => [
+            'name'               => 'case_area',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 16,
+            'label'              => '面积',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'case_community_id' => [
+            'name'               => 'case_community_id',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '小区',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
     ];
 
     /*
@@ -194,21 +254,27 @@ class case_table extends table {
       +--------------------------
     */
     public $defaults = [
-        'case_id'         => 0,
-        'case_title'      => '',
-        'case_cat_id'     => 0,
-        'case_style_id'   => 0,
-        'case_style_tags' => '',
-        'case_space_id'   => 0,
-        'case_type_id'    => 0,
-        'case_layout_id'  => 0,
-        'case_layout_tags'=> '',
-        'case_admin_id'   => 0,
-        'case_admin_nick' => '',
-        'case_cover'      => '',
-        'case_image_count'=> 0,
-        'case_adate'      => 0,
-        'case_udate'      => 0,
+        'case_id'             => 0,
+        'case_title'          => '',
+        'case_cat_id'         => 0,
+        'case_style_id'       => 0,
+        'case_style_tags'     => '',
+        'case_space_id'       => 0,
+        'case_type_id'        => 0,
+        'case_layout_id'      => 0,
+        'case_layout_tags'    => '',
+        'case_admin_id'       => 0,
+        'case_admin_nick'     => '',
+        'case_cover'          => '',
+        'case_image_count'    => 0,
+        'case_adate'          => 0,
+        'case_udate'          => 0,
+        'case_designer_id'    => 0,
+        'case_region0'        => 0,
+        'case_region1'        => 0,
+        'case_price'          => '',
+        'case_area'           => '',
+        'case_community_id'   => 0,
     ];
 
     /*
@@ -217,21 +283,27 @@ class case_table extends table {
       +--------------------------
     */
     public $filter = [
-        'case_id'         => ['re\rgx\filter', 'int'],
-        'case_title'      => ['re\rgx\filter', 'char'],
-        'case_cat_id'     => ['re\rgx\filter', 'int'],
-        'case_style_id'   => ['re\rgx\filter', 'int'],
-        'case_style_tags' => ['re\rgx\filter', 'char'],
-        'case_space_id'   => ['re\rgx\filter', 'int'],
-        'case_type_id'    => ['re\rgx\filter', 'int'],
-        'case_layout_id'  => ['re\rgx\filter', 'int'],
-        'case_layout_tags'=> ['re\rgx\filter', 'char'],
-        'case_admin_id'   => ['re\rgx\filter', 'int'],
-        'case_admin_nick' => ['re\rgx\filter', 'char'],
-        'case_cover'      => ['re\rgx\filter', 'char'],
-        'case_image_count'=> ['re\rgx\filter', 'int'],
-        'case_adate'      => ['re\rgx\filter', 'int'],
-        'case_udate'      => ['re\rgx\filter', 'int'],
+        'case_id'             => ['re\rgx\filter', 'int'],
+        'case_title'          => ['re\rgx\filter', 'char'],
+        'case_cat_id'         => ['re\rgx\filter', 'int'],
+        'case_style_id'       => ['re\rgx\filter', 'int'],
+        'case_style_tags'     => ['re\rgx\filter', 'char'],
+        'case_space_id'       => ['re\rgx\filter', 'int'],
+        'case_type_id'        => ['re\rgx\filter', 'int'],
+        'case_layout_id'      => ['re\rgx\filter', 'int'],
+        'case_layout_tags'    => ['re\rgx\filter', 'char'],
+        'case_admin_id'       => ['re\rgx\filter', 'int'],
+        'case_admin_nick'     => ['re\rgx\filter', 'char'],
+        'case_cover'          => ['re\rgx\filter', 'char'],
+        'case_image_count'    => ['re\rgx\filter', 'int'],
+        'case_adate'          => ['re\rgx\filter', 'int'],
+        'case_udate'          => ['re\rgx\filter', 'int'],
+        'case_designer_id'    => ['re\rgx\filter', 'int'],
+        'case_region0'        => ['re\rgx\filter', 'int'],
+        'case_region1'        => ['re\rgx\filter', 'int'],
+        'case_price'          => ['re\rgx\filter', 'char'],
+        'case_area'           => ['re\rgx\filter', 'char'],
+        'case_community_id'   => ['re\rgx\filter', 'int'],
     ];
 
     /*
