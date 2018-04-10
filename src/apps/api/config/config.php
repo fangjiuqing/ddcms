@@ -10,5 +10,7 @@ return [
         ],
    ],
 
-   'image_url'      => 'http://p4r3lxyo0.bkt.clouddn.com/'
+   'defines'    => [
+        'image_url'     => 'http://p4r3lxyo0.bkt.clouddn.com/'
+   ]
 ];
