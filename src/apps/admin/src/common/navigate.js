@@ -20,25 +20,6 @@ export default {
       ]
     },
     {
-      url: '/case',
-      name: '案例管理',
-      icon: 'fa fa-image',
-      children: [
-        {
-          url: '/case/add',
-          name: '新增案例',
-          icon: 'fa fa-plus-square',
-          active: false
-        },
-        {
-          url: '/case',
-          name: '案例列表',
-          icon: 'fa fa-th-list',
-          active: false
-        }
-      ]
-    },
-    {
       url: '/material',
       name: '材料管理',
       icon: 'fa fa-superpowers',
@@ -94,15 +75,21 @@ export default {
       icon: 'fa fa-rocket',
       children: [
         {
-          url: '/operate/index',
-          name: '首页案例',
-          icon: 'fa fa-plus-square',
+          url: '/desinger',
+          name: '设计师',
+          icon: 'fa fa-address-book',
           active: false
         },
         {
-          url: '/operate/desinger',
-          name: '设计师',
-          icon: 'fa fa-address-book',
+          url: '/case',
+          name: '案例列表',
+          icon: 'fa fa-image',
+          active: false
+        },
+        {
+          url: '/operate/index',
+          name: '首页案例',
+          icon: 'fa fa-plus-square',
           active: false
         }
       ]

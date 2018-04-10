@@ -51,6 +51,7 @@ class customer_iface extends base_iface {
      * @param array $data 被删除用户id
      */
     public function del_action () {
+        $this->check_login();
         $id = intval($this->data['id']);
         $tab = OBJ('customer_table');
         $ret = $tab->get($id);
@@ -104,6 +105,7 @@ class customer_iface extends base_iface {
      * @param int    $pc_score      成功率
      */
     public function save_action () {
+        $this->check_login();
         $this->data['pc_sn'] = filter::char($this->data['pc_sn']);
         if (!filter::is_account($this->data['pc_nick'])) {
             $this->failure('请输入正确的用户名');
@@ -140,6 +142,35 @@ class customer_iface extends base_iface {
             }
         }
         $this->failure($tab->get_error_desc());
+    }
+    
+    /**
+     * 用户预留手机号
+     * @param varchar $pc_nick   用户名
+     * @param varchar $pc_mobile 手机号
+     * @param int     $pc_area   房屋面积
+     * @param tinyint $pc_room0  几室
+     * @param tinyint $pc_room1  几厅
+     * @param tinyint $pc_room2  几厨
+     * @param tinyint $pc_room3  几卫
+     * @param varchar $pc_local  小区楼盘
+     */
+    public function info_action () {
+        if (!filter::is_account($this->data['pc_nick'])) {
+            $this->failure('请输入正确的用户名');
+        }
+        $this->data['pc_area'] = filter::int($this->data['pc_area']);
+        $this->data['pc_room0'] = filter::int($this->data['pc_area']);
+        $this->data['pc_room1'] = filter::int($this->data['pc_area']);
+        $this->data['pc_room2'] = filter::int($this->data['pc_area']);
+        $this->data['pc_room3'] = filter::int($this->data['pc_area']);
+        $this->verify([
+            'pc_mobile' => [
+                'code' => 101,
+                'msg'  => '请输入正确的手机号',
+                'rule' => filter::$rules['mobile'],
+            ],
+        ]);
     }
     
 }

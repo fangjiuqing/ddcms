@@ -4,7 +4,7 @@ namespace re\rgx;
 /**
  * 系统管理操作类
  */
-class system_iface extends base_iface {
+class system_iface extends ubase_iface {
     
     /**
      * 操作日志列表获取接口
