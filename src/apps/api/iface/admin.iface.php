@@ -106,7 +106,8 @@ class admin_iface extends ubase_iface {
                     'rule' => filter::$rules['email'],
                 ],
             ]);
-        } else {
+        }
+        else {
             $this->data['admin_email'] = '';
         }
         if ($this->data['admin_wechat']) {
@@ -117,7 +118,8 @@ class admin_iface extends ubase_iface {
                     'rule' => filter::$rules['wechat'],
                 ],
             ]);
-        } else {
+        }
+        else {
             $this->data['admin_wechat'] = '';
         }
         $this->data['admin_group_id'] = $this->data['admin_group_id'] ?: 1;
@@ -151,6 +153,5 @@ class admin_iface extends ubase_iface {
         }
         $this->failure($tab->get_error_desc(), 105);
     }
-    
     
 }

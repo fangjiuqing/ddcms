@@ -43,7 +43,7 @@ class customer_table extends table {
             'min'                => 0,
             'max'                => 16,
             'label'              => '客户编号',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'pc_sid' => [
@@ -103,7 +103,7 @@ class customer_table extends table {
             'min'                => 0,
             'max'                => 32,
             'label'              => '客服姓名',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'pc_atime' => [
@@ -183,7 +183,7 @@ class customer_table extends table {
             'min'                => 0,
             'max'                => 64,
             'label'              => '详细地址',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'pc_co_id' => [
