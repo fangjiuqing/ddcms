@@ -4,7 +4,7 @@ namespace re\rgx;
 /**
  * @name 用户基本操作
  */
-class user_iface extends admin_iface {
+class user_iface extends ubase_iface {
 
     /**
      * 获取当前登录信息

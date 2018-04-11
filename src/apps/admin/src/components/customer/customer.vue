@@ -180,7 +180,6 @@ export default {
         msg: '加载中 ...'
       })
       this.$http.save('customer', this.modal_data).then(d => {
-        console.log(this.modal_data)
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_open = false

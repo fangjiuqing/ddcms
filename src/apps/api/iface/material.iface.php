@@ -4,7 +4,7 @@ namespace re\rgx;
 /**
  * 分类
  */
-class material_iface extends base_iface {
+class material_iface extends ubase_iface {
 
 
     /**
