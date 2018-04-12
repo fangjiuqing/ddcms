@@ -9,4 +9,8 @@ return [
             'default' => 'host=188.server;port=3306;db=ddzz;user=root;passwd=123456;charset=utf8mb4;profiling=1',
         ],
    ],
+
+   'defines'    => [
+        'image_url'     => 'http://p4r3lxyo0.bkt.clouddn.com/'
+   ]
 ];

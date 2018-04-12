@@ -83,7 +83,7 @@ class admin_table extends table {
             'min'                => 0,
             'max'                => 64,
             'label'              => '邮箱地址',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'admin_wechat' => [
@@ -93,7 +93,7 @@ class admin_table extends table {
             'min'                => 0,
             'max'                => 64,
             'label'              => '绑定的微信号',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'admin_nick' => [
@@ -113,7 +113,7 @@ class admin_table extends table {
             'min'                => 0,
             'max'                => 65535,
             'label'              => '所属用户组',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'admin_type' => [
