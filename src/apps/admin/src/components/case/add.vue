@@ -214,7 +214,7 @@ export default {
         type: 'success',
         dismissible: false
       })
-      this.form.cover = d.image
+      this.form.case_cover = d.image
       this.cover = d.thumb
     },
     on_cover_progress (e) {
@@ -254,7 +254,7 @@ export default {
     },
     set_cover (key) {
       if (this.images[key]) {
-        this.form.cover = this.images[key].image
+        this.form.case_cover = this.images[key].image
         this.cover = this.images[key].url
         this.$notify({
           content: '设置成功',
@@ -321,8 +321,7 @@ export default {
         attrs: this.attrs
       }).then(d => {
         this.$loading.hide()
-        console.log(d)
-        if (d.code === 10) {
+        if (d.code === 0) {
           this.$router.push({
             path: '/case'
           })

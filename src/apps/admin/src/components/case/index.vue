@@ -1,5 +1,5 @@
 <template>
-  <div class="profile">
+  <div class="case">
     <breadcrumbs :items="items">
       <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
         {{v.text}}
@@ -13,40 +13,50 @@
     <div class="app_page">
       <form action="/" id="profile_form" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
         <div class="app_content">
-          <div class="content table-responsive">
-            <table class="table table-striped">
-              <thead>
-                  <tr>
-                    <th class="text-left">标题</th>
-                    <th class="text-center" width="120">分类</th>
-                    <th class="text-center" width="80">浏览</th>
-                    <th class="text-center" width="150">时间</th>
-                    <th class="text-center" width="100"></th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr v-for="(v) in rows" :key="v.article_id">
-                      <td class="text-left">
-                        <a @click="modify(v.article_id)">{{v.article_title}}</a>
-                      </td>
-                      <td class="text-center">
-                        <small>{{v.cat_name}}</small>
-                      </td>
-                      <td class="text-center">
-                        <code>{{v.article_stat_view}}</code>
-                      </td>
-                      <td class="text-center">
-                        <small>{{v.article_udate|time('yyyy-mm-dd HH:MM:ss')}}</small>
-                      </td>
-                      <td class="text-center">
-                          <btn class="btn btn-xs btn-success" @click="modify(v.article_id)"><i class="fa fa-pencil"></i></btn>
-                          <btn class="btn btn-xs btn-rose" @click="del(v.article_id)"><i class="fa fa-trash-o"></i></btn>
-                      </td>
-                  </tr>
-              </tbody>
-            </table>
-            <pagination v-model="pn" :total-page="total" @change="refresh" size="sm"/>
+          <div class="case-list">
+            <div class="media case-row" v-for="(v) in rows" :key="v.case_id">
+                <div class="media-left">
+                  <img :src="attrs.upload_url + v.case_cover" alt="" class="case-list-cover">
+                </div>
+                <div class="media-body">
+                  <h5><a @click="modify(v.case_id)">{{v.case_title}}</a></h5>
+                  <p class="text-left">
+                    <span>
+                      <small>类别 : </small> <code>{{attrs.cat[v.case_cat_id]['cat_name']}}</code>
+                    </span>
+                    <span class="separator"></span>
+                    <span>
+                      <small>风格 : </small> <code>{{attrs.style[v.case_style_id]['cat_name']}}</code>
+                    </span>
+                    <span class="separator"></span>
+                    <span>
+                      <small>空间 : </small> <code>{{attrs.space[v.case_space_id]['cat_name']}}</code>
+                    </span>
+                    <span class="separator"></span>
+                    <span>
+                      <small>布局 : </small> <code>{{attrs.layout[v.case_layout_id]['cat_name']}}</code>
+                    </span>
+                    <span class="separator"></span>
+                    <small>
+                      共 {{v.case_image_count}} 张
+                    </small>
+                  </p>
+                  <p class="text-left">
+                    <span>
+                      <small>发布于 {{v.case_adate|time('yyyy-mm-dd HH:MM:ss')}}</small>
+                    </span>
+                    <span class="separator"></span>
+                    <span>
+                      <small>更新于 {{v.case_udate|time('yyyy-mm-dd HH:MM:ss')}}</small>
+                    </span>
+                  </p>
+                  <p class="text-left">
+                    <img class="case-small-image" v-for="(img, img_key) in v.images" :src="attrs.upload_url + img" :key="img_key" alt="">
+                  </p>
+                </div>
+            </div>
           </div>
+          <pagination v-model="pn" :total-page="total" @change="refresh" size="sm"/>
         </div>
       </form>
     </div>
@@ -78,7 +88,7 @@ export default {
   methods: {
     modify (id) {
       this.$router.push({
-        path: '/article/add',
+        path: '/case/add',
         query: {id}
       })
     },
@@ -86,13 +96,13 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.list('article', {pn: this.pn}).then(d => {
+      this.$http.list('case', {pn: this.pn}).then(d => {
         this.$loading.hide()
-        console.log(d)
         if (d.code === 0) {
           this.rows = d.data.list
           this.pn = d.data.paging.pn
           this.total = d.data.paging.max
+          this.attrs = d.data.attrs
         } else {
           this.rows = []
         }

@@ -4,7 +4,7 @@ namespace re\rgx;
 /**
  * 分类
  */
-class category_iface extends ubase_iface {
+class category_iface extends base_iface {
 
 
     /**
@@ -52,6 +52,7 @@ class category_iface extends ubase_iface {
      * 添加分类接口
      */
     public function save_action () {
+        $this->check_login();
         $this->data['cat_type'] = $this->type_id;
         $tab = OBJ('category_table');
         $this->data['cat_paths'] = '#0#';

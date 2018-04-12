@@ -4,7 +4,7 @@ namespace re\rgx;
 /**
  * 品牌管理接口
  */
-class material_brand_iface extends admin_iface {
+class material_brand_iface extends ubase_iface {
 
     /**
      * 获取分类详情

@@ -42,6 +42,25 @@ class category_helper extends rgx {
     }
 
     /**
+     * 获取分类列表
+     * @param  [type] $type_id [description]
+     * @return [type]          [description]
+     */
+    public static function get_rows ($type_id, $cache = false) {
+        $func = function () use ($type_id) {
+            $ret = OBJ('category_table')->fields('cat_id,cat_name')->akey('cat_id')->get_all([
+                'cat_type'  => $type_id
+            ]);
+            $ret['0'] = [
+                'cat_id'    => 0,
+                'cat_name'  => '默认'
+            ];
+            return $ret;
+        };
+        return $cache ? CACHE("category-rows-{$type_id}", $func, 86400) : $func();
+    }
+
+    /**
      * 转换为树形结构
      * @param number $root_id
      * @param bool $simple

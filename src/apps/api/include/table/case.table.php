@@ -33,7 +33,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '案例编号',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_title' => [
@@ -43,7 +43,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 128,
             'label'              => '案例标题',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_cat_id' => [
@@ -53,7 +53,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '所属分类',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_style_id' => [
@@ -63,7 +63,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '主风格ID',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_style_tags' => [
@@ -73,7 +73,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 128,
             'label'              => '风格标签',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_space_id' => [
@@ -83,7 +83,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '空间类型',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_type_id' => [
@@ -93,7 +93,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '户型ID',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_layout_id' => [
@@ -103,7 +103,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '布局ID',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_layout_tags' => [
@@ -113,7 +113,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 128,
             'label'              => '布局标签',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_admin_id' => [
@@ -123,7 +123,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '录入人',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_admin_nick' => [
@@ -133,7 +133,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 32,
             'label'              => '录入人姓名',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_cover' => [
@@ -143,7 +143,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 64,
             'label'              => '封面图片',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_image_count' => [
@@ -153,7 +153,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 255,
             'label'              => '图片数',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_adate' => [
@@ -163,7 +163,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '添加时间',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_udate' => [
@@ -173,7 +173,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '更新时间',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_designer_id' => [
@@ -183,7 +183,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '所属设计师',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_region0' => [
@@ -193,7 +193,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '省份',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_region1' => [
@@ -203,7 +203,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '城市',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_price' => [
@@ -213,7 +213,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 16,
             'label'              => '造价',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_area' => [
@@ -223,7 +223,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 16,
             'label'              => '面积',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_community_id' => [
@@ -233,7 +233,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '小区',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'case_images' => [
@@ -243,7 +243,17 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 255,
             'label'              => '图片',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
+            'allow_null'         => false
+        ],
+        'case_views' => [
+            'name'               => 'case_views',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '图片',
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
     ];
@@ -286,6 +296,7 @@ class case_table extends table {
         'case_area'           => '',
         'case_community_id'   => 0,
         'case_images'         => '',
+        'case_views'          => 0,
     ];
 
     /*
@@ -316,6 +327,7 @@ class case_table extends table {
         'case_area'           => ['re\rgx\filter', 'char'],
         'case_community_id'   => ['re\rgx\filter', 'int'],
         'case_images'         => ['re\rgx\filter', 'char'],
+        'case_views'          => ['re\rgx\filter', 'int'],
     ];
 
     /*

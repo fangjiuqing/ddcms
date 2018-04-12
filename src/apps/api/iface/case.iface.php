@@ -4,7 +4,7 @@ namespace re\rgx;
 /**
  * 案例管理接口
  */
-class case_iface extends ubase_iface {
+class case_iface extends base_iface {
 
     /**
      * 获取案例记录
@@ -30,6 +30,137 @@ class case_iface extends ubase_iface {
         foreach ((array)$out['category'] as $k => $v) {
             $out['category'][$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . $v['cat_name'];
         }
+        $this->success('', $out);
+    }
+
+    /**
+     * 案例保存
+     * @return [type] [description]
+     */
+    public function save_action () {
+        $this->check_login();
+
+        // 输入数据
+        $case = $this->data['base'];
+        $images = $this->data['images'];
+        $attrs = $this->data['attrs'];
+
+        // 默认值
+        $case['case_id'] = $case['case_id'] ?: 0;
+        $case['case_admin_id'] = $this->login['admin_id'];
+        $case['case_admin_nick'] = $this->login['admin_nick'];
+        $case['case_adate'] = $case['case_adate'] ?: REQUEST_TIME;
+        $case['case_udate'] = REQUEST_TIME;
+        $case['case_images'] = [];
+        $case['case_image_count'] = count($images);
+        $case['case_style_tags'] = $case['case_style_tags'] ?: '';
+        $case['case_type_id'] = $case['case_type_id'] ?: 0;
+        $case['case_layout_tags'] = $case['case_layout_tags'] ?: '';
+        $case['case_designer_id'] = $case['case_designer_id'] ?: 0;
+        $case['case_region0'] = $case['case_region0'] ?: 0;
+        $case['case_region1'] = $case['case_region1'] ?: 0;
+        $case['case_region2'] = $case['case_region2'] ?: 0;
+        $case['case_community_id'] = $case['case_community_id'] ?: 0;
+        $case['case_views'] = $case['case_views'] ?: 0;
+
+        foreach ((array)$images as $k => $v) {
+            if (!isset($case['case_images'][$v['cat_id']])) {
+                $case['case_images'][$v['cat_id']] = $v['image'];
+            }
+        }
+        $case['case_images'] = join('#', $case['case_images']);
+
+        // 输入验证
+        $this->verify([
+            'case_title'    => [
+                'code'  => '1',
+                'msg'   => '请输入案例名称',
+                'rule'  => filter::$rules['require'],
+            ],
+            'case_cat_id'   => [
+                'code'  => '1',
+                'msg'   => '请选择所属分类',
+                'rule'  => filter::$rules['number'],
+            ],
+            'case_style_id' => [
+                'code'  => '1',
+                'msg'   => '请选择风格分类',
+                'rule'  => filter::$rules['number'],
+            ],
+            'case_cover'    => [
+                'code'  => '1',
+                'msg'   => '请设置案例封面',
+                'rule'  => filter::$rules['require'],
+            ],
+            'case_area'    => [
+                'code'  => '1',
+                'msg'   => '请输入面积',
+                'rule'  => filter::$rules['require'],
+            ],
+            'case_price'    => [
+                'code'  => '1',
+                'msg'   => '请输入造价',
+                'rule'  => filter::$rules['require'],
+            ]
+        ], $case);
+        if (empty($images)) {
+            $this->failure('请上传案例图片');
+        }
+
+        // 案例入库
+        $ctab = OBJ('case_table');
+        if ($ctab->load($case)) {
+            $ret = $ctab->save();
+            if ($ret['code'] === 0) {
+                $case['case_id'] = $case['case_id'] ?: $ret['row_id'];
+                OBJ('case_content_table')->replace([
+                    'case_id'       => $case['case_id'],
+                    'case_content'  => filter::json_ecsape([
+                        'images'    => $images,
+                        'attrs'     => $attrs
+                    ])
+                ]);
+                admin_helper::add_log($this->login['admin_id'], 'case/save', '2', 
+                    ($this->data['base']['case_id'] ? '案例修改' : '案例新增') . 
+                    '[' . $case['case_id'] . '@' . $case['case_title'] . ']');
+                $this->success('操作成功');
+            }
+        }
+        $this->failure($ctab->get_error_desc());
+    }
+
+    /**
+     * 列表
+     */
+    public function list_action () {
+        $out = [];
+        $region_ids = [];
+        $tab = OBJ('case_table');
+        $paging = new paging_helper($tab, $this->data['pn'] ?: 1, 12);
+
+        $out['list'] = $tab->map(function ($row) use (&$region_ids) {
+            $region_ids[$row['case_region0']] = 0;
+            $region_ids[$row['case_region1']] = 0;
+            $region_ids[$row['case_region2']] = 0;
+            $row['images'] = explode('#', $row['case_images']);
+            return $row;
+        })->order('case_udate desc')->get_all();
+
+        unset($region_ids[0], $region_ids['']);
+
+        $out['paging'] = $paging;
+        $out['attrs'] = [];
+        $out['attrs']['type'] = material_helper::$type;
+        $out['attrs']['region'] = OBJ('region_table')->fields('region_code,region_name')->akey('region_code')->get_all([
+            'region_code'   => array_keys($region_ids ?: [0])
+        ]);
+        $out['attrs']['cat'] = category_helper::get_rows(2, true);
+        $out['attrs']['style'] = category_helper::get_rows(4, true);
+        $out['attrs']['space'] = category_helper::get_rows(5, true);
+        $out['attrs']['type'] = category_helper::get_rows(6, true);
+        $out['attrs']['layout'] = category_helper::get_rows(7, true);
+        $out['attrs']['upload_url'] = UPLOAD_URL;
+        $out['attrs']['image_url'] = IMAGE_URL;
         $this->success('', $out);
     }
 }
