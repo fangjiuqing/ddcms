@@ -90,6 +90,14 @@
                     </div>
                   </div>
                 </div>
+                <div class="form-group">
+                  <label class="col-sm-3 label-on-left">备注</label>
+                  <div class="col-sm-9">
+                    <div class="form-group">
+                      <input class="form-control" v-model="form.pc_memo"  v-focus="form.pc_memo"  type="text" placeholder="备注" disabled>
+                    </div>
+                  </div>
+                </div>
               <!-- <div class="content table-responsive">
                 <table class="table table-striped">
                   <thead>
@@ -166,8 +174,8 @@ export default {
         this.$loading.hide()
         if (d.code === 0) {
           // this.rows = d.data
-          // console.log(this.rows)
           this.form = this.id ? d.data : {}
+          // console.log(this.form)
         } else {
           this.rows = []
         }
