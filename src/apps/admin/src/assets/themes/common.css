@@ -2841,7 +2841,7 @@ input:focus,textarea:focus,select:focus {
   border-bottom: 1px dashed #ddd;
 }
 .case .case-row .case-small-image {
-  width: 100px;
+  max-height: 58px;
   border-radius: 3px;
   margin-right: 10px;
 }
