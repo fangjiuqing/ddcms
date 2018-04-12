@@ -88,7 +88,6 @@ export default {
       })
       this.$http.list('article', {pn: this.pn}).then(d => {
         this.$loading.hide()
-        console.log(d)
         if (d.code === 0) {
           this.rows = d.data.list
           this.pn = d.data.paging.pn

@@ -21,8 +21,10 @@ import Material from '@/components/material/index'
 import MaterialAdd from '@/components/material/add'
 
 import Customer from '@/components/customer/customer'
+import Preview from '@/components/customer/preview'
 
 import Logs from '@/components/system/logs'
+import User from '@/components/system/admin'
 
 Vue.use(Router)
 Vue.use(Meta)
@@ -66,6 +68,11 @@ const router = new Router({
       component: Customer
     },
     {
+      path: '/customer/preview',
+      name: 'Preview',
+      component: Preview
+    },
+    {
       path: '/article',
       name: 'Article',
       component: Article
@@ -94,6 +101,11 @@ const router = new Router({
       path: '/material/supplier',
       name: 'Supplier',
       component: Supplier
+    },
+    {
+      path: '/user',
+      name: 'User',
+      component: User
     },
     {
       path: '/system/logs',
