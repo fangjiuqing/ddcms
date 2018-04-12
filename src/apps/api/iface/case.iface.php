@@ -166,4 +166,35 @@ class case_iface extends base_iface {
         $out['attrs']['image_url'] = IMAGE_URL;
         $this->success('', $out);
     }
+
+    /**
+     * 案例删除
+     * @return [type] [description]
+     */
+    public function del_action () {
+        $this->check_login();
+        $id = intval($this->data['id']);
+        $tab = OBJ('case_table');
+        $case = $tab->left_join('case_content_table', 'case_id', 'case_id')->get($id) ?: [];
+
+        if (!empty($case)) {
+            $images = filter::json_unecsape($out['row']['case_content'])['images'];
+            foreach ((array)$images as $v) {
+                if (preg_match(filter::$rules['file_path'], $v['image']) 
+                    && file_exists(UPLOAD_PATH . $v['image'])) {
+                    unlink(UPLOAD_PATH . $v['image']);
+                }
+            }
+            $tab->delete([
+                'case_id'   => $id
+            ]);
+            OBJ('case_content_table')->delete([
+                'case_id'   => $id
+            ]);
+            admin_helper::add_log($this->login['admin_id'], 'case/del', '3',
+                    '删除案例[' . $id . '@' . $case['case_title'] . ']');
+            $this->success('删除成功');
+        }
+        $this->failure('案例删除失败', '101');
+    }
 }

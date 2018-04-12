@@ -19,7 +19,10 @@
                   <img :src="attrs.upload_url + v.case_cover" alt="" class="case-list-cover">
                 </div>
                 <div class="media-body">
-                  <h5><a @click="modify(v.case_id)">{{v.case_title}}</a></h5>
+                  <h5>
+                    <btn class="btn btn-xs btn-rose pull-right" @click="del_case(v.case_id)"><i class="fa fa-trash-o"></i></btn>
+                    <a title="编辑案例" @click="modify(v.case_id)">{{v.case_title}}</a>
+                  </h5>
                   <p class="text-left">
                     <span>
                       <small>类别 : </small> <code>{{attrs.cat[v.case_cat_id]['cat_name']}}</code>
@@ -76,7 +79,7 @@ export default {
     return {
       items: [
         {text: '首页', to: '/'},
-        {text: '资讯', to: '/article'},
+        {text: '案例', to: '/case'},
         {text: '列表', href: '#'}
       ],
       rows: [],
@@ -108,11 +111,11 @@ export default {
         }
       })
     },
-    del: function (id) {
+    del_case: function (id) {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.del('article', {id: id}).then(d => {
+      this.$http.del('case', {id: id}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.$notify({

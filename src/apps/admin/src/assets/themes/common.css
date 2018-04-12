@@ -2839,6 +2839,7 @@ input:focus,textarea:focus,select:focus {
   font-weight: 300;
   text-align: left;
   border-bottom: 1px dashed #ddd;
+  padding-right: 5px;
 }
 .case .case-row .case-small-image {
   max-height: 58px;
