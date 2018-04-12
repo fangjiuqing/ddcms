@@ -66,7 +66,7 @@
               <h5 class="block-h5">项目信息
               </h5>
               <div class="form-group text-left">
-                <v-distpicker :province="form.province" :city="form.city" :area="form.area" @selected="onSelected"></v-distpicker>
+                <v-distpicker :province="form.province" :city="form.city" hide-area @selected="onSelected"></v-distpicker>
               </div>
               <div class="form-group">
                   <input class="form-control" name="case_community" v-model="form.case_community"  v-focus="form.case_community"  type="text" placeholder="小区">
@@ -190,7 +190,6 @@ export default {
     onSelected (d) {
       this.form.case_region0 = d.province.code
       this.form.case_region1 = d.city.code
-      this.form.case_region2 = d.area.code
     },
     on_cover_error (msg) {
       this.$loading.hide()
@@ -299,13 +298,14 @@ export default {
         this.$loading.hide()
         if (d.code === 0) {
           this.form = this.id ? d.data.row : this.form
-          this.case_cover = this.form['case_cover'] || ''
+          this.images = d.data.images
+          this.attrs = d.data.attrs
+          this.cover = d.data.row['cover'] || ''
           this.categories = d.data.category || []
           this.style = d.data.style || []
           this.space = d.data.space || []
           this.type = d.data.type || []
           this.layout = d.data.layout || []
-          this.images = d.data.images || {}
         } else {
           this.form = []
         }

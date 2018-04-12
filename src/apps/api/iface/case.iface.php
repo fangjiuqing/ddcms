@@ -13,9 +13,12 @@ class case_iface extends base_iface {
         $id = intval($this->data['id']);
         $out['row'] = OBJ('case_table')->
             left_join('case_content_table', 'case_id', 'case_id')->get($id) ?: [];
+        $out['attrs'] = $out['images'] = [];
         if ($out['row']) {
-            $out['row']['case_content'] = htmlspecialchars_decode($out['row']['case_content'], ENT_QUOTES);
-            $out['row']['case_cover_thumb'] = IMAGE_URL . $out['row']['case_cover'] . '!500x309';
+            $desc = filter::json_unecsape($out['row']['case_content']);
+            $out['attrs'] = $desc['attrs'];
+            $out['images'] = $desc['images'];
+            $out['row']['cover'] = IMAGE_URL . $out['row']['case_cover'] . '!500x309';
         }
         // 基本
         $out['category'] = category_helper::get_options(2, 0, 0);

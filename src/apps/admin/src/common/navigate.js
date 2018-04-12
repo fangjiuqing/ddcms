@@ -57,19 +57,6 @@ export default {
       ]
     },
     {
-      url: '/article',
-      name: '资讯管理',
-      icon: 'fa fa-newspaper-o',
-      children: [
-        {
-          url: '/article',
-          name: '资讯列表',
-          icon: 'fa fa-th-list',
-          active: false
-        }
-      ]
-    },
-    {
       url: '/operate',
       name: '运营管理',
       icon: 'fa fa-rocket',
@@ -90,6 +77,12 @@ export default {
           url: '/operate/index',
           name: '首页案例',
           icon: 'fa fa-plus-square',
+          active: false
+        },
+        {
+          url: '/article',
+          name: '资讯管理',
+          icon: 'fa fa-newspaper-o',
           active: false
         }
       ]
