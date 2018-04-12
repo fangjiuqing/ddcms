@@ -298,8 +298,8 @@ export default {
         this.$loading.hide()
         if (d.code === 0) {
           this.form = this.id ? d.data.row : this.form
-          this.images = d.data.images
-          this.attrs = d.data.attrs
+          this.images = d.data.images || {}
+          this.attrs = d.data.attrs || this.attrs
           this.cover = d.data.row['cover'] || ''
           this.categories = d.data.category || []
           this.style = d.data.style || []

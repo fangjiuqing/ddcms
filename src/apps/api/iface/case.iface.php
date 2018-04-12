@@ -13,7 +13,7 @@ class case_iface extends base_iface {
         $id = intval($this->data['id']);
         $out['row'] = OBJ('case_table')->
             left_join('case_content_table', 'case_id', 'case_id')->get($id) ?: [];
-        $out['attrs'] = $out['images'] = [];
+        $out['attrs'] = $out['images'] = null;
         if ($out['row']) {
             $desc = filter::json_unecsape($out['row']['case_content']);
             $out['attrs'] = $desc['attrs'];
