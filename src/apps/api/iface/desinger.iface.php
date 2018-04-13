@@ -5,7 +5,7 @@ namespace re\rgx;
  * 设计师操作接口类
  */
 
-class desinger_iface extends base_iface {
+class designer_iface extends base_iface {
 
     /**
      * 添加设计师接口
@@ -33,7 +33,7 @@ class desinger_iface extends base_iface {
         $this->data['des_adate'] = (int)$this->data['des_adate'] ?: REQUEST_TIME;
         $this->data['des_udate'] = REQUEST_TIME;
         $this->data['des_stat_view'] = (int)$this->data['des_stat_view'] ?: 0;
-        $tab = OBJ('des_table');
+        $tab = OBJ('designer_table');
         if ($tab->load($this->data)) {
             $ret = $tab->save();
             if ($ret['code'] === 0) {
@@ -56,7 +56,7 @@ class desinger_iface extends base_iface {
      */
     public function get_action () {
         $id = intval($this->data['id']);
-        $out['row'] = OBJ('des_table')->left_join('des_content_table', 'des_id', 'des_id')
+        $out['row'] = OBJ('designer_table')->left_join('des_content_table', 'des_id', 'des_id')
             ->get($id) ?: [];
         if ($out['row']) {
             $out['row']['des_content'] = htmlspecialchars_decode($out['row']['des_content'], ENT_QUOTES);
@@ -74,7 +74,7 @@ class desinger_iface extends base_iface {
      * 获取设计师列表接口
      */
     public function list_action () {
-        $tab = OBJ('des_table');
+        $tab = OBJ('designer_table');
 
         // 分页
         $paging = new paging_helper($tab, $this->data['pn'] ?: 1, 12);
@@ -128,7 +128,7 @@ class desinger_iface extends base_iface {
     public function del_action () {
         $this->check_login();
         $id = intval($this->data['id']);
-        $tab = OBJ('des_table');
+        $tab = OBJ('designer_table');
         $ret = $tab->get($id);
         if (empty($ret)) {
             $this->failure('该设计师不存在');

@@ -50,7 +50,7 @@
 <script>
 import { VueEditor } from 'vue2-editor'
 export default {
-  name: 'DesingerAdd',
+  name: 'designerAdd',
   components: {VueEditor},
   metaInfo () {
     return {
@@ -61,7 +61,7 @@ export default {
     return {
       items: [
         {text: '首页', to: '/'},
-        {text: '资讯', to: '/desinger'},
+        {text: '资讯', to: '/designer'},
         {text: '编辑', href: '#'}
       ],
       id: this.$route.query['id'] || 0,
@@ -94,8 +94,8 @@ export default {
         type: 'success',
         dismissible: false
       })
-      this.form.desinger_cover = d.image
-      this.desinger_cover = d.thumb
+      this.form.designer_cover = d.image
+      this.designer_cover = d.thumb
     },
     on_cover_progress (e) {
       if (e) {
@@ -163,11 +163,11 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.get('desinger', {id: this.id || 0, attrs: 1}).then(d => {
+      this.$http.get('designer', {id: this.id || 0, attrs: 1}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.form = this.id ? d.data.row : {}
-          this.desinger_cover = this.form['desinger_cover_thumb'] || ''
+          this.designer_cover = this.form['designer_cover_thumb'] || ''
           this.categories = d.data.category
         } else {
           this.form = []
@@ -178,11 +178,11 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.save('desinger', this.form).then(d => {
+      this.$http.save('designer', this.form).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.$router.push({
-            path: '/desinger'
+            path: '/designer'
           })
         } else {
           this.$notify({
@@ -196,14 +196,14 @@ export default {
     }
   },
   mounted: function () {
-    this.$store.state.left_active_key = '/desinger'
+    this.$store.state.left_active_key = '/designer'
     this.modify()
   },
   destroyed: function () {
     this.$loading.hide()
   },
   activated: function () {
-    this.$store.state.left_active_key = '/desinger'
+    this.$store.state.left_active_key = '/designer'
   }
 }
 </script>

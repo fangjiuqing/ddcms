@@ -5,7 +5,7 @@
         {{v.text}}
       </breadcrumb-item>
       <breadcrumb-item active class="pull-right">
-        <router-link :to="{path:'/desinger/add'}" class="btn btn-xs btn-info pull-right">
+        <router-link :to="{path:'/designer/add'}" class="btn btn-xs btn-info pull-right">
           <i class="fa fa-plus-square"></i> 新增
         </router-link>
       </breadcrumb-item>
@@ -56,7 +56,7 @@
 <script>
 
 export default {
-  name: 'desinger',
+  name: 'designer',
   metaInfo () {
     return {
       title: '资讯管理 - 道达智装'
@@ -66,7 +66,7 @@ export default {
     return {
       items: [
         {text: '首页', to: '/'},
-        {text: '设计师', to: '/desinger'},
+        {text: '设计师', to: '/designer'},
         {text: '列表', href: '#'}
       ],
       rows: [],
@@ -78,7 +78,7 @@ export default {
   methods: {
     modify (id) {
       this.$router.push({
-        path: '/desinger/add',
+        path: '/designer/add',
         query: {id}
       })
     },
@@ -86,7 +86,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.list('desinger', {pn: this.pn}).then(d => {
+      this.$http.list('designer', {pn: this.pn}).then(d => {
         this.$loading.hide()
         console.log(d)
         if (d.code === 0) {
@@ -102,7 +102,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.del('desinger', {id: id}).then(d => {
+      this.$http.del('designer', {id: id}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.$notify({
@@ -124,14 +124,14 @@ export default {
     }
   },
   mounted: function () {
-    this.$store.state.left_active_key = '/desinger'
+    this.$store.state.left_active_key = '/designer'
     this.refresh()
   },
   destroyed: function () {
     this.$loading.hide()
   },
   activated: function () {
-    this.$store.state.left_active_key = '/desinger'
+    this.$store.state.left_active_key = '/designer'
     this.refresh()
   }
 }

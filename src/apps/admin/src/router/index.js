@@ -26,8 +26,8 @@ import Preview from '@/components/customer/preview'
 import Logs from '@/components/system/logs'
 import User from '@/components/system/admin'
 
-import Desinger from '@/components/desinger/index'
-import DesingerAdd from '@/components/desinger/add'
+import Designer from '@/components/designer/index'
+import DesignerAdd from '@/components/designer/add'
 
 Vue.use(Router)
 Vue.use(Meta)
@@ -194,14 +194,14 @@ const router = new Router({
       component: CaseAdd
     },
     {
-      path: '/desinger',
-      name: 'Desinger',
-      component: Desinger
+      path: '/designer',
+      name: 'Designer',
+      component: Designer
     },
     {
-      path: '/desinger/add',
-      name: 'DesingerAdd',
-      component: DesingerAdd
+      path: '/designer/add',
+      name: 'DesignerAdd',
+      component: DesignerAdd
     }
   ]
 })

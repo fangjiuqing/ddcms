@@ -62,7 +62,7 @@ export default {
       icon: 'fa fa-rocket',
       children: [
         {
-          url: '/desinger',
+          url: '/designer',
           name: '设计师',
           icon: 'fa fa-address-book',
           active: false
