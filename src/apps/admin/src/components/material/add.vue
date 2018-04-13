@@ -238,8 +238,8 @@ export default {
         type: 'success',
         dismissible: false
       })
-      this.form.article_cover = d.image
-      this.article_cover = d.thumb
+      this.form.mat_cover = d.image
+      this.mat_cover = d.thumb
     },
     on_cover_progress (e) {
       if (e) {

@@ -14,12 +14,25 @@ class case_iface extends base_iface {
         $out['row'] = OBJ('case_table')->
             left_join('case_content_table', 'case_id', 'case_id')->get($id) ?: [];
         $out['attrs'] = $out['images'] = null;
+        $region_ids = [];
         if ($out['row']) {
             $desc = filter::json_unecsape($out['row']['case_content']);
             $out['attrs'] = $desc['attrs'];
             $out['images'] = $desc['images'];
             $out['row']['cover'] = IMAGE_URL . $out['row']['case_cover'] . '!500x309';
+            if ($out['row']['case_region0']) {
+                $region_ids[] = $out['row']['case_region0'];
+            }
+            if ($out['row']['case_region1']) {
+                $region_ids[] = $out['row']['case_region1'];
+            }
+            $regions = OBJ('region_table')->akey('region_code')->fields('region_code, region_name')->get_all([
+                'region_code'   => $region_ids ?: [0]
+            ]);
+            $out['row']['province'] = $regions[$out['row']['case_region0']]['region_name'];
+            $out['row']['city'] = $regions[$out['row']['case_region1']]['region_name'];
         }
+
         // 基本
         $out['category'] = category_helper::get_options(2, 0, 0);
         // 风格
