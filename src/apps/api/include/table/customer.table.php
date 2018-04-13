@@ -300,7 +300,7 @@ class customer_table extends table {
       +--------------------------
     */
     public $unique_check = [
-        ['pc_mobile']
+        ['pc_mobile', 'pc_status_del']
     ];
 
     /*
