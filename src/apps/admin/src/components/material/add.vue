@@ -7,7 +7,6 @@
     </breadcrumbs>
     <div class="app_page">
       <form action="" method="post" accept-charset="utf-8">
-        
         <div class="form-block">
           <div class="row">
             <div class="col-md-12">

@@ -25,9 +25,9 @@
                 </h5>
                 <p class="text-left">
                   <span>
-                    <small>价格 : </small> 
+                    <small>价格 : </small>
                     <code>{{v.mat_min_price}}</code>
-                      <small> ~ </small>
+                    <small> ~ </small>
                     <code>{{v.mat_min_price}}</code>
                   </span>
                   <span class="separator"></span>
@@ -51,7 +51,6 @@
                   <span class="separator"></span>
                   <small>{{v.mat_atime|time('yyyy-mm-dd HH:MM:ss')}}</small>
                 </p>
-
               </div>
             </div>
           </div>
