@@ -122,8 +122,7 @@ class material_iface extends base_iface {
         $mat = $tab->get($id) ?: [];
 
         if (!empty($mat)) {
-            if (preg_match(filter::$rules['file_path'], $mat['mat_cover']) 
-                && file_exists(UPLOAD_PATH . $mat['mat_cover'])) {
+            if (upload_helper::is_upload_file($mat['mat_cover'])) {
                 unlink(UPLOAD_PATH . $mat['mat_cover']);
             }
             $tab->delete([

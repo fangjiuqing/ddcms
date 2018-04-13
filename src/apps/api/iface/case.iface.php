@@ -178,10 +178,12 @@ class case_iface extends base_iface {
         $case = $tab->left_join('case_content_table', 'case_id', 'case_id')->get($id) ?: [];
 
         if (!empty($case)) {
-            $images = filter::json_unecsape($out['row']['case_content'])['images'];
+            $images = filter::json_unecsape($case['case_content'])['images'];
+            $images[] = [
+                'image'     => $case['case_cover']
+            ];
             foreach ((array)$images as $v) {
-                if (preg_match(filter::$rules['file_path'], $v['image']) 
-                    && file_exists(UPLOAD_PATH . $v['image'])) {
+                if (upload_helper::is_upload_file($v['image'])) {
                     unlink(UPLOAD_PATH . $v['image']);
                 }
             }
