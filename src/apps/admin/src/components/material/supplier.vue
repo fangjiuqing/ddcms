@@ -41,6 +41,7 @@
                   </tr>
               </tbody>
             </table>
+            <pagination v-model="pn" :total-page="total" @change="refresh" size="sm"/>
           </div>
         </div>
       </form>
@@ -169,7 +170,9 @@ export default {
       modal_open: false,
       modal_title: '',
       modal_data: {},
-      suppliers: []
+      suppliers: [],
+      pn: 1,
+      total: 1
     }
   },
   methods: {
@@ -221,11 +224,13 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.list('material/supplier').then(d => {
+      this.$http.list('material/supplier', {pn: this.pn}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data.list
           this.attrs = d.data.attrs
+          this.pn = d.data.attrs['paging']['pn'] || 1
+          this.total = d.data.attrs['paging']['max'] || 1
         } else {
           this.rows = []
         }
