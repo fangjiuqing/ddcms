@@ -2853,3 +2853,10 @@ input:focus,textarea:focus,select:focus {
     margin: 0 3px;
     background-color: #ddd;
 }
+
+/** label */
+.label-v1 {
+    color: #ccc;
+    margin-top: 10px;
+    text-align: right;
+}

@@ -4,42 +4,117 @@
       <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
         {{v.text}}
       </breadcrumb-item>
-      <breadcrumb-item active class="pull-right">
-        <a class="btn btn-xs btn-info pull-right">
-          <i class="fa fa-plus-square"></i> 新增
-        </a>
-      </breadcrumb-item>
     </breadcrumbs>
-    <div class="app_page" style="padding-right:15px">
+    <div class="app_page">
       <form action="" method="post" accept-charset="utf-8">
-        <div class="row" style="width: 91.66666667%;margin:0 auto;">
-          <div class="col-sm-7" style="padding-left:0">
-              <div class="form-group">
-                  <input class="form-control" name="des_title" v-model="form.des_title"  v-focus="form.des_title"  type="text" placeholder="资讯标题">
-              </div>
+        <div class="form-block">
+          <div class="row">
+            <div class="col-md-12">
+              <h5 class="block-h5">基本信息</h5>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-sm-7">
+                <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <input class="form-control" name="des_name" v-model="form.des_name"  v-focus="form.des_name"  type="text" placeholder="设计师姓名">
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <input class="form-control" name="des_title" v-model="form.des_title"  v-focus="form.des_title"  type="text" placeholder="设计师职位">
+                      </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <input class="form-control" name="des_workyears" v-model="form.des_workyears"  v-focus="form.des_workyears"  type="number" placeholder="工作年数">
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <input class="form-control" name="des_price" v-model="form.des_price"  v-focus="form.des_price"  type="text" placeholder="设计价格">
+                      </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <input class="form-control" name="des_concept_tags" v-model="form.des_concept_tags"  v-focus="form.des_concept_tags"  type="text" placeholder="设计理念">
+                </div>
+                <div class="form-group">
+                  <input class="form-control" name="des_slogan" v-model="form.des_slogan"  v-focus="form.des_slogan"  type="text" placeholder="设计标语">
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group text-left">
+                      <v-distpicker :province="form.province" :city="form.city" hide-area @selected="onSelected"></v-distpicker>
+                    </div>
+                  </div>
 
-              <div class="form-group">
-                  <input class="form-control" name="des_via" v-model="form.des_via"  v-focus="form.des_via"  type="text" placeholder="资讯来源">
-              </div>
+                  <div class="col-md-6">
+                    <select v-model="form.des_case_id"  name="des_case_id" class="form-control">
+                      <option value="0">选择代表案例</option>
+                      <option v-for="(v) in cases" v-bind:key="v.case_id" :value="v.case_id" v-html="v.case_title">
+                      </option>
+                    </select>
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+              <img class="preview_cover" style="width: 200px; height: 230px;" :src="cover" @click="upload_cover">
+              <input type="hidden" name="des_cover" v-model="form.des_cover">
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="form-block">
+          <div class="row">
+            <div class="col-md-5">
+              <h5 class="block-h5">风格标签
+                  <btn class="btn btn-info btn-xs pull-right" @click="add_style_tag">新增</btn>
+              </h5>
+              <table class="table table-striped">
+                <tbody>
+                  <tr v-for="(row, row_key) in stags" :key="row_key">
+                    <td width="90%">
+                      <input class="form-control material_field_input" v-model="stags[row_key]['val']" value="" placeholder="请输入标签名称" />
+                    </td>
+                    <td>
+                      <btn class="btn btn-xs btn-danger" @click="del_stag(row_key)"><i class="fa fa-trash-o"></i></btn>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-7">
+              <h5 class="block-h5">所获奖项
+                <btn class="btn btn-info btn-xs pull-right" @click="add_attr">新增</btn>
+              </h5>
+              <table class="table table-striped">
+                <tbody>
+                  <tr v-for="(row, row_key) in attrs" :key="row_key">
+                    <td width="90%">
+                      <input class="form-control material_field_input" v-model="attrs[row_key]['val']" value="" placeholder="请输入奖项名称" />
+                    </td>
+                    <td>
+                      <btn class="btn btn-xs btn-danger" @click="del_attr(row_key)"><i class="fa fa-trash-o"></i></btn>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
 
-              <div class="form-group">
-                  <select v-model="form.des_cat_id"  name="des_cat_id" class="form-control">
-                    <option v-for="(v) in categories" v-bind:key="v.cat_id" :value="v.cat_id" v-html="v.space">
-                    </option>
-                  </select>
-              </div>
-          </div>
-          <div class="col-sm-5">
-            <img class="preview_des_cover" style="width: 200px; height: 120px;" :src="des_cover" @click="upload_cover">
-            <input type="hidden" name="des_cover" v-model="form.des_cover">
-          </div>
+        <div class="form-block">
+          <h5 class="block-h5">设计师简介</h5>
+          <vue-editor ref="editor" id="editor"
+            useCustomImageHandler
+            @imageAdded="upload_image" v-model="form.des_about">
+          </vue-editor>
         </div>
         <div class="row">
           <div class="col-md-11" style="margin:0 auto; float: none">
-            <vue-editor ref="editor" id="editor"
-              useCustomImageHandler
-              @imageAdded="upload_image" v-model="form.des_content">
-            </vue-editor>
             <btn type="success" v-on:click="save" class="btn btn-success pull-right">保存</btn>
           </div>
         </div>
@@ -48,30 +123,56 @@
   </div>
 </template>
 <script>
+import VDistpicker from 'v-distpicker'
 import { VueEditor } from 'vue2-editor'
 export default {
-  name: 'designerAdd',
-  components: {VueEditor},
+  name: 'DesignerAdd',
+  components: { VDistpicker, VueEditor },
   metaInfo () {
     return {
-      title: '品牌管理 - 道达智装'
+      title: '新增设计师 - 道达智装'
     }
   },
   data () {
     return {
       items: [
         {text: '首页', to: '/'},
-        {text: '资讯', to: '/designer'},
+        {text: '设计师', to: '/designer'},
         {text: '编辑', href: '#'}
       ],
       id: this.$route.query['id'] || 0,
       form: {},
-      des_cover: '',
+      cover: '',
       extra: {},
-      categories: []
+      styles: {},
+      attrs: {
+        key0: {
+          val: ''
+        }
+      },
+      stags: {
+        key0: {
+          val: ''
+        }
+      },
+      cases: {}
     }
   },
   methods: {
+    onSelected (d) {
+      this.form.des_region0 = d.province.code
+      this.form.des_region1 = d.city.code
+    },
+    onStyleSelected (d) {
+      console.log(d)
+    },
+    upload_cover () {
+      this.$uploader.select({
+        uri: 'upload/image',
+        el: this,
+        pre: 'cover'
+      })
+    },
     on_cover_error (msg) {
       this.$loading.hide()
       this.$notify({
@@ -94,8 +195,8 @@ export default {
         type: 'success',
         dismissible: false
       })
-      this.form.designer_cover = d.image
-      this.designer_cover = d.thumb
+      this.form.des_cover = d.image
+      this.cover = d.thumb
     },
     on_cover_progress (e) {
       if (e) {
@@ -126,7 +227,7 @@ export default {
         type: 'success',
         dismissible: false
       })
-      let url = d.big
+      let url = d.url
       this.extra.Editor.insertEmbed(this.extra.cursorLocation, 'image', url)
       this.extra.resetUploader()
     },
@@ -152,23 +253,34 @@ export default {
         data: formData
       })
     },
-    upload_cover () {
-      this.$uploader.select({
-        uri: 'upload/image',
-        el: this,
-        pre: 'cover'
+    del_attr (key) {
+      this.$delete(this.$data.attrs, key)
+    },
+    add_attr () {
+      this.$set(this.$data.attrs, this.$util.rand_str(16), {
+        val: ''
       })
     },
-    modify: function (id) {
+    add_style_tag () {
+      this.$set(this.$data.stags, this.$util.rand_str(20), {
+        key: '',
+        val: ''
+      })
+    },
+    del_stag (key) {
+      this.$delete(this.$data.stags, key)
+    },
+    modify (id) {
       this.$loading.show({
         msg: '加载中 ...'
       })
       this.$http.get('designer', {id: this.id || 0, attrs: 1}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          this.form = this.id ? d.data.row : {}
-          this.designer_cover = this.form['designer_cover_thumb'] || ''
-          this.categories = d.data.category
+          this.form = this.id ? d.data.row : this.form
+          this.attrs = d.data.attrs || this.attrs
+          this.styles = d.data.styles || []
+          this.cases = d.data.cases || []
         } else {
           this.form = []
         }
@@ -178,7 +290,11 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.save('designer', this.form).then(d => {
+      this.$http.save('designer', {
+        base: this.form,
+        attrs: this.attrs,
+        stags : this.stags
+      }).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.$router.push({
@@ -196,19 +312,76 @@ export default {
     }
   },
   mounted: function () {
-    this.$store.state.left_active_key = '/designer'
+    this.$store.state.left_active_key = '/operate'
     this.modify()
   },
   destroyed: function () {
     this.$loading.hide()
   },
   activated: function () {
-    this.$store.state.left_active_key = '/designer'
+    this.$store.state.left_active_key = '/operate'
   }
 }
 </script>
-
-<style>
+<style scoped>
+  .case-image {
+    width: 49%;
+    height: 120px;
+    float: left;
+    margin: 10px 10px 10px 0;
+    background: #f0f0f0;
+    border-radius: 3px;
+    padding: 10px;
+    text-align: left;
+  }
+  .case-image .case-image-wrap {
+    width: 40%;
+    position: relative;
+    height: 100%;
+    float: left;
+  }
+  .case-image .case-image-wrap img {
+    max-height: 100px;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+  }
+  .case-image .case-image-wrap .btn {
+    display: none;
+  }
+  .case-image .case-image-wrap .btn-danger {
+    position: absolute;
+    bottom: 5px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+  }
+  .case-image .case-image-wrap .btn-info {
+    position: absolute;
+    top: 5px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    padding: 0;
+    z-index: 10;
+    width: 20px;
+    height: 20px;
+  }
+  .case-image .case-image-wrap:hover .btn {
+    display: block;
+  }
+  .case-image textarea {
+    height: 100px;
+    width: 60%;
+    float: right;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 5px;
+    resize: none;
+  }
   #editor {
   }
   .quillWrapper {
@@ -222,5 +395,40 @@ export default {
   }
   .ql-toolbar {
     text-align: left;
+  }
+
+
+  [v-cloak] {
+      display: none;
+  }
+
+  .hintsbox-mark {
+      position: relative;
+      z-index:9999;
+  }
+
+  .hintsbox-mark input{
+      width: 100%;
+  }
+
+  .hintsbox {
+      width: 100%;
+      border: 1px solid #ddd;
+
+  }
+
+  .hintslist .hint {
+      padding: 4px 2px 4px 8px;
+      list-style-type : none;
+      text-align:left;
+  }
+
+  .hintslist .hint:hover {
+      background-color: #DDD8E5;
+      cursor: pointer;
+  }
+
+  .hintslist .hint.active {
+      background-color: #DDD8E5;
   }
 </style>

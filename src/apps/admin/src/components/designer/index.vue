@@ -59,7 +59,7 @@ export default {
   name: 'designer',
   metaInfo () {
     return {
-      title: '资讯管理 - 道达智装'
+      title: '设计师管理 - 道达智装'
     }
   },
   data () {
@@ -88,7 +88,6 @@ export default {
       })
       this.$http.list('designer', {pn: this.pn}).then(d => {
         this.$loading.hide()
-        console.log(d)
         if (d.code === 0) {
           this.rows = d.data.list
           this.pn = d.data.paging.pn
