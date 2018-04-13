@@ -253,4 +253,7 @@ export default {
 .distpicker-address-wrapper select {
   max-width: 115px!important;
 }
+.user {
+  background: #fff;
+}
 </style>

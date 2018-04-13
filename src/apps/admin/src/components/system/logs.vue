@@ -97,3 +97,8 @@ export default {
   }
 }
 </script>
+<style>
+.logs {
+  background: #fff;
+}
+</style>

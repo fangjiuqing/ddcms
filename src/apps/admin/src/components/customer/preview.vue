@@ -6,138 +6,145 @@
       </breadcrumb-item>
     </breadcrumbs>
     <div class="app_page">
-      <form action="/" id="profile_form" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
-        <div class="app_content">
-          <div class="col-sm-7" style="padding-left:0">
-            <div class="row" style="margin:0 auto;">
-                <div class="form-group">
-                  <label class="col-sm-3 label-on-left">客户编号</label>
-                  <div class="col-sm-9">
-                    <div class="form-group">
-                      <input class="form-control" v-model="form.pc_sn"  v-focus="form.pc_sn" type="text" placeholder="客户编号" disabled>
-                    </div>
-                  </div>
+      <form action="" method="post" accept-charset="utf-8">
+        <div class="form-block">
+          <div class="row">
+            <div class="col-md-12">
+              <h5 class="block-h5">基本信息</h5>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-sm-6">
+              <label class="col-sm-3 label-on-left">客户编号</label>
+              <div class="form-group col-sm-9">
+                <input type="text" class="form-control" name="pc_sn" v-model="form.pc_sn"  v-focus="form.pc_sn" placeholder="客户编号">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <label class="col-sm-3 label-on-left">客户姓名</label>
+              <div class="form-group col-sm-9">
+                <input type="text" class="form-control" name="pc_nick" v-model="form.pc_nick"  v-focus="form.pc_nick" placeholder="客户姓名">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <label class="col-sm-3 label-on-left">客户性别</label>
+              <div class="form-group col-sm-9">
+                <input type="text" class="form-control" name="pc_gender" v-model="form.pc_gender"  v-focus="form.pc_gender" placeholder="客户性别">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <label class="col-sm-3 label-on-left">身份证号</label>
+              <div class="form-group col-sm-9">
+                <input type="text" class="form-control" name="pc_sid" v-model="form.pc_sid"  v-focus="form.pc_sid" placeholder="身份证号">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <label class="col-sm-3 label-on-left">手机号</label>
+              <div class="form-group col-sm-9">
+                <input type="text" class="form-control" name="pc_mobile" v-model="form.pc_mobile"  v-focus="form.pc_mobile" placeholder="手机号" disabled>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <label class="col-sm-3 label-on-left">客户状态</label>
+              <div class="form-group col-sm-9">
+                <input type="text" class="form-control" name="pc_status" v-model="form.pc_status"  v-focus="form.pc_status" placeholder="客户状态" disabled>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <label class="col-sm-3 label-on-left">所属客服</label>
+              <div class="form-group col-sm-9">
+                <input type="text" class="form-control" name="pc_adm_id" v-model="form.pc_adm_id"  v-focus="form.pc_adm_id" placeholder="所属客服" disabled>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <label class="col-sm-3 label-on-left">客服姓名</label>
+              <div class="form-group col-sm-9">
+                <input type="text" class="form-control" name="pc_adm_nick" v-model="form.pc_adm_nick"  v-focus="form.pc_adm_nick" placeholder="客服姓名">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <label class="col-sm-3 label-on-left">客户来源</label>
+              <div class="form-group col-sm-9">
+                <input type="text" class="form-control" name="pc_via" v-model="form.pc_via"  v-focus="form.pc_via" placeholder="客户来源">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <label class="col-sm-3 label-on-left">所在地</label>
+              <div class="form-group col-sm-9">
+                <v-distpicker :province="form.province" :city="form.city" :area="form.area" @selected="onSelected"></v-distpicker>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <label class="col-sm-3 label-on-left">详细地址</label>
+              <div class="form-group col-sm-9">
+                <input type="text" class="form-control" name="pc_addr" v-model="form.pc_addr"  v-focus="form.pc_addr" placeholder="详细地址">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <label class="col-sm-3 label-on-left">小区</label>
+              <div class="form-group col-sm-9">
+                <input type="text" class="form-control" name="pc_co_id" v-model="form.pc_co_id"  v-focus="form.pc_co_id" placeholder="小区">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-block">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="history-title">
+                <div class="history">
+                  <h5 class="block-h5">
+                    预约历史
+                  </h5>
+                  <h5 class="add">
+                    <btn class="btn btn-info btn-xs pull-right" @click="add_attr">新增</btn>
+                  </h5>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-3 label-on-left">客户姓名</label>
-                  <div class="col-sm-9">
-                    <div class="form-group">
-                      <input class="form-control" v-model="form.pc_nick"  v-focus="form.pc_nick" type="text" placeholder="客户姓名" disabled>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-3 label-on-left">性别</label>
-                  <div class="col-sm-9">
-                    <div class="form-group">
-                      <input class="form-control" v-model="form.pc_gender"  v-focus="form.pc_gender" type="text" placeholder="性别" disabled>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-3 label-on-left">身份证号</label>
-                  <div class="col-sm-9">
-                    <div class="form-group">
-                      <input class="form-control" v-model="form.pc_sid"  v-focus="form.pc_sid" type="text" placeholder="身份证号" disabled>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-3 label-on-left">电话</label>
-                  <div class="col-sm-9">
-                    <div class="form-group">
-                      <input class="form-control" v-model="form.pc_mobile"  v-focus="form.pc_mobile"  type="text" placeholder="联系电话" disabled>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-3 label-on-left">客户来源</label>
-                  <div class="col-sm-9">
-                    <div class="form-group">
-                      <input class="form-control" v-model="form.pc_via"  v-focus="form.pc_via"  type="text" placeholder="客户来源" disabled>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-3 label-on-left">客服姓名</label>
-                  <div class="col-sm-9">
-                    <div class="form-group">
-                      <input class="form-control" v-model="form.pc_adm_nick"  v-focus="form.pc_adm_nick"  type="text" placeholder="客服姓名" disabled>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-3 label-on-left">详细地址</label>
-                  <div class="col-sm-9">
-                    <div class="form-group">
-                      <input class="form-control" v-model="form.pc_addr"  v-focus="form.pc_addr"  type="text" placeholder="详细地址" disabled>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-3 label-on-left">小区</label>
-                  <div class="col-sm-9">
-                    <div class="form-group">
-                      <input class="form-control" v-model="form.pc_co_id"  v-focus="form.pc_co_id"  type="text" placeholder="小区" disabled>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-3 label-on-left">添加时间</label>
-                  <div class="col-sm-9">
-                    <div class="form-group">
-                      <input class="form-control" v-model="form.pc_atime"  v-focus="form.pc_atime"  type="text" placeholder="添加时间" disabled>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-3 label-on-left">备注</label>
-                  <div class="col-sm-9">
-                    <div class="form-group">
-                      <input class="form-control" v-model="form.pc_memo"  v-focus="form.pc_memo"  type="text" placeholder="备注" disabled>
-                    </div>
-                  </div>
-                </div>
-              <!-- <div class="content table-responsive">
                 <table class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th class="text-left" width="100">客户编号</th>
-                      <th class="text-center" width="80">客户姓名</th>
-                      <th class="text-center" width="80">电话</th>
-                      <th class="text-center" width="80">客户来源</th>
-                      <th class="text-center" width="80">客服姓名</th>
-                      <th class="text-center" width="300">详细地址</th>
-                      <th class="text-center" width="150">小区</th>
-                    </tr>
-                  </thead>
                   <tbody>
-                    <tr v-for="(v) in rows" :key="v.pc_id">
-                      <td class="text-left">
-                        <span>{{v.pc_sn}}</span>
+                    <tr v-for="(row, row_key) in attrs" :key="row_key">
+                      <td width="35%">
+                        <input class="form-control material_field_input" v-model="attrs[row_key]['key']" placeholder="请输入项名称"/>
                       </td>
-                      <td class="text-center">
-                        <code>{{v.pc_nick}}</code>
+                      <td width="55%">
+                        <input class="form-control material_field_input" v-model="attrs[row_key]['val']" value="" placeholder="请输入项取值" />
                       </td>
-                      <td class="text-center">
-                        <small>{{v.pc_mobile}}</small>
-                      </td>
-                      <td class="text-center">
-                        <small>{{v.pc_via}}</small>
-                      </td>
-                      <td class="text-center">
-                        <small>{{v.pc_adm_nick}}</small>
-                      </td>
-                      <td class="text-center">
-                        <small>{{v.pc_region0}} {{v.pc_region1}} {{v.pc_region2}} {{v.pc_addr}}</small>
-                      </td>
-                      <td class="text-center">
-                        <small>{{v.pc_area}}</small>
+                      <td>
+                        <btn class="btn btn-xs btn-danger" @click="del_attr(row_key)"><i class="fa fa-trash-o"></i></btn>
                       </td>
                     </tr>
                   </tbody>
                 </table>
-              </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-block">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="history-title">
+                <div class="history">
+                  <h5 class="block-h5">
+                    操作历史
+                  </h5>
+                  <h5 class="add">
+                    <btn class="btn btn-info btn-xs pull-right" @click="add_attr">新增</btn>
+                  </h5>
+                </div>
+                <div class="btnss">
+                  <div class="col-sm-6">
+                    <label class="col-sm-3 label-on-left">添加时间</label>
+                    <div class="form-group col-sm-9">
+                      <input type="text" class="form-control" name="pc_atime" v-model="form.pc_atime"  v-focus="form.pc_atime" placeholder="添加时间">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="col-sm-3 label-on-left">更新时间</label>
+                    <div class="form-group col-sm-9">
+                      <input type="text" class="form-control" name="pc_utime" v-model="form.pc_utime"  v-focus="form.pc_utime" placeholder="更新时间">
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -146,6 +153,7 @@
   </div>
 </template>
 <script>
+import VDistpicker from 'v-distpicker'
 export default {
   name: 'Preview',
   metaInfo () {
@@ -153,6 +161,7 @@ export default {
       title: '客户预览 - 道达智装'
     }
   },
+  components: { VDistpicker },
   data () {
     return {
       items: [
@@ -161,11 +170,33 @@ export default {
         {text: '预览', href: '#'}
       ],
       id: this.$route.query['id'] || 0,
-      form: {}
-      // rows: []
+      form: {},
+      attrs: {
+        key0: {
+          key: '家庭成员',
+          val: ''
+        },
+        key1: {
+          key: '生活习惯',
+          val: ''
+        },
+        key2: {
+          key: '风格喜好',
+          val: ''
+        },
+        key3: {
+          key: '其他要求',
+          val: ''
+        }
+      }
     }
   },
   methods: {
+    onSelected (d) {
+      this.form.pc_region0 = d.province.code
+      this.form.pc_region1 = d.city.code
+      this.form.pc_region2 = d.area.code
+    },
     modify: function (id) {
       this.$loading.show({
         msg: '加载中 ...'
@@ -173,13 +204,20 @@ export default {
       this.$http.get('customer', {id: this.id || 0, attrs: 1}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          // this.rows = d.data
           this.form = this.id ? d.data : {}
-          // console.log(this.form)
         } else {
           this.rows = []
         }
       })
+    },
+    add_attr () {
+      this.$set(this.$data.attrs, this.$util.rand_str(16), {
+        key: '',
+        val: ''
+      })
+    },
+    del_attr (key) {
+      this.$delete(this.$data.attrs, key)
     }
   },
   mounted: function () {
@@ -194,3 +232,18 @@ export default {
   }
 }
 </script>
+<style>
+.history {
+  display: flex;
+  color: #333;
+  text-align: left;
+  text-decoration: none;
+}
+.active .history {
+  color: purple;
+}
+.add {
+  position: absolute;
+  right: 50px;
+}
+</style>

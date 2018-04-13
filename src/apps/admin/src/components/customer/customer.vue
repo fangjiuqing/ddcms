@@ -51,8 +51,7 @@
                       <small>{{v.pc_area}}</small>
                     </td>
                     <td class="text-center">
-                      <btn class="btn btn-xs btn-rose" @click="modifi(v.pc_id)">预览</btn>
-                      <btn class="btn btn-xs btn-success" @click="modify(v.pc_id)"><i class="fa fa-pencil"></i></btn>
+                      <btn class="btn btn-xs btn-success" @click="modifi(v.pc_id)"><i class="fa fa-pencil"></i></btn>
                       <btn class="btn btn-xs btn-rose" @click="del(v.pc_id)"><i class="fa fa-trash-o"></i></btn>
                     </td>
                   </tr>
@@ -264,5 +263,8 @@ export default {
 <style>
 .distpicker-address-wrapper select {
   max-width: 115px!important;
+}
+.customer {
+  background: #fff;
 }
 </style>
