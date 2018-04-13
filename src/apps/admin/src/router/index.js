@@ -24,6 +24,9 @@ import Customer from '@/components/customer/customer'
 
 import Logs from '@/components/system/logs'
 
+import Desinger from '@/components/desinger/index'
+import DesingerAdd from '@/components/desinger/add'
+
 Vue.use(Router)
 Vue.use(Meta)
 
@@ -177,6 +180,16 @@ const router = new Router({
       path: '/case/add',
       name: 'CaseAdd',
       component: CaseAdd
+    },
+    {
+      path: '/desinger',
+      name: 'Desinger',
+      component: Desinger
+    },
+    {
+      path: '/desinger/add',
+      name: 'DesingerAdd',
+      component: DesingerAdd
     }
   ]
 })
