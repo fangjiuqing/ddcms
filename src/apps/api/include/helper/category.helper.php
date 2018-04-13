@@ -7,6 +7,41 @@ namespace re\rgx;
 class category_helper extends rgx {
 
     /**
+     * 材料
+     */
+    const TYPE_MATERIAL         = 1;
+
+    /**
+     * 案例
+     */
+    const TYPE_CASE             = 2;
+
+    /**
+     * 资讯
+     */
+    const TYPE_ARTICLE          = 3;
+
+    /**
+     * 风格
+     */
+    const TYPE_STYLE            = 4;
+
+    /**
+     * 空间分类
+     */
+    const TYPE_SPACE            = 5;
+
+    /**
+     * 户型分类
+     */
+    const TYPE_TYPE             = 6;
+
+    /**
+     * 布局分类
+     */
+    const TYPE_LAYOUT           = 7;
+
+    /**
      * 是否合法
      * @var [type]
      */

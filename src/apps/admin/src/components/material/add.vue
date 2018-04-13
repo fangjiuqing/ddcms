@@ -7,12 +7,13 @@
     </breadcrumbs>
     <div class="app_page">
       <form action="" method="post" accept-charset="utf-8">
-        <div class="row" style="margin:0 15px;">
-          <h5 style="font-size: 13px;text-align:left;font-weight: 350">
-            基本信息
-            <div class="clearfix"></div>
-          </h5>
-          <div class="col-md-9">
+        
+        <div class="form-block">
+          <div class="row">
+            <div class="col-md-12">
+              <h5 class="block-h5">基本信息</h5>
+            </div>
+            <div class="col-md-9">
               <div class="row">
                 <div class="col-md-6">
                   <div class="row">
@@ -72,52 +73,58 @@
 
                 </div>
               </div>
-          </div>
-          <div class="col-md-3">
+            </div>
+            <div class="col-md-3">
               <img class="preview_article_cover" :src="mat_cover" @click="upload_cover">
               <input type="hidden" name="mat_cover" v-model="form.mat_cover">
               <div class="clearfix"></div>
+            </div>
           </div>
         </div>
 
-        <div style="margin:15px auto;border-radius:3px;padding:15px;">
-          <h5 style="font-size: 13px;text-align:left;font-weight: 350">
-            材料规格
-            <btn class="btn btn-xs btn-warning pull-right" @click="add_filed" style="margin-left: 10px;">加属性</btn>
-            <btn class="btn btn-xs btn-danger pull-right" @click="rm_filed" style="margin-left: 10px;">删属性</btn>
-            <btn class="btn btn-xs btn-success pull-right" @click="add_row">加记录</btn>
-            <div class="clearfix"></div>
-          </h5>
-          <table class="table table-striped">
-            <thead>
-              <tr style="background-color:#f0f0f0">
-                <th v-for="(v, k) in fields" :key="k" width="13%" v-if="k !== 'id'">
-                  <input class="material_field_input" @focus="set_active(k)" v-model="fields[k]" :placeholder="v"/>
-                </th>
-                <th width="7%" class="text-center"><span class="material_field_text">售价</span></th>
-                <th width="7%" class="text-center"><span class="material_field_text">成本</span></th>
-                <th width="7%" class="text-center"><span class="material_field_text">库存</span></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(row, row_key) in rows" :key="row_key">
-                <td v-for="(v, k) in fields" :key="k">
-                  <input class="material_field_input" v-model="rows[row_key][k]" :placeholder='"请输入" + v'/>
-                </td>
-                <td >
-                  <input class="material_field_input" v-model="rows[row_key]['price']" value="" placeholder="售价" />
-                </td>
-                <td >
-                  <input class="material_field_input" v-model="rows[row_key]['cost_price']" value="" placeholder="成本" />
-                </td>
-                <td>
-                  <input class="material_field_input" v-model="rows[row_key]['stocks']" value="" placeholder="库存数" />
-                </td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="form-block">
+          <div class="row">
+            <div class="col-md-12">
+              <h5 class="block-h5">材料规格
+                <btn class="btn btn-xs btn-warning pull-right" @click="add_filed" style="margin-left: 10px;">加属性</btn>
+                <btn class="btn btn-xs btn-danger pull-right" @click="rm_filed" style="margin-left: 10px;">删属性</btn>
+                <btn class="btn btn-xs btn-success pull-right" @click="add_row">加记录</btn>
+                <div class="clearfix"></div>
+              </h5>
+            </div>
+            <div class="col-md-12">
+              <table class="table table-striped">
+                <thead>
+                  <tr style="background-color:#f0f0f0">
+                    <th v-for="(v, k) in fields" :key="k" width="13%" v-if="k !== 'id'">
+                      <input class="material_field_input" @focus="set_active(k)" v-model="fields[k]" :placeholder="v"/>
+                    </th>
+                    <th width="7%" class="text-center"><span class="material_field_text">售价</span></th>
+                    <th width="7%" class="text-center"><span class="material_field_text">成本</span></th>
+                    <th width="7%" class="text-center"><span class="material_field_text">库存</span></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(row, row_key) in rows" :key="row_key">
+                    <td v-for="(v, k) in fields" :key="k">
+                      <input class="material_field_input" v-model="rows[row_key][k]" :placeholder='"请输入" + v'/>
+                    </td>
+                    <td >
+                      <input class="material_field_input" v-model="rows[row_key]['price']" value="" placeholder="售价" />
+                    </td>
+                    <td >
+                      <input class="material_field_input" v-model="rows[row_key]['cost_price']" value="" placeholder="成本" />
+                    </td>
+                    <td>
+                      <input class="material_field_input" v-model="rows[row_key]['stocks']" value="" placeholder="库存数" />
+                    </td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
         <div class="row">

@@ -38,7 +38,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                         <select v-model="form.case_style_id"  name="case_style_id" class="form-control">
-                          <option value="0">默认风格</option>
+                          <option disabled value="0">默认风格</option>
                           <option v-for="(v) in style" v-bind:key="v.cat_id" :value="v.cat_id" v-html="v.space || v.cat_name">
                           </option>
                         </select>
@@ -222,6 +222,15 @@ export default {
           msg: '文件上传中, 已发送 ' + e + ' % ...'
         })
       }
+    },
+    on_image_error (msg) {
+      this.$loading.hide()
+      this.$notify({
+        content: msg,
+        duration: 2000,
+        type: 'danger',
+        dismissible: false
+      })
     },
     on_image_start (e) {
       this.$loading.show({

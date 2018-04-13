@@ -1,5 +1,5 @@
 <template>
-  <div class="profile">
+  <div class="case">
     <breadcrumbs :items="items">
       <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
         {{v.text}}
@@ -13,40 +13,49 @@
     <div class="app_page">
       <form action="/" id="profile_form" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
         <div class="app_content">
-          <div class="content table-responsive">
-            <table class="table table-striped">
-              <thead>
-                  <tr>
-                    <th class="text-left">标题</th>
-                    <th class="text-center" width="120">分类</th>
-                    <th class="text-center" width="80">浏览</th>
-                    <th class="text-center" width="150">时间</th>
-                    <th class="text-center" width="100"></th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr v-for="(v) in rows" :key="v.mat_id">
-                      <td class="text-left">
-                        <a @click="modify(v.mat_id)">{{v.mat_name}}</a>
-                      </td>
-                      <td class="text-center">
-                        <small>{{v.cat_name}}</small>
-                      </td>
-                      <td class="text-center">
-                        <code>{{v.article_stat_view}}</code>
-                      </td>
-                      <td class="text-center">
-                        <small>{{v.mat_atime|time('yyyy-mm-dd HH:MM')}}</small>
-                      </td>
-                      <td class="text-center">
-                          <btn class="btn btn-xs btn-success" @click="modify(v.article_id)"><i class="fa fa-pencil"></i></btn>
-                          <btn class="btn btn-xs btn-rose" @click="del(v.article_id)"><i class="fa fa-trash-o"></i></btn>
-                      </td>
-                  </tr>
-              </tbody>
-            </table>
-            <pagination v-model="pn" :total-page="total" @change="refresh" size="sm"/>
+          <div class="case-list">
+            <div class="media case-row" v-for="(v) in rows" :key="v.mat_id">
+              <div class="media-left">
+                <img :src="attrs.upload_url + v.mat_cover" alt="" class="case-list-cover">
+              </div>
+              <div class="media-body">
+                <h5>
+                  <btn class="btn btn-xs btn-rose pull-right" @click="del(v.mat_id)"><i class="fa fa-trash-o"></i></btn>
+                  <a title="编辑材料" @click="modify(v.mat_id)">{{v.mat_name}}</a>
+                </h5>
+                <p class="text-left">
+                  <span>
+                    <small>价格 : </small> 
+                    <code>{{v.mat_min_price}}</code>
+                      <small> ~ </small>
+                    <code>{{v.mat_min_price}}</code>
+                  </span>
+                  <span class="separator"></span>
+                  <span>
+                    <small>库存 : </small> <code>{{v.mat_stocks}}</code>
+                  </span>
+                </p>
+                <p class="text-left">
+                  <span>
+                    <small>类别/品牌 : </small> <code>{{attrs.cat[v.mat_cat_id]['cat_name']}}</code>
+                  </span>
+                  <span class="separator"></span>
+                  <span>
+                    <code>{{attrs.brands[v.mat_brand_id]['pb_name']}}</code>
+                  </span>
+                </p>
+                <p class="text-left">
+                  <span>
+                    <code>{{attrs.admins[v.mat_buyer_id]['admin_nick']}}</code>
+                  </span>
+                  <span class="separator"></span>
+                  <small>{{v.mat_atime|time('yyyy-mm-dd HH:MM:ss')}}</small>
+                </p>
+
+              </div>
+            </div>
           </div>
+          <pagination v-model="pn" :total-page="total" @change="refresh" size="sm"/>
         </div>
       </form>
     </div>
@@ -90,8 +99,9 @@ export default {
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data.list
-          this.pn = d.data.paging.pn || 1
-          this.total = d.data.paging.max || 1
+          this.pn = d.data.attrs['paging']['pn'] || 1
+          this.total = d.data.attrs['paging']['max'] || 1
+          this.attrs = d.data.attrs
         } else {
           this.rows = []
         }

@@ -43,7 +43,7 @@ class case_table extends table {
             'min'                => 0,
             'max'                => 128,
             'label'              => '案例标题',
-            'allow_empty_string' => true,
+            'allow_empty_string' => false,
             'allow_null'         => false
         ],
         'case_cat_id' => [
