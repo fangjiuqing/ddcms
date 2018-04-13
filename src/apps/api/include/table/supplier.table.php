@@ -136,6 +136,46 @@ class supplier_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
+        'sup_desc' => [
+            'name'               => 'sup_desc',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 512,
+            'label'              => '简介',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
+        'sup_wechat' => [
+            'name'               => 'sup_wechat',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 32,
+            'label'              => '微信',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
+        'sup_qq' => [
+            'name'               => 'sup_qq',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 16,
+            'label'              => 'QQ',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
+        'sup_email' => [
+            'name'               => 'sup_email',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 32,
+            'label'              => '邮箱',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
     ];
 
     /*
@@ -165,6 +205,10 @@ class supplier_table extends table {
         'sup_mobile'  => '',
         'sup_adate'   => 0,
         'sup_type'    => 0,
+        'sup_desc'    => '',
+        'sup_wechat'  => '',
+        'sup_qq'      => '',
+        'sup_email'   => '',
     ];
 
     /*
@@ -184,6 +228,10 @@ class supplier_table extends table {
         'sup_mobile'  => ['re\rgx\filter', 'char'],
         'sup_adate'   => ['re\rgx\filter', 'int'],
         'sup_type'    => ['re\rgx\filter', 'int'],
+        'sup_desc'    => ['re\rgx\filter', 'char'],
+        'sup_wechat'  => ['re\rgx\filter', 'char'],
+        'sup_qq'      => ['re\rgx\filter', 'char'],
+        'sup_email'   => ['re\rgx\filter', 'char'],
     ];
 
     /*
