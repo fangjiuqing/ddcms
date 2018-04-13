@@ -1,2 +1,2 @@
 #!/bin/bash
-/usr/bin/nohup yarn run start > /dev/null &
+/usr/bin/nohup yarn run start > ./sync_log &
