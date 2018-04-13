@@ -60,7 +60,6 @@ class material_iface extends base_iface {
         $mat['mat_status'] = material_helper::STATUS_ON_SALE;
         $mat['mat_min_price'] = 0;
         $mat['mat_max_price'] = 0;
-
         if ($tab->load($mat)) {
             $ret = $tab->save();
             if ($ret['code'] === 0) {
@@ -72,14 +71,71 @@ class material_iface extends base_iface {
         $this->failure($tab->get_error_desc());
     }
 
+    /**
+     * 材料列表
+     * @return [type] [description]
+     */
     public function list_action () {
+        $out = [];
         $tab = OBJ('material_table');
-        $paging = new paging_helper($tab, $this->data['pn']);
-        $list = $tab->get_all();
-        $this->success('列表获取成功', [
-            'list'      => array_values($list),
-            'paging'    => $paging->to_array()
+        $brand_ids = [];
+        $admin_ids = [];
+
+        // 分页配置
+        $out['attrs']['paging'] = (new paging_helper($tab, $this->data['pn']))->to_array();
+
+        // 材料列表
+        $out['list'] = $tab->order('mat_id desc')->map(function ($row) use (&$brand_ids, &$admin_ids) {
+            $admin_ids[$row['mat_buyer_id']] = 0;
+            $brand_ids[$row['mat_brand_id']] = 0;
+            return $row;
+        })->get_all();
+
+        // 相关分类
+        $out['attrs']['cat'] = category_helper::get_rows(category_helper::TYPE_MATERIAL, true);
+
+        // 相关品牌
+        $out['attrs']['brands'] = OBJ('brand_table')->akey('pb_id')->get_all([
+            'pb_id'  => array_keys($brand_ids ?: [0])
         ]);
+
+        // 相关渠道负责人
+        $out['attrs']['admins'] = OBJ('admin_table')->akey('admin_id')->fields('admin_id,admin_nick')->get_all([
+            'admin_id'  => array_keys($admin_ids ?: [0])
+        ]);
+
+        // 附件地址
+        $out['attrs']['upload_url'] = UPLOAD_URL;
+        $out['attrs']['image_url'] = IMAGE_URL;
+
+        $this->success('', $out);
+    }
+
+    /**
+     * 材料删除
+     * @return [type] [description]
+     */
+    public function del_action () {
+        $this->check_login();
+        $id = intval($this->data['id']);
+        $tab = OBJ('material_table');
+        $mat = $tab->get($id) ?: [];
+
+        if (!empty($mat)) {
+            if (upload_helper::is_upload_file($mat['mat_cover'])) {
+                unlink(UPLOAD_PATH . $mat['mat_cover']);
+            }
+            $tab->delete([
+                'mat_id'   => $id
+            ]);
+            OBJ('material_goods_table')->delete([
+                'pmg_mat_id'   => $id
+            ]);
+            admin_helper::add_log($this->login['admin_id'], 'mat/del', '3',
+                    '删除材料[' . $id . '@' . $mat['mat_name'] . ']');
+            $this->success('删除成功');
+        }
+        $this->failure('删除失败');
     }
 
 }

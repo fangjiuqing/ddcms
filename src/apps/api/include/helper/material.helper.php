@@ -93,10 +93,17 @@ class material_helper extends rgx {
         $gtab = OBJ('material_goods_table');
         foreach ((array)$rows as $k => $v) {
             $desc = [];
+            $hash = '';
             foreach ((array)$attrs as $key => $val) {
+                if (!in_array($key, ['price', 'cost_price', 'stocks'])) {
+                    $hash .= $val;
+                }
                 if (isset($v[$key])) {
                     $desc[] = $val . "=" . $v[$key];
                 }
+            }
+            if (empty($hash)) {
+                continue;
             }
             $goods = [
                 'pmg_id'            => (int)$v['id'],

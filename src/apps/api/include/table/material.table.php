@@ -53,8 +53,8 @@ class material_table extends table {
             'min'                => 0,
             'max'                => 32,
             'label'              => '材料封面',
-            'allow_empty_string' => true,
-            'allow_null'         => true
+            'allow_empty_string' => false,
+            'allow_null'         => false
         ],
         'mat_type' => [
             'name'               => 'mat_type',

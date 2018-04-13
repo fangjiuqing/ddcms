@@ -196,14 +196,14 @@ export default {
     }
   },
   mounted: function () {
-    this.$store.state.left_active_key = '/article'
+    this.$store.state.left_active_key = '/operate'
     this.modify()
   },
   destroyed: function () {
     this.$loading.hide()
   },
   activated: function () {
-    this.$store.state.left_active_key = '/article'
+    this.$store.state.left_active_key = '/operate'
   }
 }
 </script>

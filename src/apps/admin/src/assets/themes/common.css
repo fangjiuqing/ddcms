@@ -172,6 +172,7 @@ a {
 }
 
 .app_page {
+  margin-right: 10px;
 }
 
 .alert {
@@ -2808,7 +2809,9 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-rose.active {
 .case-block {
   margin: 10px 0;
 }
-
+textarea {
+  resize: none
+}
 input:focus,textarea:focus,select:focus {
   outline: none;
   border-color: #17a2b8 !important;

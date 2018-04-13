@@ -53,13 +53,14 @@ class material_supplier_iface extends ubase_iface {
      */
     public function list_action () {
         $region_ids = [];
-        $out['list'] = OBJ('supplier_table')->map(function ($row) use (&$region_ids) {
+        $tab = OBJ('supplier_table');
+        $out['attrs']['paging'] = (new paging_helper($tab, $this->data['pn']))->to_array();
+        $out['list'] = $tab->order('sup_id desc')->map(function ($row) use (&$region_ids) {
             $region_ids[$row['sup_region0']] = 0;
             $region_ids[$row['sup_region1']] = 0;
             $region_ids[$row['sup_region2']] = 0;
             return $row;
         })->get_all();
-        $out['attrs']['paging'] = [];
         $out['attrs']['type'] = material_helper::$type;
         $out['attrs']['region'] = OBJ('region_table')->fields('region_code,region_name')->akey('region_code')->get_all([
             'region_code'   => array_keys($region_ids ?: [0])

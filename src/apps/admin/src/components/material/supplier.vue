@@ -41,28 +41,29 @@
                   </tr>
               </tbody>
             </table>
+            <pagination v-model="pn" :total-page="total" @change="refresh" size="sm"/>
           </div>
         </div>
       </form>
     </div>
-    <modal v-model="modal_open" title="{modal_title}">
+    <modal v-model="modal_open" title="{modal_title}" size="lg">
       <div slot="title" class="text-left">
         {{modal_title}}
       </div>
       <div slot="default">
         <form action="" method="post" accept-charset="utf-8">
-          <div style="padding-right:80px;">
+          <div style="padding-right:80px">
             <div class="row">
-                <label class="col-sm-3 label-on-left">名称</label>
-                <div class="col-sm-9">
+                <label class="col-sm-2 label-on-left">名称</label>
+                <div class="col-sm-10">
                     <div class="form-group">
                         <input class="form-control" v-model="modal_data.sup_realname"  v-focus="modal_data.sup_realname"  type="text" placeholder="供应商名称">
                     </div>
                 </div>
             </div>
             <div class="row">
-                <label class="col-sm-3 label-on-left">类型</label>
-                <div class="col-sm-9">
+                <label class="col-sm-2 label-on-left">类型</label>
+                <div class="col-sm-10">
                     <div class="form-group">
                         <select v-model="modal_data.sup_type" class="form-control">
                           <option v-for="(v, k) in attrs.type" v-bind:key="k" :value="k">
@@ -73,33 +74,68 @@
                 </div>
             </div>
             <div class="row">
-                <label class="col-sm-3 label-on-left">联系人</label>
-                <div class="col-sm-9">
+                <label class="col-sm-2 label-on-left">联系人</label>
+                <div class="col-sm-10">
                     <div class="form-group">
                         <input class="form-control" v-model="modal_data.sup_contact"  v-focus="modal_data.sup_contact"  type="text" placeholder="联系人">
                     </div>
                 </div>
             </div>
             <div class="row">
-                <label class="col-sm-3 label-on-left">联系电话</label>
-                <div class="col-sm-9">
-                    <div class="form-group">
-                        <input class="form-control" v-model="modal_data.sup_mobile"  v-focus="modal_data.sup_mobile"  type="text" placeholder="联系电话">
+              <div class="col-md-6">
+                <div class="row">
+                    <label class="col-sm-4 label-on-left">电话</label>
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <input class="form-control" v-model="modal_data.sup_mobile"  v-focus="modal_data.sup_mobile"  type="text" placeholder="联系电话">
+                        </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <label class="col-sm-4 label-on-left">微信</label>
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <input class="form-control" v-model="modal_data.sup_wechat"  v-focus="modal_data.sup_wechat"  type="text" placeholder="微信">
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                    <label class="col-sm-4 label-on-left">邮箱</label>
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <input class="form-control" v-model="modal_data.sup_email"  v-focus="modal_data.sup_email"  type="text" placeholder="邮箱">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label class="col-sm-4 label-on-left">QQ</label>
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <input class="form-control" v-model="modal_data.sup_qq"  v-focus="modal_data.sup_qq"  type="text" placeholder="QQ">
+                        </div>
+                    </div>
+                </div>
+              </div>
             </div>
             <div class="row">
-                <label class="col-sm-3 label-on-left">所在地</label>
-                <div class="col-sm-9">
-                    <div class="form-group">
+                <label class="col-sm-2 label-on-left">所在地</label>
+                <div class="col-sm-6">
+                    <div class="form-group text-left">
                         <v-distpicker :province="modal_data.province" :city="modal_data.city" :area="modal_data.area" @selected="onSelected"></v-distpicker>
                     </div>
                 </div>
+                <div class="col-sm-4">
+                    <input class="form-control" v-model="modal_data.sup_address"  v-focus="modal_data.sup_address"  type="text" placeholder="详细地址">
+                </div>
             </div>
             <div class="row">
-                <label class="col-sm-3 label-on-left">详细地址</label>
-                <div class="col-sm-9">
-                    <input class="form-control" v-model="modal_data.sup_address"  v-focus="modal_data.sup_address"  type="text" placeholder="详细地址">
+                <label class="col-sm-2 label-on-left">备注</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" v-model="modal_data.sup_desc"  v-focus="modal_data.sup_desc"  type="text" placeholder="备注信息"></textarea>
                 </div>
             </div>
           </div>
@@ -134,7 +170,9 @@ export default {
       modal_open: false,
       modal_title: '',
       modal_data: {},
-      suppliers: []
+      suppliers: [],
+      pn: 1,
+      total: 1
     }
   },
   methods: {
@@ -186,11 +224,13 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.list('material/supplier').then(d => {
+      this.$http.list('material/supplier', {pn: this.pn}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data.list
           this.attrs = d.data.attrs
+          this.pn = d.data.attrs['paging']['pn'] || 1
+          this.total = d.data.attrs['paging']['max'] || 1
         } else {
           this.rows = []
         }
