@@ -90,10 +90,10 @@ class base_iface extends rgx {
      * @param  [type] $rules [description]
      * @return [type]        [description]
      */
-    public function verify ($rules) {
+    public function verify ($rules, $ref = null) {
         foreach ($rules as $k => $rule) {
             $result = true;
-            $value  = $this->data[$k] ?: null;
+            $value  = ($ref ? $ref[$k] : $this->data[$k]) ?: null;
             //  跳过可为空的字段
             if ($rule['allow_empty'] && ($value == '' || $value == null)) {
                 continue;

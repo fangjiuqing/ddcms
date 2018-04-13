@@ -4,7 +4,7 @@ namespace re\rgx;
 /**
  * 分类
  */
-class material_iface extends ubase_iface {
+class material_iface extends base_iface {
 
 
     /**
@@ -50,6 +50,7 @@ class material_iface extends ubase_iface {
      * @return [type] [description]
      */
     public function save_action () {
+        $this->check_login();
         $tab = OBJ('material_table');
         $mat = $this->data['row'];
         $mat['mat_id'] = (int)$mat['mat_id'];
