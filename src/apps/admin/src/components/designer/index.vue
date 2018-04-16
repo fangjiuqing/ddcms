@@ -17,26 +17,34 @@
             <table class="table table-striped">
               <thead>
                   <tr>
-                    <th class="text-left">标题</th>
-                    <th class="text-center" width="120">分类</th>
-                    <th class="text-center" width="80">浏览</th>
-                    <th class="text-center" width="150">时间</th>
+                    <th class="text-left" width="80">姓名</th>
+                    <th class="text-left" width="80">职位</th>
+                    <th class="text-center" width="60">工作年限</th>
+                    <th class="text-center" width="100">设计价格</th>
+                    <th class="text-left" width="100">所在地区</th>
+                    <th class="text-left" width="200">风格标签</th>
                     <th class="text-center" width="100"></th>
                   </tr>
               </thead>
               <tbody>
                   <tr v-for="(v) in rows" :key="v.des_id">
                       <td class="text-left">
-                        <a @click="modify(v.des_id)">{{v.des_title}}</a>
+                        <a @click="modify(v.des_id)">{{v.des_name}}</a>
+                      </td>
+                      <td class="text-left">
+                        {{v.des_title}}
                       </td>
                       <td class="text-center">
-                        <small>{{v.cat_name}}</small>
+                        <b class="text-warning">{{v.des_workyears}}</b>
                       </td>
                       <td class="text-center">
-                        <code>{{v.des_stat_view}}</code>
+                        <b class="text-danger">{{v.des_price}}</b>元/M²
                       </td>
-                      <td class="text-center">
-                        <small>{{v.des_udate|time('yyyy-mm-dd HH:MM:ss')}}</small>
+                      <td class="text-left">
+                        <small>{{(attrs.region[v.des_region0]).region_name}} - {{(attrs.region[v.des_region1]).region_name}}</small>
+                      </td>
+                      <td class="text-left">
+                        <span v-for="(sv) in v.stags" :key="sv" class="label label-info" style="margin-right:5px;">{{sv}}</span>
                       </td>
                       <td class="text-center">
                           <btn class="btn btn-xs btn-success" @click="modify(v.des_id)"><i class="fa fa-pencil"></i></btn>
@@ -92,6 +100,7 @@ export default {
           this.rows = d.data.list
           this.pn = d.data.paging.pn
           this.total = d.data.paging.max
+          this.attrs = d.data.attrs
         } else {
           this.rows = []
         }
@@ -123,14 +132,14 @@ export default {
     }
   },
   mounted: function () {
-    this.$store.state.left_active_key = '/designer'
+    this.$store.state.left_active_key = '/operate'
     this.refresh()
   },
   destroyed: function () {
     this.$loading.hide()
   },
   activated: function () {
-    this.$store.state.left_active_key = '/designer'
+    this.$store.state.left_active_key = '/operate'
     this.refresh()
   }
 }

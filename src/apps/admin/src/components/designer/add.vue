@@ -29,12 +29,18 @@
                 <div class="row">
                   <div class="col-md-6">
                       <div class="form-group">
-                        <input class="form-control" name="des_workyears" v-model="form.des_workyears"  v-focus="form.des_workyears"  type="number" placeholder="工作年数">
+                        <div class="input-group">
+                            <input class="form-control" name="des_workyears" v-model="form.des_workyears"  v-focus="form.des_workyears"  type="number" placeholder="工作年数">
+                            <span class="input-group-addon">年</span>
+                        </div>
                       </div>
                   </div>
                   <div class="col-md-6">
                       <div class="form-group">
-                        <input class="form-control" name="des_price" v-model="form.des_price"  v-focus="form.des_price"  type="text" placeholder="设计价格">
+                        <div class="input-group">
+                            <input class="form-control" name="des_price" v-model="form.des_price"  v-focus="form.des_price"  type="text" placeholder="设计价格">
+                            <span class="input-group-addon">元/M²</span>
+                        </div>
                       </div>
                   </div>
                 </div>
@@ -163,9 +169,6 @@ export default {
       this.form.des_region0 = d.province.code
       this.form.des_region1 = d.city.code
     },
-    onStyleSelected (d) {
-      console.log(d)
-    },
     upload_cover () {
       this.$uploader.select({
         uri: 'upload/image',
@@ -263,9 +266,9 @@ export default {
     },
     add_style_tag () {
       this.$set(this.$data.stags, this.$util.rand_str(20), {
-        key: '',
         val: ''
       })
+      console.log(this.$data.stags)
     },
     del_stag (key) {
       this.$delete(this.$data.stags, key)
@@ -278,9 +281,11 @@ export default {
         this.$loading.hide()
         if (d.code === 0) {
           this.form = this.id ? d.data.row : this.form
-          this.attrs = d.data.attrs || this.attrs
+          this.cover = d.data.row.cover || ''
           this.styles = d.data.styles || []
           this.cases = d.data.cases || []
+          this.attrs = d.data.attrs || this.attrs
+          this.stags = d.data.stags || this.stags
         } else {
           this.form = []
         }
@@ -324,66 +329,8 @@ export default {
 }
 </script>
 <style scoped>
-  .case-image {
-    width: 49%;
-    height: 120px;
-    float: left;
-    margin: 10px 10px 10px 0;
-    background: #f0f0f0;
-    border-radius: 3px;
-    padding: 10px;
-    text-align: left;
-  }
-  .case-image .case-image-wrap {
-    width: 40%;
-    position: relative;
-    height: 100%;
-    float: left;
-  }
-  .case-image .case-image-wrap img {
-    max-height: 100px;
-    position: absolute;
-    margin: auto;
-    left: 0;
-    right: 0;
-  }
-  .case-image .case-image-wrap .btn {
-    display: none;
-  }
-  .case-image .case-image-wrap .btn-danger {
-    position: absolute;
-    bottom: 5px;
-    margin: auto;
-    left: 0;
-    right: 0;
-    width: 20px;
-    height: 20px;
-  }
-  .case-image .case-image-wrap .btn-info {
-    position: absolute;
-    top: 5px;
-    margin: auto;
-    left: 0;
-    right: 0;
-    padding: 0;
-    z-index: 10;
-    width: 20px;
-    height: 20px;
-  }
-  .case-image .case-image-wrap:hover .btn {
-    display: block;
-  }
-  .case-image textarea {
-    height: 100px;
-    width: 60%;
-    float: right;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    padding: 5px;
-    resize: none;
-  }
-  #editor {
-  }
+  /* #editor {
+  } */
   .quillWrapper {
     position: relative;
   }
