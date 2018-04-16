@@ -278,7 +278,7 @@ export default {
         this.$loading.hide()
         if (d.code === 0) {
           this.form = this.id ? d.data.row : this.form
-          this.attrs = d.data.attrs || this.attrs
+          this.cover = d.data.row.cover || ''
           this.styles = d.data.styles || []
           this.cases = d.data.cases || []
         } else {
@@ -293,7 +293,7 @@ export default {
       this.$http.save('designer', {
         base: this.form,
         attrs: this.attrs,
-        stags : this.stags
+        stags: this.stags
       }).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
@@ -324,64 +324,6 @@ export default {
 }
 </script>
 <style scoped>
-  .case-image {
-    width: 49%;
-    height: 120px;
-    float: left;
-    margin: 10px 10px 10px 0;
-    background: #f0f0f0;
-    border-radius: 3px;
-    padding: 10px;
-    text-align: left;
-  }
-  .case-image .case-image-wrap {
-    width: 40%;
-    position: relative;
-    height: 100%;
-    float: left;
-  }
-  .case-image .case-image-wrap img {
-    max-height: 100px;
-    position: absolute;
-    margin: auto;
-    left: 0;
-    right: 0;
-  }
-  .case-image .case-image-wrap .btn {
-    display: none;
-  }
-  .case-image .case-image-wrap .btn-danger {
-    position: absolute;
-    bottom: 5px;
-    margin: auto;
-    left: 0;
-    right: 0;
-    width: 20px;
-    height: 20px;
-  }
-  .case-image .case-image-wrap .btn-info {
-    position: absolute;
-    top: 5px;
-    margin: auto;
-    left: 0;
-    right: 0;
-    padding: 0;
-    z-index: 10;
-    width: 20px;
-    height: 20px;
-  }
-  .case-image .case-image-wrap:hover .btn {
-    display: block;
-  }
-  .case-image textarea {
-    height: 100px;
-    width: 60%;
-    float: right;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    padding: 5px;
-    resize: none;
-  }
   #editor {
   }
   .quillWrapper {
@@ -395,40 +337,5 @@ export default {
   }
   .ql-toolbar {
     text-align: left;
-  }
-
-
-  [v-cloak] {
-      display: none;
-  }
-
-  .hintsbox-mark {
-      position: relative;
-      z-index:9999;
-  }
-
-  .hintsbox-mark input{
-      width: 100%;
-  }
-
-  .hintsbox {
-      width: 100%;
-      border: 1px solid #ddd;
-
-  }
-
-  .hintslist .hint {
-      padding: 4px 2px 4px 8px;
-      list-style-type : none;
-      text-align:left;
-  }
-
-  .hintslist .hint:hover {
-      background-color: #DDD8E5;
-      cursor: pointer;
-  }
-
-  .hintslist .hint.active {
-      background-color: #DDD8E5;
   }
 </style>
