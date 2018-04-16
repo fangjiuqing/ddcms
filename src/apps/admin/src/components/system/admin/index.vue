@@ -14,22 +14,22 @@
       <form action="/" id="profile_form" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
         <div class="app_content">
           <div class="content table-responsive">
-            <table class="table table-striped">
+            <table class="table table-hover">
               <thead>
                 <tr>
-                  <th class="text-left" width="80">真实姓名</th>
-                  <th class="text-center" width="80">登录账号</th>
-                  <th class="text-center" width="80">手机号码</th>
-                  <th class="text-center" width="80">邮箱</th>
-                  <th class="text-center" width="80">微信</th>
-                  <th class="text-center" width="150">注册时间</th>
-                  <th class="text-center" width="80">操作</th>
+                  <th class="text-center" width="120">姓名</th>
+                  <th class="text-center" width="">账号</th>
+                  <th class="text-center" width="150">手机</th>
+                  <th class="text-center" width="150">邮箱</th>
+                  <th class="text-center" width="150">微信</th>
+                  <th class="text-center" width="150">最近登录</th>
+                  <th class="text-center" width="40"></th>
                 </tr>
               </thead>
               <tbody>
                   <tr v-for="(v) in rows" :key="v.pc_id">
-                    <td class="text-left">
-                      <span>{{v.admin_nick}}</span>
+                    <td class="text-center">
+                      <a href="javascript:;" @click="modify(v.admin_id)"><span>{{v.admin_nick}}</span></a>
                     </td>
                     <td class="text-center">
                       <code>{{v.admin_account}}</code>
@@ -47,7 +47,6 @@
                       <small>{{v.admin_date_login|time('yyyy-mm-dd HH:MM:ss')}}</small>
                     </td>
                     <td class="text-center">
-                      <btn class="btn btn-xs btn-success" @click="modify(v.admin_id)"><i class="fa fa-pencil"></i></btn>
                       <btn class="btn btn-xs btn-rose" @click="del(v.admin_id)"><i class="fa fa-trash-o"></i></btn>
                     </td>
                   </tr>

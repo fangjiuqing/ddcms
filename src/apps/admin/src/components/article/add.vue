@@ -126,8 +126,7 @@ export default {
         type: 'success',
         dismissible: false
       })
-      let url = d.big
-      this.extra.Editor.insertEmbed(this.extra.cursorLocation, 'image', url)
+      this.extra.Editor.insertEmbed(this.extra.cursorLocation, 'image', d.url)
       this.extra.resetUploader()
     },
     on_editor_progress (e) {

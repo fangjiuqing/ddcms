@@ -14,6 +14,35 @@ class admin_helper extends rgx {
         '2' => '新增/修改操作',
         '3' => '删除操作',
     ];
+
+    /**
+     * 操作配置
+     * @var [type]
+     */
+    public static $operate = [
+        [
+            'name'      => '客户模块',
+            'actions'   => [
+                'customer/get'              => '客户详情',
+                'customer/list'             => '客户列表',
+                'customer/save'             => '客户更新',
+                'customer/del'              => '客户删除'
+            ]
+        ],
+        [
+            'name'      => '系统管理',
+            'action'    => [
+                'system/admin/get'          => '管理详情',
+                'system/admin/list'         => '管理列表',
+                'system/admin/save'         => '管理更新',
+                'system/admin/del'          => '管理删除',
+                'system/admin/group/get'    => '权限详情',
+                'system/admin/group/list'   => '权限列表',
+                'system/admin/group/save'   => '权限更新',
+                'system/admin/group/del'    => '权限删除',
+            ]
+        ]
+    ];
     
     /**
      * 验证用户密码

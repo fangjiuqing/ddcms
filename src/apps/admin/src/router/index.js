@@ -25,6 +25,7 @@ import Preview from '@/components/customer/preview'
 
 import Logs from '@/components/system/logs'
 import Admin from '@/components/system/admin/index'
+import Group from '@/components/system/admin/group'
 
 import Designer from '@/components/designer/index'
 import DesignerAdd from '@/components/designer/add'
@@ -109,6 +110,11 @@ const router = new Router({
       path: '/system/admin',
       name: 'Admin',
       component: Admin
+    },
+    {
+      path: '/system/admin/group',
+      name: 'Group',
+      component: Group
     },
     {
       path: '/system/logs',
