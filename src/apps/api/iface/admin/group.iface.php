@@ -25,12 +25,24 @@ class admin_group_iface extends ubase_iface {
      * 添加分类接口
      */
     public function save_action () {
-        $tab = OBJ('brand_table');
+        $tab = OBJ('admin_group_table');
+        $details = $this->data['details'];
+        if ($this->data['pag_id'] == '1') {
+            $this->failure('该组别无法编辑');
+        }
+        if (empty($this->data['pag_name'])) {
+            $this->failure('请输入权限组名');
+        }
+        if (empty($details)) {
+            $this->failure('请选择权限');
+        }
+        $this->data['pag_details'] = filter::json_ecsape($details);
+
         if ($tab->load($this->data)) {
             $ret = $tab->save();
             if ($ret['code'] === 0) {
-                admin_helper::add_log($this->login['admin_id'], 'brand/save', 1,
-                    ($this->data['pb_id'] ? '编辑' : '新增') . '品牌[' . $this->data['pb_name'] . ']'
+                admin_helper::add_log($this->login['admin_id'], 'admin/group/save', 1,
+                    ($this->data['pag_id'] ? '编辑' : '新增') . '权限组[' . $this->data['pag_name'] . ']'
                 );
                 $this->success('操作成功');
             }
@@ -42,16 +54,12 @@ class admin_group_iface extends ubase_iface {
      * 列表
      */
     public function list_action () {
-        $supplier_ids = [];
-        $out['list'] = OBJ('brand_table')->map(function ($row) use (&$supplier_ids) {
-            $supplier_ids[$row['pb_sup_id']] = 0;
+        $out['list'] = OBJ('admin_group_table')->order('pag_id asc')->map(function ($row) {
+            $row['desc'] = admin_helper::get_operate_desc(filter::json_unecsape($row['pag_details']));
+            unset($row['pag_details']);
             return $row;
         })->get_all();
         $out['attrs']['paging'] = [];
-        $out['attrs']['type'] = material_helper::$type;
-        $out['attrs']['supplier'] = OBJ('supplier_table')->fields('sup_id,sup_realname')->akey('sup_id')->get_all([
-            'sup_id'    => array_keys($supplier_ids ?: [0])
-        ]);
         $this->success('', $out);
     }
 
@@ -60,14 +68,18 @@ class admin_group_iface extends ubase_iface {
      */
     public function del_action () {
         $id  = intval($this->data['id']);
-        $tab = OBJ('brand_table');
+        if (OBJ('admin_table')->where("admin_group_id = {$id}")->count() > 0) {
+            $this->failure('请先删除该权限组下的管理员');
+        }
+
+        $tab = OBJ('admin_group_table');
         $cat = $tab->get($id);
         if (empty($cat)) {
-            $this->failure('该品牌不存在');
+            $this->failure('该组别不存在');
         }
         // 删除
-        if ($tab->delete(['pb_id' => $id])['code'] === 0) {
-            admin_helper::add_log($this->login['admin_id'], 'brand/del', 1, '删除分类，ID：' . $id);
+        if ($tab->delete(['pag_id' => $id])['code'] === 0) {
+            admin_helper::add_log($this->login['admin_id'], 'admin/group/del', 1, '删除权限组，ID：' . $id);
             $this->success('删除成功');
         }
         $this->failure('删除失败了');

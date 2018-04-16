@@ -14,7 +14,7 @@
 <style scoped>
 .common-loading {
   background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+  z-index: 1060;
   position: fixed;
   height: calc(100%);
   width: 100%;

@@ -31,7 +31,7 @@ class admin_helper extends rgx {
         ],
         [
             'name'      => '系统管理',
-            'action'    => [
+            'actions'   => [
                 'system/admin/get'          => '管理详情',
                 'system/admin/list'         => '管理列表',
                 'system/admin/save'         => '管理更新',
@@ -43,6 +43,25 @@ class admin_helper extends rgx {
             ]
         ]
     ];
+
+    /**
+     * 获取权限列表的文字说明
+     * @param  [type] $list [description]
+     * @return [type]       [description]
+     */
+    public static function get_operate_desc ($list) {
+        static $operates = [];
+        if (empty($operates)) {
+            foreach (self::$operate as $row) {
+                $operates = array_merge($operates, $row['actions']);
+            }
+        }
+        $ret = [];
+        foreach ($list as $k => $v) {
+            $ret[] = $operates[$k] ?: '';
+        }
+        return join(", ", $ret);
+    }
     
     /**
      * 验证用户密码

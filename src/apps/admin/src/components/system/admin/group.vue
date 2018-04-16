@@ -17,42 +17,25 @@
             <table class="table table-hover">
               <thead>
                 <tr>
-                  <th class="text-center" width="120">姓名</th>
-                  <th class="text-center" width="">账号</th>
-                  <th class="text-center" width="150">手机</th>
-                  <th class="text-center" width="150">邮箱</th>
-                  <th class="text-center" width="150">微信</th>
-                  <th class="text-center" width="150">最近登录</th>
+                  <th class="text-center" width="120">名称</th>
+                  <th class="text-center" width="">权限</th>
                   <th class="text-center" width="40"></th>
                 </tr>
               </thead>
               <tbody>
                   <tr v-for="(v) in rows" :key="v.pc_id">
                     <td class="text-center">
-                      <a href="javascript:;" @click="modify(v.admin_id)"><span>{{v.admin_nick}}</span></a>
+                      <a href="javascript:;" @click="modify(v.pag_id)"><code>{{v.pag_name}}</code></a>
+                    </td>
+                    <td class="text-left">
+                      <small>{{v.desc}}</small>
                     </td>
                     <td class="text-center">
-                      <code>{{v.admin_account}}</code>
-                    </td>
-                    <td class="text-center">
-                      <small>{{v.admin_mobile}}</small>
-                    </td>
-                    <td class="text-center">
-                      <small>{{v.admin_email}}</small>
-                    </td>
-                    <td class="text-center">
-                      <small>{{v.admin_wechat}}</small>
-                    </td>
-                    <td class="text-center">
-                      <small>{{v.admin_date_login|time('yyyy-mm-dd HH:MM:ss')}}</small>
-                    </td>
-                    <td class="text-center">
-                      <btn class="btn btn-xs btn-rose" @click="del(v.admin_id)"><i class="fa fa-trash-o"></i></btn>
+                      <btn class="btn btn-xs btn-rose" @click="del(v.pag_id)"><i class="fa fa-trash-o"></i></btn>
                     </td>
                   </tr>
               </tbody>
             </table>
-            <pagination v-model="pn" :total-page="total" @change="refresh" size="sm"/>
           </div>
         </div>
       </form>
@@ -63,23 +46,21 @@
       </div>
       <div slot="default">
         <form action="" method="post" accept-charset="utf-8">
-          <div style="padding-right:80px;">
+          <div style="padding-right:0px;">
             <div class="row">
-              <label class="col-sm-2 label-on-left">组名</label>
-              <div class="col-sm-10">
+              <div class="col-sm-6">
                 <div class="form-group">
                   <input class="form-control" v-model="modal_data.pag_name" v-focus="modal_data.pag_name" type="text" placeholder="请输入权限组名称">
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-2 label-on-left">项目</label>
-              <div class="col-sm-10">
-                <div v-for="(item, key) in modal_data.rules" :key="key" class="text-left">
+              <div class="col-sm-12">
+                <div v-for="(item, key) in modal_data.rules" :key="key" class="items text-left">
                   <h6>{{item.name}}</h6>
                   <span v-for="(act, akey) in item.actions" :key="akey">
-                    <label>
-                      <input type="checkbox" v-model="modal_data.details[akey]" :value="act"> {{act}}
+                    <label class="item-checbox">
+                      <input type="checkbox" v-model="modal_data.details[akey]" :value="1"> {{act}}
                     </label>
                   </span>
                 </div>
@@ -111,9 +92,6 @@ export default {
         {text: '权限', href: '#'}
       ],
       rows: [],
-      pn: 1,
-      total: 1,
-      attrs: {},
       modal_open: false,
       modal_title: '',
       modal_data: {}
@@ -149,7 +127,11 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.save('admin', this.modal_data).then(d => {
+      this.$http.save('admin/group', {
+        pag_id: this.modal_data['pag_id'] || 0,
+        pag_name: this.modal_data.pag_name,
+        details: this.modal_data.details
+      }).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_open = false
@@ -174,12 +156,10 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.list('admin', {pn: this.pn}).then(d => {
+      this.$http.list('admin/group', {pn: this.pn}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data.list
-          this.pn = d.data.paging.pn
-          this.total = d.data.paging.max
         } else {
           this.rows = []
         }
@@ -189,7 +169,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.del('admin', {id: id}).then(d => {
+      this.$http.del('admin/group', {id: id}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.$notify({
@@ -224,11 +204,27 @@ export default {
   }
 }
 </script>
-<style>
-.distpicker-address-wrapper select {
-  max-width: 115px!important;
-}
-.user {
-  background: #fff;
-}
+<style scoped>
+  .app_content {
+    background: #fff;
+  }
+  h6 {
+    font-size: 13px;
+    font-weight: 300;
+    color: #666;
+  }
+  .items {
+    margin-bottom: 10px;
+    background: #f5f5f5;
+    padding: 5px 15px 15px 15px;
+    border-radius: 3px;
+  }
+  .item-checbox {
+    font-weight: normal;
+    font-size: 13px;
+    display: inline-block;
+    margin-right: 15px;
+    color: #555;
+    cursor: pointer;
+  }
 </style>
