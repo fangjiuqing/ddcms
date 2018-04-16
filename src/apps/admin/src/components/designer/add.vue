@@ -77,7 +77,7 @@
                 <tbody>
                   <tr v-for="(row, row_key) in stags" :key="row_key">
                     <td width="90%">
-                      <input class="form-control material_field_input" v-model="stags[row_key]['val']" value="" placeholder="请输入标签名称" />
+                      <input class="form-control material_field_input" v-model="stags[row_key]" value="" placeholder="请输入标签名称" />
                     </td>
                     <td>
                       <btn class="btn btn-xs btn-danger" @click="del_stag(row_key)"><i class="fa fa-trash-o"></i></btn>
@@ -94,7 +94,7 @@
                 <tbody>
                   <tr v-for="(row, row_key) in attrs" :key="row_key">
                     <td width="90%">
-                      <input class="form-control material_field_input" v-model="attrs[row_key]['val']" value="" placeholder="请输入奖项名称" />
+                      <input class="form-control material_field_input" v-model="attrs[row_key]" value="" placeholder="请输入奖项名称" />
                     </td>
                     <td>
                       <btn class="btn btn-xs btn-danger" @click="del_attr(row_key)"><i class="fa fa-trash-o"></i></btn>
@@ -162,9 +162,6 @@ export default {
     onSelected (d) {
       this.form.des_region0 = d.province.code
       this.form.des_region1 = d.city.code
-    },
-    onStyleSelected (d) {
-      console.log(d)
     },
     upload_cover () {
       this.$uploader.select({
@@ -281,6 +278,8 @@ export default {
           this.cover = d.data.row.cover || ''
           this.styles = d.data.styles || []
           this.cases = d.data.cases || []
+          this.attrs = d.data.attrs || []
+          this.stags = d.data.stags || []
         } else {
           this.form = []
         }
