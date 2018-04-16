@@ -329,8 +329,8 @@ export default {
 }
 </script>
 <style scoped>
-  #editor {
-  }
+  /* #editor {
+  } */
   .quillWrapper {
     position: relative;
   }
@@ -342,5 +342,39 @@ export default {
   }
   .ql-toolbar {
     text-align: left;
+  }
+
+  [v-cloak] {
+      display: none;
+  }
+
+  .hintsbox-mark {
+      position: relative;
+      z-index:9999;
+  }
+
+  .hintsbox-mark input{
+      width: 100%;
+  }
+
+  .hintsbox {
+      width: 100%;
+      border: 1px solid #ddd;
+
+  }
+
+  .hintslist .hint {
+      padding: 4px 2px 4px 8px;
+      list-style-type : none;
+      text-align:left;
+  }
+
+  .hintslist .hint:hover {
+      background-color: #DDD8E5;
+      cursor: pointer;
+  }
+
+  .hintslist .hint.active {
+      background-color: #DDD8E5;
   }
 </style>
