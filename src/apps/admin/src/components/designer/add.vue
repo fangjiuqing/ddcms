@@ -29,12 +29,18 @@
                 <div class="row">
                   <div class="col-md-6">
                       <div class="form-group">
-                        <input class="form-control" name="des_workyears" v-model="form.des_workyears"  v-focus="form.des_workyears"  type="number" placeholder="工作年数">
+                        <div class="input-group">
+                            <input class="form-control" name="des_workyears" v-model="form.des_workyears"  v-focus="form.des_workyears"  type="number" placeholder="工作年数">
+                            <span class="input-group-addon">年</span>
+                        </div>
                       </div>
                   </div>
                   <div class="col-md-6">
                       <div class="form-group">
-                        <input class="form-control" name="des_price" v-model="form.des_price"  v-focus="form.des_price"  type="text" placeholder="设计价格">
+                        <div class="input-group">
+                            <input class="form-control" name="des_price" v-model="form.des_price"  v-focus="form.des_price"  type="text" placeholder="设计价格">
+                            <span class="input-group-addon">元/M²</span>
+                        </div>
                       </div>
                   </div>
                 </div>
@@ -77,7 +83,7 @@
                 <tbody>
                   <tr v-for="(row, row_key) in stags" :key="row_key">
                     <td width="90%">
-                      <input class="form-control material_field_input" v-model="stags[row_key]" value="" placeholder="请输入标签名称" />
+                      <input class="form-control material_field_input" v-model="stags[row_key]['val']" value="" placeholder="请输入标签名称" />
                     </td>
                     <td>
                       <btn class="btn btn-xs btn-danger" @click="del_stag(row_key)"><i class="fa fa-trash-o"></i></btn>
@@ -94,7 +100,7 @@
                 <tbody>
                   <tr v-for="(row, row_key) in attrs" :key="row_key">
                     <td width="90%">
-                      <input class="form-control material_field_input" v-model="attrs[row_key]" value="" placeholder="请输入奖项名称" />
+                      <input class="form-control material_field_input" v-model="attrs[row_key]['val']" value="" placeholder="请输入奖项名称" />
                     </td>
                     <td>
                       <btn class="btn btn-xs btn-danger" @click="del_attr(row_key)"><i class="fa fa-trash-o"></i></btn>
@@ -260,9 +266,9 @@ export default {
     },
     add_style_tag () {
       this.$set(this.$data.stags, this.$util.rand_str(20), {
-        key: '',
         val: ''
       })
+      console.log(this.$data.stags)
     },
     del_stag (key) {
       this.$delete(this.$data.stags, key)
@@ -278,8 +284,8 @@ export default {
           this.cover = d.data.row.cover || ''
           this.styles = d.data.styles || []
           this.cases = d.data.cases || []
-          this.attrs = d.data.attrs || []
-          this.stags = d.data.stags || []
+          this.attrs = d.data.attrs || this.attrs
+          this.stags = d.data.stags || this.stags
         } else {
           this.form = []
         }
