@@ -18,10 +18,11 @@
               <thead>
                   <tr>
                     <th class="text-left" width="80">姓名</th>
+                    <th class="text-left" width="80">职位</th>
                     <th class="text-center" width="60">工作年限</th>
                     <th class="text-center" width="100">设计价格</th>
-                    <th class="text-left" width="200">风格标签</th>
                     <th class="text-left" width="100">所在地区</th>
+                    <th class="text-left" width="200">风格标签</th>
                     <th class="text-center" width="100"></th>
                   </tr>
               </thead>
@@ -30,17 +31,20 @@
                       <td class="text-left">
                         <a @click="modify(v.des_id)">{{v.des_name}}</a>
                       </td>
-                      <td class="text-center">
-                        <small>{{v.des_workyears}}</small>
-                      </td>
-                      <td class="text-center">
-                        <small>{{v.des_price}}</small>
-                      </td>
                       <td class="text-left">
-                        <small>{{v.des_style_tags}}</small>
+                        {{v.des_title}}
+                      </td>
+                      <td class="text-center">
+                        <b class="text-warning">{{v.des_workyears}}</b>
+                      </td>
+                      <td class="text-center">
+                        <b class="text-danger">{{v.des_price}}</b>元/M²
                       </td>
                       <td class="text-left">
                         <small>{{(attrs.region[v.des_region0]).region_name}} - {{(attrs.region[v.des_region1]).region_name}}</small>
+                      </td>
+                      <td class="text-left">
+                        <span v-for="(sv) in v.stags" class="label label-info" style="margin-right:5px;">{{sv}}</span>
                       </td>
                       <td class="text-center">
                           <btn class="btn btn-xs btn-success" @click="modify(v.des_id)"><i class="fa fa-pencil"></i></btn>
