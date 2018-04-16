@@ -44,7 +44,7 @@
                         <small>{{(attrs.region[v.des_region0]).region_name}} - {{(attrs.region[v.des_region1]).region_name}}</small>
                       </td>
                       <td class="text-left">
-                        <span v-for="(sv) in v.stags" class="label label-info" style="margin-right:5px;">{{sv}}</span>
+                        <span v-for="(sv) in v.stags" :key="sv" class="label label-info" style="margin-right:5px;">{{sv}}</span>
                       </td>
                       <td class="text-center">
                           <btn class="btn btn-xs btn-success" @click="modify(v.des_id)"><i class="fa fa-pencil"></i></btn>
