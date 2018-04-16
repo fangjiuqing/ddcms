@@ -24,7 +24,7 @@ import Customer from '@/components/customer/customer'
 import Preview from '@/components/customer/preview'
 
 import Logs from '@/components/system/logs'
-import Admin from '@/components/system/admin'
+import Admin from '@/components/system/admin/index'
 
 import Designer from '@/components/designer/index'
 import DesignerAdd from '@/components/designer/add'
