@@ -97,7 +97,7 @@
               <label class="col-sm-3 label-on-left">所在地</label>
               <div class="col-sm-9">
                 <div class="form-group">
-                  <v-distpicker :province="modal_data.pc_region0_label" :city="modal_data.pc_region1_label" :area="modal_data.pc_region2_label" @selected="onSelected"></v-distpicker>
+                  <v-distpicker :province="modal_data.pc_region0" :city="modal_data.pc_region1" :area="modal_data.pc_region2" @selected="onSelected"></v-distpicker>
                 </div>
               </div>
             </div>

@@ -127,7 +127,7 @@
                     操作历史
                   </h5>
                   <h5 class="add">
-                    <btn class="btn btn-info btn-xs pull-right" @click="add_attr">新增</btn>
+                    <btn class="btn btn-info btn-xs pull-right">新增</btn>
                   </h5>
                 </div>
                 <div class="btnss">
@@ -146,6 +146,11 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-11" style="margin:0 auto; float: none">
+            <btn type="success" class="btn btn-success pull-right">保存</btn>
           </div>
         </div>
       </form>
@@ -233,17 +238,15 @@ export default {
 }
 </script>
 <style>
-.history {
-  display: flex;
-  color: #333;
-  text-align: left;
-  text-decoration: none;
-}
-.active .history {
-  color: purple;
-}
 .add {
   position: absolute;
+  top: 0;
   right: 50px;
+}
+.distpicker-address-wrapper {
+  text-align: left;
+}
+.distpicker-address-wrapper select {
+  max-width: 105px!important;
 }
 </style>

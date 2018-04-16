@@ -293,7 +293,7 @@ export default {
       this.$http.save('designer', {
         base: this.form,
         attrs: this.attrs,
-        stags : this.stags
+        stags: this.stags
       }).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
@@ -396,7 +396,6 @@ export default {
   .ql-toolbar {
     text-align: left;
   }
-
 
   [v-cloak] {
       display: none;
