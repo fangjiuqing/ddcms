@@ -123,17 +123,17 @@
 
 <script>
 export default {
-  name: 'User',
+  name: 'Manager',
   metaInfo () {
     return {
-      title: '客户列表 - 道达智装'
+      title: '管理账号 - 道达智装'
     }
   },
   data () {
     return {
       items: [
         {text: '首页', to: '/'},
-        {text: '管理', to: '/user'},
+        {text: '管理', to: '/manager'},
         {text: '账号', href: '#'}
       ],
       rows: [],
@@ -236,14 +236,14 @@ export default {
     }
   },
   mounted: function () {
-    this.$store.state.left_active_key = '/user'
+    this.$store.state.left_active_key = '/system'
     this.refresh()
   },
   destroyed: function () {
     this.$loading.hide()
   },
   activated: function () {
-    this.$store.state.left_active_key = '/user'
+    this.$store.state.left_active_key = '/system'
     this.refresh()
     this.onSelected()
   }

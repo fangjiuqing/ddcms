@@ -142,14 +142,14 @@ export default {
       icon: 'fa fa-delicious',
       children: [
         {
-          url: '/user',
+          url: '/manager',
           name: '管理账号',
           icon: 'fa fa-user-o',
           active: false
         },
         {
-          url: '/user/group',
-          name: '权限组',
+          url: '/manager/group',
+          name: '管理权限',
           icon: 'fa fa-user-secret',
           active: false
         },
