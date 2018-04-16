@@ -24,7 +24,7 @@ import Customer from '@/components/customer/customer'
 import Preview from '@/components/customer/preview'
 
 import Logs from '@/components/system/logs'
-import Manager from '@/components/manager/index'
+import Admin from '@/components/system/admin'
 
 import Designer from '@/components/designer/index'
 import DesignerAdd from '@/components/designer/add'
@@ -106,9 +106,9 @@ const router = new Router({
       component: Supplier
     },
     {
-      path: '/manager',
-      name: 'Manager',
-      component: Manager
+      path: '/system/admin',
+      name: 'Admin',
+      component: Admin
     },
     {
       path: '/system/logs',
