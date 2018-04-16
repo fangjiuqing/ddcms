@@ -1,0 +1,234 @@
+<template>
+  <div class="user">
+    <breadcrumbs :items="items">
+      <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
+        {{v.text}}
+      </breadcrumb-item>
+      <breadcrumb-item active class="pull-right">
+        <a @click="modify('0')" class="btn btn-xs btn-info pull-right">
+          <i class="fa fa-plus-square"></i> 新增
+        </a>
+      </breadcrumb-item>
+    </breadcrumbs>
+    <div class="app_page">
+      <form action="/" id="profile_form" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
+        <div class="app_content">
+          <div class="content table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th class="text-center" width="120">姓名</th>
+                  <th class="text-center" width="">账号</th>
+                  <th class="text-center" width="150">手机</th>
+                  <th class="text-center" width="150">邮箱</th>
+                  <th class="text-center" width="150">微信</th>
+                  <th class="text-center" width="150">最近登录</th>
+                  <th class="text-center" width="40"></th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr v-for="(v) in rows" :key="v.pc_id">
+                    <td class="text-center">
+                      <a href="javascript:;" @click="modify(v.admin_id)"><span>{{v.admin_nick}}</span></a>
+                    </td>
+                    <td class="text-center">
+                      <code>{{v.admin_account}}</code>
+                    </td>
+                    <td class="text-center">
+                      <small>{{v.admin_mobile}}</small>
+                    </td>
+                    <td class="text-center">
+                      <small>{{v.admin_email}}</small>
+                    </td>
+                    <td class="text-center">
+                      <small>{{v.admin_wechat}}</small>
+                    </td>
+                    <td class="text-center">
+                      <small>{{v.admin_date_login|time('yyyy-mm-dd HH:MM:ss')}}</small>
+                    </td>
+                    <td class="text-center">
+                      <btn class="btn btn-xs btn-rose" @click="del(v.admin_id)"><i class="fa fa-trash-o"></i></btn>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+            <pagination v-model="pn" :total-page="total" @change="refresh" size="sm"/>
+          </div>
+        </div>
+      </form>
+    </div>
+    <modal v-model="modal_open" title="{modal_title}" size="lg">
+      <div slot="title" class="text-left">
+        {{modal_title}}
+      </div>
+      <div slot="default">
+        <form action="" method="post" accept-charset="utf-8">
+          <div style="padding-right:80px;">
+            <div class="row">
+              <label class="col-sm-2 label-on-left">组名</label>
+              <div class="col-sm-10">
+                <div class="form-group">
+                  <input class="form-control" v-model="modal_data.pag_name" v-focus="modal_data.pag_name" type="text" placeholder="请输入权限组名称">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-2 label-on-left">项目</label>
+              <div class="col-sm-10">
+                <div v-for="(item, key) in modal_data.rules" :key="key" class="text-left">
+                  <h6>{{item.name}}</h6>
+                  <span v-for="(act, akey) in item.actions" :key="akey">
+                    <label>
+                      <input type="checkbox" v-model="modal_data.details[akey]" :value="act"> {{act}}
+                    </label>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div slot="footer">
+        <btn @click="save" type="success" class="btn-sm">确认</btn>
+      </div>
+    </modal>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Group',
+  metaInfo () {
+    return {
+      title: '管理权限 - 道达智装'
+    }
+  },
+  data () {
+    return {
+      items: [
+        {text: '首页', to: '/'},
+        {text: '管理', to: '/manager'},
+        {text: '权限', href: '#'}
+      ],
+      rows: [],
+      pn: 1,
+      total: 1,
+      attrs: {},
+      modal_open: false,
+      modal_title: '',
+      modal_data: {}
+    }
+  },
+  methods: {
+    onSelected (d) {
+      this.modal_data.pc_region0 = d.province.code
+      this.modal_data.pc_region1 = d.city.code
+      this.modal_data.pc_region2 = d.area.code
+    },
+    modify: function (id) {
+      this.modal_open = true
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$http.get('admin/group', {id: id}).then(d => {
+        this.$loading.hide()
+        if (d.code === 0) {
+          this.modal_data = d.data
+          this.modal_data.details = this.modal_data.details || {}
+        }
+        this.modal_open = true
+      })
+      if (id === '0') {
+        this.modal_title = '新增账号'
+        this.modal_data = {}
+      } else {
+        this.modal_title = '编辑账号'
+      }
+    },
+    save: function () {
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$http.save('admin', this.modal_data).then(d => {
+        this.$loading.hide()
+        if (d.code === 0) {
+          this.modal_open = false
+          this.refresh()
+          this.$notify({
+            content: d.msg,
+            duration: 2000,
+            type: 'success',
+            dismissible: false
+          })
+        } else {
+          this.$notify({
+            content: d.msg,
+            duration: 2000,
+            type: 'danger',
+            dismissible: false
+          })
+        }
+      })
+    },
+    refresh: function () {
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$http.list('admin', {pn: this.pn}).then(d => {
+        this.$loading.hide()
+        if (d.code === 0) {
+          this.rows = d.data.list
+          this.pn = d.data.paging.pn
+          this.total = d.data.paging.max
+        } else {
+          this.rows = []
+        }
+      })
+    },
+    del: function (id) {
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$http.del('admin', {id: id}).then(d => {
+        this.$loading.hide()
+        if (d.code === 0) {
+          this.$notify({
+            content: d.msg,
+            duration: 2000,
+            type: 'success',
+            dismissible: false
+          })
+          this.refresh()
+        } else {
+          this.$notify({
+            content: d.msg,
+            duration: 2000,
+            type: 'danger',
+            dismissible: false
+          })
+        }
+      })
+    }
+  },
+  mounted: function () {
+    this.$store.state.left_active_key = '/system'
+    this.refresh()
+  },
+  destroyed: function () {
+    this.$loading.hide()
+  },
+  activated: function () {
+    this.$store.state.left_active_key = '/system'
+    this.refresh()
+    this.onSelected()
+  }
+}
+</script>
+<style>
+.distpicker-address-wrapper select {
+  max-width: 115px!important;
+}
+.user {
+  background: #fff;
+}
+</style>
