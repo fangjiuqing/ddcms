@@ -125,6 +125,18 @@
             </div>
           </div>
         </div>
+
+        <div class="form-block">
+          <div class="row">
+            <div class="col-md-12" style="padding-top: 15px;">
+              <vue-editor ref="editor" id="editor"
+                useCustomImageHandler
+                @imageAdded="uploadEditorImage" v-model="desc">
+              </vue-editor>
+            </div>
+          </div>
+        </div>
+
         <div class="row">
           <div class="col-md-11" style="margin:0 auto; float: none">
             <btn type="success" v-on:click="save" class="btn btn-success pull-right">保存</btn>
@@ -136,9 +148,10 @@
 </template>
 <script>
 import VDistpicker from 'v-distpicker'
+import {VueEditor} from 'vue2-editor'
 export default {
   name: 'CaseAdd',
-  components: { VDistpicker },
+  components: {VDistpicker, VueEditor},
   metaInfo () {
     return {
       title: '新增案例 - 道达智装'
@@ -183,7 +196,8 @@ export default {
       type: [],
       layout: [],
       space: [],
-      images: {}
+      images: {},
+      desc: ''
     }
   },
   methods: {
@@ -290,6 +304,53 @@ export default {
         pre: 'cover'
       })
     },
+    on_editor_error (msg) {
+      this.$loading.hide()
+      this.$notify({
+        content: msg,
+        duration: 2000,
+        type: 'danger',
+        dismissible: false
+      })
+    },
+    on_editor_start (e) {
+      this.$loading.show({
+        msg: '文件上传中, 已发送 0 % ...'
+      })
+    },
+    on_editor_finish (d) {
+      this.$loading.hide()
+      this.$notify({
+        content: '上传成功',
+        duration: 1000,
+        type: 'success',
+        dismissible: false
+      })
+      this.extra.Editor.insertEmbed(this.extra.cursorLocation, 'image', d.url)
+      this.extra.resetUploader()
+    },
+    on_editor_progress (e) {
+      if (e) {
+        this.$loading.show({
+          msg: '文件上传中, 已发送 ' + e + ' % ...'
+        })
+      }
+    },
+    uploadEditorImage (file, Editor, cursorLocation, resetUploader) {
+      let formData = new FormData()
+      formData.append('raw', JSON.stringify({
+        'uri': 'upload/image',
+        'access_token': this.$sess.access_token
+      }))
+      formData.append('file', file)
+      this.extra = {Editor, cursorLocation, resetUploader}
+      this.$uploader.exec({
+        uri: 'upload/image',
+        el: this,
+        pre: 'editor',
+        data: formData
+      })
+    },
     del_attr (key) {
       this.$delete(this.$data.attrs, key)
     },
@@ -309,6 +370,7 @@ export default {
           this.form = this.id ? d.data.row : this.form
           this.images = d.data.images || {}
           this.attrs = d.data.attrs || this.attrs
+          this.desc = d.data.desc || this.desc
           this.cover = d.data.row['cover'] || ''
           this.categories = d.data.category || []
           this.style = d.data.style || []
@@ -327,7 +389,8 @@ export default {
       this.$http.save('case', {
         base: this.form,
         images: this.images,
-        attrs: this.attrs
+        attrs: this.attrs,
+        desc: this.desc
       }).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
@@ -375,11 +438,15 @@ export default {
     float: left;
   }
   .case-image .case-image-wrap img {
-    max-height: 100px;
+    max-height: 100%;
     position: absolute;
     margin: auto;
-    left: 0;
+    left: 0px;
+    max-width: 92%;
     right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 3px;
   }
   .case-image .case-image-wrap .btn {
     display: none;
