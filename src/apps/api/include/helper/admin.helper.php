@@ -41,6 +41,15 @@ class admin_helper extends rgx {
                 'system/admin/group/save'   => '权限更新',
                 'system/admin/group/del'    => '权限删除',
             ]
+        ],
+        [
+            'name'      => '设计师管理',
+            'actions'   => [
+                'designer/get'          => '设计师详情',
+                'designer/list'         => '设计师列表',
+                'designer/save'         => '设计师更新',
+                'designer/del'          => '设计师删除',
+            ]
         ]
     ];
 
@@ -62,7 +71,7 @@ class admin_helper extends rgx {
         }
         return join(", ", $ret);
     }
-    
+
     /**
      * 验证用户密码
      * @param  [type] $src_pwd [description]
