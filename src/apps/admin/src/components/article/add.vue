@@ -4,54 +4,56 @@
       <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
         {{v.text}}
       </breadcrumb-item>
-      <breadcrumb-item active class="pull-right">
-        <a class="btn btn-xs btn-info pull-right">
-          <i class="fa fa-plus-square"></i> 新增
-        </a>
-      </breadcrumb-item>
     </breadcrumbs>
-    <div class="app_page" style="padding-right:15px">
+    <div class="app_page">
       <form action="" method="post" accept-charset="utf-8">
-        <div class="row" style="width: 91.66666667%;margin:0 auto;">
-          <div class="col-sm-7" style="padding-left:0">
-              <div class="form-group">
-                  <input class="form-control" name="article_title" v-model="form.article_title"  v-focus="form.article_title"  type="text" placeholder="资讯标题">
-              </div>
-
-              <div class="form-group">
-                  <input class="form-control" name="article_via" v-model="form.article_via"  v-focus="form.article_via"  type="text" placeholder="资讯来源">
-              </div>
-
-              <div class="form-group">
-                  <select v-model="form.article_cat_id"  name="article_cat_id" class="form-control">
-                    <option v-for="(v) in categories" v-bind:key="v.cat_id" :value="v.cat_id" v-html="v.space">
-                    </option>
-                  </select>
-              </div>
+        <div class="form-block">
+          <div class="row">
+            <div class="col-md-12">
+              <h5 class="block-h5">资讯</h5>
+            </div>
           </div>
-          <div class="col-sm-5">
-            <img class="preview_article_cover" style="width: 200px; height: 120px;" :src="article_cover" @click="upload_cover">
-            <input type="hidden" name="article_cover" v-model="form.article_cover">
+          <div class="row">
+            <div class="col-sm-7">
+                <div class="form-group">
+                    <input class="form-control" name="article_title" v-model="form.article_title"  v-focus="form.article_title"  type="text" placeholder="资讯标题">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" name="article_via" v-model="form.article_via"  v-focus="form.article_via"  type="text" placeholder="资讯来源">
+                </div>
+                <div class="form-group">
+                    <select v-model="form.article_cat_id"  name="article_cat_id" class="form-control">
+                      <option v-for="(v) in categories" v-bind:key="v.cat_id" :value="v.cat_id" v-html="v.space">
+                      </option>
+                    </select>
+                </div>
+                <div class="form-group text-left">
+                  <switches style="font-weight: 300" v-model="form.article_status" value="2" theme="bootstrap" color="success" text-enabled="发布" text-disabled="草稿"></switches>
+                </div>
+            </div>
+            <div class="col-sm-5">
+              <img class="preview_article_cover" style="width: 200px; height: 120px;" :src="article_cover" @click="upload_cover">
+              <input type="hidden" name="article_cover" v-model="form.article_cover">
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-11" style="margin:0 auto; float: none">
-            <vue-editor ref="editor" id="editor"
-              useCustomImageHandler
-              @imageAdded="upload_image" v-model="form.article_content">
-            </vue-editor>
-            <btn type="success" v-on:click="save" class="btn btn-success pull-right">保存</btn>
-          </div>
+          <vue-editor ref="editor" id="editor"
+            useCustomImageHandler
+            @imageAdded="upload_image" v-model="form.article_content">
+          </vue-editor>
+          <btn type="success" v-on:click="save" class="btn btn-success pull-right">保存</btn>
+          <div class="clearfix"></div>
         </div>
       </form>
     </div>
   </div>
 </template>
 <script>
+import Switches from 'vue-switches'
 import { VueEditor } from 'vue2-editor'
+
 export default {
   name: 'ArticleAdd',
-  components: {VueEditor},
+  components: {VueEditor, Switches},
   metaInfo () {
     return {
       title: '品牌管理 - 道达智装'
