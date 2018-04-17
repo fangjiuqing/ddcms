@@ -10,4 +10,4 @@ src/apps/api/data/log/*
 *.lock
 .gitignore
 .idea/
-./src/apps/admin/api/data/*
+./src/apps/api/data/*
