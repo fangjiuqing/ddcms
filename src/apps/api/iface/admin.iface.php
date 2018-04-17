@@ -92,10 +92,14 @@ class admin_iface extends ubase_iface {
      */
     public function get_action () {
         $id = intval($this->data['id']);
+        $group_source = OBJ('admin_group_table')->get_all();
         if ($ret = OBJ('admin_table')->get($id)) {
             unset($ret['admin_passwd']);
             unset($ret['admin_salt']);
-            $this->success('操作成功', $ret);
+            $this->success('操作成功', [
+                'ret'   => $ret,
+                'group' => $group_source,
+            ]);
         }
         $this->failure('操作失败');
     }
