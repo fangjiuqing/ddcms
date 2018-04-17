@@ -96,10 +96,8 @@ class admin_iface extends ubase_iface {
         if ($ret = OBJ('admin_table')->get($id)) {
             unset($ret['admin_passwd']);
             unset($ret['admin_salt']);
-            $this->success('操作成功', [
-                'ret'   => $ret,
-                'group' => $group_source,
-            ]);
+            $ret['group'] = $group_source;
+            $this->success('操作成功', $ret);
         }
         $this->failure('操作失败');
     }
