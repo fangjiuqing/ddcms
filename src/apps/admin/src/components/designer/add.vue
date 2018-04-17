@@ -48,7 +48,7 @@
                   <input class="form-control" name="des_concept_tags" v-model="form.des_concept_tags"  v-focus="form.des_concept_tags"  type="text" placeholder="设计理念">
                 </div>
                 <div class="form-group">
-                  <input class="form-control" name="des_slogan" v-model="form.des_slogan"  v-focus="form.des_slogan"  type="text" placeholder="设计标语">
+                  <input class="form-control" name="des_slogan" v-model="form.des_slogan"  v-focus="form.des_slogan"  type="text" placeholder="服务范围">
                 </div>
                 <div class="row">
                   <div class="col-md-6">
