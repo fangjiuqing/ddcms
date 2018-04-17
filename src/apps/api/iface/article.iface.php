@@ -20,6 +20,7 @@ class article_iface extends base_iface {
     public function save_action () {
         $this->check_login();
         $this->data['article_title'] = filter::text($this->data['article_title']);
+        $this->data['article_status'] = $this->data['article_status'] == 'true' ? 2 : 1;
         $this->verify([
             'article_cat_id' => [
                 'code' => '101',
@@ -59,6 +60,7 @@ class article_iface extends base_iface {
         $out['row'] = OBJ('article_table')->left_join('article_content_table', 'article_id', 'article_id')
             ->get($id) ?: [];
         if ($out['row']) {
+            $out['row']['article_status']  = $out['row']['article_status'] == '2' ? true : false;
             $out['row']['article_content'] = htmlspecialchars_decode($out['row']['article_content'], ENT_QUOTES);
             $out['row']['article_cover_thumb'] = IMAGE_URL . $out['row']['article_cover'] . '!500x309';
         }

@@ -1,5 +1,5 @@
 <template>
-  <div class="profile">
+  <div class="case">
     <breadcrumbs :items="items">
       <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
         {{v.text}}
@@ -14,13 +14,13 @@
       <form action="/" id="profile_form" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
         <div class="app_content">
           <div class="content table-responsive">
-            <table class="table table-striped table-hover">
+            <table class="table table-hover">
               <thead>
                   <tr>
                     <th class="text-left"><small>标题</small></th>
-                    <th class="text-center" width="120"><small>分类</small></th>
-                    <th class="text-center" width="80"><small>浏览</small></th>
-                    <th class="text-center" width="150"><small>时间</small></th>
+                    <th class="text-center" width="120"><small>状态</small></th>
+                    <th class="text-center" width="100"><small>浏览</small></th>
+                    <th class="text-center" width="150"><small>发布时间</small></th>
                     <th class="text-center" width="100"></th>
                   </tr>
               </thead>
@@ -32,6 +32,8 @@
                         </a>
                       </td>
                       <td class="text-center">
+                        <small v-if="v.article_status === '2'" class="text-success">发布</small>
+                        <small v-if="v.article_status !== '2'" class="text-rose">草稿</small>
                       </td>
                       <td class="text-center">
                         <code>{{v.article_stat_view}}</code>
@@ -55,7 +57,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'Article',
   metaInfo () {
