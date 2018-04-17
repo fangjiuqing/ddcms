@@ -154,6 +154,7 @@ class admin_iface extends ubase_iface {
             ],
         ]);
         $this->data['admin_passwd'] = md5(md5($this->data['admin_passwd']) . $this->data['admin_salt']);
+        $this->data['admin_group_id'] = (int)$this->data['pag_id'];
         $tab = OBJ('admin_table');
         if ($tab->load($this->data)) {
             $ret = $tab->save();
@@ -164,6 +165,17 @@ class admin_iface extends ubase_iface {
             }
         }
         $this->failure($tab->get_error_desc(), 105);
+    }
+    
+    /**
+     * 管理员权限组列表
+     */
+    public function group_action () {
+        $ret = OBJ('admin_group_table')->get_all();
+        if ($ret) {
+            $this->success('操作成功', $ret);
+        }
+        $this->failure('操作失败');
     }
     
 }
