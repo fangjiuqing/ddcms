@@ -51,7 +51,7 @@ class designer_table extends table {
             'type'               => 'char',
             'field_type'         => 'varchar',
             'min'                => 0,
-            'max'                => 255,
+            'max'                => 2048,
             'label'              => '简介',
             'allow_empty_string' => false,
             'allow_null'         => false
