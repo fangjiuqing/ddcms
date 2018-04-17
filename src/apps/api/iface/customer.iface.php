@@ -156,9 +156,6 @@ class customer_iface extends base_iface {
      * @param varchar $pc_local  小区楼盘
      */
     public function info_action () {
-        if (!filter::is_account($this->data['pc_nick'])) {
-            $this->failure('请输入正确的用户名');
-        }
         $this->data['pc_area'] = filter::int($this->data['pc_area']);
         $this->data['pc_room0'] = filter::int($this->data['pc_room0']);
         $this->data['pc_room1'] = filter::int($this->data['pc_room1']);

@@ -50,6 +50,41 @@ class admin_helper extends rgx {
                 'designer/save'         => '设计师更新',
                 'designer/del'          => '设计师删除',
             ]
+        ],
+        [
+            'name'      => '管理员管理',
+            'actions'   => [
+                'admin/list'                => '管理员列表',
+                'admin/get'                 => '管理员详情',
+                'admin/del'                 => '管理员删除',
+                'admin/save'                => '管理员更新',
+                'admin/passwd'              => '管理员密码修改',
+            ]
+        ],
+        [
+            'name'      => '操作日志管理',
+            'actions'   => [
+                'system/list'               => '操作日志列表',
+            ]
+        ],
+        [
+            'name'      => '资讯管理',
+            'actions'   => [
+                'article/get'               => '资讯详情',
+                'article/list'              => '资讯列表',
+                'article/save'              => '资讯更新',
+                'article/del'               => '资讯删除',
+            ]
+        ],
+        [
+            'name'      => '客户管理',
+            'actions'   => [
+                'customer/get'              => '客户详情',
+                'customer/list'             => '客户列表',
+                'customer/save'             => '客户更新',
+                'customer/del'              => '客户删除',
+                'customer/info'             => '客户新增',
+            ]
         ]
     ];
 
