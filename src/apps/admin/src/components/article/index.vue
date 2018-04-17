@@ -14,23 +14,24 @@
       <form action="/" id="profile_form" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
         <div class="app_content">
           <div class="content table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped table-hover">
               <thead>
                   <tr>
-                    <th class="text-left">标题</th>
-                    <th class="text-center" width="120">分类</th>
-                    <th class="text-center" width="80">浏览</th>
-                    <th class="text-center" width="150">时间</th>
+                    <th class="text-left"><small>标题</small></th>
+                    <th class="text-center" width="120"><small>分类</small></th>
+                    <th class="text-center" width="80"><small>浏览</small></th>
+                    <th class="text-center" width="150"><small>时间</small></th>
                     <th class="text-center" width="100"></th>
                   </tr>
               </thead>
               <tbody>
                   <tr v-for="(v) in rows" :key="v.article_id">
                       <td class="text-left">
-                        <a @click="modify(v.article_id)">{{v.article_title}}</a>
+                        <a @click="modify(v.article_id)" class="text-default">
+                          <small class="text-success">「{{v.cat_name}}」</small>{{v.article_title}}
+                        </a>
                       </td>
                       <td class="text-center">
-                        <small>{{v.cat_name}}</small>
                       </td>
                       <td class="text-center">
                         <code>{{v.article_stat_view}}</code>

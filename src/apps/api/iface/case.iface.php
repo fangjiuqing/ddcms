@@ -109,21 +109,8 @@ class case_iface extends base_iface {
                 'code'  => '1',
                 'msg'   => '请设置案例封面',
                 'rule'  => filter::$rules['require'],
-            ],
-            'case_area'    => [
-                'code'  => '1',
-                'msg'   => '请输入面积',
-                'rule'  => filter::$rules['require'],
-            ],
-            'case_price'    => [
-                'code'  => '1',
-                'msg'   => '请输入造价',
-                'rule'  => filter::$rules['require'],
             ]
         ], $case);
-        if (empty($images)) {
-            $this->failure('请上传案例图片');
-        }
 
         // 案例入库
         $ctab = OBJ('case_table');
