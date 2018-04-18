@@ -106,7 +106,6 @@ class admin_iface extends ubase_iface {
      * 管理员账号新增
      */
     public function save_action () {
-        dump($this->data);
         if (!filter::is_account($this->data['admin_account'])) {
             $this->failure('请输入正确的账号');
         }
