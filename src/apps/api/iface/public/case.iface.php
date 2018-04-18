@@ -47,6 +47,7 @@ class public_case_iface extends base_iface {
                     $row['case_cover_lg'] = IMAGE_URL . $row['case_cover'];
                     $row['case_cover_sm'] = IMAGE_URL . $row['case_cover'] . '!500x309';
                     $row['type'] = $types[$row['case_type_id']]['cat_name'];
+                    $row['toggle'] = false;
                     return $row;
                 })->order('case_id desc')->limit(5)->get_all([
                     'case_cat_id'   => $v['sub_ids'] ?: [0]
