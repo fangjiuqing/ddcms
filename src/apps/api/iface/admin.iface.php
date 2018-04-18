@@ -134,7 +134,6 @@ class admin_iface extends ubase_iface {
         else {
             $this->data['admin_wechat'] = '';
         }
-        $this->data['admin_group_id'] = $this->data['admin_group_id'] ?: 1;
         $this->data['admin_type'] = $this->data['admin_type'] ?: 1;
         if (!filter::is_account($this->data['admin_nick'])) {
             $this->failure('请输入正确名字', 101);
@@ -154,7 +153,7 @@ class admin_iface extends ubase_iface {
             ],
         ]);
         $this->data['admin_passwd'] = md5(md5($this->data['admin_passwd']) . $this->data['admin_salt']);
-        $this->data['admin_group_id'] = (int)$this->data['pag_id'];
+        $this->data['admin_group_id'] = (int)$this->data['admin_group_id'];
         $tab = OBJ('admin_table');
         if ($tab->load($this->data)) {
             $ret = $tab->save();

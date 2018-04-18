@@ -18,6 +18,7 @@
               <thead>
                 <tr>
                   <th class="text-center" width="120">姓名</th>
+                  <th class="text-center" width="150">管理员类型</th>
                   <th class="text-center" width="">账号</th>
                   <th class="text-center" width="150">手机</th>
                   <th class="text-center" width="150">邮箱</th>
@@ -30,6 +31,9 @@
                   <tr v-for="(v) in rows" :key="v.pc_id">
                     <td class="text-center">
                       <a href="javascript:;" @click="modify(v.admin_id)"><span>{{v.admin_nick}}</span></a>
+                    </td>
+                    <td class="text-center">
+                      <small>{{v.admin_group_name}}</small>
                     </td>
                     <td class="text-center">
                       <code>{{v.admin_account}}</code>
@@ -69,6 +73,16 @@
               <div class="col-sm-9">
                 <div class="form-group">
                   <input class="form-control" v-model="modal_data.admin_nick" v-focus="modal_data.admin_nick" type="text" placeholder="请输入您的真实姓名">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <label class="col-sm-3 label-on-left">管理员</label>
+              <div class="col-sm-9">
+                <div class="form-group">
+                  <select class="form-control" v-model="modal_data.admin_group_id" v-focus="modal_data.admin_group_id">
+                    <option v-for="g in group" :key="g.pag_id" :value="g.pag_id">{{g.pag_name}}</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -141,7 +155,8 @@ export default {
       attrs: {},
       modal_open: false,
       modal_title: '',
-      modal_data: {}
+      modal_data: {},
+      group: []
     }
   },
   methods: {
@@ -159,6 +174,7 @@ export default {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_data = d.data
+          this.group = d.data.group
         }
         this.modal_open = true
       })
