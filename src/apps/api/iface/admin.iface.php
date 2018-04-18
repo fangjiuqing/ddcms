@@ -154,6 +154,7 @@ class admin_iface extends ubase_iface {
         ]);
         $this->data['admin_passwd'] = md5(md5($this->data['admin_passwd']) . $this->data['admin_salt']);
         $this->data['admin_group_id'] = (int)$this->data['pag_id'];
+        var_dump($this->data['pag_id']);
         dump($this->data);
         $tab = OBJ('admin_table');
         if ($tab->load($this->data)) {
