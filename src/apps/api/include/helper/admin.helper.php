@@ -41,6 +41,7 @@ class admin_helper extends rgx {
                 'system/admin/group/list'   => '权限列表',
                 'system/admin/group/save'   => '权限更新',
                 'system/admin/group/del'    => '权限删除',
+                'system/logs'               => '日志查看',
             ]
         ],
         [
@@ -50,22 +51,6 @@ class admin_helper extends rgx {
                 'designer/list'         => '设计师列表',
                 'designer/save'         => '设计师更新',
                 'designer/del'          => '设计师删除',
-            ]
-        ],
-        [
-            'name'      => '管理员管理',
-            'actions'   => [
-                'admin/list'                => '管理员列表',
-                'admin/get'                 => '管理员详情',
-                'admin/del'                 => '管理员删除',
-                'admin/save'                => '管理员更新',
-                'admin/passwd'              => '管理员密码修改',
-            ]
-        ],
-        [
-            'name'      => '操作日志管理',
-            'actions'   => [
-                'system/list'               => '操作日志列表',
             ]
         ],
         [
