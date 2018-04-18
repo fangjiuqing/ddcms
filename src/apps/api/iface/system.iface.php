@@ -16,7 +16,7 @@ class system_iface extends ubase_iface {
         $arts = $tab->map(function ($row) use (&$user_ids) {
             $user_ids[$row['al_admin_id']] = 1;
             return $row;
-        })->get_all();
+        })->order('al_adate desc')->get_all();
         $user_list = OBJ('admin_table')->akey('admin_id')->get_all([
             'admin_id' => array_keys($user_ids ?: [0]),
         ]);

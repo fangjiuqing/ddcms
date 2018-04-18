@@ -13,12 +13,13 @@ class case_iface extends base_iface {
         $id = intval($this->data['id']);
         $out['row'] = OBJ('case_table')->
             left_join('case_content_table', 'case_id', 'case_id')->get($id) ?: [];
-        $out['attrs'] = $out['images'] = null;
+        $out['attrs'] = $out['images'] = $out['desc'] = null;
         $region_ids = [];
         if ($out['row']) {
             $desc = filter::json_unecsape($out['row']['case_content']);
             $out['attrs'] = $desc['attrs'] ?: null;
             $out['images'] = $desc['images'];
+            $out['desc'] = filter::unecsape(htmlspecialchars_decode($desc['desc'], ENT_QUOTES));
             $out['row']['cover'] = IMAGE_URL . $out['row']['case_cover'] . '!500x309';
             if ($out['row']['case_region0']) {
                 $region_ids[] = $out['row']['case_region0'];
@@ -60,6 +61,7 @@ class case_iface extends base_iface {
         $case = $this->data['base'];
         $images = $this->data['images'];
         $attrs = $this->data['attrs'];
+        $desc = $this->data['desc'];
 
         // 默认值
         $case['case_id'] = $case['case_id'] ?: 0;
@@ -107,21 +109,8 @@ class case_iface extends base_iface {
                 'code'  => '1',
                 'msg'   => '请设置案例封面',
                 'rule'  => filter::$rules['require'],
-            ],
-            'case_area'    => [
-                'code'  => '1',
-                'msg'   => '请输入面积',
-                'rule'  => filter::$rules['require'],
-            ],
-            'case_price'    => [
-                'code'  => '1',
-                'msg'   => '请输入造价',
-                'rule'  => filter::$rules['require'],
             ]
         ], $case);
-        if (empty($images)) {
-            $this->failure('请上传案例图片');
-        }
 
         // 案例入库
         $ctab = OBJ('case_table');
@@ -133,7 +122,8 @@ class case_iface extends base_iface {
                     'case_id'       => $case['case_id'],
                     'case_content'  => filter::json_ecsape([
                         'images'    => $images,
-                        'attrs'     => $attrs
+                        'attrs'     => $attrs,
+                        'desc'      => $desc
                     ])
                 ]);
                 admin_helper::add_log($this->login['admin_id'], 'case/save', '2', 

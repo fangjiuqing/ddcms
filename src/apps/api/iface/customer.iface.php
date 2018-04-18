@@ -13,6 +13,7 @@ class customer_iface extends base_iface {
      * @param string $access_token token
      */
     public function list_action () {
+        $this->check_login();
         $tab = OBJ('customer_table');
         $tab->where(['pc_status_del' => 0]);
         $paging = new paging_helper($tab, $this->data['pn'] ?: 1, 12);
@@ -76,6 +77,7 @@ class customer_iface extends base_iface {
      * @param int $id 用户ID
      */
     public function get_action () {
+        $this->check_login();
         $id = intval($this->data['id']);
         $ret = OBJ('customer_table')->get($id);
         if (!$ret) {
@@ -156,16 +158,14 @@ class customer_iface extends base_iface {
      * @param varchar $pc_local  小区楼盘
      */
     public function info_action () {
-        if (!filter::is_account($this->data['pc_nick'])) {
-            $this->failure('请输入正确的用户名');
-        }
-        $this->data['pc_area'] = filter::int($this->data['pc_area']);
-        $this->data['pc_room0'] = filter::int($this->data['pc_room0']);
-        $this->data['pc_room1'] = filter::int($this->data['pc_room1']);
-        $this->data['pc_room2'] = filter::int($this->data['pc_room2']);
+        $this->data['pc_nick'] = $this->data['pc_nick'] ? filter::char($this->data['pc_nick']) : '';
+        $this->data['pc_area'] = $this->data['pc_area'] ? filter::int($this->data['pc_area']) : 0;
+        $this->data['pc_room0'] = $this->data['pc_room0'] ? filter::int($this->data['pc_room0']) : 0;
+        $this->data['pc_room1'] = $this->data['pc_room1'] ? filter::int($this->data['pc_room1']) : 0;
+        $this->data['pc_room2'] = $this->data['pc_room2'] ? filter::int($this->data['pc_room2']) : 0;
         $this->data['pc_room3'] = 1;
-        $this->data['pc_local'] = filter::char($this->data['pc_local']);
-        $this->data['pc_sn'] = '';
+        $this->data['pc_local'] = $this->data['pc_local'] ? filter::char($this->data['pc_local']) : '';
+        $this->data['pc_sn'] = 'A001';
         $this->data['pc_status'] = 0;
         $this->data['pc_adm_id'] = 0;
         $this->data['pc_adm_nick'] = '';

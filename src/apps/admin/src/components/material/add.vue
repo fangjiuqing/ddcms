@@ -1,5 +1,5 @@
 <template>
-  <div class="app_panel">
+  <div class="case">
     <breadcrumbs :items="items">
       <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
         {{v.text}}
@@ -94,7 +94,7 @@
             <div class="col-md-12">
               <table class="table table-striped">
                 <thead>
-                  <tr style="background-color:#f0f0f0">
+                  <tr style="background-color:#f7f7f7">
                     <th v-for="(v, k) in fields" :key="k" width="13%" v-if="k !== 'id'">
                       <input class="material_field_input" @focus="set_active(k)" v-model="fields[k]" :placeholder="v"/>
                     </th>

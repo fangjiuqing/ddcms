@@ -51,7 +51,7 @@ class designer_table extends table {
             'type'               => 'char',
             'field_type'         => 'varchar',
             'min'                => 0,
-            'max'                => 255,
+            'max'                => 2048,
             'label'              => '简介',
             'allow_empty_string' => false,
             'allow_null'         => false
@@ -93,8 +93,8 @@ class designer_table extends table {
             'min'                => 0,
             'max'                => 512,
             'label'              => '奖项',
-            'allow_empty_string' => false,
-            'allow_null'         => false
+            'allow_empty_string' => true,
+            'allow_null'         => true
         ],
         'des_region0' => [
             'name'               => 'des_region0',
@@ -228,7 +228,7 @@ class designer_table extends table {
       +--------------------------
     */
     public $unique_check = [
-        
+
     ];
 
     /*

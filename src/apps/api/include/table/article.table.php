@@ -116,6 +116,16 @@ class article_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
+        'article_status' => [
+            'name'               => 'article_status',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 255,
+            'label'              => '资讯状态',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
     ];
 
     /*
@@ -143,6 +153,7 @@ class article_table extends table {
         'article_udate'       => 0,
         'article_stat_view'   => 0,
         'article_via'         => '',
+        'article_status'      => 0,
     ];
 
     /*
@@ -160,6 +171,7 @@ class article_table extends table {
         'article_udate'       => ['re\rgx\filter', 'int'],
         'article_stat_view'   => ['re\rgx\filter', 'int'],
         'article_via'         => ['re\rgx\filter', 'char'],
+        'article_status'      => ['re\rgx\filter', 'int'],
     ];
 
     /*
