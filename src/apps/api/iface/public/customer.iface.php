@@ -1,4 +1,11 @@
 <?php
+namespace re\rgx;
+
 /**
- * hean 2018/4/18 14:16
+ * 客户信息接口类
  */
+class public_customer_iface extends base_iface {
+    
+    public function info_action () {}
+    
+}
