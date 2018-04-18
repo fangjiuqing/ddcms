@@ -32,7 +32,7 @@ class customer_iface extends base_iface {
         $area_list = OBJ('community_table')->akey('pco_id')->get_all([
             'pco_id' => array_keys($area_ids ?: [0]),
         ]);
-        foreach ($arts as $k => $v) {
+        foreach ((array)$arts as $k => $v) {
             $arts[$k]['pc_region0_label'] = isset($region_list[$v['pc_region0']]) ?
                 $region_list[$v['pc_region0']]['region_name'] : '';
             $arts[$k]['pc_region1_label'] = isset($region_list[$v['pc_region1']]) ?
