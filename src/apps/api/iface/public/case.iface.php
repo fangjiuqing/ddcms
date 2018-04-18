@@ -39,10 +39,14 @@ class public_case_iface extends base_iface {
             }
 
             $ctab = OBJ('case_table');
+            $types = category_helper::get_rows(category_helper::TYPE_TYPE);
             foreach ((array)$cats as $k => $v) {
-                $cats[$k]['list'] = $ctab->fields('case_id,case_title,case_cover,case_area,case_price')->map(function ($row) {
+                $cats[$k]['list'] = $ctab->fields(
+                    'case_id,case_title,case_cover,case_area,case_price,case_type_id'
+                )->map(function ($row) use ($types) {
                     $row['case_cover_lg'] = IMAGE_URL . $row['case_cover'];
                     $row['case_cover_sm'] = IMAGE_URL . $row['case_cover'] . '!500x309';
+                    $row['type'] = $types[$row['case_type_id']]['cat_name'];
                     return $row;
                 })->order('case_id desc')->limit(5)->get_all([
                     'case_cat_id'   => $v['sub_ids'] ?: [0]
