@@ -5,7 +5,7 @@ namespace re\rgx;
  * 资讯操作接口类
  */
 
-class article_iface extends base_iface {
+class article_iface extends ubase_iface {
     
     /**
      * 添加资讯接口
@@ -18,7 +18,6 @@ class article_iface extends base_iface {
      * @article_stat_view [int] 浏览量(可选参数)
      */
     public function save_action () {
-        $this->check_login();
         $this->data['article_title'] = filter::text($this->data['article_title']);
         $this->data['article_status'] = $this->data['article_status'] == 'true' ? 2 : 1;
         $this->verify([
@@ -128,7 +127,6 @@ class article_iface extends base_iface {
      * @id [int] 要删除资讯的id
      */
     public function del_action () {
-        $this->check_login();
         $id = intval($this->data['id']);
         $tab = OBJ('article_table');
         $ret = $tab->get($id);

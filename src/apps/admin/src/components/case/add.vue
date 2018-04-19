@@ -58,6 +58,14 @@
                           </option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <select v-model="form.case_designer_id" name="case_layout_id" class="form-control">
+                          <option value="0">无所属设计师</option>
+                          <option v-for="(v) in designer" v-bind:key="v.des_id" :value="v.des_id">
+                            {{v.des_name + ' - ' + v.des_title}}
+                          </option>
+                        </select>
+                    </div>
                   </div>
                 </div>
             </div>
@@ -205,6 +213,7 @@ export default {
       layout: [],
       space: [],
       images: {},
+      designer: [],
       desc: ''
     }
   },
@@ -385,6 +394,7 @@ export default {
           this.space = d.data.space || []
           this.type = d.data.type || []
           this.layout = d.data.layout || []
+          this.designer = d.data.designer || []
         } else {
           this.form = []
         }

@@ -44,6 +44,8 @@ class case_iface extends base_iface {
         $out['type'] = category_helper::get_options(6, 0, 0);
         // 布局
         $out['layout'] = category_helper::get_options(7, 0, 0);
+        // 设计师
+        $out['designer'] = OBJ('designer_table')->fields('des_id, des_name, des_title')->get_all();
         foreach ((array)$out['category'] as $k => $v) {
             $out['category'][$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . $v['cat_name'];
         }

@@ -58,5 +58,49 @@ class public_case_iface extends base_iface {
         }, 600));
     }
 
-    public function get_action () {}
+    /**
+     * 案例详情
+     * @return [type] [description]
+     */
+    public function get_action () {
+        $id = intval($this->data['id']);
+        $out['row'] = OBJ('case_table')->left_join('case_content_table', 'case_id', 'case_id')->get($id) ?: [];
+        $out['attrs'] = $out['images'] = $out['desc'] = null;
+        $region_ids = [];
+        if ($out['row']) {
+            $desc = filter::json_unecsape($out['row']['case_content']);
+            $out['attrs'] = $desc['attrs'] ?: null;
+            $out['images'] = array_map(function ($img) {
+                $img['image_sm'] = IMAGE_URL . $img['image'] . '!500x309';
+                $img['image_lg'] = IMAGE_URL . $img['image'];
+                return $img;
+            }, $desc['images']);
+            $out['desc'] = filter::unecsape(htmlspecialchars_decode($desc['desc'], ENT_QUOTES));
+            $out['row']['cover'] = IMAGE_URL . $out['row']['case_cover'] . '!500x309';
+            if ($out['row']['case_region0']) {
+                $region_ids[] = $out['row']['case_region0'];
+            }
+            if ($out['row']['case_region1']) {
+                $region_ids[] = $out['row']['case_region1'];
+            }
+            $regions = OBJ('region_table')->akey('region_code')->fields('region_code, region_name')->get_all([
+                'region_code'   => $region_ids ?: [0]
+            ]);
+            $out['row']['province'] = $regions[$out['row']['case_region0']]['region_name'];
+            $out['row']['city'] = $regions[$out['row']['case_region1']]['region_name'];
+            $out['row']['style'] = category_helper::get_rows(category_helper::TYPE_STYLE, 1)[$out['row']['case_style_id']]['cat_name'];
+            $out['row']['type'] = category_helper::get_rows(category_helper::TYPE_TYPE, 1)[$out['row']['case_type_id']]['cat_name'];
+            unset($out['row']['case_content']);
+            $out['designer'] = OBJ('designer_table')->fields([
+                'des_id', 'des_name', 'des_title', 'des_cover'
+            ])->map(function ($row) {
+                $row['des_cover_sm'] = IMAGE_URL . $row['des_cover'] . '!500x309';
+                $row['des_cover_lg'] = IMAGE_URL . $row['des_cover'];
+                return $row;
+            })->get([
+                'des_id'    => $out['row']['case_designer_id']
+            ]) ?: null;
+        }
+        $this->success('', $out);
+    }
 }
