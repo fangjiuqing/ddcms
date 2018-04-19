@@ -91,6 +91,15 @@ class public_case_iface extends base_iface {
             $out['row']['style'] = category_helper::get_rows(category_helper::TYPE_STYLE, 1)[$out['row']['case_style_id']]['cat_name'];
             $out['row']['type'] = category_helper::get_rows(category_helper::TYPE_TYPE, 1)[$out['row']['case_type_id']]['cat_name'];
             unset($out['row']['case_content']);
+            $out['designer'] = OBJ('designer_table')->fields([
+                'des_id', 'des_name', 'des_title', 'des_cover'
+            ])->map(function ($row) {
+                $row['des_cover_sm'] = IMAGE_URL . $row['des_cover'] . '!500x309';
+                $row['des_cover_lg'] = IMAGE_URL . $row['des_cover'];
+                return $row;
+            })->get([
+                'des_id'    => $out['row']['case_designer_id']
+            ]) ?: null;
         }
         $this->success('', $out);
     }
