@@ -69,12 +69,22 @@ class public_case_iface extends base_iface {
         $region_ids = [];
         if ($out['row']) {
             $desc = filter::json_unecsape($out['row']['case_content']);
+            $space = category_helper::get_rows(category_helper::TYPE_SPACE, 1);
             $out['attrs'] = $desc['attrs'] ?: null;
-            $out['images'] = array_map(function ($img) {
+            $out['images'] = [];
+            array_map(function ($img) use (&$out, $space) {
                 $img['image_sm'] = IMAGE_URL . $img['image'] . '!500x309';
                 $img['image_lg'] = IMAGE_URL . $img['image'];
-                return $img;
+                if (!isset($out['images'][$img['cat_id']])) {
+                    $out['images'][$img['cat_id']] = [
+                        'name'      => $space[$img['cat_id']]['cat_name'],
+                        'images'    => []
+                    ];
+                }
+                $out['images'][$img['cat_id']]['images'][] = $img;
             }, $desc['images']);
+            $out['images'] = $out['images'] ? array_values($out['images']) : [];
+
             $out['desc'] = filter::unecsape(htmlspecialchars_decode($desc['desc'], ENT_QUOTES));
             $out['row']['cover'] = IMAGE_URL . $out['row']['case_cover'] . '!500x309';
             if ($out['row']['case_region0']) {
