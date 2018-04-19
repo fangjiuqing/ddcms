@@ -21,7 +21,6 @@
                   <th class="text-center" width="80">预约类型</th>
                   <th class="text-center" width="120">预约开始时间</th>
                   <th class="text-center" width="120">预约结束时间</th>
-                  <th class="text-center" width="80">所属客户</th>
                   <th class="text-center" width="100">所属客服</th>
                   <th class="text-center" width="150">添加时间</th>
                   <th class="text-center" width="120">操作</th>
@@ -30,7 +29,7 @@
               <tbody>
                   <tr v-for="(v) in rows" :key="v.pc_id">
                     <td class="text-left">
-                      <span>{{v.pco_admin_name}}</span>
+                      <span>{{v.pco_pc_name}}</span>
                     </td>
                     <td class="text-center">
                       <code>{{v.pco_type_name}}</code>
@@ -42,10 +41,7 @@
                       <small>{{v.pco_etime|time('yyyy-mm-dd HH:MM:ss')}}</small>
                     </td>
                     <td class="text-center">
-                      <small>{{v.pco_pc_id}}</small>
-                    </td>
-                    <td class="text-center">
-                      <small>{{v.pco_pc_name}}</small>
+                      <small>{{v.pco_admin_name}}</small>
                     </td>
                     <td class="text-center">
                       <small>{{v.pco_atime|time('yyyy-mm-dd HH:MM:ss')}}</small>
