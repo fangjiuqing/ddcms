@@ -22,6 +22,7 @@ import MaterialAdd from '@/components/material/add'
 
 import Customer from '@/components/customer/customer'
 import Preview from '@/components/customer/preview'
+import CustomerOrder from '@/components/customer/customer-order'
 
 import Logs from '@/components/system/logs'
 import Admin from '@/components/system/admin/index'
@@ -70,6 +71,11 @@ const router = new Router({
       path: '/customer',
       name: 'Customer',
       component: Customer
+    },
+    {
+      path: '/customer-order',
+      name: 'CustomerOrder',
+      component: CustomerOrder
     },
     {
       path: '/customer/preview',
