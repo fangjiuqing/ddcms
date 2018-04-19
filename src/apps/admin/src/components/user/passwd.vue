@@ -11,7 +11,7 @@
         <div class="row">
           <div class="form-group">
             <label for="passwd" class="col-sm-2 label-on-left">*旧 &nbsp;密 &nbsp;码：</label>
-            <div class="col-sm-10">
+            <div class="col-sm-4">
               <input type="password" class="form-control" id="passwd" placeholder="请输入旧密码" v-model.lazy="passwd" v-focus="passwd_focus">
             </div>
           </div>
@@ -19,7 +19,7 @@
         <div class="row">
           <div class="form-group">
             <label for="newpasswd" class="control-label col-sm-2 label-on-left">*设置密码：</label>
-            <div class="col-sm-10">
+            <div class="col-sm-4">
               <input type="password" class="form-control" id="newpasswd" placeholder="请输入新密码"  autocomplete="off" v-model.lazy="newpasswd" v-focus="newpasswd_focus">
             </div>
           </div>
@@ -27,15 +27,15 @@
         <div class="row">
           <div class="form-group">
             <label for="renewpasswd" class="control-label col-sm-2 label-on-left">*确认密码：</label>
-            <div class="col-sm-10">
+            <div class="col-sm-4">
               <input type="password" class="form-control" id="renewpasswd" placeholder="两次输入的新密码保持一致" v-model.lazy="renewpasswd" v-focus="renewpasswd_focus">
             </div>
           </div>
         </div>
         <div class="row">
           <div class="form-group">
-            <div class="col-sm-12 col-sm-offset-5">
-              <button type="submit" class="btn btn-primary" @click.prevent="submit">确认修改</button>
+            <div class="col-sm-10">
+              <button type="submit" class="btn btn-sm btn-info" @click.prevent="submit">确认修改</button>
             </div>
           </div>
         </div>
@@ -136,3 +136,23 @@ export default {
   }
 }
 </script>
+<style scoped>
+.passwd {
+  background: #fff;
+}
+.reps {
+  padding-left: 50px;
+}
+.row {
+  margin-bottom: 20px;
+}
+h2 {
+  color: #337ab7;
+}
+label {
+  font-size: 14px;
+}
+input {
+  font-size: 12px;
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="user">
+  <div class="customer">
     <breadcrumbs :items="items">
       <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
         {{v.text}}
@@ -14,44 +14,45 @@
       <form action="/" id="profile_form" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
         <div class="app_content">
           <div class="content table-responsive">
-            <table class="table table-hover">
+            <table class="table table-striped">
               <thead>
                 <tr>
-                  <th class="text-center" width="120">姓名</th>
-                  <th class="text-center" width="150">管理员类型</th>
-                  <th class="text-center" width="">账号</th>
-                  <th class="text-center" width="150">手机</th>
-                  <th class="text-center" width="150">邮箱</th>
-                  <th class="text-center" width="150">微信</th>
-                  <th class="text-center" width="150">最近登录</th>
-                  <th class="text-center" width="40"></th>
+                  <th class="text-left" width="100">预约客户</th>
+                  <th class="text-center" width="80">预约类型</th>
+                  <th class="text-center" width="120">预约开始时间</th>
+                  <th class="text-center" width="120">预约结束时间</th>
+                  <th class="text-center" width="80">所属客户</th>
+                  <th class="text-center" width="100">所属客服</th>
+                  <th class="text-center" width="150">添加时间</th>
+                  <th class="text-center" width="120">操作</th>
                 </tr>
               </thead>
               <tbody>
                   <tr v-for="(v) in rows" :key="v.pc_id">
-                    <td class="text-center">
-                      <a href="javascript:;" @click="modify(v.admin_id)"><span>{{v.admin_nick}}</span></a>
+                    <td class="text-left">
+                      <span>{{v.pco_admin_name}}</span>
                     </td>
                     <td class="text-center">
-                      <small>{{v.admin_group_name}}</small>
+                      <code>{{v.pco_type_name}}</code>
                     </td>
                     <td class="text-center">
-                      <code>{{v.admin_account}}</code>
+                      <small>{{v.pco_stime|time('yyyy-mm-dd HH:MM:ss')}}</small>
                     </td>
                     <td class="text-center">
-                      <small>{{v.admin_mobile}}</small>
+                      <small>{{v.pco_etime|time('yyyy-mm-dd HH:MM:ss')}}</small>
                     </td>
                     <td class="text-center">
-                      <small>{{v.admin_email}}</small>
+                      <small>{{v.pco_pc_id}}</small>
                     </td>
                     <td class="text-center">
-                      <small>{{v.admin_wechat}}</small>
+                      <small>{{v.pco_pc_name}}</small>
                     </td>
                     <td class="text-center">
-                      <small>{{v.admin_date_login|time('yyyy-mm-dd HH:MM:ss')}}</small>
+                      <small>{{v.pco_atime|time('yyyy-mm-dd HH:MM:ss')}}</small>
                     </td>
                     <td class="text-center">
-                      <btn class="btn btn-xs btn-rose" @click="del(v.admin_id)"><i class="fa fa-trash-o"></i></btn>
+                      <btn class="btn btn-xs btn-success" @click="modifi(v.pc_id)"><i class="fa fa-pencil"></i></btn>
+                      <btn class="btn btn-xs btn-rose" @click="del(v.pc_id)"><i class="fa fa-trash-o"></i></btn>
                     </td>
                   </tr>
               </tbody>
@@ -69,59 +70,49 @@
         <form action="" method="post" accept-charset="utf-8">
           <div style="padding-right:80px;">
             <div class="row">
-              <label class="col-sm-3 label-on-left">真实姓名</label>
+              <label class="col-sm-3 label-on-left">客户编号</label>
               <div class="col-sm-9">
                 <div class="form-group">
-                  <input class="form-control" v-model="modal_data.admin_nick" v-focus="modal_data.admin_nick" type="text" placeholder="请输入您的真实姓名">
+                  <input class="form-control" v-model="modal_data.pc_sn"  v-focus="modal_data.pc_sn" type="text" placeholder="客户编号">
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-3 label-on-left">管理员</label>
+              <label class="col-sm-3 label-on-left">客户姓名</label>
               <div class="col-sm-9">
                 <div class="form-group">
-                  <select class="form-control" v-model="modal_data.admin_group_id" v-focus="modal_data.admin_group_id">
-                    <option v-for="g in group" :key="g.pag_id" :value="g.pag_id">{{g.pag_name}}</option>
-                  </select>
+                  <input class="form-control" v-model="modal_data.pc_nick"  v-focus="modal_data.pc_nick" type="text" placeholder="客户姓名">
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-3 label-on-left">登录账号</label>
+              <label class="col-sm-3 label-on-left">电话</label>
               <div class="col-sm-9">
                 <div class="form-group">
-                  <input class="form-control" v-model="modal_data.admin_account" v-focus="modal_data.admin_account" type="text" placeholder="请输入您的账号">
+                  <input class="form-control" v-model="modal_data.pc_mobile"  v-focus="modal_data.pc_mobile"  type="text" placeholder="联系电话">
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-3 label-on-left">手机号码</label>
+              <label class="col-sm-3 label-on-left">所在地</label>
               <div class="col-sm-9">
                 <div class="form-group">
-                  <input class="form-control" v-model="modal_data.admin_mobile" v-focus="modal_data.admin_mobile"  type="text" placeholder="联系电话">
+                  <v-distpicker :province="modal_data.pc_region0" :city="modal_data.pc_region1" :area="modal_data.pc_region2" @selected="onSelected"></v-distpicker>
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-3 label-on-left">邮箱</label>
+              <label class="col-sm-3 label-on-left">详细地址</label>
               <div class="col-sm-9">
-                <div class="form-group">
-                 <input class="form-control" v-model="modal_data.admin_email" v-focus="modal_data.admin_email"  type="text" placeholder="请输入要绑定的邮箱">
-                </div>
+                <input class="form-control" v-model="modal_data.pc_addr"  v-focus="modal_data.pc_addr"  type="text" placeholder="详细地址">
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-3 label-on-left">密码</label>
+              <label class="col-sm-3 label-on-left">小区</label>
               <div class="col-sm-9">
                 <div class="form-group">
-                 <input class="form-control" v-model="modal_data.admin_passwd" v-focus="modal_data.admin_passwd"  type="password" placeholder="请输入密码">
+                  <input class="form-control" v-model="modal_data.pc_co_id"  v-focus="modal_data.pc_co_id"  type="text" placeholder="小区">
                 </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-sm-3 label-on-left">微信</label>
-              <div class="col-sm-9">
-                <input class="form-control" v-model="modal_data.admin_wechat" v-focus="modal_data.admin_wechat"  type="text" placeholder="请输入要绑定的微信号">
               </div>
             </div>
           </div>
@@ -135,19 +126,21 @@
 </template>
 
 <script>
+import VDistpicker from 'v-distpicker'
 export default {
-  name: 'Manager',
+  name: 'CustomerOrder',
   metaInfo () {
     return {
-      title: '管理账号 - 道达智装'
+      title: '客户预约 - 道达智装'
     }
   },
+  components: { VDistpicker },
   data () {
     return {
       items: [
         {text: '首页', to: '/'},
-        {text: '管理', to: '/manager'},
-        {text: '账号', href: '#'}
+        {text: '客户', to: '/customer-order'},
+        {text: '预约', href: '#'}
       ],
       rows: [],
       pn: 1,
@@ -155,8 +148,7 @@ export default {
       attrs: {},
       modal_open: false,
       modal_title: '',
-      modal_data: {},
-      group: []
+      modal_data: {}
     }
   },
   methods: {
@@ -165,23 +157,22 @@ export default {
       this.modal_data.pc_region1 = d.city.code
       this.modal_data.pc_region2 = d.area.code
     },
+    modifi (id) {
+      this.$router.push({
+        path: '/customer/preview',
+        query: {id}
+      })
+    },
     modify: function (id) {
-      this.modal_open = true
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.get('admin', {id: id, attrs: 1}).then(d => {
+      this.$http.get('customer', {id: id, attrs: 1}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_data = d.data
         }
         this.modal_open = true
-      })
-      this.$http.list('admin/group', this.group).then(d => {
-        this.$loading.hide()
-        if (d.code === 0) {
-          this.group = d.data.list
-        }
       })
       if (id === '0') {
         this.modal_title = '新增账号'
@@ -194,7 +185,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.save('admin', this.modal_data).then(d => {
+      this.$http.save('customer', this.modal_data).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_open = false
@@ -219,8 +210,9 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.list('admin', {pn: this.pn}).then(d => {
+      this.$http.list('order', {pn: this.pn}).then(d => {
         this.$loading.hide()
+        console.log(d.data)
         if (d.code === 0) {
           this.rows = d.data.list
           this.pn = d.data.paging.pn
@@ -234,7 +226,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.del('admin', {id: id}).then(d => {
+      this.$http.del('customer', {id: id}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.$notify({
@@ -256,14 +248,14 @@ export default {
     }
   },
   mounted: function () {
-    this.$store.state.left_active_key = '/system'
+    this.$store.state.left_active_key = '/customer'
     this.refresh()
   },
   destroyed: function () {
     this.$loading.hide()
   },
   activated: function () {
-    this.$store.state.left_active_key = '/system'
+    this.$store.state.left_active_key = '/customer'
     this.refresh()
     this.onSelected()
   }
@@ -273,7 +265,7 @@ export default {
 .distpicker-address-wrapper select {
   max-width: 115px!important;
 }
-.user {
+.customer {
   background: #fff;
 }
 </style>
