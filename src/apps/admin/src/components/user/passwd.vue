@@ -5,41 +5,42 @@
         {{v.text}}
       </breadcrumb-item>
     </breadcrumbs>
-    <div class="reps" style="width:60%">
-      <h2 class="repswd col-sm-12 col-sm-pull-5">修改密码</h2>
-      <form class="form">
+    <div class="reps">
+      <div class="form-block">
         <div class="row">
-          <div class="form-group">
-            <label for="passwd" class="col-sm-2 label-on-left">*旧 &nbsp;密 &nbsp;码：</label>
-            <div class="col-sm-4">
-              <input type="password" class="form-control" id="passwd" placeholder="请输入旧密码" v-model.lazy="passwd" v-focus="passwd_focus">
+          <div class="col-md-12">
+            <h5 class="block-h5">修改密码</h5>
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-sm-3">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <input type="password" class="form-control" id="passwd" placeholder="请输入旧密码" v-model.lazy="passwd" v-focus="passwd_focus">
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <input class="form-control" type="password" id="newpasswd" placeholder="请输入新密码"  autocomplete="off" v-model.lazy="newpasswd" v-focus="newpasswd_focus">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <input type="password" class="form-control" id="renewpasswd" placeholder="两次输入的新密码保持一致" v-model.lazy="renewpasswd" v-focus="renewpasswd_focus">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group btn-g">
+                  <button type="submit" class="btn btn-sm btn-info col-sm-push-12" @click.prevent="submit">确认修改</button>
+                </div>
+              </div>
             </div>
           </div>
+          <div class="clearfix"></div>
         </div>
-        <div class="row">
-          <div class="form-group">
-            <label for="newpasswd" class="control-label col-sm-2 label-on-left">*设置密码：</label>
-            <div class="col-sm-4">
-              <input type="password" class="form-control" id="newpasswd" placeholder="请输入新密码"  autocomplete="off" v-model.lazy="newpasswd" v-focus="newpasswd_focus">
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group">
-            <label for="renewpasswd" class="control-label col-sm-2 label-on-left">*确认密码：</label>
-            <div class="col-sm-4">
-              <input type="password" class="form-control" id="renewpasswd" placeholder="两次输入的新密码保持一致" v-model.lazy="renewpasswd" v-focus="renewpasswd_focus">
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group">
-            <div class="col-sm-10">
-              <button type="submit" class="btn btn-sm btn-info" @click.prevent="submit">确认修改</button>
-            </div>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>
@@ -139,15 +140,6 @@ export default {
 <style scoped>
 .passwd {
   background: #fff;
-}
-.reps {
-  padding-left: 50px;
-}
-.row {
-  margin-bottom: 20px;
-}
-h2 {
-  color: #337ab7;
 }
 label {
   font-size: 14px;
