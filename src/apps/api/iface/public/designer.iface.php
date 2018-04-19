@@ -42,14 +42,15 @@ class public_designer_iface extends base_iface {
         }
         // 缓存 10分钟
         $this->success('', CACHE('public@designer-get-id-' . $id, function () use ($id) {
-            $tab        = OBJ('designer_table')->fields('designer_table.*,case_table.case_images');
+            $tab        = OBJ('designer_table')->fields('designer_table.*,case_table.case_images,case_content_table.case_content');
             $tab->left_join('case_table' , 'des_case_id' , 'case_id');
+            $tab->left_join('case_content_table' , 'des_case_id' , 'case_id');
             $out['row'] = $tab->get($id) ?: [];
             $out['stags'] = null;
             $region_ids = [];
             if ($out['row']) {
                 $out['row']['des_about']    = htmlspecialchars_decode($out['row']['des_about'], ENT_QUOTES);
-                $out['row']['des_cover_lg'] = IMAGE_URL . $out['row']['des_cover'];
+                //$out['row']['des_cover_lg'] = IMAGE_URL . $out['row']['des_cover'];
                 $out['row']['des_cover_sm'] = IMAGE_URL . $out['row']['des_cover'] . '!500x309';
                 if ($out['row']['des_region0']) {
                     $region_ids[] = $out['row']['des_region0'];
@@ -62,6 +63,9 @@ class public_designer_iface extends base_iface {
                 ]);
                 $out['row']['province'] = $regions[$out['row']['des_region0']]['region_name'];
                 $out['row']['city'] = $regions[$out['row']['des_region1']]['region_name'];
+
+                $desc = filter::json_unecsape($out['row']['case_content']);
+                $out['row']['case_content'] = $desc['desc'];
                 # 风格标签
                 if ( $out['row']['des_style_tags'] ) {
                     $out['stags'] = explode('#' , $out['row']['des_style_tags']);
