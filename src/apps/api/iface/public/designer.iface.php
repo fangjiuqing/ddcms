@@ -65,7 +65,7 @@ class public_designer_iface extends base_iface {
                 $out['row']['city'] = $regions[$out['row']['des_region1']]['region_name'];
 
                 $desc = filter::json_unecsape($out['row']['case_content']);
-                $out['row']['case_content'] = $desc['desc'];
+                $out['row']['case_content'] = htmlspecialchars_decode($desc['desc'],ENT_QUOTES);
                 # 风格标签
                 if ( $out['row']['des_style_tags'] ) {
                     $out['stags'] = explode('#' , $out['row']['des_style_tags']);
