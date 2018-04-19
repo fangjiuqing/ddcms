@@ -18,7 +18,8 @@
               <thead>
                   <tr>
                     <th class="text-left">名称</th>
-                    <th class="text-center" width="80">排序</th>
+                    <th class="text-center" width="120">状态</th>
+                    <th class="text-center" width="100">排序</th>
                     <th class="text-center" width="80">操作</th>
                   </tr>
               </thead>
@@ -27,6 +28,7 @@
                       <td class="text-left">
                         <a @click="modify(v.cat_id)"><span :class="v.class"></span>{{v.cat_name}}</a>
                       </td>
+                      <td class="text-center"><code><small>{{v.status}}</small></code></td>
                       <td class="text-center">{{v.cat_sort}}</td>
                       <td class="text-center">
                           <btn class="btn btn-xs btn-rose" @click="del(v.cat_id)"><i class="fa fa-trash-o"></i></btn>
@@ -67,6 +69,18 @@
                     <div class="form-group">
                         <select v-model="modal_data.cat_parent" class="form-control">
                           <option v-for="(v) in modal_data.parent_options" v-bind:key="v.cat_id" :value="v.cat_id" v-html="v.space">
+                          </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-sm-2 label-on-left">状态</label>
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <select v-model="modal_data.cat_status" class="form-control">
+                          <option v-for="(v, key) in modal_data.status_options" v-bind:key="key" :value="key">
+                            {{v}}
                           </option>
                         </select>
                     </div>

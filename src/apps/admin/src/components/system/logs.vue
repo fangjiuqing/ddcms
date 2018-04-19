@@ -1,5 +1,5 @@
 <template>
-  <div class="logs">
+  <div class="case">
     <breadcrumbs :items="items">
       <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
         {{v.text}}
@@ -11,28 +11,32 @@
       <form action="/" id="profile_form" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
         <div class="app_content">
           <div class="content table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped table-hover">
               <thead>
                 <tr>
-                  <th class="text-left" width="150">时间</th>
-                  <th class="text-center" width="200">标题</th>
-                  <th class="text-center">说明</th>
-                  <th class="text-center" width="20">IP</th>
+                  <th class="text-left" width="18%">时间</th>
+                  <th class="text-center" width="15%">IP</th>
+                  <th class="text-center" width="15%">操作人</th>
+                  <th class="text-center" width="20%">动作</th>
+                  <th class="text-left">描述</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="(v) in rows" :key="v.al_id">
                   <td class="text-left">
-                    <span>{{v.al_adate|time('yyyy-mm-dd HH:MM:ss')}}</span>
-                  </td>
-                  <td class="text-center">
-                    <small>{{v.al_title}}</small>
-                  </td>
-                  <td class="text-center">
-                    <code>{{v.al_act}}</code>
+                    <small>{{v.al_adate|time('yyyy-mm-dd HH:MM:ss')}}</small>
                   </td>
                   <td class="text-center">
                     <small>{{v.al_ip}}</small>
+                  </td>
+                  <td class="text-center">
+                    <code>{{v.al_name}}</code>
+                  </td>
+                  <td class="text-center">
+                    <small>{{v.al_url}}</small>
+                  </td>
+                  <td class="text-left">
+                    <small>{{v.al_memo}}</small>
                   </td>
                 </tr>
               </tbody>
@@ -72,7 +76,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.post('system/list', {pn: this.pn}).then(d => {
+      this.$http.post('system/logs', {pn: this.pn}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data.list
@@ -97,8 +101,3 @@ export default {
   }
 }
 </script>
-<style>
-.logs {
-  background: #fff;
-}
-</style>

@@ -42,6 +42,15 @@ class category_helper extends rgx {
     const TYPE_LAYOUT           = 7;
 
     /**
+     * 分类显示状态
+     * @var [type]
+     */
+    public static $status = [
+        1       => '默认',
+        2       => '列表页显示'
+    ];
+
+    /**
      * 是否合法
      * @var [type]
      */

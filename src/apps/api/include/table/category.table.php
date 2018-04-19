@@ -106,6 +106,16 @@ class category_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
+        'cat_status' => [
+            'name'               => 'cat_status',
+            'type'               => 'int',
+            'field_type'         => 'tinyint',
+            'min'                => 0,
+            'max'                => 255,
+            'label'              => '状态',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
     ];
 
     /*
@@ -132,6 +142,7 @@ class category_table extends table {
         'cat_paths'   => '#0#',
         'cat_level'   => 0,
         'cat_type'    => 0,
+        'cat_status'  => 0,
     ];
 
     /*
@@ -148,6 +159,7 @@ class category_table extends table {
         'cat_paths'   => ['re\rgx\filter', 'char'],
         'cat_level'   => ['re\rgx\filter', 'int'],
         'cat_type'    => ['re\rgx\filter', 'int'],
+        'cat_status'  => ['re\rgx\filter', 'int'],
     ];
 
     /*

@@ -92,11 +92,9 @@ class admin_iface extends ubase_iface {
      */
     public function get_action () {
         $id = intval($this->data['id']);
-        $group_source = OBJ('admin_group_table')->get_all();
         if ($ret = OBJ('admin_table')->get($id)) {
             unset($ret['admin_passwd']);
             unset($ret['admin_salt']);
-            $ret['group'] = $group_source;
             $this->success('操作成功', $ret);
         }
         $this->failure('操作失败');
@@ -109,7 +107,6 @@ class admin_iface extends ubase_iface {
         if (!filter::is_account($this->data['admin_account'])) {
             $this->failure('请输入正确的账号');
         }
-        $this->data['admin_salt'] = misc::randstr();
         if ($this->data['admin_email']) {
             $this->verify([
                 'admin_email' => [
@@ -141,18 +138,23 @@ class admin_iface extends ubase_iface {
         $this->data['admin_date_add'] = $this->data['admin_date_add'] ?: REQUEST_TIME;
         $this->data['admin_date_login'] = $this->data['admin_date_login'] ?: REQUEST_TIME;
         $this->verify([
-            'admin_passwd' => [
-                'code' => 103,
-                'msg'  => '请输入正确的密码',
-                'rule' => filter::$rules['passwd'],
-            ],
             'admin_mobile' => [
                 'code' => 104,
                 'msg'  => '请输入正确的手机号',
                 'rule' => filter::$rules['mobile'],
             ],
         ]);
-        $this->data['admin_passwd'] = md5(md5($this->data['admin_passwd']) . $this->data['admin_salt']);
+        if ($this->data['admin_passwd']) {
+            $this->verify([
+                'admin_passwd' => [
+                    'code' => 103,
+                    'msg'  => '请输入正确的密码',
+                    'rule' => filter::$rules['passwd'],
+                ],
+            ]);
+            $this->data['admin_salt'] = misc::randstr();
+            $this->data['admin_passwd'] = md5(md5($this->data['admin_passwd']) . $this->data['admin_salt']);
+        }
         $this->data['admin_group_id'] = (int)$this->data['admin_group_id'];
         $tab = OBJ('admin_table');
         if ($tab->load($this->data)) {
@@ -164,17 +166,6 @@ class admin_iface extends ubase_iface {
             }
         }
         $this->failure($tab->get_error_desc(), 105);
-    }
-    
-    /**
-     * 管理员权限组列表
-     */
-    public function group_action () {
-        $ret = OBJ('admin_group_table')->get_all();
-        if ($ret) {
-            $this->success('操作成功', $ret);
-        }
-        $this->failure('操作失败');
     }
     
 }

@@ -33,7 +33,7 @@ class category_iface extends base_iface {
     public function get_action () {
         $this->data['id'] = intval($this->data['id']);
         $out = OBJ('category_table')->fields([
-            'cat_id', 'cat_name', 'cat_parent', 'cat_type', 'cat_sort'
+            'cat_id', 'cat_name', 'cat_parent', 'cat_type', 'cat_sort', 'cat_status'
         ])->get(
             (int)$this->data['id']
         );
@@ -45,6 +45,7 @@ class category_iface extends base_iface {
             }
         }
         $out['cat_parent'] = intval($out['cat_parent']);
+        $out['status_options'] = category_helper::$status;
         $this->success('', $out);
     }
 
@@ -60,6 +61,7 @@ class category_iface extends base_iface {
         $this->data['cat_parent'] = (int)$this->data['cat_parent'];
         $this->data['cat_sort'] = (int)$this->data['cat_sort'];
         $this->data['cat_user_id'] = (int)$this->data['cat_user_id'];
+        $this->data['cat_status'] = (int)$this->data['cat_status'];
         if ($this->data['cat_parent'] > 0) {
             $parent = $tab->get((int)$this->data['cat_parent']);
             if (empty($parent)) {
@@ -93,6 +95,7 @@ class category_iface extends base_iface {
         ]), 1));
         foreach ((array)$out as $k => $v) {
             $out[$k]['class'] = 'category_before category_before_' . $v['cat_level'];
+            $out[$k]['status'] = category_helper::$status[$v['cat_status']] ?: '默认';
         }
         $this->success('', $out);
     }

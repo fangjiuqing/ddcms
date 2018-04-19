@@ -34,6 +34,14 @@
                           </option>
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <select v-model="form.case_type_id" name="case_space_id" class="form-control">
+                          <option value="0">默认户型</option>
+                          <option v-for="(v) in type" v-bind:key="v.cat_id" :value="v.cat_id" v-html="v.space || v.cat_name">
+                          </option>
+                        </select>
+                    </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
