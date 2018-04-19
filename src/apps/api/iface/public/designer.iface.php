@@ -8,29 +8,30 @@ class public_designer_iface extends base_iface {
 
     public function index_action () {
         // 缓存 10分钟
-        $this->success('', CACHE('public@designer-list', function () {
+        $this->success('', CACHE('public@designer-index', function () {
             $tab = OBJ('designer_table');
-
             // 分页
             $paging = new paging_helper($tab, $this->data['pn'] ?: 1, 12);
 
-            $out['list'] = $tab->map(function ($row) use (&$region_ids) {
+
+            $out['list'] = $tab->map(function ($row) {
                 $region_ids[$row['des_region0']] = 0;
                 $region_ids[$row['des_region1']] = 0;
-                $row['des_cover_lg'] = IMAGE_URL . $row['des_cover'];
-                $row['des_cover_sm'] = IMAGE_URL . $row['des_cover'] . '!500x309';
+                $regions = OBJ('region_table')->akey('region_code')->fields('region_code, region_name')->get_all([
+                    'region_code'   => array_keys($region_ids ?: [0])
+                ]);
+
+                $row['province'] = $regions[$row['des_region0']]['region_name'];
+                $row['city'] = $regions[$row['des_region1']]['region_name'];
+
+                $row['des_cover'] = IMAGE_URL . $row['des_cover'] . '!500x309';
                 $row['stags']  = explode('#', $row['des_style_tags']);
                 $row['awards'] = explode('#', $row['des_awards']);
                 return $row;
             })->get_all();
 
-            unset($region_ids[0], $region_ids['']);
             $out['paging'] = $paging;
-            $out['attrs']['region'] = OBJ('region_table')->fields('region_code,region_name')->akey('region_code')->get_all([
-                'region_code'   => array_keys($region_ids ?: [0])
-            ]);
-
-            return $out;
+            $this->success($out);
         }, 600));
     }
 
