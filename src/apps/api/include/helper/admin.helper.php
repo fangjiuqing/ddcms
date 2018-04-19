@@ -27,7 +27,6 @@ class admin_helper extends rgx {
                 'customer/list'             => '客户列表',
                 'customer/save'             => '客户更新',
                 'customer/del'              => '客户删除',
-                'customer/info'             => '客户新增',
             ]
         ],
         [

@@ -63,7 +63,7 @@ class customer_table extends table {
             'min'                => 0,
             'max'                => 32,
             'label'              => '客户姓名',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'pc_mobile' => [

@@ -65,7 +65,6 @@ class admin_iface extends ubase_iface {
                 $group_source[$v['admin_group_id']]['pag_name'] : '';
             $rets[$k] = $v;
         }
-        
         $this->success('操作成功', [
             'list'   => array_values($rets),
             'paging' => $paging->to_array(),
