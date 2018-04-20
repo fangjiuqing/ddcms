@@ -112,8 +112,10 @@ export default {
       })
       this.$loading.hide()
       this.$confirm({
-        title: 'Confirm',
-        content: '此项将被永久删除。继续?'
+        title: '操作提示',
+        content: '此项将被永久删除。继续?',
+        okText: '确认',
+        cancelText: '取消'
       }).then(() => {
         this.$http.del('article', {id: id}).then(d => {
           if (d.code === 0) {
@@ -127,12 +129,11 @@ export default {
               content: d.msg,
               duration: 2000,
               type: 'danger',
-              dismissible: false
+              dismissible: false,
+              cancelText: '取消'
             })
           }
         })
-      }).catch(() => {
-        this.$notify('取消删除.')
       })
     }
   },
