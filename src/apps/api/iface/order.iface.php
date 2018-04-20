@@ -20,7 +20,7 @@ class order_iface extends ubase_iface {
             $pc_ids[$row['pco_pc_id']] = 1;
             $admin_ids[$row['pco_admin_id']] = [];
             return $row;
-        })->get_all();
+        })->order('pco_atime desc')->get_all();
         $pc_rets = OBJ('customer_table')->akey('pc_id')->get_all([
             'pc_id' => array_keys($pc_ids ?: [0]),
         ]);

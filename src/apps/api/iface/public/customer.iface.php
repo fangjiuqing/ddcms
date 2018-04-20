@@ -14,7 +14,7 @@ class public_customer_iface extends base_iface {
         $this->data['pc_room2'] = $this->data['pc_room2'] ? filter::int($this->data['pc_room2']) : 0;
         $this->data['pc_room3'] = 1;
         $this->data['pc_local'] = $this->data['pc_local'] ? filter::char($this->data['pc_local']) : '';
-        $this->data['pc_sn'] = 'A001';
+        $this->data['pc_sn'] = misc::randstr(8);
         $this->data['pc_status'] = 0;
         $this->data['pc_adm_id'] = 0;
         $this->data['pc_adm_nick'] = '';
@@ -42,7 +42,6 @@ class public_customer_iface extends base_iface {
         if ($tab->load($this->data)) {
             $ret = $tab->save();
             if ($ret['code'] === 0) {
-                admin_helper::add_log(0, 'customer/info', '2', '用户预留手机号[' . $ret['row_id'] . '@]');
                 $this->success('操作成功');
             }
         }

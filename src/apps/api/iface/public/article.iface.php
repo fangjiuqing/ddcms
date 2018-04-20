@@ -44,6 +44,8 @@ class public_article_iface extends base_iface {
                     $cat_list[$v['article_cat_id']]['cat_name'] : '';
                 $arts[$k]['article_content'] = isset($article_list[$v['article_id']]) ?
                     htmlspecialchars_decode($article_list[$v['article_id']]['article_content']) : '';
+                $arts[$k]['article_content'] = preg_replace('/src="http:\/\/api.dev.ddzz360.com\/data\/attachment\//',
+                    'v-lazyload="' . IMAGE_URL, $arts[$k]['article_content']);
                 $arts[$k]['article_admin_nick'] = isset($admin_list[$v['article_admin_id']]) ?
                     $admin_list[$v['article_admin_id']]['admin_account'] : '';
                 $arts[$k]['article_cover_thumb'] = IMAGE_URL . $v['article_cover'] . '!500x309';

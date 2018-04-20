@@ -53,7 +53,7 @@ class admin_iface extends ubase_iface {
         $arts = $tab->map(function ($row) use (&$group) {
             $group[$row['admin_group_id']] = 1;
             return $row;
-        })->order('admin_account')->get_all();
+        })->order('admin_date_add desc')->get_all();
         $group_source = OBJ('admin_group_table')->akey('pag_id')->get_all([
             'pag_id' => array_keys($group ?: [0]),
         ]);
