@@ -49,6 +49,7 @@
                       <td class="text-center">
                           <btn class="btn btn-xs btn-success" @click="modify(v.des_id)"><i class="fa fa-pencil"></i></btn>
                           <btn class="btn btn-xs btn-rose" @click="del(v.des_id)"><i class="fa fa-trash-o"></i></btn>
+                          <btn class="btn btn-xs btn-info" @click="caselist(v.des_id)"><i class="fa fa-link"></i></btn>
                       </td>
                   </tr>
               </tbody>
@@ -84,6 +85,12 @@ export default {
     }
   },
   methods: {
+    caselist (desid) {
+      this.$router.push({
+        path: '/case',
+        query:{desid}
+      })
+    },
     modify (id) {
       this.$router.push({
         path: '/designer/add',
