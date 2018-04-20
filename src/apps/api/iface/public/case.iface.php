@@ -110,6 +110,12 @@ class public_case_iface extends base_iface {
             })->get([
                 'des_id'    => $out['row']['case_designer_id']
             ]) ?: null;
+            $out['more'] = OBJ('case_table')->where([
+                'case_id'           => function ($k) use ($out) {
+                    return "{$k} != {$out['row']['case_id']}";
+                },
+                'case_style_id'     => $out['row']['case_style_id']
+            ])->limit(3)->get_all();
         }
         $this->success('', $out);
     }

@@ -18,7 +18,7 @@ class case_iface extends base_iface {
         if ($out['row']) {
             $desc = filter::json_unecsape($out['row']['case_content']);
             $out['attrs'] = $desc['attrs'] ?: null;
-            $out['images'] = $desc['images'];
+            $out['images'] = $desc['images'] ?: null;
             $out['desc'] = filter::unecsape(htmlspecialchars_decode($desc['desc'], ENT_QUOTES));
             $out['row']['cover'] = IMAGE_URL . $out['row']['case_cover'] . '!500x309';
             if ($out['row']['case_region0']) {

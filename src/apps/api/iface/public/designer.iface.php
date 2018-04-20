@@ -24,7 +24,7 @@ class public_designer_iface extends base_iface {
                 $row['province'] = $regions[$row['des_region0']]['region_name'];
                 $row['city'] = $regions[$row['des_region1']]['region_name'];
 
-                $row['des_cover'] = IMAGE_URL . $row['des_cover'] . '!500x309';
+                $row['des_cover'] = IMAGE_URL . $row['des_cover'] . '!364x490';
                 $row['stags']  = explode('#', $row['des_style_tags']);
                 $row['awards'] = explode('#', $row['des_awards']);
                 return $row;
