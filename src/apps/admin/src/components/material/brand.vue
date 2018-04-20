@@ -144,6 +144,13 @@ export default {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_data = d.data
+        } else if (d.code === 9999) {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
+          })
         }
         this.modal_open = false
         this.refresh()
@@ -158,6 +165,13 @@ export default {
         if (d.code === 0) {
           this.rows = d.data.list
           this.attrs = d.data.attrs
+        } else if (d.code === 9999) {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
+          })
         } else {
           this.rows = []
         }
@@ -177,6 +191,13 @@ export default {
             dismissible: false
           })
           this.refresh()
+        } else if (d.code === 9999) {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
+          })
         } else {
           this.$notify({
             content: d.msg,

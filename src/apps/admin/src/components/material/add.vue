@@ -271,7 +271,12 @@ export default {
           this.rows = d.data.goods || []
           this.status = d.data.status
         } else if (d.code === 9999) {
-          this.$router.go(-1)
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
+          })
         }
       })
     },

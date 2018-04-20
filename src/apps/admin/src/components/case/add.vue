@@ -396,7 +396,12 @@ export default {
           this.layout = d.data.layout || []
           this.designer = d.data.designer || []
         } else if (d.code === 9999) {
-          this.$router.go(-1)
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
+          })
         } else {
           this.form = []
         }

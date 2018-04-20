@@ -195,6 +195,13 @@ export default {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_data = d.data
+        } else if (d.code === 9999) {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
+          })
         } else {
           this.modal_data = []
         }
@@ -210,6 +217,13 @@ export default {
         if (d.code === 0) {
           this.modal_open = false
           this.refresh()
+        } else if (d.code === 9999) {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
+          })
         } else {
           this.$notify({
             content: d.msg,
@@ -231,6 +245,13 @@ export default {
           this.attrs = d.data.attrs
           this.pn = d.data.attrs['paging']['pn'] || 1
           this.total = d.data.attrs['paging']['max'] || 1
+        } else if (d.code === 9999) {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
+          })
         } else {
           this.rows = []
         }
@@ -250,6 +271,13 @@ export default {
             dismissible: false
           })
           this.refresh()
+        } else if (d.code === 9999) {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
+          })
         } else {
           this.$notify({
             content: d.msg,

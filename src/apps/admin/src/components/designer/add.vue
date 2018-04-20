@@ -286,6 +286,13 @@ export default {
           this.cases = d.data.cases || []
           this.attrs = d.data.attrs || this.attrs
           this.stags = d.data.stags || this.stags
+        } else if (d.code === 9999) {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
+          })
         } else {
           this.form = []
         }
@@ -313,7 +320,7 @@ export default {
             this.$router.go(-1)
           })
         } else {
-          this.$notify({ 
+          this.$notify({
             content: d.msg,
             duration: 1500,
             type: 'danger',

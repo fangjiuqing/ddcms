@@ -108,6 +108,13 @@ export default {
           this.pn = d.data.paging.pn
           this.total = d.data.paging.max
           this.attrs = d.data.attrs
+        } else if (d.code === 9999) {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
+          })
         } else {
           this.rows = []
         }

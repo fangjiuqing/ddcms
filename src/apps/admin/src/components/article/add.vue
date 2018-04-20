@@ -171,7 +171,12 @@ export default {
           this.article_cover = this.form['article_cover_thumb'] || ''
           this.categories = d.data.category
         } else if (d.code === 9999) {
-          this.$router.go(-1)
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
+          })
         } else {
           this.form = []
         }
