@@ -4,7 +4,7 @@ namespace re\rgx;
 /**
  * 权限管理接口
  */
-class admin_group_iface extends ubase_iface {
+class system_admin_group_iface extends ubase_iface {
 
     /**
      * 获取分类详情

@@ -46,10 +46,10 @@ class admin_helper extends rgx {
         [
             'name'      => '设计师管理',
             'actions'   => [
-                'designer/get'          => '设计师详情',
-                'designer/list'         => '设计师列表',
-                'designer/save'         => '设计师更新',
-                'designer/del'          => '设计师删除',
+                'designer/get'              => '设计师详情',
+                'designer/list'             => '设计师列表',
+                'designer/save'             => '设计师更新',
+                'designer/del'              => '设计师删除',
             ]
         ],
         [
@@ -59,6 +59,65 @@ class admin_helper extends rgx {
                 'article/list'              => '资讯列表',
                 'article/save'              => '资讯更新',
                 'article/del'               => '资讯删除',
+                'category/article/list'     => '分类列表',
+                'category/article/get'      => '分类详情',
+                'category/article/save'     => '分类更新',
+                'category/article/del'      => '分类删除',
+            ]
+        ],
+        [
+            'name'      => '案例管理',
+            'actions'   => [
+                'case/get'                  => '案例详情',
+                'case/list'                 => '案例列表',
+                'case/save'                 => '案例更新',
+                'case/del'                  => '案例删除',
+                'category/case/list'        => '分类列表',
+                'category/case/get'         => '分类详情',
+                'category/case/save'        => '分类更新',
+                'category/case/del'         => '分类删除',
+            ]
+        ],
+        [
+            'name'      => '材料管理',
+            'actions'   => [
+                'material/get'              => '材料详情',
+                'material/list'             => '材料列表',
+                'material/save'             => '材料更新',
+                'material/del'              => '材料删除',
+                'category/material/list'    => '分类列表',
+                'category/material/get'     => '分类详情',
+                'category/material/save'    => '分类更新',
+                'category/material/del'     => '分类删除',
+                'material/brand/get'        => '品牌详情',
+                'material/brand/list'       => '品牌列表',
+                'material/brand/save'       => '品牌更新',
+                'material/brand/del'        => '品牌删除',
+                'material/supplier/get'     => '供应商详情',
+                'material/supplier/list'    => '供应商列表',
+                'material/supplier/save'    => '供应商更新',
+                'material/supplier/del'     => '供应商删除',
+            ]
+        ],
+        [
+            'name'      => '分类管理',
+            'actions'   => [
+                'category/style/list'       => '风格分类-列表',
+                'category/style/get'        => '风格分类-详情',
+                'category/style/save'       => '风格分类-更新',
+                'category/style/del'        => '风格分类-删除',
+                'category/space/list'       => '空间分类-列表',
+                'category/space/get'        => '空间分类-详情',
+                'category/space/save'       => '空间分类-更新',
+                'category/space/del'        => '空间分类-删除',
+                'category/type/list'        => '户型分类-列表',
+                'category/type/get'         => '户型分类-详情',
+                'category/type/save'        => '户型分类-更新',
+                'category/type/del'         => '户型分类-删除',
+                'category/layout/list'      => '布局分类-列表',
+                'category/layout/get'       => '布局分类-详情',
+                'category/layout/save'      => '布局分类-更新',
+                'category/layout/del'       => '布局分类-删除',
             ]
         ],
         
@@ -133,6 +192,9 @@ class admin_helper extends rgx {
             $admin['allows'][join('_', $keys) . '_iface::' . $method] = true;
         }
         unset($admin['pag_details']);
+        if ($admin['admin_group_id'] == 1) {
+            $admin['allows'] = [];
+        }
         return $admin;
     }
 }

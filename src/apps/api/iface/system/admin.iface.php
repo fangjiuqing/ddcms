@@ -2,10 +2,10 @@
 namespace re\rgx;
 
 /**
- * 管理基类
+ * 管理员管理
  */
-class admin_iface extends ubase_iface {
-    
+class system_admin_iface extends ubase_iface {
+
     /**
      * 管理员账号列表
      */
@@ -129,5 +129,4 @@ class admin_iface extends ubase_iface {
         }
         $this->failure($tab->get_error_desc(), 105);
     }
-    
 }
