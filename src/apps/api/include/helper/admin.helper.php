@@ -192,6 +192,9 @@ class admin_helper extends rgx {
             $admin['allows'][join('_', $keys) . '_iface::' . $method] = true;
         }
         unset($admin['pag_details']);
+        if ($admin['admin_group_id'] == 1) {
+            $admin['allows'] = [];
+        }
         return $admin;
     }
 }

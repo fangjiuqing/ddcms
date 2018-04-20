@@ -23,8 +23,9 @@ class auth_helper extends rgx {
      * @return [type]         [description]
      */
     public static function check ($moment = []) {
-        if (!isset($moment['ref']->login['allows'][$moment['code']])) {
-            //$moment['ref']->failure('您无权进行该操作', 9999);
+        if (!empty($moment['ref']->login['allows']) 
+            && !isset($moment['ref']->login['allows'][$moment['code']])) {
+            $moment['ref']->failure('您无权进行该操作', 9999);
         }
     }
 }
