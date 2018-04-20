@@ -395,6 +395,8 @@ export default {
           this.type = d.data.type || []
           this.layout = d.data.layout || []
           this.designer = d.data.designer || []
+        } else if (d.code === 9999) {
+          this.$router.go(-1)
         } else {
           this.form = []
         }
@@ -414,6 +416,13 @@ export default {
         if (d.code === 0) {
           this.$router.push({
             path: '/case'
+          })
+        } else if (d.code === 9999) {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
           })
         } else {
           this.$notify({

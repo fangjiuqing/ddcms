@@ -170,6 +170,8 @@ export default {
           this.form = this.id ? d.data.row : {}
           this.article_cover = this.form['article_cover_thumb'] || ''
           this.categories = d.data.category
+        } else if (d.code === 9999) {
+          this.$router.go(-1)
         } else {
           this.form = []
         }
@@ -184,6 +186,13 @@ export default {
         if (d.code === 0) {
           this.$router.push({
             path: '/article'
+          })
+        } else if (d.code === 9999) {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
           })
         } else {
           this.$notify({

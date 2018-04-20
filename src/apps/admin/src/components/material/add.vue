@@ -270,6 +270,8 @@ export default {
           this.fields = d.data.fields || {}
           this.rows = d.data.goods || []
           this.status = d.data.status
+        } else if (d.code === 9999) {
+          this.$router.go(-1)
         }
       })
     },
@@ -286,6 +288,13 @@ export default {
         if (d.code === 0) {
           this.$router.push({
             path: '/material'
+          })
+        } else if (d.code === 9999) {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
           })
         } else {
           this.$notify({

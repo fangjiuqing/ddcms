@@ -11,7 +11,10 @@ class auth_helper extends rgx {
      * @var [type]
      */
     public static $rules = [
-        '*_iface::get_action@before'    => ['\\re\\rgx\\auth_helper', 'check_get']
+        '*_iface::get_action@before'    => ['\\re\\rgx\\auth_helper', 'check'],
+        '*_iface::save_action@before'   => ['\\re\\rgx\\auth_helper', 'check'],
+        '*_iface::del_action@before'    => ['\\re\\rgx\\auth_helper', 'check'],
+        '*_iface::list_action@before'   => ['\\re\\rgx\\auth_helper', 'check']
     ];
 
     /**
@@ -19,9 +22,9 @@ class auth_helper extends rgx {
      * @param  array  $moment [description]
      * @return [type]         [description]
      */
-    public static function check_get ($moment = []) {
+    public static function check ($moment = []) {
         if (!isset($moment['ref']->login['allows'][$moment['code']])) {
-            $moment['ref']->failure('您无权进行该操作');
+            $moment['ref']->failure('您无权进行该操作', 9999);
         }
     }
 }

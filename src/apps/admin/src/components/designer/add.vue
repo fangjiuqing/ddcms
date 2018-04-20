@@ -305,8 +305,15 @@ export default {
           this.$router.push({
             path: '/designer'
           })
+        } else if (d.code === 9999) {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
+          })
         } else {
-          this.$notify({
+          this.$notify({ 
             content: d.msg,
             duration: 1500,
             type: 'danger',
