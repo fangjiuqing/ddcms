@@ -263,8 +263,10 @@ export default {
       })
       this.$loading.hide()
       this.$confirm({
-        title: 'Confirm',
-        content: '此项将被永久删除。继续?'
+        title: '操作提示',
+        content: '此项将被永久删除。继续?',
+        okText: '确认',
+        cancelText: '取消'
       }).then(() => {
         this.$http.del('material/supplier', {id: id}).then(d => {
           if (d.code === 0) {
