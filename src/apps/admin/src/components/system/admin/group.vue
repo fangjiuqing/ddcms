@@ -88,7 +88,7 @@ export default {
     return {
       items: [
         {text: '首页', to: '/'},
-        {text: '管理', to: '/manager'},
+        {text: '管理', to: '/system/group'},
         {text: '权限', href: '#'}
       ],
       rows: [],
@@ -108,7 +108,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.get('admin/group', {id: id}).then(d => {
+      this.$http.get('system/admin/group', {id: id}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_data = d.data
@@ -134,7 +134,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.save('admin/group', {
+      this.$http.save('system/admin/group', {
         pag_id: this.modal_data['pag_id'] || 0,
         pag_name: this.modal_data.pag_name,
         details: this.modal_data.details
@@ -170,7 +170,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.list('admin/group', {pn: this.pn}).then(d => {
+      this.$http.list('system/admin/group', {pn: this.pn}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data.list
@@ -190,7 +190,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.del('admin/group', {id: id}).then(d => {
+      this.$http.del('system/admin/group', {id: id}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.$notify({

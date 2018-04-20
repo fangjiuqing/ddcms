@@ -19,8 +19,8 @@ class category_iface extends base_iface {
      * @param [type] $data  [description]
      * @param [type] $login [description]
      */
-    public function __construct ($mod, $data, $login) {
-        parent::__construct($mod, $data, $login);
+    public function __construct ($params = []) {
+        parent::__construct($params);
         if (!isset(category_helper::$type[$this->type_id])) {
             $this->failure('无效的类型');
         }
