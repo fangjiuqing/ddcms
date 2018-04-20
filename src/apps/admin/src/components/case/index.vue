@@ -122,24 +122,32 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.del('case', {id: id}).then(d => {
-        this.$loading.hide()
-        if (d.code === 0) {
-          this.$notify({
-            content: d.msg,
-            duration: 2000,
-            type: 'success',
-            dismissible: false
-          })
-          this.refresh()
-        } else {
-          this.$notify({
-            content: d.msg,
-            duration: 2000,
-            type: 'danger',
-            dismissible: false
-          })
-        }
+      this.$loading.hide()
+      this.$confirm({
+        title: 'Confirm',
+        content: '此项将被永久删除。继续?'
+      }).then(() => {
+        this.$http.del('case', {id: id}).then(d => {
+          if (d.code === 0) {
+            this.$notify({
+              type: 'success',
+              content: d.msg
+            })
+            this.refresh()
+          } else {
+            this.$notify({
+              content: d.msg,
+              duration: 2000,
+              type: 'danger',
+              dismissible: false
+            })
+          }
+        })
+      }).catch(() => {
+        this.$notify({
+          type: 'info',
+          content: '取消删除.'
+        })
       })
     }
   },

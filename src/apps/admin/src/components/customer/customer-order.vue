@@ -48,7 +48,6 @@
                     </td>
                     <td class="text-center">
                       <btn class="btn btn-xs btn-success" @click="modifi(v.pc_id)"><i class="fa fa-pencil"></i></btn>
-                      <btn class="btn btn-xs btn-rose" @click="del(v.pc_id)"><i class="fa fa-trash-o"></i></btn>
                     </td>
                   </tr>
               </tbody>
@@ -215,30 +214,6 @@ export default {
           this.total = d.data.paging.max
         } else {
           this.rows = []
-        }
-      })
-    },
-    del: function (id) {
-      this.$loading.show({
-        msg: '加载中 ...'
-      })
-      this.$http.del('customer', {id: id}).then(d => {
-        this.$loading.hide()
-        if (d.code === 0) {
-          this.$notify({
-            content: d.msg,
-            duration: 2000,
-            type: 'success',
-            dismissible: false
-          })
-          this.refresh()
-        } else {
-          this.$notify({
-            content: d.msg,
-            duration: 2000,
-            type: 'danger',
-            dismissible: false
-          })
         }
       })
     }

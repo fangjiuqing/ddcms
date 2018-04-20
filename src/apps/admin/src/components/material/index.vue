@@ -117,31 +117,31 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.del('material', {id: id}).then(d => {
-        this.$loading.hide()
-        if (d.code === 0) {
-          this.$notify({
-            content: d.msg,
-            duration: 2000,
-            type: 'success',
-            dismissible: false
-          })
-          this.refresh()
-        } else if (d.code === 9999) {
-          this.$alert({
-            title: '系统提示',
-            content: d.msg
-          }, (msg) => {
-            this.$router.go(-1)
-          })
-        } else {
-          this.$notify({
-            content: d.msg,
-            duration: 2000,
-            type: 'danger',
-            dismissible: false
-          })
-        }
+      this.$loading.hide()
+      this.$confirm({
+        title: 'Confirm',
+        content: '此项将被永久删除。继续?'
+      }).then(() => {
+        this.$http.del('material', {id: id}).then(d => {
+          if (d.code === 0) {
+            this.$notify({
+              type: 'success',
+              content: '删除成功.',
+              duration: 2000,
+              dismissible: false
+            })
+            this.refresh()
+          } else {
+            this.$notify({
+              content: d.msg,
+              duration: 2000,
+              type: 'danger',
+              dismissible: false
+            })
+          }
+        })
+      }).catch(() => {
+        this.$notify('取消删除.')
       })
     }
   },
