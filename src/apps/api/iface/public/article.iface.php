@@ -45,7 +45,7 @@ class public_article_iface extends base_iface {
                 $arts[$k]['article_content'] = isset($article_list[$v['article_id']]) ?
                     htmlspecialchars_decode($article_list[$v['article_id']]['article_content']) : '';
                 $arts[$k]['article_content'] = preg_replace('/src="http:\/\/api.dev.ddzz360.com\/data\/attachment\//',
-                    'v-lazy="' . IMAGE_URL, $arts[$k]['article_content']);
+                    'src="' . IMAGE_URL, $arts[$k]['article_content']);
                 $arts[$k]['article_admin_nick'] = isset($admin_list[$v['article_admin_id']]) ?
                     $admin_list[$v['article_admin_id']]['admin_account'] : '';
                 $arts[$k]['article_cover_thumb'] = IMAGE_URL . $v['article_cover'] . '!500x309';
@@ -70,7 +70,7 @@ class public_article_iface extends base_iface {
                 $out['row']['article_status'] = $out['row']['article_status'] == '2' ? true : false;
                 $out['row']['article_content'] = htmlspecialchars_decode($out['row']['article_content'], ENT_QUOTES);
                 $out['row']['article_content'] = preg_replace('/src="http:\/\/api.dev.ddzz360.com\/data\/attachment\//',
-                    'v-lazy="' . IMAGE_URL, $out['row']['article_content']);
+                    'src="' . IMAGE_URL, $out['row']['article_content']);
                 $out['row']['article_cover_thumb'] = IMAGE_URL . $out['row']['article_cover'] . '!500x309';
             }
             $out['category'] = category_helper::get_options(3, 0, 0);
