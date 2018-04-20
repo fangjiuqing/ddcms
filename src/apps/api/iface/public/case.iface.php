@@ -144,6 +144,7 @@ class public_case_iface extends base_iface {
             ])->limit(3)->order('case_id desc')->map(function ($row) use ($types) {
                 $row['type'] = $types[$row['case_type_id']]['cat_name'];
                 $row['case_cover'] = IMAGE_URL . $row['case_cover'] . '!500x309';
+                $row['toggle'] = false;
                 return $row;
             })->get_all();
         }
