@@ -86,6 +86,7 @@ class public_case_iface extends base_iface {
             $out['images'] = $out['images'] ? array_values($out['images']) : [];
 
             $out['desc'] = filter::unecsape(htmlspecialchars_decode($desc['desc'], ENT_QUOTES));
+            $out['summary'] = misc::cut_str($out['desc'], 50);
             $out['row']['cover'] = IMAGE_URL . $out['row']['case_cover'] . '!500x309';
             if ($out['row']['case_region0']) {
                 $region_ids[] = $out['row']['case_region0'];
