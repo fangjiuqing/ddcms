@@ -86,6 +86,7 @@ class public_case_iface extends base_iface {
             $out['images'] = $out['images'] ? array_values($out['images']) : [];
 
             $out['desc'] = filter::unecsape(htmlspecialchars_decode($desc['desc'], ENT_QUOTES));
+            $out['summary'] = misc::cut_str($out['desc'], 50);
             $out['row']['cover'] = IMAGE_URL . $out['row']['case_cover'] . '!500x309';
             if ($out['row']['case_region0']) {
                 $region_ids[] = $out['row']['case_region0'];
@@ -96,10 +97,11 @@ class public_case_iface extends base_iface {
             $regions = OBJ('region_table')->akey('region_code')->fields('region_code, region_name')->get_all([
                 'region_code'   => $region_ids ?: [0]
             ]);
+            $types = category_helper::get_rows(category_helper::TYPE_TYPE, 1);
             $out['row']['province'] = $regions[$out['row']['case_region0']]['region_name'];
             $out['row']['city'] = $regions[$out['row']['case_region1']]['region_name'];
             $out['row']['style'] = category_helper::get_rows(category_helper::TYPE_STYLE, 1)[$out['row']['case_style_id']]['cat_name'];
-            $out['row']['type'] = category_helper::get_rows(category_helper::TYPE_TYPE, 1)[$out['row']['case_type_id']]['cat_name'];
+            $out['row']['type'] = $types[$out['row']['case_type_id']]['cat_name'];
             unset($out['row']['case_content']);
             $out['designer'] = OBJ('designer_table')->fields([
                 'des_id', 'des_name', 'des_title', 'des_cover'
@@ -110,12 +112,40 @@ class public_case_iface extends base_iface {
             })->get([
                 'des_id'    => $out['row']['case_designer_id']
             ]) ?: null;
-            $out['more'] = OBJ('case_table')->where([
+
+            // 上一条
+            $out['prev'] = OBJ('case_table')->fields('case_id,case_title,case_cover,case_type_id')->where([
+                'case_id'           => function ($k) use ($out) {
+                    return "{$k} < {$out['row']['case_id']}";
+                },
+            ])->order('case_id desc')->map(function ($row) use ($types) {
+                $row['type'] = $types[$row['case_type_id']]['cat_name'];
+                $row['case_cover'] = IMAGE_URL . $row['case_cover'] . '!500x309';
+                return $row;
+            })->get();
+
+            // 下一条
+            $out['next'] = OBJ('case_table')->fields('case_id,case_title,case_cover,case_type_id')->where([
+                'case_id'           => function ($k) use ($out) {
+                    return "{$k} > {$out['row']['case_id']}";
+                },
+            ])->order('case_id desc')->map(function ($row) use ($types) {
+                $row['type'] = $types[$row['case_type_id']]['cat_name'];
+                $row['case_cover'] = IMAGE_URL . $row['case_cover'] . '!500x309';
+                return $row;
+            })->get();
+
+            // 更多
+            $out['more'] = OBJ('case_table')->fields('case_id,case_title,case_cover,case_type_id')->where([
                 'case_id'           => function ($k) use ($out) {
                     return "{$k} != {$out['row']['case_id']}";
                 },
                 'case_style_id'     => $out['row']['case_style_id']
-            ])->limit(3)->get_all();
+            ])->limit(3)->order('case_id desc')->map(function ($row) use ($types) {
+                $row['type'] = $types[$row['case_type_id']]['cat_name'];
+                $row['case_cover'] = IMAGE_URL . $row['case_cover'] . '!500x309';
+                return $row;
+            })->get_all();
         }
         $this->success('', $out);
     }
