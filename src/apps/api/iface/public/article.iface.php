@@ -69,6 +69,8 @@ class public_article_iface extends base_iface {
             if ($out['row']) {
                 $out['row']['article_status'] = $out['row']['article_status'] == '2' ? true : false;
                 $out['row']['article_content'] = htmlspecialchars_decode($out['row']['article_content'], ENT_QUOTES);
+                $out['row']['article_content'] = preg_replace('/src="http:\/\/api.dev.ddzz360.com\/data\/attachment\//',
+                    'v-lazyload="' . IMAGE_URL, $out['row']['article_content']);
                 $out['row']['article_cover_thumb'] = IMAGE_URL . $out['row']['article_cover'] . '!500x309';
             }
             $out['category'] = category_helper::get_options(3, 0, 0);
