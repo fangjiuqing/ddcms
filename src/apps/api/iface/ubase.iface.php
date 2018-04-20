@@ -12,8 +12,8 @@ class ubase_iface extends base_iface {
      * @param $data  [用户输入信息]
      * @param $login [用户是否登录]
      */
-    public function __construct ($mod, $data, $login) {
-        parent::__construct($mod, $data, $login);
+    public function __construct ($params = []) {
+        parent::__construct($params);
         $this->check_login();
     }
 }

@@ -118,4 +118,21 @@ class admin_helper extends rgx {
         }
         return false;
     }
+
+    /**
+     * 获取登录信息
+     * @param  [type] $admin [description]
+     * @return [type]        [description]
+     */
+    public static function get_login ($admin) {
+        $admin['allows'] = ['nil'];
+        $actions = filter::json_unecsape($admin['pag_details']);
+        foreach ((array)$actions as $k => $v) {
+            $keys = explode('/', $k);
+            $method = array_pop($keys) . '_action';
+            $admin['allows'][join('_', $keys) . '_iface::' . $method] = true;
+        }
+        unset($admin['pag_details']);
+        return $admin;
+    }
 }

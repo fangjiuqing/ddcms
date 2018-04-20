@@ -51,7 +51,7 @@ class index_module extends R\module {
         if (empty($uri) && count($uri) > 3) {
             $this->ajax_failure('Resource not found', 996);
         }
-        $iface  = '\\re\\rgx\\' . join('_', $uri) . '_iface';
+        $iface = join('_', $uri) . '_iface';
 
         $this->log = R\app::log($this->params['uri'], function ($obj) {
             $obj->init($this->params['uri']);
@@ -59,14 +59,26 @@ class index_module extends R\module {
         });
 
         try {
-            $obj = new $iface($this, $this->params['data'] ?: [], $login);
+            $obj = R\OBJ($iface, true, [
+                'mod'   => $this, 
+                'data'  => $this->params['data'] ?: [],
+                'login' => $login
+            ]);
         }
         catch (\Exception $e) {
             $this->ajax_failure('Resource not found', 995);
         }
 
-        if (!method_exists($obj, $action)) {
+        // 判断资源是否存在
+        if (!is_callable([$obj, $action])) {
             $this->ajax_failure('Resource not found', 994);
+        }
+
+        // 权限验证
+        if (!preg_match('/^public.+$/i', $iface)) {
+            foreach ((array)R\auth_helper::$rules as $k => $v) {
+                R\delegate::register($k, $v);
+            }
         }
 
         $obj->$action();
