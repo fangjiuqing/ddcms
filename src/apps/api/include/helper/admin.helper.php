@@ -50,6 +50,7 @@ class admin_helper extends rgx {
                 'designer/list'             => '设计师列表',
                 'designer/save'             => '设计师更新',
                 'designer/del'              => '设计师删除',
+                'designer/case/list|designer/case/set'  => '代表作设置',
             ]
         ],
         [
@@ -187,9 +188,11 @@ class admin_helper extends rgx {
         $admin['allows'] = ['nil'];
         $actions = filter::json_unecsape($admin['pag_details']);
         foreach ((array)$actions as $k => $v) {
-            $keys = explode('/', $k);
-            $method = array_pop($keys) . '_action';
-            $admin['allows'][join('_', $keys) . '_iface::' . $method] = true;
+            foreach (explode('|', $k) as $key => $val) {
+                $keys = explode('/', $key);
+                $method = array_pop($keys) . '_action';
+                $admin['allows'][join('_', $keys) . '_iface::' . $method] = true;
+            }
         }
         unset($admin['pag_details']);
         if ($admin['admin_group_id'] == 1) {

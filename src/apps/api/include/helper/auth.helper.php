@@ -14,7 +14,8 @@ class auth_helper extends rgx {
         '*_iface::get_action@before'    => ['\\re\\rgx\\auth_helper', 'check'],
         '*_iface::save_action@before'   => ['\\re\\rgx\\auth_helper', 'check'],
         '*_iface::del_action@before'    => ['\\re\\rgx\\auth_helper', 'check'],
-        '*_iface::list_action@before'   => ['\\re\\rgx\\auth_helper', 'check']
+        '*_iface::list_action@before'   => ['\\re\\rgx\\auth_helper', 'check'],
+        '*_iface::set_action@before'    => ['\\re\\rgx\\auth_helper', 'check']
     ];
 
     /**

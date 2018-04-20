@@ -256,6 +256,16 @@ class case_table extends table {
             'allow_empty_string' => true,
             'allow_null'         => false
         ],
+        'case_is_primary' => [
+            'name'               => 'case_is_primary',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 255,
+            'label'              => '是否代表作',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
     ];
 
     /*
@@ -297,6 +307,7 @@ class case_table extends table {
         'case_community_id'   => 0,
         'case_images'         => '',
         'case_views'          => 0,
+        'case_is_primary'     => 0,
     ];
 
     /*
@@ -328,6 +339,7 @@ class case_table extends table {
         'case_community_id'   => ['re\rgx\filter', 'int'],
         'case_images'         => ['re\rgx\filter', 'char'],
         'case_views'          => ['re\rgx\filter', 'int'],
+        'case_is_primary'     => ['re\rgx\filter', 'int'],
     ];
 
     /*

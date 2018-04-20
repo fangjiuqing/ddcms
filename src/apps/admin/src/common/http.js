@@ -79,5 +79,9 @@ export default {
   },
   list (uri, data) {
     return this.post(uri + '/list', data)
+  },
+  set (uri, data) {
+    data = data || {}
+    return this.post(uri + '/set', data)
   }
 }

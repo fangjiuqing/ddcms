@@ -115,6 +115,16 @@ class base_iface extends rgx {
     }
 
     /**
+     * 默认调用
+     * @param  [type] $method [description]
+     * @param  array  $args   [description]
+     * @return [type]         [description]
+     */
+    public function __call ($method, $args = []) {
+        $this->failure('Resource not found', 999);
+    }
+
+    /**
      * 成功输出
      * @param  [type]  $msg  [description]
      * @param  [type]  $data [description]
