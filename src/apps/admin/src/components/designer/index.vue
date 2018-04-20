@@ -88,7 +88,7 @@ export default {
     caselist (desid) {
       this.$router.push({
         path: '/case',
-        query:{desid}
+        query: {desid}
       })
     },
     modify (id) {

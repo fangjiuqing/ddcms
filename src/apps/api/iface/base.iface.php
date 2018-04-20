@@ -43,11 +43,11 @@ class base_iface extends rgx {
      * @param [type] $data  [description]
      * @param [type] $login [description]
      */
-    public function __construct ($mod, $data, $login) {
-        $this->mod = $mod;
-        $this->log = $mod->log;
-        $this->data = $data;
-        $this->login = $login;
+    public function __construct ($params = []) {
+        $this->mod = $params['mod'];
+        $this->log = $params['mod']->log;
+        $this->data = $params['data'];
+        $this->login = $params['login'];
         if (isset($this->data['__action__'])) {
             $this->action = $this->data['__action__'];
         }

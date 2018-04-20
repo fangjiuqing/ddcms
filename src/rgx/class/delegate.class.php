@@ -140,7 +140,13 @@ class delegate {
         // before
         $before = self::adapter_action($key, self::BEFORE);
         if (!empty($before)) {
-            $args = call_user_func_array($before['callback'], $args) ?: $args;
+            $args = call_user_func_array($before['callback'], [[
+                'ref'       => $this->instance,
+                'args'      => $args,
+                'module'    => $this->instance_code,
+                'action'    => $method,
+                'code'      => $key
+            ]]) ?: $args;
             // 单次执行处理
             if ($before['limit']) {
                 unset(self::$directive[self::BEFORE][$before['key']]);
@@ -152,7 +158,13 @@ class delegate {
         // after
         $after = self::adapter_action($key, self::AFTER);
         if (!empty($after)) {
-            $ret = call_user_func_array($after['callback'], [$ret]) ?: $ret;
+            $ret = call_user_func_array($after['callback'], [[
+                'ref'       => $this->instance,
+                'args'      => $ret,
+                'module'    => $this->instance_code,
+                'action'    => $method,
+                'code'      => $key
+            ]]) ?: $ret;
             // 单次执行处理
             if ($after['limit']) {
                 unset(self::$directive[self::AFTER][$after['key']]);

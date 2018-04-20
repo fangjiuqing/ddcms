@@ -8,7 +8,6 @@ class index_iface extends base_iface {
 
     /**
      * 用户登录接口
-     * @uri [string] [请求的接口user/login]
      * @data [array] ["account" => "用户名", "passwd" => "密码"]
      */
     public function login_action () {
@@ -28,20 +27,24 @@ class index_iface extends base_iface {
         ]);
 
         $tab = OBJ('admin_table');
-        $user = $tab->get([
+        $admin = $tab->left_join('admin_group_table', 'admin_group_id', 'pag_id')->get([
             'admin_account' => $this->data['account']
         ]);
 
-        if (empty($user)) {
+        if (empty($admin)) {
             $this->failure('该账号不存在', 102, ['via' => 'account']);
         }
 
-        if (admin_helper::verify_passwd($this->data['passwd'], $user['admin_passwd'], $user['admin_salt'])) {
-            $this->set_login($user);
-            $tab->where(['admin_account' => $this->data['account']])->update(['admin_date_login' => time()]);
+        if (admin_helper::verify_passwd($this->data['passwd'], $admin['admin_passwd'], $admin['admin_salt'])) {
+            $this->set_login(admin_helper::get_login($admin));
+            $tab->update([
+                'admin_id'          => $admin['admin_id'],
+                'admin_date_login'  => REQUEST_TIME
+            ]);
+            admin_helper::add_log($admin['admin_id'], 'index/login', 1, "{$admin['admin_nick']}登录了系统");
             $this->success('登录成功');
         }
-        admin_helper::add_log($user['admin_id'], 'index/login', 1, '密码错误');
+        admin_helper::add_log($admin['admin_id'], 'index/login', 1, '密码错误');
         $this->failure('账号或密码有误', 103);
     }
 

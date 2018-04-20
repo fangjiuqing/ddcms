@@ -259,7 +259,7 @@ class app extends rgx {
                 $class = NS . '\\' . $code;
             }
             else {
-                $class = 're\\rgx\\' . $code;
+                $class = '\\re\\rgx\\' . $code;
             }
         }
         if ($single) {
