@@ -340,4 +340,25 @@ class upload_helper extends rgx {
         }
         return $max;
     }
+
+    /**
+     * [remove description]
+     * @param  [type] $files [description]
+     * @return [type]        [description]
+     */
+    public static function remove( $file ) {
+        if ( preg_match('/#/' , $file) ) {
+            $files = explode('#' , $file);
+        }else{
+            $files[] = $file;
+        }
+
+        if ( !empty($files) ) {
+            foreach ((array)$files as $v) {
+                if (upload_helper::is_upload_file($v)) {
+                    unlink(UPLOAD_PATH . $v);
+                }
+            }
+        }
+    }
 }
