@@ -161,6 +161,7 @@ class designer_iface extends base_iface {
             $this->failure('该设计师不存在');
         }
         if ($tab->delete(['des_id' => $id])['code'] === 0) {
+            upload_helper::remove($ret['des_cover']);
             admin_helper::add_log($this->login['admin_id'], 'designer/del', '3',
                 '删除设计师[' . $id . '@' . $ret['des_name'] . ']');
             $this->success('设计师删除成功');
