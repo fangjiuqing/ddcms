@@ -25,19 +25,23 @@
                   </h5>
                   <p class="text-left">
                     <span>
-                      <small>类别 : </small> <code>{{attrs.cat[v.case_cat_id]['cat_name']}}</code>
+                      <small>类别 : </small> <code>
+                      {{attrs.cat[v.case_cat_id] ? attrs.cat[v.case_cat_id]['cat_name'] : 'unknown'}}</code>
                     </span>
                     <span class="separator"></span>
                     <span>
-                      <small>风格 : </small> <code>{{attrs.style[v.case_style_id]['cat_name']}}</code>
+                      <small>风格 : </small> <code>
+                      {{attrs.style[v.case_style_id] ? attrs.style[v.case_style_id]['cat_name'] : 'unknown'}}</code>
                     </span>
                     <span class="separator"></span>
                     <span>
-                      <small>空间 : </small> <code>{{attrs.space[v.case_space_id]['cat_name']}}</code>
+                      <small>空间 : </small> <code>
+                      {{attrs.space[v.case_space_id] ? attrs.space[v.case_space_id]['cat_name'] : 'unknown'}}</code>
                     </span>
                     <span class="separator"></span>
                     <span>
-                      <small>布局 : </small> <code>{{attrs.layout[v.case_layout_id]['cat_name']}}</code>
+                      <small>布局 : </small> <code>
+                      {{attrs.layout[v.case_layout_id] ? attrs.layout[v.case_layout_id]['cat_name'] : 'unknown'}}</code>
                     </span>
                     <span class="separator"></span>
                     <small>
