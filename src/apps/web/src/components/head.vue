@@ -42,7 +42,7 @@
                   {{menuItem.title}}
                 </router-link>
               </span>
-              <ul class="sub-menu" v-show="index == num" v-if="show">
+              <ul class="sub-menu" v-show="index === num" v-if="show">
                 <div class="vh">
                   <li v-for="(subMenu, index) in menuItem.children" :key="index" class="two">
                     <img :src="subMenu.img" alt="">

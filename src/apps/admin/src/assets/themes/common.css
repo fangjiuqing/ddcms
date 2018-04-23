@@ -2863,3 +2863,7 @@ input:focus,textarea:focus,select:focus {
     margin-top: 10px;
     text-align: right;
 }
+.preview_cover {
+  border-radius: 3px;
+  cursor: pointer;
+}

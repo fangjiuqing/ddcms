@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="col-sm-5">
-              <img class="preview_article_cover" style="width: 200px; height: 120px;" :src="article_cover" @click="upload_cover">
+              <img class="preview_cover" style="width: 240px; height: 180px;" :src="article_cover" @click="upload_cover">
               <input type="hidden" name="article_cover" v-model="form.article_cover">
             </div>
           </div>
@@ -68,7 +68,7 @@ export default {
       ],
       id: this.$route.query['id'] || 0,
       form: {},
-      article_cover: '',
+      article_cover: require('@/assets/images/default_4x3.jpg'),
       extra: {},
       categories: []
     }
@@ -168,7 +168,7 @@ export default {
         this.$loading.hide()
         if (d.code === 0) {
           this.form = this.id ? d.data.row : {}
-          this.article_cover = this.form['article_cover_thumb'] || ''
+          this.article_cover = this.form['article_cover_thumb'] || this.article_cover
           this.categories = d.data.category
         } else if (d.code === 9999) {
           this.$alert({

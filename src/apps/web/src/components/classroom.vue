@@ -25,7 +25,7 @@
       <div class="con">
         <ul class="experience">
           <li v-for="(item, index) in detail" :key="index" class="ex">
-            <router-link :to="{ name: 'class-detail', params: { id: item.article_id }}">
+            <router-link :to="{ name: 'class-detail', query: { classId: item.article_id }}">
               <div class="design-ex">
                 <div class="left">
                     <img :src="item.article_cover_thumb" alt="">

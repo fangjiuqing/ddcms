@@ -54,7 +54,7 @@
       <div class="content">
         <ul class="experience">
           <li v-for="(item, index) in detail" :key="index" class="ex">
-            <router-link :to="{ name: 'designerDetail', params: { designerId: item.des_id}}">
+            <router-link :to="{ name: 'designerDetail', query: { designerId: item.des_id}}">
               <div class="design-ex">
                 <div class="left">
                   <img :src="item.des_cover" alt="">

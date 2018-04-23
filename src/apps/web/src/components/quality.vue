@@ -1,7 +1,7 @@
 <template>
   <div class="cover">
     <h3>智慧整装，打造品质生活</h3>
-    <p class="subhead">科技使生活更简单，智慧家庭解决方案使我们的核心竞争力</p>
+    <p class="subhead">科技使生活更简单，智慧家庭解决方案是我们的核心竞争力</p>
     <ul class="list">
       <li v-for="(item, index) in banners" :key="index" class="villa">
         <img :src="item.imgUrl" alt="">

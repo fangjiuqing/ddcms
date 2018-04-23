@@ -106,7 +106,7 @@ class public_case_iface extends base_iface {
             $out['designer'] = OBJ('designer_table')->fields([
                 'des_id', 'des_name', 'des_title', 'des_cover'
             ])->map(function ($row) {
-                $row['des_cover_sm'] = IMAGE_URL . $row['des_cover'] . '!500x309';
+                $row['des_cover_sm'] = IMAGE_URL . $row['des_cover'] . '!364x490';
                 $row['des_cover_lg'] = IMAGE_URL . $row['des_cover'];
                 return $row;
             })->get([

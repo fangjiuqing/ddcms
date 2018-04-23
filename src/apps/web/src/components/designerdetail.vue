@@ -112,14 +112,14 @@ export default {
       stages: '',
       awards: [],
       len: '',
-      id: this.$route.params.designerId || 0,
+      id: this.$route.query.designerId || 0,
       imgs: []
     }
   },
   methods: {
     getImg: function () {
       this.$http.post('public/designer/get', {
-        id: this.$route.params.designerId
+        id: this.id
       }).then(d => {
         // console.log('designerDetail=========', d)
         if (d.code === 0) {
@@ -131,6 +131,8 @@ export default {
           }
           if (d.data.awards) {
             this.len = d.data.awards.length
+          } else {
+            this.len = 0
           }
         } else {
         }
@@ -141,7 +143,7 @@ export default {
     this.getImg()
   },
   mounted () {
-    // console.log('this.awards======', this.awards)
+    // console.log('this.$route.query.caseId=====', this.$route.query.caseId)
   },
   components: {
     Head, Foot, sideBar

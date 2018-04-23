@@ -162,11 +162,11 @@ class case_iface extends base_iface {
         $out['attrs']['region'] = OBJ('region_table')->fields('region_code,region_name')->akey('region_code')->get_all([
             'region_code'   => array_keys($region_ids ?: [0])
         ]);
-        $out['attrs']['cat'] = category_helper::get_rows(2, true);
-        $out['attrs']['style'] = category_helper::get_rows(4, true);
-        $out['attrs']['space'] = category_helper::get_rows(5, true);
-        $out['attrs']['type'] = category_helper::get_rows(6, true);
-        $out['attrs']['layout'] = category_helper::get_rows(7, true);
+        $out['attrs']['cat'] = category_helper::get_rows(2, false);
+        $out['attrs']['style'] = category_helper::get_rows(4, false);
+        $out['attrs']['space'] = category_helper::get_rows(5, false);
+        $out['attrs']['type'] = category_helper::get_rows(6, false);
+        $out['attrs']['layout'] = category_helper::get_rows(7, false);
         $out['attrs']['upload_url'] = UPLOAD_URL;
         $out['attrs']['image_url'] = IMAGE_URL;
         $this->success('', $out);

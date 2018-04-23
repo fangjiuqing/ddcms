@@ -74,7 +74,7 @@
               </div>
             </div>
             <div class="col-md-3">
-              <img class="preview_article_cover" :src="mat_cover" @click="upload_cover">
+              <img class="preview_cover" style="width:200px;height:150px;" :src="mat_cover" @click="upload_cover">
               <input type="hidden" name="mat_cover" v-model="form.mat_cover">
               <div class="clearfix"></div>
             </div>
@@ -157,7 +157,7 @@ export default {
         mat_brand_id: '',
         mat_status: ''
       },
-      mat_cover: '',
+      mat_cover: require('@/assets/images/default_4x3.jpg'),
       extra: {},
       categories: [],
       mat_type: [],
@@ -263,7 +263,7 @@ export default {
         this.$loading.hide()
         if (d.code === 0) {
           this.form = Object.keys(d.data.row).length > 0 ? d.data.row : this.form
-          this.article_cover = this.form['article_cover_thumb'] || ''
+          this.mat_cover = this.form['mat_cover'] || this.mat_cover
           this.categories = d.data.category
           this.mat_type = d.data.type
           this.brands = d.data.brands
@@ -324,12 +324,3 @@ export default {
   }
 }
 </script>
-
-<style>
-  .preview_article_cover {
-    width: 200px;
-    height: 150px;
-    border-radius: 3px;
-    background: #ccc;
-  }
-</style>

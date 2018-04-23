@@ -24,7 +24,7 @@
       <!--<p class="intr">碳歌发泡陶瓷保温板生产原料中工业固废比例达到80%。一期工程每年消耗废陶瓷、陶瓷废渣、矿山尾矿2万吨以上，真正实现了建筑陶瓷生产上的循环利用，顺应了国家产业政策。对工业污染综合治理做出卓越贡献。</p>-->
       <div class="bottom">
         <p class="left lr">上一篇：发泡陶瓷保温板应用</p>
-        <p class="right lr">下一篇：未来城市如何建？</p>
+        <p class="rig lr">下一篇：未来城市如何建？</p>
       </div>
     </div>
     <foot></foot>
@@ -47,7 +47,7 @@ export default {
   },
   data () {
     return {
-      id: this.$route.params.id || 0,
+      id: this.$route.query.classId || 0,
       form: {},
       article_cover: ''
     }
@@ -205,7 +205,7 @@ export default {
   .left {
     float: left;
   }
-  .right {
+  .rig {
     float: right;
   }
 </style>

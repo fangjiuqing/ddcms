@@ -27,9 +27,9 @@
         </p>
         <ul class="list1">
           <li v-for="(item, index) in img1" :key="index" @mouseenter="show(item)" @mouseleave="show(item)">
-            <img v-lazy="item.case_cover_sm" alt="">
+            <img :src="item.case_cover_sm" alt="">
             <transition name="fade">
-              <router-link class="tasking" :to="{ name: 'caseDetail', params: { caseId: item.case_id }}" v-show="item.toggle">
+              <router-link class="tasking" :to="{ name: 'caseDetail', query: { caseId: item.case_id }}" v-show="item.toggle">
                 <div>
                   <p>宝华海湾城</p>
                   <div  class="yuan">
@@ -47,9 +47,9 @@
         </p>
         <ul class="list2">
           <li v-for="(item, index) in img2" :key="index" @mouseenter="show(item)" @mouseleave="show(item)">
-            <img v-lazy="item.case_cover_lg" alt="">
+            <img :src="item.case_cover_lg" alt="">
             <transition name="fade">
-              <router-link class="tasking" :to="{ name: 'caseDetail', params: { caseId: item.case_id }}" v-show="item.toggle">
+              <router-link class="tasking" :to="{ name: 'caseDetail', query: { caseId: item.case_id }}" v-show="item.toggle">
                 <div>
                   <p>宝华海湾城</p>
                   <div class="yuan">
@@ -62,9 +62,9 @@
             </transition>
           </li>
         </ul>
-        <!--<p class="nice ni">精选推荐-->
+        <p class="nice ni">{{rec}}
           <!--<span class="change">换一批</span>-->
-        <!--</p>-->
+        </p>
         <!--<ul class="list3">-->
           <!--<li v-for="(item, index) in img3" :key="index">-->
             <!--<img v-lazy="item.img" alt="">-->
@@ -105,6 +105,7 @@ export default {
       co: '',
       nice: '',
       ni: '',
+      rec: '',
       style: [
         '全部',
         '现代简约',
@@ -205,7 +206,7 @@ export default {
   },
   mounted () {
     this.addClass()
-    // console.log('img2-----', this.img2)
+    // console.log('img1-----', this.img1)
   },
   methods: {
     show (item) {
@@ -229,13 +230,13 @@ export default {
     },
     getImg: function () {
       this.$http.post('public/case/index', {}).then(d => {
-        // console.log('gather=========', d.data)
+        console.log('gather=========', d.data)
         if (d.code === 0) {
           for (let i = 0; i < d.data.length; i++) {
-            this.img1.push(d.data[i].list[0])
-            this.img2.push(d.data[i].list[1])
-            this.nice = d.data[i].list[0].case_title
-            this.ni = d.data[i].list[1].case_title
+            this.img1 = this.img1.concat(d.data[i].list)
+            this.nice = d.data[0].cat_name
+            this.ni = d.data[1] ? d.data[1].cat_name : ''
+            this.rec = d.data[2].cat_name
           }
         } else {
         }
@@ -259,7 +260,7 @@ export default {
     margin-top: 71px;
   }
   .conte {
-    width: 1000px;
+    width: 1050px;
     margin: 0 auto;
     overflow: hidden;
   }
@@ -344,7 +345,7 @@ export default {
     margin-left: 9px;
   }
   .list1 {
-    width: 1000px;
+    width: 1050px;
     height: 400px;
     margin: 34px 0 0;
     overflow: hidden;
@@ -368,7 +369,7 @@ export default {
   }
   .list1 li:nth-child(2),
   .list1 li:nth-child(3) {
-    margin-bottom: 18px;
+    /*margin-bottom: 18px;*/
   }
   .list1 li:nth-child(2),
   .list1 li:nth-child(3),
@@ -376,10 +377,10 @@ export default {
   .list1 li:nth-child(5) {
      width: 250px;
      /*height: 174px;*/
-     margin-left: 24px;
+     margin-left: 15px;
    }
   .list1 li img {
-    /*width: 100%;*/
+    width: 100%;
   }
   .list2 {
     width: 1000px;
