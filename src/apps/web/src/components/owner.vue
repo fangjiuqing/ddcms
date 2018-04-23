@@ -1,6 +1,6 @@
 <template>
   <div class="owner">
-    <h3>业主寄语</h3>
+    <h3>业主专访</h3>
     <p>真实案例  全面审核  业主售后点评</p>
     <div class="middle">
       <swiper class="list" :options="swiperOption" ref="mySwiper">
@@ -23,9 +23,9 @@
   </div>
 </template>
 <script>
-import img from '../assets/home/banner.png'
-import left from '../assets/home/xzjqr.png'
-import center from '../assets/home/yzhu.png'
+// import img from '../assets/home/banner.png'
+import left from '../assets/home/left.png'
+// import center from '../assets/home/yzhu.png'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 export default {
@@ -34,12 +34,12 @@ export default {
     return {
       banners: [
         {
-          imgUrl: center,
+          imgUrl: left,
           title: '别墅——施工队的装修过程',
           appraise: '干装修这行快八年了，从学徒、绘图员、展览、工装、干到家装，一路走来历尽艰辛，终于轮到给自己的房子做设计、操持装修了，赶脚美美哒！'
         },
         {
-          imgUrl: img,
+          imgUrl: left,
           title: '唐山橡树湾——一枚设计师的装修体验',
           appraise: '干装修这行快八年了，从学徒、绘图员、展览、工装、干到家装'
         },

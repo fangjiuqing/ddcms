@@ -66,8 +66,8 @@ export default {
 </script>
 <style scoped>
 .sidebar {
-  width: 85px;
-  height: 356px;
+  width: 64px;
+  height: 280px;
   position: fixed;
   top: 50%;
   right: 36px;
@@ -77,25 +77,27 @@ export default {
   box-shadow: 0 1px 21px 0 rgba(0, 0, 0, 0.12);
 }
 .money {
-  width: 79px;
-  height: 98px;
+  width: 59px;
+  height: 73px;
   margin: 3px 3px 0;
   background-color: #d42f31;
 }
 .money img {
-  margin: 19px 0 11px;
+  margin: 15px 0 8px;
 }
 .money a {
   display: block;
   color: #fff;
+  font-size: 12px;
 }
 .list {
-  height: 255px;
-  margin-top: 13px;
+  height: 177px;
+  margin-top: 11px;
 }
 .list li {
-  width: 85px;
-  height: 85px;
+  width: 50px;
+  height: 45px;
+  margin: 12px auto 0;
 }
 .list li a {
   text-decoration: none;
@@ -104,40 +106,40 @@ export default {
 }
 .headset i, .gift i, .roket i{
   display: block;
-  width: 35px;
-  height: 35px;
+  width: 25px;
+  height: 25px;
   margin: 0 auto 5px;
 }
 .headset i {
-  background: url(../assets/sidebar/headset-g.png) center/cover no-repeat;
+  background: url(../assets/sidebar/headset.png) center/cover no-repeat;
 }
 .headset:hover i {
-  background: url(../assets/sidebar/headset.png) center/cover no-repeat;
+  background: url(../assets/sidebar/headset-g.png) center/cover no-repeat;
 }
 .headset:hover a {
   color: #d42f31;
 }
 .gift i {
-  background: url(../assets/sidebar/gift-g.png) center/cover no-repeat;
+  background: url(../assets/sidebar/gift.png) center/cover no-repeat;
 }
 .gift:hover i {
-  background: url(../assets/sidebar/gift.png) center/cover no-repeat;
+  background: url(../assets/sidebar/gift-g.png) center/cover no-repeat;
 }
 .gift:hover a {
   color: #d42f31;
 }
 .roket i {
-  background: url(../assets/sidebar/roket-g.png) center/cover no-repeat;
+  background: url(../assets/sidebar/arrow.png) center/cover no-repeat;
 }
 .roket:hover i {
-  background: url(../assets/sidebar/roket.png) center/cover no-repeat;
+  background: url(../assets/sidebar/arrow-g.png) center/cover no-repeat;
 }
 .roket:hover a {
   color: #d42f31;
 }
-.gift a,
-.headset a {
-  padding: 0 4px 18px 4px;
+.gift,
+.headset {
+  padding-bottom: 8px;
   border-bottom: 1px solid #cfcfcf;
 }
 .gift img {

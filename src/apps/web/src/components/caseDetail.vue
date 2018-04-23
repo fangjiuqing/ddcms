@@ -3,12 +3,15 @@
     <Head></Head>
     <div class="cover">
       <div class="cont">
-        <p class="title">{{row.type}}</p>
+        <p class="title"><span>{{row.case_title}} - </span><span>{{row.type}}</span></p>
         <div class="right ri">
-          <img :src="designer.des_cover_sm" alt="" class="photo">
-          <div class="into">
-            <span class="name">{{designer.des_name}}</span><span class="work">{{designer.des_title}}</span>
-            <p>立即预约</p>
+          <div class="to">
+            <img :src="designer.des_cover_sm" alt="" class="photo">
+            <div class="into">
+              <span class="name">{{designer.des_name}}</span>
+              <span class="work">{{designer.des_title}}</span>
+              <p>立即预约</p>
+            </div>
           </div>
           <p class="feel">{{summary}}</p>
           <p class="brand">汤成一品</p>
@@ -29,14 +32,14 @@
           <tr> <td class="font">{{item.key2.key}}</td> <td class="color">{{item.key2.val}}</td><td class="font">{{item.key3.key}}</td> <td class="color">{{item.key3.val}}</td>  </tr>
         </table>
         <ul v-for="items in images" :key="items.index" class="list">
+          <span class="location">{{items.name}}</span>
           <li v-for="item in items.images" :key="item.index">
-            <img :src="item.image_sm" alt="">
+            <img :src="item.image_lg" alt="">
             <p class="loca">
               <!--<span class="det">DETAILS SHOW</span>-->
             </p>
             <p class="intr">{{item.desc}}</p>
           </li>
-          <span class="location">{{items.name}}</span>
         </ul>
         <!--<div class="case"></div>-->
         <div class="bt">
@@ -88,7 +91,7 @@ export default {
     return {
       scroll: '',
       panelShow: false,
-      id: this.$route.params.caseId || 0,
+      id: this.$route.query.caseId || 0,
       attrs: [],
       row: {},
       designer: {},
@@ -153,14 +156,14 @@ export default {
       this.$http.post('public/case/get', {
         id: this.id
       }).then(d => {
-        // console.log('caseDetail=========', d.data)
+        console.log('caseDetail=========', d.data)
         if (d.code === 0) {
           this.attrs.push(d.data.attrs)
           $.extend(this.designer, d.data.designer)
           $.extend(this.row, d.data.row)
           this.summary = d.data.summary
           this.prev = d.data.prev.case_title
-          this.next = d.data.next
+          this.next = d.data.next.case_title
           for (let i = 0; i < d.data.more.length; i++) {
             this.more.push(d.data.more[i])
           }
@@ -177,7 +180,7 @@ export default {
   },
   mounted () {
     document.addEventListener('scroll', this.menu)
-    // console.log('this.more=====', this.more)
+    // console.log('this.$route.query.caseId=====', this.$route.query.caseId)
   },
   components: {
     Head, foot, sideBar, Price
@@ -204,7 +207,7 @@ export default {
   }
   .right {
     width: 240px;
-    height: 600px;
+    /*height: 600px;*/
     background-color: #fafafa;
     /*position: fixed;*/
     margin-left: 850px;
@@ -217,17 +220,25 @@ export default {
   }
   .fixed {
     position: fixed;
-    top: 161px;
+    top: 101px;
   }
   .bottom {
     position: absolute;
-    bottom: 375px;
+    bottom: 475px;
+  }
+  .to {
+    width: 240px;
+    height: 130px;
+    position: relative;
   }
   .photo {
     width: 97px;
   }
   .into {
-    float: right;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
   }
   .name {
     font-size: 20px;
@@ -238,7 +249,7 @@ export default {
     font-size: 14px;
     line-height: 24px;
     color: #3e3a39;
-    margin-left: 7px;
+    display: block;
   }
   .into p {
     width: 64px;
@@ -375,6 +386,8 @@ export default {
     letter-spacing: 1px;
     line-height: 24px;
     color: #000000;
+    display: block;
+    margin-bottom: 20px;
   }
   .det {
     font-size: 18px;
