@@ -42,9 +42,9 @@ class public_designer_iface extends base_iface {
         }
         // 缓存 10分钟
         $this->success('', CACHE('public@designer-get-id-' . $id, function () use ($id) {
-            $tab        = OBJ('designer_table')->fields('designer_table.*,case_table.case_images,case_content_table.case_content');
-            $tab->left_join('case_table' , 'des_case_id' , 'case_id');
-            $tab->left_join('case_content_table' , 'des_case_id' , 'case_id');
+            $tab        = OBJ('designer_table');//->fields('designer_table.*,case_table.case_images,case_content_table.case_content');
+            // $tab->left_join('case_table' , 'des_case_id' , 'case_id');
+            // $tab->left_join('case_content_table' , 'des_case_id' , 'case_id');
             $out['row'] = $tab->get($id) ?: [];
             $out['stags'] = null;
             $region_ids = [];
@@ -68,7 +68,9 @@ class public_designer_iface extends base_iface {
                 $out['row']['case_content'] = htmlspecialchars_decode($desc['desc'],ENT_QUOTES);
                 # 风格标签
                 if ( $out['row']['des_style_tags'] ) {
-                    $out['stags'] = explode('#' , $out['row']['des_style_tags']);
+                    $stags = explode('#' , $out['row']['des_style_tags']);
+                    $out['stags'] = category_helper::get_rows(category_helper::TYPE_STYLE, 1);
+                    $out['stags'] = [];
                 }
                 # 获奖情况
                 if ( $out['row']['des_awards'] ) {

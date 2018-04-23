@@ -56,14 +56,6 @@
                       <v-distpicker :province="form.province" :city="form.city" hide-area @selected="onSelected"></v-distpicker>
                     </div>
                   </div>
-
-                  <div class="col-md-6">
-                    <select v-model="form.des_case_id"  name="des_case_id" class="form-control">
-                      <option value="0">选择代表案例</option>
-                      <option v-for="(v) in cases" v-bind:key="v.case_id" :value="v.case_id" v-html="v.case_title">
-                      </option>
-                    </select>
-                  </div>
                 </div>
             </div>
             <div class="col-sm-5">
@@ -76,21 +68,12 @@
         <div class="form-block">
           <div class="row">
             <div class="col-md-5">
-              <h5 class="block-h5">风格标签
-                  <btn class="btn btn-info btn-xs pull-right" @click="add_style_tag">新增</btn>
-              </h5>
-              <table class="table table-striped">
-                <tbody>
-                  <tr v-for="(row, row_key) in stags" :key="row_key">
-                    <td width="90%">
-                      <input class="form-control material_field_input" v-model="stags[row_key]['val']" value="" placeholder="请输入标签名称" />
-                    </td>
-                    <td>
-                      <btn class="btn btn-xs btn-danger" @click="del_stag(row_key)"><i class="fa fa-trash-o"></i></btn>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <h5 class="block-h5">风格标签</h5>
+              <div class="">
+                <span style="width:150px; display:inline-block ; text-align:right; line-height:30px;" v-for="(row, row_key) in stags" :key="row_key">
+                  {{stags[row_key]['name']}} <input type="checkbox" :checked="stags[row_key]['checked']" @click="add_styles(stags[row_key]['name'])" :value="stags[row_key]['name']" name="des_taged">
+                </span>
+              </div>
             </div>
             <div class="col-md-7">
               <h5 class="block-h5">所获奖项
@@ -150,18 +133,17 @@ export default {
       form: {},
       cover: '',
       extra: {},
-      styles: {},
+      styles: {
+        key0: {
+          val: ''
+        }
+      },
       attrs: {
         key0: {
           val: ''
         }
       },
-      stags: {
-        key0: {
-          val: ''
-        }
-      },
-      cases: {}
+      stags: {}
     }
   },
   methods: {
@@ -256,6 +238,11 @@ export default {
         data: formData
       })
     },
+    add_styles (tag) {
+      this.$set(this.$data.styles, this.$util.rand_str(16), {
+        val: tag
+      })
+    },
     del_attr (key) {
       this.$delete(this.$data.attrs, key)
     },
@@ -263,15 +250,6 @@ export default {
       this.$set(this.$data.attrs, this.$util.rand_str(16), {
         val: ''
       })
-    },
-    add_style_tag () {
-      this.$set(this.$data.stags, this.$util.rand_str(20), {
-        val: ''
-      })
-      console.log(this.$data.stags)
-    },
-    del_stag (key) {
-      this.$delete(this.$data.stags, key)
     },
     modify (id) {
       this.$loading.show({
@@ -283,7 +261,6 @@ export default {
           this.form = this.id ? d.data.row : this.form
           this.cover = d.data.row.cover || ''
           this.styles = d.data.styles || []
-          this.cases = d.data.cases || []
           this.attrs = d.data.attrs || this.attrs
           this.stags = d.data.stags || this.stags
         } else if (d.code === 9999) {
@@ -305,7 +282,7 @@ export default {
       this.$http.save('designer', {
         base: this.form,
         attrs: this.attrs,
-        stags: this.stags
+        styles: this.styles
       }).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
