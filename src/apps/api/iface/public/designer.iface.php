@@ -51,7 +51,7 @@ class public_designer_iface extends base_iface {
             if ($out['row']) {
                 $out['row']['des_about']    = htmlspecialchars_decode($out['row']['des_about'], ENT_QUOTES);
                 //$out['row']['des_cover_lg'] = IMAGE_URL . $out['row']['des_cover'];
-                $out['row']['des_cover_sm'] = IMAGE_URL . $out['row']['des_cover'] . '!500x309';
+                $out['row']['des_cover_sm'] = IMAGE_URL . $out['row']['des_cover'] . '!364x490';
                 if ($out['row']['des_region0']) {
                     $region_ids[] = $out['row']['des_region0'];
                 }
