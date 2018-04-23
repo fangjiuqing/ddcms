@@ -70,7 +70,7 @@
                 </div>
             </div>
             <div class="col-sm-5">
-              <img class="preview_cover" style="width: 200px; height: 120px;" :src="cover" @click="upload_cover">
+              <img class="preview_cover" style="width: 240px; height: 180px;" :src="cover" @click="upload_cover">
               <input type="hidden" name="cover" v-model="form.cover">
             </div>
             <div class="clearfix"></div>
@@ -205,7 +205,7 @@ export default {
           val: ''
         }
       },
-      cover: '',
+      cover: require('@/assets/images/default_4x3.jpg'),
       extra: {},
       categories: [],
       style: [],
@@ -388,7 +388,7 @@ export default {
           this.images = d.data.images || {}
           this.attrs = d.data.attrs || this.attrs
           this.desc = d.data.desc || this.desc
-          this.cover = d.data.row['cover'] || ''
+          this.cover = d.data.row['cover'] || this.cover
           this.categories = d.data.category || []
           this.style = d.data.style || []
           this.space = d.data.space || []
