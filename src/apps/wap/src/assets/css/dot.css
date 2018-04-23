@@ -1,0 +1,33 @@
+#banner .swiper-pagination-bullet{
+  width: 26px;
+  height: 3px;
+  border-radius: 0%;
+  background-color: rgb(255, 255, 255)!important;
+  opacity: 0.3;
+}
+#banner .swiper-pagination-bullet-active {
+  width: 26px;
+  height: 3px;
+  border-radius: 0%;
+  background: #ffffff;
+  opacity: 1;
+}
+#dot {
+  bottom: 5%;
+  left: -3%;
+}
+#dot .swiper-pagination-bullet{
+  width: 26px;
+  height: 3px;
+  border-radius: 0%;
+  background-color: rgba(0, 0, 0, 1)!important;
+  opacity: 0.05;
+}
+#dot .swiper-pagination-bullet-active {
+  width: 26px;
+  height: 3px;
+  border-radius: 0%;
+  background: #d42f31!important;
+  opacity: 1;
+}
+
