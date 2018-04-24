@@ -2,7 +2,9 @@
     <div class="exampleDetail">
         <Head></Head>
         <div class="exampleCon">
-            <img src="../assets/exampleDetail/top.png" alt="">
+          <div>
+            <!-- <img src="../assets/exampleDetail/top.png" alt=""> -->
+          </div>
             <div class="right">
                 <h3>{{row.case_title}}-{{row.style}}-{{row.type}}</h3>
                 <div class="coll">
@@ -11,17 +13,9 @@
                 </div>
                 <p class="back">设计背景</p>
                 <table border="1" cellspacing="0" cellpadding="0">
-                  <tr>
-                    <td class="font">{{attrs.key0.key}}</td> <td class="color">{{attrs.key0.val}}</td>
-                  </tr>
-                  <tr>
-                    <td class="font">{{attrs.key1.key}}</td> <td class="color">{{attrs.key1.val}}</td>
-                  </tr>
-                  <tr>
-                    <td class="font">{{attrs.key2.key}}</td> <td class="color">{{attrs.key2.val}}</td>
-                  </tr>
-                  <tr>
-                    <td class="font">{{attrs.key3.key}}</td> <td class="color">{{attrs.key3.val}}</td>
+                  <tr v-for="(i, index) in attrs" :key="index">
+                    <td class="font">{{i.key}}</td>
+                    <td class="color">{{i.val}}</td>
                   </tr>
                   <!-- <tr><th class="font">{{item.key0.key}}</th> <th class="color">销售</th></tr>
                   <tr><td class="font">家庭成员</td> <td class="color">夫妻两人，女儿</td></tr>
@@ -72,18 +66,18 @@
 import Head from './head-nav'
 import Foot from './footNav'
 import price from './price'
-import style1 from '../assets/exampleDetail/style1.png'
-import style2 from '../assets/exampleDetail/style2.png'
-import style3 from '../assets/exampleDetail/style3.png'
-import similar1 from '../assets/exampleDetail/similar1.png'
-import similar2 from '../assets/exampleDetail/similar2.png'
+// import style1 from '../assets/exampleDetail/style1.png'
+// import style2 from '../assets/exampleDetail/style2.png'
+// import style3 from '../assets/exampleDetail/style3.png'
+// import similar1 from '../assets/exampleDetail/similar1.png'
+// import similar2 from '../assets/exampleDetail/similar2.png'
 export default {
   name: 'example-detail',
   data () {
     return {
       scroll: '',
       id: this.$route.query.caseId || 0,
-      attrs: {},
+      attrs: [],
       panelShow: false,
       row: {},
       designer: {},
@@ -91,27 +85,27 @@ export default {
       prev: '',
       next: '',
       more: [],
-      images: [],
-      style: [
-        {
-          imgUrl: style1,
-          title: '客厅',
-          intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中现代简约的风格设计以白色的面板为基调，现代中透露着时尚。'
-        },
-        {
-          imgUrl: style2,
-          title: '卧室',
-          intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中现代简约的风格设计以白色的面板为基调，现代中透露着时尚。'
-        },
-        {
-          imgUrl: style3,
-          title: '厨房',
-          intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中现代简约的风格设计以白色的面板为基调，现代中透露着时尚。'
-        }
-      ],
-      similar: [
-        similar1, similar2
-      ]
+      images: []
+      // style: [
+      //   {
+      //     imgUrl: style1,
+      //     title: '客厅',
+      //     intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中现代简约的风格设计以白色的面板为基调，现代中透露着时尚。'
+      //   },
+      //   {
+      //     imgUrl: style2,
+      //     title: '卧室',
+      //     intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中现代简约的风格设计以白色的面板为基调，现代中透露着时尚。'
+      //   },
+      //   {
+      //     imgUrl: style3,
+      //     title: '厨房',
+      //     intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中现代简约的风格设计以白色的面板为基调，现代中透露着时尚。'
+      //   }
+      // ],
+      // similar: [
+      //   similar1, similar2
+      // ]
     }
   },
   components: {
@@ -278,6 +272,7 @@ h3 {
     width: 360px;
     display: inline-block;
     font-size: 30px;
+    line-height: 42px;
     color: #000000;
     margin: 34px 0;
 }

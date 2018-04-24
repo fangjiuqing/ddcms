@@ -65,16 +65,16 @@
         <p class="nice ni">{{rec}}
           <!--<span class="change">换一批</span>-->
         </p>
-        <!--<ul class="list3">-->
-          <!--<li v-for="(item, index) in img3" :key="index">-->
-            <!--<img v-lazy="item.img" alt="">-->
-            <!--<p>{{item.house}}</p>-->
-            <!--<div class="area">-->
-              <!--<span>面积：120平米(三室两厅)</span>-->
-              <!--<span class="price">造价：40万</span>-->
-            <!--</div>-->
-          <!--</li>-->
-        <!--</ul>-->
+        <ul class="list3">
+          <router-link tag="li" :to="{ name: 'caseDetail', query: { caseId: item.case_id }}" v-for="(item, index) in img3" :key="index">
+            <img v-lazy="item.case_cover_sm" alt="">
+            <p>{{item.case_title}}</p>
+            <div class="area">
+              <span>面积：{{item.case_area}}</span>
+              <span class="price">造价：{{item.case_price}}</span>
+            </div>
+          </router-link>
+        </ul>
       </div>
     </div>
     <foot></foot>
@@ -89,7 +89,7 @@ import sideBar from './sidebar'
 // import img1 from '../assets/gather/img1.png'
 // import img12 from '../assets/gather/img12.png'
 // import img2 from '../assets/gather/img2.png'
-import img3 from '../assets/gather/img3.png'
+// import img3 from '../assets/gather/img3.png'
 export default {
   name: 'gather',
   metaInfo () {
@@ -185,22 +185,22 @@ export default {
         // }
       ],
       img3: [
-        {
-          img: img3,
-          house: '宝华海湾城'
-        },
-        {
-          img: img3,
-          house: '宝华海湾城'
-        },
-        {
-          img: img3,
-          house: '宝华海湾城'
-        },
-        {
-          img: img3,
-          house: '宝华海湾城'
-        }
+        // {
+        //   img: img3,
+        //   house: '宝华海湾城'
+        // },
+        // {
+        //   img: img3,
+        //   house: '宝华海湾城'
+        // },
+        // {
+        //   img: img3,
+        //   house: '宝华海湾城'
+        // },
+        // {
+        //   img: img3,
+        //   house: '宝华海湾城'
+        // }
       ]
     }
   },
@@ -235,12 +235,13 @@ export default {
           // for (let i = 0; i < d.data.length; i++) {
           this.img1 = this.img1.concat(d.data[0].list)
           this.img2 = this.img2.concat(d.data[1].list)
-          this.nice = d.data[0].cat_name
-          this.ni = d.data[1] ? d.data[1].cat_name : ''
-          this.rec = d.data[2].cat_name
+          this.img3 = this.img3.concat(d.data[2].list)
+          this.nice = d.data[0].list.length !== 0 ? d.data[0].cat_name : ''
+          this.ni = d.data[1].list.length !== 0 ? d.data[1].cat_name : ''
+          this.rec = d.data[2].list.length !== 0 ? d.data[2].cat_name : ''
+          // }
+        } else {
         }
-        // } else {
-        // }
       })
     }
   },
@@ -410,7 +411,7 @@ export default {
   }
   .list3 {
     width: 1000px;
-    height: 300px;
+    height: 225px;
     margin: 34px 0 58px;
     overflow: hidden;
   }
@@ -420,6 +421,7 @@ export default {
     float: left;
   }
   .list3 li img {
+    width: 100%;
     margin-top: 1px;
     transition-duration: .5s;
     transform:translateY(1px);
@@ -431,10 +433,13 @@ export default {
     margin: 0 24px;
   }
   .list3 p {
-    font-size: 20px;
+    font-size: 16px;
     color: #595757;
     text-align: left;
     margin: 21px 0 8px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
   }
   .list3 span {
     font-size: 12px;
@@ -486,9 +491,9 @@ export default {
   .tasking p {
     width: 80%;
     position: absolute;
-    top: 30%;
+    top: 26%;
     left: 50%;
-    font-size: 24px;
+    font-size: 22px;
     color: #ffffff;
     padding: 9px 0;
     transform: translate(-50%, -30%);
@@ -518,10 +523,10 @@ export default {
     transform: translate(-60%, -60%);
   }
   .detail {
-    width: 150px;
-    height: 42px;
-    line-height: 42px;
-    font-size: 16px;
+    width: 120px;
+    height: 36px;
+    line-height: 36px;
+    font-size: 12px;
     color: #ffffff;
     border: 1px solid #fff;
     position: absolute;

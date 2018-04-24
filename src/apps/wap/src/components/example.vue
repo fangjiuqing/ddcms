@@ -100,14 +100,10 @@ export default {
   methods: {
     getImg: function () {
       this.$http.post('public/case/index', {}).then(d => {
-        console.log('gather=========', d.data)
+        // console.log('gather=========', d.data)
         if (d.code === 0) {
           for (let i = 0; i < d.data.length; i++) {
             this.img = this.img.concat(d.data[i].list)
-            console.log(this.img)
-            // this.img2.push(d.data[i].list[1])
-            // this.nice = d.data[i].list[0].case_title
-            // this.ni = d.data[i].list[1].case_title
           }
         } else {
         }
@@ -116,9 +112,6 @@ export default {
   },
   created () {
     this.getImg()
-  },
-  mounted () {
-    console.log(this.img)
   }
 }
 </script>

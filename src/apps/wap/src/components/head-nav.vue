@@ -89,6 +89,7 @@ export default {
 }
 .logo img {
   width: 120px;
+  height: 120px;
   position: absolute;
   bottom: -22px;
   left: 72px;
@@ -106,7 +107,7 @@ export default {
 .menu span {
   width: 37px;
   height: 5px;
-  background-color: #d42f31;
+  background-color: #333;
 }
 .menu .mid {
   height: 6px;
@@ -136,11 +137,18 @@ export default {
   letter-spacing: 1px;
   font-size: 30px;
   height: 78px;
+  width: 100%;
 }
 .wrap a {
   font-size: 30px;
   text-decoration: none;
   color: #000;
+  width: 100%;
+}
+.wrap a span {
+  width: 100%;
+  display: block;
+  text-align: center;
 }
 a.router-link-active {
   /* padding-bottom: 7px; */

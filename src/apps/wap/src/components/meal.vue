@@ -156,8 +156,8 @@ export default {
   transition-duration: .5s;
 }
 .scheme .banner {
-  /* width: 564px;
-  height: 323px; */
+  width: 564px;
+  height: 323px;
 }
 .scheme .smart {
   font-size: 18px;
