@@ -88,8 +88,8 @@ export default {
   box-shadow: 0 3px 20px 0 rgba(0, 0, 0, 0.1);
 }
 .logo img {
-  width: 120px;
-  height: 120px;
+  width: 110px;
+  height: 110px;
   position: absolute;
   bottom: -22px;
   left: 72px;

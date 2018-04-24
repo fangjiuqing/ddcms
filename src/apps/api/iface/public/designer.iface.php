@@ -56,7 +56,7 @@ class public_designer_iface extends base_iface {
             $this->failure('获取失败' , '500');
         }
         // 缓存 10分钟
-        $this->success('', CACHE('public@designer-get-id-' . $id, function () use ($id) {
+        $this->success('', CACHE('public@designer-get1-id-' . $id, function () use ($id) {
             $tab        = OBJ('designer_table');
             $out['row'] = $tab->get($id) ?: [];
             $out['stags'] = null;
@@ -87,9 +87,9 @@ class public_designer_iface extends base_iface {
                 if ( !empty($case_ids) ) {
                     $designer_cases_content = OBJ('case_content_table')->fields('case_id,case_content')->where('case_id in (' . join(',' , $case_ids) . ')' )->get_all();
 
-                    foreach ( $designer_cases_content as $v ) {
+                    foreach ( $designer_cases_content as $k => $v ) {
                         $desc = filter::json_unecsape($v['case_content']);
-                        $out['row']['case_content'][$v['case_id']] = htmlspecialchars_decode($desc['desc'],ENT_QUOTES);
+                        $out['row']['case_content'][] = htmlspecialchars_decode($desc['desc'],ENT_QUOTES);
                     }
                 }
 
