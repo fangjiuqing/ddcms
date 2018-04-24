@@ -13,12 +13,12 @@
       </select>
     </div>
     <ul class="content">
-      <li v-for="(item, index) in img" :key=index>
-        <router-link :to="{name: item.name}">
-          <img :src="item.imgUrl" alt="">
+      <li v-for="(items, index) in img" :key=index>
+        <router-link :to="{ name: 'example-detail', query: { caseId: items.case_id }}">
+          <img :src="items.case_cover_lg" alt="">
           <div class="con">
-            <p class="title">{{item.title}}</p>
-            <p class="intr">{{item.intr}}</p>
+            <p class="title">{{items.case_title}}-{{items.type}}</p>
+            <!-- <p class="intr">{{item.intr}}</p> -->
           </div>
         </router-link>
       </li>
@@ -29,53 +29,54 @@
 <script>
 import Head from './head-nav'
 import Foot from './footNav'
-import example1 from '../assets/example/example1.png'
-import example2 from '../assets/example/example2.png'
-import example3 from '../assets/example/example3.png'
-import example4 from '../assets/example/example4.png'
-import example5 from '../assets/example/example5.png'
-import example6 from '../assets/example/example6.png'
+// import example1 from '../assets/example/example1.png'
+// import example2 from '../assets/example/example2.png'
+// import example3 from '../assets/example/example3.png'
+// import example4 from '../assets/example/example4.png'
+// import example5 from '../assets/example/example5.png'
+// import example6 from '../assets/example/example6.png'
 export default {
   name: 'example',
   data () {
     return {
+      rows: {},
       img: [
-        {
-          imgUrl: example1,
-          name: 'example-detail',
-          title: '汤臣一品-简约-三居室',
-          intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中。'
-        },
-        {
-          imgUrl: example2,
-          name: 'example-detail',
-          title: '汤臣一品-简约-三居室',
-          intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中。'
-        },
-        {
-          imgUrl: example3,
-          name: 'example-detail',
-          title: '汤臣一品-简约-三居室',
-          intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中。'
-        },
-        {
-          imgUrl: example4,
-          name: 'example-detail',
-          title: '汤臣一品-简约-三居室',
-          intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中。'
-        },
-        {
-          imgUrl: example5,
-          name: 'example-detail',
-          title: '汤臣一品-简约-三居室',
-          intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中。'
-        },
-        {
-          imgUrl: example6,
-          name: 'example-detail',
-          title: '汤臣一品-简约-三居室',
-          intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中。'
-        }
+        // {
+        //   imgUrl: example1,
+        //   name: 'example-detail',
+        //   title: '汤臣一品-简约-三居室',
+        //   intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中。'
+        // },
+        // {
+        //   imgUrl: example2,
+        //   name: 'example-detail',
+        //   title: '汤臣一品-简约-三居室',
+        //   intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中。'
+        // },
+        // {
+        //   imgUrl: example3,
+        //   name: 'example-detail',
+        //   title: '汤臣一品-简约-三居室',
+        //   intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中。'
+        // },
+        // {
+        //   imgUrl: example4,
+        //   name: 'example-detail',
+        //   title: '汤臣一品-简约-三居室',
+        //   intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中。'
+        // },
+        // {
+        //   imgUrl: example5,
+        //   name: 'example-detail',
+        //   title: '汤臣一品-简约-三居室',
+        //   intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中。'
+        // },
+        // {
+        //   imgUrl: example6,
+        //   name: 'example-detail',
+        //   title: '汤臣一品-简约-三居室',
+        //   intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中。'
+        // }
       ],
       style: [
         '全部',
@@ -95,6 +96,29 @@ export default {
   },
   components: {
     Head, Foot
+  },
+  methods: {
+    getImg: function () {
+      this.$http.post('public/case/index', {}).then(d => {
+        console.log('gather=========', d.data)
+        if (d.code === 0) {
+          for (let i = 0; i < d.data.length; i++) {
+            this.img = this.img.concat(d.data[i].list)
+            console.log(this.img)
+            // this.img2.push(d.data[i].list[1])
+            // this.nice = d.data[i].list[0].case_title
+            // this.ni = d.data[i].list[1].case_title
+          }
+        } else {
+        }
+      })
+    }
+  },
+  created () {
+    this.getImg()
+  },
+  mounted () {
+    console.log(this.img)
   }
 }
 </script>
@@ -152,5 +176,10 @@ option {
 #room {
   border-right: 0;
   margin-left: -6px;
+}
+</style>
+<style>
+* {
+  max-height: 100%;
 }
 </style>
