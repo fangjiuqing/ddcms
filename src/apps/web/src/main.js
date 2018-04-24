@@ -9,6 +9,7 @@ import VueLazyload from 'vue-lazyload'
 import http from './common/http'
 import cache from './common/cache'
 import sess from './common/sess'
+import VueImg from 'v-img'
 
 // 接口配置
 if (process.env.NODE_ENV !== 'development') {
@@ -30,6 +31,7 @@ Vue.use(VueLazyload, {
 Vue.use(cache)
 Vue.use(sess, {cache})
 Vue.use(http, {sess, cache})
+Vue.use(VueImg)
 
 /* eslint-disable no-new */
 new Vue({

@@ -36,7 +36,7 @@
         <ul v-for="items in images" :key="items.index" class="list">
           <span class="location">{{items.name}}</span>
           <li v-for="item in items.images" :key="item.index">
-            <img :src="item.image_lg" alt="">
+            <img v-img:my-group :src="item.image_lg" alt="">
             <p class="loca">
               <!--<span class="det">DETAILS SHOW</span>-->
             </p>
