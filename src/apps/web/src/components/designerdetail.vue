@@ -121,7 +121,7 @@ export default {
       this.$http.post('public/designer/get', {
         id: this.id
       }).then(d => {
-        // console.log('designerDetail=========', d)
+        console.log('designerDetail=========', d)
         if (d.code === 0) {
           $.extend(this.row, d.data.row)
           this.stages = d.data.stags.join('、')
@@ -175,7 +175,10 @@ export default {
 .recommend {
   display: flex;
   align-items: center;
-  margin-right: 40px;
+  margin-right: 80px;
+}
+.recommend img {
+  width: 305px;
 }
 .honor {
   display: flex;

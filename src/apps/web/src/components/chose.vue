@@ -15,7 +15,7 @@
       <li>
         <img src="../assets/home/hb.png" height="53" width="53">
         <p class="detail">生态建材</p>
-        <p class="det">用材环保 价格优惠</p>
+        <p class="det">环保建材 正品保证</p>
       </li>
       <li>
         <img src="../assets/home/pp.png" height="53" width="53">
