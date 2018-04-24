@@ -21,7 +21,7 @@
           <span>400-880-1908</span>
         </p>
         <p class="address">地址：上海市黄浦区北京东路666号科技京城C区907</p>
-        <p class="email address">Emall：shangwu@xiaoguanjia.com</p>
+        <p class="email address">Email：shangwu@xiaoguanjia.com</p>
       </div>
     </div>
     <ul class="qrlist">

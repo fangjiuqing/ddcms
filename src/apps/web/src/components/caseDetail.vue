@@ -5,14 +5,14 @@
       <div class="cont">
         <p class="title"><span>{{row.case_title}} - </span><span>{{row.type}}</span></p>
         <div class="right ri">
-          <div class="to">
+          <router-link :to="{ name: 'designerDetail', query: { designerId: designer.des_id }}" class="to">
             <img :src="designer.des_cover_sm" alt="" class="photo">
             <div class="into">
               <span class="name">{{designer.des_name}}</span>
               <span class="work">{{designer.des_title}}</span>
               <p>立即预约</p>
             </div>
-          </div>
+          </router-link>
           <p class="feel">{{summary}}</p>
           <p class="brand">汤成一品</p>
           <ul class="show">
@@ -26,10 +26,12 @@
           <span class="transmit">1675</span>
         </div>
         <h1>设计背景</h1>
-        <table border="1" cellspacing="0" cellpadding="0" v-for="(item,index) in attrs" :key="index">
+        <table border="1" cellspacing="0" cellpadding="0" v-for="items in attrs" :key="items.index">
           <!--<tr><th class="font">房主年龄<th class="color">35</th><th class="font">房主职位</th> <th class="color">销售</th> </tr>-->
-          <tr><td class="font">{{item.key0.key}}</td> <td class="color">{{item.key0.val}}</td> <td class="font">{{item.key1.key}}</td> <td class="color">{{item.key1.val}}</td>  </tr>
-          <tr> <td class="font">{{item.key2.key}}</td> <td class="color">{{item.key2.val}}</td><td class="font">{{item.key3.key}}</td> <td class="color">{{item.key3.val}}</td>  </tr>
+          <tr v-for="item in items" :key="item.index">
+            <td class="font">{{item.key}}</td>
+            <td class="color">{{item.val}}</td>
+          </tr>
         </table>
         <ul v-for="items in images" :key="items.index" class="list">
           <span class="location">{{items.name}}</span>
@@ -229,6 +231,7 @@ export default {
   .to {
     width: 240px;
     height: 130px;
+    display: block;
     position: relative;
   }
   .photo {
@@ -237,7 +240,7 @@ export default {
   .into {
     position: absolute;
     top: 50%;
-    right: 0;
+    right: 25px;
     transform: translateY(-50%);
   }
   .name {

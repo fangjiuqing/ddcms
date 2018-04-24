@@ -81,6 +81,7 @@ export default {
   height: 73px;
   margin: 3px 3px 0;
   background-color: #d42f31;
+  cursor: pointer;
 }
 .money img {
   margin: 15px 0 8px;
@@ -98,6 +99,7 @@ export default {
   width: 50px;
   height: 45px;
   margin: 12px auto 0;
+  cursor: pointer;
 }
 .list li a {
   text-decoration: none;

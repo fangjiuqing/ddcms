@@ -53,7 +53,7 @@
     <div class="middle">
       <div class="content">
         <ul class="experience">
-          <li v-for="(item, index) in detail" :key="index" class="ex">
+          <li v-for="item in detail" :key="item.index" class="ex">
             <router-link :to="{ name: 'designerDetail', query: { designerId: item.des_id}}">
               <div class="design-ex">
                 <div class="left">
@@ -84,11 +84,11 @@
                       <span>服务范围：</span>
                       <p class="range">{{item.des_slogan}}</p>
                     </div>
-                    <!--<ul class="work">-->
-                      <!--<li v-for="(item, index) in images" :key="index">-->
-                        <!--<img :src="item.img" alt="">-->
-                      <!--</li>-->
-                    <!--</ul>-->
+                    <ul class="work">
+                      <li v-for="ite in item.case_images" :key="ite.index">
+                        <img :src="ite.lg" alt="">
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -274,6 +274,9 @@ export default {
   components: {
     swiper, swiperSlide
   },
+  created () {
+    this.getImg()
+  },
   mounted () {
     (function () {
       $('.design-sort').click(function () {
@@ -299,12 +302,11 @@ export default {
         $(this).hide()
       })
     }())
-    this.getImg()
   },
   methods: {
     getImg: function () {
       this.$http.post('public/designer/index', {}).then(d => {
-        // console.log('dddsss=========', d.msg.list)
+        // console.log('designerList=========', d.msg)
         if (d.code === 0) {
           this.detail = this.detail.concat(d.msg.list)
         } else {
@@ -550,6 +552,14 @@ export default {
 .work {
   display: flex;
   justify-content: space-between;
+}
+.work li {
+  width: 145px;
+  height: 101px;
+  overflow: hidden;
+}
+.work li img {
+  width: 145px;
 }
 .find {
   display: flex;
