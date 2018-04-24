@@ -242,7 +242,7 @@ h1 {
   background-color: #fafafa;
   padding-top: 2px;
 }
-@media screen and (min-width: 736px) {
+/* @media screen and (min-width: 736px) {
   .quality {
     height: 46vw;
   }
@@ -251,7 +251,7 @@ h1 {
   .quality {
     height: 40vw;
   }
-}
+} */
 .process {
   width: 93.4%;
   margin: 23px auto 0;
