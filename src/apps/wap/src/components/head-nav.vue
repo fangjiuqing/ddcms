@@ -106,7 +106,7 @@ export default {
 .menu span {
   width: 37px;
   height: 5px;
-  background-color: #d42f31;
+  background-color: #333;
 }
 .menu .mid {
   height: 6px;
