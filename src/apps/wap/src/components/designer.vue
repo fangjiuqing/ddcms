@@ -16,14 +16,14 @@
         </div>
       </swiper-slide>
     </swiper>
-    <div class="classify">
+    <!-- <div class="classify">
       <select name="style" class="style" id="style">
         <option value="index" v-for='(item, index) in style' :key='index'>{{item}}</option>
       </select>
       <select name="room" class="style" id="room">
         <option value="index" v-for='(item, index) in room' :key='index'>{{item}}</option>
       </select>
-    </div>
+    </div> -->
     <ul class="experience">
       <li v-for="(items, index) in designer" :key="index">
         <router-link :to="{name:'designer-detail', query: { designerId: items.des_id}}">
@@ -64,6 +64,13 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 export default {
   name: 'designer',
+  metaInfo () {
+    const title = '设计名家 - 道达智装'
+    return {
+      title: title,
+      meta: [{vmid: 'keywords', name: 'keywords', content: title}]
+    }
+  },
   data () {
     return {
       // head: [
@@ -86,22 +93,22 @@ export default {
       //     intr: '全国杰出设计师，注重人与自然的亲合，协调意境之美,以及情景交融的“象外之像”。'
       //   }
       // ],
-      style: [
-        '设计分类',
-        '全部',
-        '现代简约',
-        '新中式',
-        '后现代',
-        '地中海',
-        '美式田园',
-        '古典欧式'
-      ],
-      room: [
-        '擅长风格',
-        '全部',
-        '别墅',
-        '标准房型'
-      ],
+      // style: [
+      //   '设计分类',
+      //   '全部',
+      //   '现代简约',
+      //   '新中式',
+      //   '后现代',
+      //   '地中海',
+      //   '美式田园',
+      //   '古典欧式'
+      // ],
+      // room: [
+      //   '擅长风格',
+      //   '全部',
+      //   '别墅',
+      //   '标准房型'
+      // ],
       designer: [
         // {
         //   url: designer1,

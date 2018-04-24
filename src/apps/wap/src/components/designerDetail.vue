@@ -46,8 +46,14 @@
       <h1 class="represent">代表作品</h1>
       <span class="work">REPRESENTATIVE WORK</span>
       <div class="cutLine"></div>
-      <div v-for="(c, index) in content" :key="index">
-        <p v-html="c" class="ccontent"></p>
+      <div>
+        <ul class="img-list">
+          <li v-for="(item, index) in imgs" :key="index">
+            <p v-html="content[1]" class="ccontent"></p>
+            <p v-html="content[3]" class="ccontent"></p>
+            <img :src="item.sm" alt="">
+          </li>
+        </ul>
       </div>
       <!-- <div class="performance">
           <p>项目名称：</p>
@@ -59,11 +65,6 @@
           <img :src="item.img1" alt="">
           <img :src="item.img2" alt="">
       </div> -->
-      <ul class="img-list">
-        <li v-for="(item, index) in imgs" :key="index">
-          <img :src="item.sm" alt="">
-        </li>
-      </ul>
     </div>
     <Foot></Foot>
   </div>
@@ -76,6 +77,13 @@ import Foot from './footNav'
 // import img2 from '../assets/designer/img2.png'
 export default {
   name: 'designer-detail',
+  metaInfo () {
+    const title = '设计师详情 - 道达智装'
+    return {
+      title: title,
+      meta: [{vmid: 'keywords', name: 'keywords', content: title}]
+    }
+  },
   data () {
     return {
       row: {},
@@ -351,7 +359,9 @@ export default {
 .detail p p:nth-child(3),
 .detail p p:nth-child(4),
 .detail p p:nth-child(5),
-.detail p p:nth-child(6) {
+.detail p p:nth-child(6),
+.detail p p:nth-child(7),
+.detail p p:nth-child(8) {
   font-size: 24px;
   color: #000000;
 }

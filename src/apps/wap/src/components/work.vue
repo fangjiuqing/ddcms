@@ -59,6 +59,13 @@ import Eagle from '../assets/work/eagle.png'
 import Connect from '../assets/work/connect.png'
 export default {
   name: 'work',
+  metaInfo () {
+    const title = '施工品质 - 道达智装'
+    return {
+      title: title,
+      meta: [{vmid: 'keywords', name: 'keywords', content: title}]
+    }
+  },
   data () {
     return {
       books: [

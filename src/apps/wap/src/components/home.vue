@@ -100,6 +100,13 @@ import '../assets/css/dot.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 export default {
   name: 'home',
+  metaInfo () {
+    const title = '首页 - 道达智装'
+    return {
+      title: title,
+      meta: [{vmid: 'keywords', name: 'keywords', content: title}]
+    }
+  },
   components: {
     Head, Foot, swiper, swiperSlide, strict, famous, standard, owner
   },
