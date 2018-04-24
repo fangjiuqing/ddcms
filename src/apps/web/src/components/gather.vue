@@ -3,11 +3,11 @@
     <Head></Head>
     <div class="cover">
       <div class="conte">
-        <div class="title">
-          <span>首页</span>
-          <img src="../assets/gather/arrowRight.png">
-          <a href="javascript:;">智装案例</a>
-        </div>
+        <!--<div class="title">-->
+          <!--<span>首页</span>-->
+          <!--<img src="../assets/gather/arrowRight.png">-->
+          <!--<a href="javascript:;">智装案例</a>-->
+        <!--</div>-->
         <!--<table border="1" cellspacing="0"  cellpadding="0">-->
           <!--<tr>-->
             <!--<th class="font">风格分类</th>-->
@@ -31,10 +31,10 @@
             <transition name="fade">
               <router-link class="tasking" :to="{ name: 'caseDetail', query: { caseId: item.case_id }}" v-show="item.toggle">
                 <div>
-                  <p>宝华海湾城</p>
+                  <p>{{item.case_title}}</p>
                   <div  class="yuan">
-                    <span>面积：120平米(三室两厅)</span>
-                    <span class="price">造价：40万</span>
+                    <span>面积：{{item.case_area}}</span>
+                    <span class="price">造价：{{item.case_price}}</span>
                     <div class="detail">查看详情</div>
                   </div>
                 </div>
@@ -47,14 +47,14 @@
         </p>
         <ul class="list2">
           <li v-for="(item, index) in img2" :key="index" @mouseenter="show(item)" @mouseleave="show(item)">
-            <img :src="item.case_cover_lg" alt="">
+            <img :src="item.case_cover_sm" alt="">
             <transition name="fade">
               <router-link class="tasking" :to="{ name: 'caseDetail', query: { caseId: item.case_id }}" v-show="item.toggle">
                 <div>
-                  <p>宝华海湾城</p>
+                  <p>{{item.case_title}}</p>
                   <div class="yuan">
-                    <span>面积：120平米(三室两厅)</span>
-                    <span class="price">造价：40万</span>
+                    <span>面积：{{item.case_area}}</span>
+                    <span class="price">造价：{{item.case_price}}</span>
                     <div class="detail">查看详情</div>
                   </div>
                 </div>
@@ -230,16 +230,17 @@ export default {
     },
     getImg: function () {
       this.$http.post('public/case/index', {}).then(d => {
-        console.log('gather=========', d.data)
+        // console.log('gather=========', d.data)
         if (d.code === 0) {
-          for (let i = 0; i < d.data.length; i++) {
-            this.img1 = this.img1.concat(d.data[i].list)
-            this.nice = d.data[0].cat_name
-            this.ni = d.data[1] ? d.data[1].cat_name : ''
-            this.rec = d.data[2].cat_name
-          }
-        } else {
+          // for (let i = 0; i < d.data.length; i++) {
+          this.img1 = this.img1.concat(d.data[0].list)
+          this.img2 = this.img2.concat(d.data[1].list)
+          this.nice = d.data[0].cat_name
+          this.ni = d.data[1] ? d.data[1].cat_name : ''
+          this.rec = d.data[2].cat_name
         }
+        // } else {
+        // }
       })
     }
   },
@@ -265,16 +266,16 @@ export default {
     overflow: hidden;
   }
   .title {
-    font-size: 18px;
+    font-size: 14px;
     text-align: left;
   }
   .title img {
     margin: 0 6px;
   }
   .title a {
-    font-size: 18px;
+    font-size: 14px;
     text-decoration: none;
-    color: #d42f31;
+    color: #888;
   }
   table {
     width: 1000px;
@@ -384,7 +385,7 @@ export default {
   }
   .list2 {
     width: 1000px;
-    height: 535px;
+    /*height: 535px;*/
     margin-top: 34px;
     overflow: hidden;
   }
@@ -492,6 +493,9 @@ export default {
     padding: 9px 0;
     transform: translate(-50%, -30%);
     z-index: 10;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
   }
   .yuan {
     width: 95%;

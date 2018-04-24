@@ -156,7 +156,7 @@ export default {
       this.$http.post('public/case/get', {
         id: this.id
       }).then(d => {
-        console.log('caseDetail=========', d.data)
+        // console.log('caseDetail=========', d.data)
         if (d.code === 0) {
           this.attrs.push(d.data.attrs)
           $.extend(this.designer, d.data.designer)

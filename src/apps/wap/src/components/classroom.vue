@@ -21,19 +21,19 @@
       <h1>全部资讯</h1>
       <ul class="experience">
         <li v-for="(item, index) in detail" :key="index" class="ex">
-          <router-link :to="{ name: 'class-detail', params: { id: item.article_id }}">
+          <router-link :to="{ name: item.name}">
             <div class="design-ex">
-              <img :src="item.article_cover_thumb" alt="">
+              <img :src="item.url" alt="">
               <div class="trait">
                 <div class="tra">
                   <div class="ename">
-                    <span class="dname">{{item.article_title}}</span>
+                    <span class="dname">{{item.dname}}</span>
                     <div class="cover">
-                      <p class="little">{{item.article_admin_nick}}</p>
+                      <p class="little">{{item.nick}}</p>
                       <span class="line"></span>
-                      <span class="time">{{item.article_udate}}</span>
+                      <span class="time">{{item.time}}</span>
                     </div>
-                    <p class="procedure" v-html="item.article_content"></p>
+                    <p class="procedure">{{item.procedure}}</p>
                   </div>
                 </div>
               </div>
@@ -48,52 +48,52 @@
 <script>
 import Head from './head-nav'
 import Foot from './footNav'
-// import all1 from '../assets/class/all1.png'
-// import all2 from '../assets/class/all2.png'
-// import all3 from '../assets/class/all3.png'
-// import all4 from '../assets/class/all4.png'
+import all1 from '../assets/class/all1.png'
+import all2 from '../assets/class/all2.png'
+import all3 from '../assets/class/all3.png'
+import all4 from '../assets/class/all4.png'
 export default {
   name: 'classroom',
   data () {
     return {
       detail: [
-        // {
-        //   url: all1,
-        //   name: 'class-detail',
-        //   dname: '智能黑科技 不真实的真实',
-        //   nick: '小管家',
-        //   time: '2018-04-02 09:26 ',
-        //   procedure: '交房手续及流程有哪些?在现在房价如此之高的情况下，能买起房子真的算赢家。其实买房子不仅是一件大事，也是一件复杂的事情。不光挑选房子比较难，挑选之后的各项流程也是很复杂的，所以还是要了解好才行。'
-        // },
-        // {
-        //   url: all2,
-        //   name: 'class-detail',
-        //   dname: '碳歌发泡陶瓷保温墙板',
-        //   nick: '小管家',
-        //   time: '2018-04-02 09:26 ',
-        //   procedure: '交房手续及流程有哪些?在现在房价如此之高的情况下，能买起房子真的算赢家。其实买房子不仅是一件大事，也是一件复杂的事情。不光挑选房子比较难，挑选之后的各项流程也是很复杂的，所以还是要了解好才行。'
-        // },
-        // {
-        //   url: all3,
-        //   name: 'class-detail',
-        //   dname: '智能黑科技 不真实的真实',
-        //   nick: '小管家',
-        //   time: '2018-04-02 09:26 ',
-        //   procedure: '交房手续及流程有哪些?在现在房价如此之高的情况下，能买起房子真的算赢家。其实买房子不仅是一件大事，也是一件复杂的事情。不光挑选房子比较难，挑选之后的各项流程也是很复杂的，所以还是要了解好才行。'
-        // },
-        // {
-        //   url: all4,
-        //   name: 'class-detail',
-        //   dname: '智能黑科技 不真实的真实',
-        //   nick: '小管家',
-        //   time: '2018-04-02 09:26 ',
-        //   procedure: '交房手续及流程有哪些?在现在房价如此之高的情况下，能买起房子真的算赢家。其实买房子不仅是一件大事，也是一件复杂的事情。不光挑选房子比较难，挑选之后的各项流程也是很复杂的，所以还是要了解好才行。'
-        // }
+        {
+          url: all1,
+          name: 'class-detail',
+          dname: '智能黑科技 不真实的真实',
+          nick: '小管家',
+          time: '2018-04-02 09:26 ',
+          procedure: '交房手续及流程有哪些?在现在房价如此之高的情况下，能买起房子真的算赢家。其实买房子不仅是一件大事，也是一件复杂的事情。不光挑选房子比较难，挑选之后的各项流程也是很复杂的，所以还是要了解好才行。'
+        },
+        {
+          url: all2,
+          name: 'class-detail',
+          dname: '碳歌发泡陶瓷保温墙板',
+          nick: '小管家',
+          time: '2018-04-02 09:26 ',
+          procedure: '交房手续及流程有哪些?在现在房价如此之高的情况下，能买起房子真的算赢家。其实买房子不仅是一件大事，也是一件复杂的事情。不光挑选房子比较难，挑选之后的各项流程也是很复杂的，所以还是要了解好才行。'
+        },
+        {
+          url: all3,
+          name: 'class-detail',
+          dname: '智能黑科技 不真实的真实',
+          nick: '小管家',
+          time: '2018-04-02 09:26 ',
+          procedure: '交房手续及流程有哪些?在现在房价如此之高的情况下，能买起房子真的算赢家。其实买房子不仅是一件大事，也是一件复杂的事情。不光挑选房子比较难，挑选之后的各项流程也是很复杂的，所以还是要了解好才行。'
+        },
+        {
+          url: all4,
+          name: 'class-detail',
+          dname: '智能黑科技 不真实的真实',
+          nick: '小管家',
+          time: '2018-04-02 09:26 ',
+          procedure: '交房手续及流程有哪些?在现在房价如此之高的情况下，能买起房子真的算赢家。其实买房子不仅是一件大事，也是一件复杂的事情。不光挑选房子比较难，挑选之后的各项流程也是很复杂的，所以还是要了解好才行。'
+        }
       ]
     }
   },
   created () {
-    this.getImg()
+    // this.getImg()
   },
   methods: {
     date (time) {
@@ -200,6 +200,7 @@ export default {
   height: 27px;
   margin-left: 8px;
   background: url("../assets/class/new.png") no-repeat center;
+  background-size: 180px 27px;
   vertical-align: middle;
 }
 .experience {
@@ -218,7 +219,7 @@ export default {
   overflow: hidden;
 }
 .design-ex img {
-  width: 234px;
+  width: 40%;
   margin-left: 27px;
   float: left;
 }
@@ -233,8 +234,8 @@ export default {
   transform: translateY(-50%);
 }
 .ename {
-  text-align: left;
-  overflow: hidden;
+  /* text-align: left;
+  overflow: hidden; */
 }
 .trait .dname {
   font-size: 36px;
@@ -244,7 +245,7 @@ export default {
   height: 32px;
   line-height: 32px;
   margin-top: 9px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 .little {
   float: left;
@@ -265,7 +266,7 @@ export default {
 }
 .procedure {
   font-size: 20px;
-  float: left;
+  /* float: left; */
   line-height: 34px;
   margin-top: 12px;
   color: rgba(91, 91, 91, 0.7);

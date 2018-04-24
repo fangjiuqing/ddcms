@@ -8,7 +8,7 @@
               <div class="word">
                 <div class="left">
                   <h2>{{item.dname}}</h2>
-                  <img :src="item.img" alt="" class="ename">
+                  <!--<img :src="item.img" alt="" class="ename">-->
                   <p>{{item.synopsisa}}</p>
                   <p class="synopsisa">{{item.synopsis}}</p>
                   <ul class="work-img">
@@ -102,7 +102,7 @@
 </template>
 <script>
 import $ from 'jquery'
-import designer from '../assets/designList/photoa.png'
+// import designer from '../assets/designList/photoa.png'
 import eName from '../assets/designList/ename.png'
 import worka from '../assets/designList/worka.png'
 import workb from '../assets/designList/workb.png'
@@ -141,19 +141,19 @@ export default {
       ],
       banners: [
         {
-          imgUrl: designer,
-          img: eName,
+          imgUrl: eName,
+          // img: eName,
           name: 'designerDetail',
-          dname: '韩松言',
+          dname: '倪敏',
           ename: 'Han  Songyan',
           synopsisa: '全国杰出设计师，注重人与自然的亲合，协调意境之美，',
           synopsis:
             '以及情景交融的“象外之像”，化意入境，于镜中浸透着意建筑与室内环境的研究与设计。'
         },
         {
-          imgUrl: designer,
-          dname: '韩理想',
-          img: eName,
+          imgUrl: eName,
+          dname: '倪敏',
+          // img: eName,
           name: 'designerDetail',
           ename: 'Han  Songyan',
           synopsisa: '全国杰出设计师，注重人与自然的亲合，协调意境之美，',
@@ -161,9 +161,9 @@ export default {
             '以及情景交融的“象外之像”，化意入境，于镜中浸透着意建筑与室内环境的研究与设计。'
         },
         {
-          imgUrl: designer,
-          dname: '于涛',
-          img: eName,
+          imgUrl: eName,
+          dname: '倪敏',
+          // img: eName,
           name: 'designerDetail',
           ename: 'Han  Songyan',
           synopsisa: '全国杰出设计师，注重人与自然的亲合，协调意境之美，',
