@@ -175,7 +175,10 @@ export default {
 .recommend {
   display: flex;
   align-items: center;
-  margin-right: 40px;
+  margin-right: 80px;
+}
+.recommend img {
+  width: 305px;
 }
 .honor {
   display: flex;

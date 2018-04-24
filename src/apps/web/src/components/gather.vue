@@ -433,7 +433,7 @@ export default {
     margin: 0 24px;
   }
   .list3 p {
-    font-size: 20px;
+    font-size: 16px;
     color: #595757;
     text-align: left;
     margin: 21px 0 8px;
