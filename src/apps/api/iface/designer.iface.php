@@ -35,6 +35,7 @@ class designer_iface extends base_iface {
 
         # 设计师获奖情况
         $attrs = $this->data['attrs'];
+
         if ( !empty($attrs) ) {
             $this->data['des_awards'] = '';
             if ( count($attrs) > 20 ) {
@@ -50,17 +51,24 @@ class designer_iface extends base_iface {
         }
 
         # 设计师风格标签
-        $stags = $this->data['stags'];
+        $stags = $this->data['styles'];
         if ( !empty($stags) ) {
-            if ( count($stags) > 10 ) {
-                $this->failure('风格标签最多不超过10个');
+            $temp = [];
+            foreach ( $stags as $v ) {
+                $temp[] = $v['val'];
+            }
+
+            $stags = array_unique($temp);
+
+            if ( count($stags) > 20 ) {
+                $this->failure('风格标签最多不超过20个');
             }
             $this->data['des_style_tags'] = '';
             foreach ( $stags as $v ) {
-                if (preg_match('/#/', $v['val'])) {
-                    $this->failure('请勿包含特殊字符[' . $v['val'].']');
+                if (preg_match('/#/', $v)) {
+                    $this->failure('请勿包含特殊字符[' . $v.']');
                 }
-                $this->data['des_style_tags'] .= $v['val'] . '#';
+                $this->data['des_style_tags'] .= $v . '#';
             }
             $this->data['des_style_tags'] = rtrim($this->data['des_style_tags'] , '#');
         }
@@ -103,8 +111,20 @@ class designer_iface extends base_iface {
             $out['row']['city'] = $regions[$out['row']['des_region1']]['region_name'];
             # 风格标签
             if ( $out['row']['des_style_tags'] ) {
-                foreach (explode('#' , $out['row']['des_style_tags']) as $k => $v) {
-                    $out['stags'][$k . mt_rand(5,200)]['val'] = $v;
+                $styles = category_helper::get_rows(category_helper::TYPE_STYLE, 1);
+                $stags  = explode('#' , $out['row']['des_style_tags']);
+
+                foreach ( $styles as $k => $v ) {
+                    if ( !$v['cat_id'] ) continue;
+                    $out['stags'][$k]['name'] = $v['cat_name'];
+                    foreach ( $stags as $vv ) {
+                        if ( $vv == $v['cat_name'] ) {
+                            $out['stags'][$k]['checked'] = 1;
+                            break;
+                        }else{
+                            $out['stags'][$k]['checked'] = 0;
+                        }
+                    }
                 }
             }
             # 获奖情况
@@ -115,11 +135,9 @@ class designer_iface extends base_iface {
             }
         }
 
-        # 案例
-        $out['cases'] = OBJ('case_table')->fields('case_id,case_title')->get_all();
-        foreach ((array)$out['cases'] as $k => $v) {
-            $out['styles'][$k]['case_id']    = $v['case_id'];
-            $out['styles'][$k]['case_title'] = $v['case_title'];
+        # 已选风格标签
+        foreach ($stags as $k => $v) {
+            $out['styles'][$k . mt_rand(5,1000)]['val'] = $v;
         }
         $this->success('', $out);
     }
