@@ -8,13 +8,28 @@ class public_designer_iface extends base_iface {
 
     public function index_action () {
         // 缓存 10分钟
-        $this->success('', CACHE('public@designer-index', function () {
+        $this->success('', CACHE('public@designer-index2', function () {
             $tab = OBJ('designer_table');
+
             // 分页
             $paging = new paging_helper($tab, $this->data['pn'] ?: 1, 12);
 
-
             $out['list'] = $tab->map(function ($row) {
+                # 案例图片
+                $designer_cases = OBJ('case_table')->fields('case_images')->get_all(['case_designer_id' => $row['des_id']]);
+                if ( !empty($designer_cases) ) {
+                    $nums = 0;
+                    foreach ( $designer_cases as $v ) {
+                        $case_images = explode('#' , $v['case_images']);
+                        foreach ($case_images as $k => $v ) {
+                            if ($nums == 4) break;
+                            $row['case_images'][$nums]['lg'] = IMAGE_URL . $v;
+                            $row['case_images'][$nums]['sm'] = IMAGE_URL . $v . '!500x309';
+                            $nums++;
+                        }
+                    }
+                }
+
                 $region_ids[$row['des_region0']] = 0;
                 $region_ids[$row['des_region1']] = 0;
                 $regions = OBJ('region_table')->akey('region_code')->fields('region_code, region_name')->get_all([
@@ -32,7 +47,7 @@ class public_designer_iface extends base_iface {
 
             $out['paging'] = $paging;
             $this->success($out);
-        }, 600));
+        }, 30));
     }
 
     public function get_action () {
@@ -42,9 +57,7 @@ class public_designer_iface extends base_iface {
         }
         // 缓存 10分钟
         $this->success('', CACHE('public@designer-get-id-' . $id, function () use ($id) {
-            $tab        = OBJ('designer_table');//->fields('designer_table.*,case_table.case_images,case_content_table.case_content');
-            // $tab->left_join('case_table' , 'des_case_id' , 'case_id');
-            // $tab->left_join('case_content_table' , 'des_case_id' , 'case_id');
+            $tab        = OBJ('designer_table');
             $out['row'] = $tab->get($id) ?: [];
             $out['stags'] = null;
             $region_ids = [];
@@ -64,13 +77,25 @@ class public_designer_iface extends base_iface {
                 $out['row']['province'] = $regions[$out['row']['des_region0']]['region_name'];
                 $out['row']['city'] = $regions[$out['row']['des_region1']]['region_name'];
 
-                $desc = filter::json_unecsape($out['row']['case_content']);
-                $out['row']['case_content'] = htmlspecialchars_decode($desc['desc'],ENT_QUOTES);
+                $case_id = OBJ('case_table')->fields('case_id')->get_all(['case_designer_id' => $id]);
+                $case_ids= [];
+
+                foreach ( $case_id as $v) {
+                    $case_ids[] = $v['case_id'];
+                }
+                $out['row']['case_content'] = [];
+                if ( !empty($case_ids) ) {
+                    $designer_cases_content = OBJ('case_content_table')->fields('case_id,case_content')->where('case_id in (' . join(',' , $case_ids) . ')' )->get_all();
+
+                    foreach ( $designer_cases_content as $v ) {
+                        $desc = filter::json_unecsape($v['case_content']);
+                        $out['row']['case_content'][$v['case_id']] = htmlspecialchars_decode($desc['desc'],ENT_QUOTES);
+                    }
+                }
+
                 # 风格标签
                 if ( $out['row']['des_style_tags'] ) {
-                    $stags = explode('#' , $out['row']['des_style_tags']);
-                    $out['stags'] = category_helper::get_rows(category_helper::TYPE_STYLE, 1);
-                    $out['stags'] = [];
+                    $out['stags'] = explode('#' , $out['row']['des_style_tags']);
                 }
                 # 获奖情况
                 if ( $out['row']['des_awards'] ) {
@@ -78,13 +103,20 @@ class public_designer_iface extends base_iface {
                 }
 
                 # 案例图片
-                if ( $out['row']['case_images'] ) {
-                    $case_images = explode('#' , $out['row']['case_images']);
-                    foreach ($case_images as $k => $v ) {
-                        $out['case_images'][$k]['lg'] = IMAGE_URL . $v;
-                        $out['case_images'][$k]['sm'] = IMAGE_URL . $v . '!500x309';
+                $designer_cases = OBJ('case_table')->fields('case_images')->get_all(['case_designer_id' => $id]);
+                if ( !empty($designer_cases) ) {
+                    $nums = 0;
+                    foreach ( $designer_cases as $v ) {
+                        $case_images = explode('#' , $v['case_images']);
+                        foreach ($case_images as $k => $v ) {
+                            if ($nums == 4) break;
+                            $out['case_images'][$nums]['lg'] = IMAGE_URL . $v;
+                            $out['case_images'][$nums]['sm'] = IMAGE_URL . $v . '!500x309';
+                            $nums++;
+                        }
                     }
                 }
+
             }
             return $out;
         }, 3));
