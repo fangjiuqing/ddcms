@@ -29,7 +29,7 @@
                   <tr><td class="font">风格喜好</td> <td class="color">喜欢中西文化；喜欢现代的家居风格</td></tr>
                   <tr><td class="font">其他要求</td><td class="color">设计需体现现代感，同时保证人性化，不能常规化，可以做风格融入的尝试</td></tr> -->
                 </table>
-                <p class="effect">设计背景</p>
+                <p class="effect">装修效果</p>
                 <ul class="showList" v-for="(items, index) in images" :key="index">
                   <li v-for="item in items.images" :key="item.index">
                     <img :src="item.image_sm" alt="">
@@ -125,17 +125,14 @@ export default {
       this.$http.post('public/case/get', {
         id: this.id
       }).then(d => {
+        console.log(d.data)
         if (d.code === 0) {
           this.attrs = d.data.attrs
-          console.log(this.attrs)
           this.designer = d.data.designer
           this.row = d.data.row
           this.summary = d.data.summary
           this.prev = d.data.prev.case_title
           this.next = d.data.next.case_title
-          for (let i = 0; i < d.data.attrs.length; i++) {
-            this.more.push(d.data.more[i])
-          }
           for (let i = 0; i < d.data.more.length; i++) {
             this.more.push(d.data.more[i])
           }
