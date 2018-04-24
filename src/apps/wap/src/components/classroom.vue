@@ -54,6 +54,13 @@ import all3 from '../assets/class/all3.png'
 import all4 from '../assets/class/all4.png'
 export default {
   name: 'classroom',
+  metaInfo () {
+    const title = '智装课堂 - 道达智装'
+    return {
+      title: title,
+      meta: [{vmid: 'keywords', name: 'keywords', content: title}]
+    }
+  },
   data () {
     return {
       detail: [
@@ -127,6 +134,9 @@ export default {
 }
 </script>
 <style scoped>
+* {
+  max-height: 100%;
+}
 .banner {
   width: 100%;
   margin-top: 88px;

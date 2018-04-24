@@ -26,7 +26,7 @@
                 <p class="effect">装修效果</p>
                 <ul class="showList" v-for="(items, index) in images" :key="index">
                   <li v-for="item in items.images" :key="item.index">
-                    <img :src="item.image_sm" alt="">
+                    <img :src="item.image_lg" alt="">
                   </li>
                   <p class="call">{{items.name}}</p>
                 </ul>
@@ -73,6 +73,13 @@ import price from './price'
 // import similar2 from '../assets/exampleDetail/similar2.png'
 export default {
   name: 'example-detail',
+  metaInfo () {
+    const title = '案例详情 - 道达智装'
+    return {
+      title: title,
+      meta: [{vmid: 'keywords', name: 'keywords', content: title}]
+    }
+  },
   data () {
     return {
       scroll: '',

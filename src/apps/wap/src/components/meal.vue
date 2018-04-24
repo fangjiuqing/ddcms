@@ -48,6 +48,13 @@ import pack from './package'
 import banner1 from '../assets/meal/banner.png'
 export default {
   name: 'meal',
+  metaInfo () {
+    const title = '智装套餐 - 道达智装'
+    return {
+      title: title,
+      meta: [{vmid: 'keywords', name: 'keywords', content: title}]
+    }
+  },
   data () {
     return {
       isShow: false,

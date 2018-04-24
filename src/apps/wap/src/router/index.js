@@ -15,8 +15,9 @@ import classroom from '../components/classroom'
 import classDetail from '../components/classDetail'
 import Point from '../components/point'
 import joinUs from '../components/joinUs'
+import Meta from 'vue-meta'
 Vue.use(Router)
-
+Vue.use(Meta)
 export default new Router({
   mode: 'history',
   routes: [

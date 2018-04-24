@@ -87,6 +87,13 @@ import Foot from './footNav'
 import img from '../assets/taste/banner.png'
 export default {
   name: 'point',
+  metaInfo () {
+    const title = '实体网点 - 道达智装'
+    return {
+      title: title,
+      meta: [{vmid: 'keywords', name: 'keywords', content: title}]
+    }
+  },
   data () {
     return {
       imgs: [
@@ -95,7 +102,7 @@ export default {
         {imgUrl: img}
       ],
       swiperOption: {
-        autoplay: true,
+        autoplay: false,
         speed: 600,
         loop: true,
         pagination: {
@@ -153,7 +160,7 @@ export default {
   transform: translate(-50%, -50%);
 }
 .content {
-  padding: 45px 0 0 64px;
+  padding: 40px 0 0 64px;
 }
 .word {
   display: flex;
@@ -319,7 +326,7 @@ h2 {
   line-height: 24px;
 }
 .form button {
-  width: 97px;
+  width: 95px;
   height: 55px;
   border: none;
   outline: none;

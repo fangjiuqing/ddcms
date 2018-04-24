@@ -15,6 +15,13 @@ import Brand from './brand'
 import FootNav from './footNav'
 export default {
   name: 'material',
+  metaInfo () {
+    const title = '国际优材 - 道达智装'
+    return {
+      title: title,
+      meta: [{vmid: 'keywords', name: 'keywords', content: title}]
+    }
+  },
   components: {
     headNav, Banner, Quality, Brand, FootNav
   }

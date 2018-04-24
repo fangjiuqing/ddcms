@@ -2,7 +2,7 @@
   <div>
     <Head></Head>
     <img src="../assets/example/banner.png" alt="" class="banner">
-    <div class="classify">
+    <!-- <div class="classify">
       <select name="style" class="style" id="style">
         <option value="">风格分类</option>
         <option value="index" v-for='(item, index) in style' :key='index'>{{item}}</option>
@@ -11,7 +11,7 @@
         <option value="">房型分类</option>
         <option value="index" v-for='(item, index) in room' :key='index'>{{item}}</option>
       </select>
-    </div>
+    </div> -->
     <ul class="content">
       <li v-for="(items, index) in img" :key=index>
         <router-link :to="{ name: 'example-detail', query: { caseId: items.case_id }}">
@@ -37,6 +37,13 @@ import Foot from './footNav'
 // import example6 from '../assets/example/example6.png'
 export default {
   name: 'example',
+  metaInfo () {
+    const title = '案例集锦 - 道达智装'
+    return {
+      title: title,
+      meta: [{vmid: 'keywords', name: 'keywords', content: title}]
+    }
+  },
   data () {
     return {
       rows: {},
@@ -77,21 +84,21 @@ export default {
         //   title: '汤臣一品-简约-三居室',
         //   intr: '摈弃一切的复杂，回归到一片简介之中，设计实景白色作为整个空间的主色回归到一片简洁之中。'
         // }
-      ],
-      style: [
-        '全部',
-        '现代简约',
-        '新中式',
-        '后现代',
-        '地中海',
-        '美式田园',
-        '古典欧式'
-      ],
-      room: [
-        '全部',
-        '别墅',
-        '标准房型'
       ]
+      // style: [
+      //   '全部',
+      //   '现代简约',
+      //   '新中式',
+      //   '后现代',
+      //   '地中海',
+      //   '美式田园',
+      //   '古典欧式'
+      // ],
+      // room: [
+      //   '全部',
+      //   '别墅',
+      //   '标准房型'
+      // ]
     }
   },
   components: {
