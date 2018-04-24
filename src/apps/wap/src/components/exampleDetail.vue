@@ -4,51 +4,61 @@
         <div class="exampleCon">
             <img src="../assets/exampleDetail/top.png" alt="">
             <div class="right">
-                <h3>汤臣一品-简约-三居室</h3>
+                <h3>{{row.case_title}}-{{row.style}}-{{row.type}}</h3>
                 <div class="coll">
                     <span class="star">2445</span>
                     <span class="transmit">1675</span>
                 </div>
                 <p class="back">设计背景</p>
                 <table border="1" cellspacing="0" cellpadding="0">
-                    <tr><th class="font">房主年龄<th class="color">35</th></tr>
-                    <tr><th class="font">房主职位</th> <th class="color">销售</th></tr>
-                    <tr><td class="font">家庭成员</td> <td class="color">夫妻两人，女儿</td></tr>
-                    <tr><td class="font">生活习惯</td> <td class="color">喜欢在家看电影倡导低碳生活；喜欢交友，踏实勤劳</td></tr>
-                    <tr><td class="font">风格喜好</td> <td class="color">喜欢中西文化；喜欢现代的家居风格</td></tr>
-                    <tr><td class="font">其他要求</td><td class="color">设计需体现现代感，同时保证人性化，不能常规化，可以做风格融入的尝试</td></tr>
+                  <tr>
+                    <td class="font">{{attrs.key0.key}}</td> <td class="color">{{attrs.key0.val}}</td>
+                  </tr>
+                  <tr>
+                    <td class="font">{{attrs.key1.key}}</td> <td class="color">{{attrs.key1.val}}</td>
+                  </tr>
+                  <tr>
+                    <td class="font">{{attrs.key2.key}}</td> <td class="color">{{attrs.key2.val}}</td>
+                  </tr>
+                  <tr>
+                    <td class="font">{{attrs.key3.key}}</td> <td class="color">{{attrs.key3.val}}</td>
+                  </tr>
+                  <!-- <tr><th class="font">{{item.key0.key}}</th> <th class="color">销售</th></tr>
+                  <tr><td class="font">家庭成员</td> <td class="color">夫妻两人，女儿</td></tr>
+                  <tr><td class="font">生活习惯</td> <td class="color">喜欢在家看电影倡导低碳生活；喜欢交友，踏实勤劳</td></tr>
+                  <tr><td class="font">风格喜好</td> <td class="color">喜欢中西文化；喜欢现代的家居风格</td></tr>
+                  <tr><td class="font">其他要求</td><td class="color">设计需体现现代感，同时保证人性化，不能常规化，可以做风格融入的尝试</td></tr> -->
                 </table>
                 <p class="effect">设计背景</p>
-                <ul class="showList">
-                    <li v-for="(item, index) in style" :key="index">
-                        <img :src="item.imgUrl" alt="">
-                        <p class="call">{{item.title}}</p>
-                        <p class="introduce">{{item.intr}}</p>
-                    </li>
+                <ul class="showList" v-for="(items, index) in images" :key="index">
+                  <li v-for="item in items.images" :key="item.index">
+                    <img :src="item.image_sm" alt="">
+                  </li>
+                  <p class="call">{{items.name}}</p>
                 </ul>
                 <img src="../assets/exampleDetail/detail.png" alt="" class="detail">
-                <img src="../assets/exampleDetail/designer.png" alt="" class="photo">
+                <img :src="designer.des_cover_sm" alt="" class="photo">
                 <div class="into">
-                    <span class="name">于涛</span><span class="work">主案设计师</span>
+                    <span class="name">{{designer.des_name}}</span><span class="work">{{designer.des_title}}</span>
                     <p>立即预约</p>
                 </div>
                 <p class="feel">本案采用了北美枫情板材，给人自然温馨的感觉。电视柜设计简约美观，现代简约的风格设计以白色的面板为基调，现代中透露着时尚。</p>
                 <p class="brand">汤成一品</p>
                 <ul class="show">
-                    <li><span>区域</span><span>上海</span></li>
-                    <li><span>面积</span><span>180平方(3室2厅)</span></li>
-                    <li><span>风格</span><span>简约</span></li>
-                    <li><span>造价</span><span>40万</span></li>
+                    <li><span>区域</span><span>{{row.city}}</span></li>
+                    <li><span>面积</span><span>{{row.case_area}}</span></li>
+                    <li><span>风格</span><span>{{row.style}}</span></li>
+                    <li><span>造价</span><span>{{row.case_price}}</span></li>
                 </ul>
                 <p class="offer" @click="showPanel">我要这样装&nbsp;立即获取报价</p>
                 <div class="ln">
-                    <p class="last">上一篇：盛世滨江</p>
-                    <p class="next">下一篇：文化名邸</p>
+                    <p class="last">上一篇：{{prev}}</p>
+                    <p class="next">下一篇：{{next}}</p>
                 </div>
                 <p class="similar">相似风格</p>
                 <ul class="simi">
-                    <li v-for="(item, index) in similar" :key="index">
-                        <img :src="item" alt="">
+                    <li v-for="(item, index) in more" :key="index">
+                        <img :src="item.case_cover" alt="">
                     </li>
                 </ul>
             </div>
@@ -71,7 +81,17 @@ export default {
   name: 'example-detail',
   data () {
     return {
+      scroll: '',
+      id: this.$route.query.caseId || 0,
+      attrs: {},
       panelShow: false,
+      row: {},
+      designer: {},
+      summary: '',
+      prev: '',
+      next: '',
+      more: [],
+      images: [],
       style: [
         {
           imgUrl: style1,
@@ -94,18 +114,49 @@ export default {
       ]
     }
   },
+  components: {
+    Head, Foot, price
+  },
   methods: {
     showPanel () {
       this.panelShow = true
+    },
+    getImg: function () {
+      this.$http.post('public/case/get', {
+        id: this.id
+      }).then(d => {
+        if (d.code === 0) {
+          this.attrs = d.data.attrs
+          console.log(this.attrs)
+          this.designer = d.data.designer
+          this.row = d.data.row
+          this.summary = d.data.summary
+          this.prev = d.data.prev.case_title
+          this.next = d.data.next.case_title
+          for (let i = 0; i < d.data.attrs.length; i++) {
+            this.more.push(d.data.more[i])
+          }
+          for (let i = 0; i < d.data.more.length; i++) {
+            this.more.push(d.data.more[i])
+          }
+          for (let i = 0; i < d.data.images.length; i++) {
+            this.images.push(d.data.images[i])
+          }
+        } else {
+        }
+      })
     }
   },
-  components: {
-    Head, Foot, price
+  created () {
+    this.getImg()
   }
 }
 </script>
 
 <style scoped>
+* {
+  max-height: 100%;
+}
 .exampleCon {
     margin-top: 88px;
 }
@@ -229,7 +280,7 @@ overflow: hidden;
 h3 {
     width: 360px;
     display: inline-block;
-    font-size: 36px;
+    font-size: 30px;
     color: #000000;
     margin: 34px 0;
 }

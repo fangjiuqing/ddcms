@@ -26,15 +26,26 @@
     </div>
     <ul class="experience">
       <li v-for="(items, index) in designer" :key="index">
-        <router-link :to="{name:items.name}">
-          <img :src="items.url" alt="">
+        <router-link :to="{name:'designer-detail', query: { designerId: items.des_id}}">
+          <img :src="items.des_cover" alt="">
           <div class="all">
-            <span class="name">{{items.dname}}</span>
-            <span class="trait">{{items.trait}}</span>
+            <span class="name">{{items.des_name}}</span>
+            <span class="trait">{{items.des_concept_tags}}</span>
             <ul class="detail">
-              <li v-for="(ite, index) in items.detail" :key="index">{{ite}}</li>
+              <li>
+                <span>{{items.province}} </span><span>{{items.city}}</span>
+              </li>
+              <li>
+                <span>{{items.des_price}}元/平方米</span>
+              </li>
+              <li>
+                <span>{{items.des_workyears}}年设计经验</span>
+              </li>
+              <li>
+                <span>{{items.des_title}}</span>
+              </li>
             </ul>
-            <span class="dstyle" v-for="(item, index) in items.style" :key="index">{{item}}</span>
+            <span class="dstyle" v-for="(item, index) in items.stags" :key="index">{{item}}</span>
           </div>
         </router-link>
       </li>
@@ -46,9 +57,9 @@
 import Head from './head-nav'
 import Foot from './footNav'
 import head from '../assets/designer/head.png'
-import designer1 from '../assets/designer/designer1.png'
-import designer2 from '../assets/designer/designer2.png'
-import designer3 from '../assets/designer/designer3.png'
+// import designer1 from '../assets/designer/designer1.png'
+// import designer2 from '../assets/designer/designer2.png'
+// import designer3 from '../assets/designer/designer3.png'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 export default {
@@ -92,54 +103,54 @@ export default {
         '标准房型'
       ],
       designer: [
-        {
-          url: designer1,
-          name: 'designer-detail',
-          dname: '王德渊',
-          detail: [
-            '四川 成都', '999元/平方米', '首席设计师', '7年设计经验'
-          ],
-          trait: '/追求潮流化与生活化的最佳融合点',
-          style: [
-            '简约', '复古', '轻奢', '美式'
-          ]
-        },
-        {
-          url: designer2,
-          name: 'designer-detail',
-          dname: '王德渊',
-          detail: [
-            '四川 成都', '999元/平方米', '首席设计师', '7年设计经验'
-          ],
-          trait: '/追求潮流化与生活化的最佳融合点',
-          style: [
-            '简约', '复古', '轻奢'
-          ]
-        },
-        {
-          url: designer3,
-          name: 'designer-detail',
-          dname: '王德渊',
-          detail: [
-            '四川 成都', '999元/平方米', '首席设计师', '7年设计经验'
-          ],
-          trait: '/追求潮流化与生活化的最佳融合点',
-          style: [
-            '简约', '复古', '轻奢', '美式'
-          ]
-        },
-        {
-          url: designer1,
-          name: 'designer-detail',
-          dname: '王德渊',
-          detail: [
-            '四川 成都', '999元/平方米', '首席设计师', '7年设计经验'
-          ],
-          trait: '/追求潮流化与生活化的最佳融合点',
-          style: [
-            '简约', '复古', '轻奢', '美式'
-          ]
-        }
+        // {
+        //   url: designer1,
+        //   name: 'designer-detail',
+        //   dname: '王德渊',
+        //   detail: [
+        //     '四川 成都', '999元/平方米', '首席设计师', '7年设计经验'
+        //   ],
+        //   trait: '/追求潮流化与生活化的最佳融合点',
+        //   style: [
+        //     '简约', '复古', '轻奢', '美式'
+        //   ]
+        // }
+        // {
+        //   url: designer2,
+        //   name: 'designer-detail',
+        //   dname: '王德渊',
+        //   detail: [
+        //     '四川 成都', '999元/平方米', '首席设计师', '7年设计经验'
+        //   ],
+        //   trait: '/追求潮流化与生活化的最佳融合点',
+        //   style: [
+        //     '简约', '复古', '轻奢'
+        //   ]
+        // },
+        // {
+        //   url: designer3,
+        //   name: 'designer-detail',
+        //   dname: '王德渊',
+        //   detail: [
+        //     '四川 成都', '999元/平方米', '首席设计师', '7年设计经验'
+        //   ],
+        //   trait: '/追求潮流化与生活化的最佳融合点',
+        //   style: [
+        //     '简约', '复古', '轻奢', '美式'
+        //   ]
+        // },
+        // {
+        //   url: designer1,
+        //   name: 'designer-detail',
+        //   dname: '王德渊',
+        //   detail: [
+        //     '四川 成都', '999元/平方米', '首席设计师', '7年设计经验'
+        //   ],
+        //   trait: '/追求潮流化与生活化的最佳融合点',
+        //   style: [
+        //     '简约', '复古', '轻奢', '美式'
+        //   ]
+        // }
       ],
       swiperOption: {
         autoplay: true,
@@ -150,6 +161,19 @@ export default {
   },
   components: {
     Head, Foot, swiper, swiperSlide
+  },
+  methods: {
+    getImg () {
+      this.$http.post('public/designer/index').then(d => {
+        // console.log(d.msg)
+        if (d.code === 0) {
+          this.designer = this.designer.concat(d.msg.list)
+        }
+      })
+    }
+  },
+  mounted () {
+    this.getImg()
   }
 }
 </script>
@@ -273,7 +297,9 @@ option {
   color: #898989;
 }
 .detail {
-  width: 71%;
+  /* width: 71%; */
+  display: flex;
+  flex-wrap: wrap;
   margin: 19px 0 29px 0;
 }
 .detail li {
