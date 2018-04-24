@@ -89,6 +89,7 @@ export default {
 }
 .logo img {
   width: 120px;
+  height: 120px;
   position: absolute;
   bottom: -22px;
   left: 72px;
@@ -106,7 +107,7 @@ export default {
 .menu span {
   width: 37px;
   height: 5px;
-  background-color: #d42f31;
+  background-color: #333;
 }
 .menu .mid {
   height: 6px;

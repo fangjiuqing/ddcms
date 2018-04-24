@@ -2,16 +2,16 @@
   <div>
     <Head></Head>
     <div class="cont">
-      <div v-for="(item, index) in head" :key="index">
+      <div>
         <div class="banner">
           <div class="left">
-            <h2>{{item.name}}</h2>
-            <p class="en">{{item.en}}</p>
-            <p class="intr">{{item.intr}}</p>
+            <h2>{{row.des_name}}</h2>
+            <p class="en"></p>
+            <p class="intr">{{row.des_slogan}}</p>
             <div class="line"></div>
           </div>
           <div class="right">
-            <img :src="item.img" alt="">
+            <img :src="row.des_cover_sm" alt="">
           </div>
         </div>
       </div>
@@ -46,7 +46,9 @@
       <h1 class="represent">代表作品</h1>
       <span class="work">REPRESENTATIVE WORK</span>
       <div class="cutLine"></div>
-      <p v-html="row.case_content" class="ccontent"></p>
+      <div v-for="(c, index) in content" :key="index">
+        <p v-html="c" class="ccontent"></p>
+      </div>
       <!-- <div class="performance">
           <p>项目名称：</p>
           <p>项目性质：{{item.des_slogan}}</p>
@@ -59,7 +61,7 @@
       </div> -->
       <ul class="img-list">
         <li v-for="(item, index) in imgs" :key="index">
-          <img :src="item.lg" alt="">
+          <img :src="item.sm" alt="">
         </li>
       </ul>
     </div>
@@ -69,7 +71,7 @@
 <script>
 import Head from './head-nav'
 import Foot from './footNav'
-import head from '../assets/designer/head.png'
+// import head from '../assets/designer/head.png'
 // import img1 from '../assets/designer/img1.png'
 // import img2 from '../assets/designer/img2.png'
 export default {
@@ -79,17 +81,18 @@ export default {
       row: {},
       stages: '',
       awards: [],
-      len: '',
+      len: '' || 0,
       id: this.$route.query.designerId || 0,
       imgs: [],
-      head: [
-        {
-          img: head,
-          name: '韩松言',
-          en: 'Han Songyan',
-          intr: '全国杰出设计师，注重人与自然的亲合，协调意境之美,以及情景交融的“象外之像”。'
-        }
-      ]
+      content: []
+      // head: [
+      //   {
+      //     img: head,
+      //     name: '韩松言',
+      //     en: 'Han Songyan',
+      //     intr: '全国杰出设计师，注重人与自然的亲合，协调意境之美,以及情景交融的“象外之像”。'
+      //   }
+      // ]
       // list: [
       //   {
       //     title: '创意总监',
@@ -140,10 +143,12 @@ export default {
       this.$http.post('public/designer/get', {
         id: this.id
       }).then(d => {
-        // console.log(d.data)
+        console.log(d.data)
         if (d.code === 0) {
           this.row = d.data.row
           // console.log(this.row)
+          this.content = d.data.row.case_content
+          console.log(this.content)
           this.stages = d.data.stags.join('、')
           this.awards = this.awards.concat(d.data.awards)
           if (d.data.case_images) {
@@ -190,6 +195,14 @@ export default {
   top: 0;
   bottom: 0;
   margin: auto 0;
+}
+.img-list {
+  font-size: 0;
+}
+.img-list img {
+  width: 702px;
+  height: 394px;
+  margin-bottom: 20px;
 }
 .left h2 {
   font-size: 36px;

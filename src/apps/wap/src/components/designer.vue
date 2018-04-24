@@ -2,16 +2,16 @@
   <div>
     <Head></Head>
     <swiper :options="swiperOption" ref="mySwiper">
-      <swiper-slide v-for="(item, index) in head" :key="index">
+      <swiper-slide v-for="item in designer" :key="item.index">
         <div class="banner">
           <div class="left">
-            <h2>{{item.name}}</h2>
-            <p class="en">{{item.en}}</p>
-            <p class="intr">{{item.intr}}</p>
+            <h2>{{item.des_name}}</h2>
+            <p class="en"></p>
+            <p class="intr">{{item.des_slogan}}</p>
             <div class="line"></div>
           </div>
           <div class="right">
-            <img :src="item.img" alt="">
+            <img :src="item.des_cover" alt="">
           </div>
         </div>
       </swiper-slide>
@@ -56,7 +56,7 @@
 <script>
 import Head from './head-nav'
 import Foot from './footNav'
-import head from '../assets/designer/head.png'
+// import head from '../assets/designer/head.png'
 // import designer1 from '../assets/designer/designer1.png'
 // import designer2 from '../assets/designer/designer2.png'
 // import designer3 from '../assets/designer/designer3.png'
@@ -66,26 +66,26 @@ export default {
   name: 'designer',
   data () {
     return {
-      head: [
-        {
-          img: head,
-          name: '韩松言',
-          en: 'Han Songyan',
-          intr: '全国杰出设计师，注重人与自然的亲合，协调意境之美,以及情景交融的“象外之像”。'
-        },
-        {
-          img: head,
-          name: '韩松言',
-          en: 'Han Songyan',
-          intr: '全国杰出设计师，注重人与自然的亲合，协调意境之美,以及情景交融的“象外之像”。'
-        },
-        {
-          img: head,
-          name: '韩松言',
-          en: 'Han Songyan',
-          intr: '全国杰出设计师，注重人与自然的亲合，协调意境之美,以及情景交融的“象外之像”。'
-        }
-      ],
+      // head: [
+      //   {
+      //     img: head,
+      //     name: '韩松言',
+      //     en: 'Han Songyan',
+      //     intr: '全国杰出设计师，注重人与自然的亲合，协调意境之美,以及情景交融的“象外之像”。'
+      //   },
+      //   {
+      //     img: head,
+      //     name: '韩松言',
+      //     en: 'Han Songyan',
+      //     intr: '全国杰出设计师，注重人与自然的亲合，协调意境之美,以及情景交融的“象外之像”。'
+      //   },
+      //   {
+      //     img: head,
+      //     name: '韩松言',
+      //     en: 'Han Songyan',
+      //     intr: '全国杰出设计师，注重人与自然的亲合，协调意境之美,以及情景交融的“象外之像”。'
+      //   }
+      // ],
       style: [
         '设计分类',
         '全部',
@@ -165,7 +165,7 @@ export default {
   methods: {
     getImg () {
       this.$http.post('public/designer/index').then(d => {
-        // console.log(d.msg)
+        console.log(d.msg)
         if (d.code === 0) {
           this.designer = this.designer.concat(d.msg.list)
         }
@@ -331,7 +331,6 @@ option {
   background: url('../assets/designer/job.png') no-repeat;
 }
 .dstyle {
-  width: 66px;
   height: 28px;
   display: inline-block;
   border-radius: 14px;
@@ -340,6 +339,7 @@ option {
   line-height: 28px;
   font-size: 18px;
   color: #9fa0a0;
+  padding: 0 10px;
   margin-right: 10px;
 }
 </style>
