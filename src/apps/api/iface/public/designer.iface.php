@@ -89,7 +89,7 @@ class public_designer_iface extends base_iface {
 
                     foreach ( $designer_cases_content as $v ) {
                         $desc = filter::json_unecsape($v['case_content']);
-                        $out['row']['case_content'][$v['case_id']] = htmlspecialchars_decode($desc['desc'],ENT_QUOTES);
+                        $out['row']['case_content'][][$v['case_id']] = htmlspecialchars_decode($desc['desc'],ENT_QUOTES);
                     }
                 }
 
