@@ -57,7 +57,9 @@
           <i>REPRESENTATIVE</i>
           <b> work</b>
           <div class="across"></div>
-          <p v-html="row.case_content"></p>
+          <div v-for="(item, index) in row.case_content" :key="index">
+            <p v-html="item"></p>
+          </div>
           <!--<ul class="project">-->
             <!--<li>-->
               <!--<p>项目名称：<span>W•House</span></p>-->
@@ -143,7 +145,7 @@ export default {
     this.getImg()
   },
   mounted () {
-    // console.log('this.$route.query.caseId=====', this.$route.query.caseId)
+    // console.log('this.row.case_content=====', this.row)
   },
   components: {
     Head, Foot, sideBar
