@@ -89,6 +89,7 @@ export default {
 }
 .logo img {
   width: 120px;
+  height: 120px;
   position: absolute;
   bottom: -22px;
   left: 72px;
