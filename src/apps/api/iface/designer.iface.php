@@ -53,15 +53,8 @@ class designer_iface extends base_iface {
         # 设计师风格标签
         $stags = $this->data['styles'];
         if ( !empty($stags) ) {
-            $temp = [];
-            foreach ( $stags as $v ) {
-                $temp[] = $v['val'];
-            }
-
-            $stags = array_unique($temp);
-
-            if ( count($stags) > 20 ) {
-                $this->failure('风格标签最多不超过20个');
+            if ( count($stags) > 3 ) {
+                $this->failure('风格标签最多不超过3个');
             }
             $this->data['des_style_tags'] = '';
             foreach ( $stags as $v ) {
@@ -112,19 +105,9 @@ class designer_iface extends base_iface {
             # 风格标签
             if ( $out['row']['des_style_tags'] ) {
                 $styles = category_helper::get_rows(category_helper::TYPE_STYLE, 1);
-                $stags  = explode('#' , $out['row']['des_style_tags']);
-
                 foreach ( $styles as $k => $v ) {
                     if ( !$v['cat_id'] ) continue;
                     $out['stags'][$k]['name'] = $v['cat_name'];
-                    foreach ( $stags as $vv ) {
-                        if ( $vv == $v['cat_name'] ) {
-                            $out['stags'][$k]['checked'] = 1;
-                            break;
-                        }else{
-                            $out['stags'][$k]['checked'] = 0;
-                        }
-                    }
                 }
             }
             # 获奖情况
@@ -136,8 +119,9 @@ class designer_iface extends base_iface {
         }
 
         # 已选风格标签
+        $stags  = explode('#' , $out['row']['des_style_tags']);
         foreach ($stags as $k => $v) {
-            $out['styles'][$k . mt_rand(5,1000)]['val'] = $v;
+            $out['styles'][] = $v;
         }
         $this->success('', $out);
     }

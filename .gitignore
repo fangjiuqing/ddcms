@@ -11,3 +11,4 @@ src/apps/api/data/log/*
 .gitignore
 .idea/
 ./src/apps/api/data/*
+*.DS_Store
