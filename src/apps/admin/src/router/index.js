@@ -27,6 +27,7 @@ import CustomerOrder from '@/components/customer/customer-order'
 import Logs from '@/components/system/logs'
 import Admin from '@/components/system/admin/index'
 import Group from '@/components/system/admin/group'
+import Flush from '@/components/system/flush'
 
 import Designer from '@/components/designer/index'
 import DesignerAdd from '@/components/designer/add'
@@ -126,6 +127,11 @@ const router = new Router({
       path: '/system/logs',
       name: 'Logs',
       component: Logs
+    },
+    {
+      path: '/system/flush',
+      name: 'Flush',
+      component: Flush
     },
     {
       path: '/user/passwd',

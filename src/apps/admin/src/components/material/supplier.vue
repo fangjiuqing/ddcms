@@ -1,5 +1,5 @@
 <template>
-  <div class="profile">
+  <div class="case">
     <breadcrumbs :items="items">
       <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
         {{v.text}}
@@ -18,12 +18,11 @@
             <table class="table table-striped">
               <thead class="">
                   <tr>
-                    <th class="text-left">名称</th>
-                    <th class="text-center" width="150">所在地</th>
-                    <th class="text-center" width="150">联系人</th>
-                    <th class="text-center" width="150">电话</th>
-                    <th class="text-center" width="150">类型</th>
-                    <th class="text-center" width="80">操作</th>
+                    <th class="text-left"><small>名称</small></th>
+                    <th class="text-center" width="150"><small>联系人</small></th>
+                    <th class="text-center" width="150"><small>电话</small></th>
+                    <th class="text-center" width="150"><small>类型</small></th>
+                    <th class="text-center" width="80"></th>
                   </tr>
               </thead>
               <tbody>
@@ -31,10 +30,9 @@
                       <td class="text-left">
                         <a @click="modify(v.sup_id)">{{v.sup_realname}}</a>
                       </td>
-                      <td class="text-center">{{attrs.region[v.sup_region1] ? attrs.region[v.sup_region1]['region_name'] : ''}}</td>
-                      <td class="text-center">{{v.sup_contact}}</td>
-                      <td class="text-center">{{v.sup_mobile}}</td>
-                      <td class="text-center">{{attrs.type[v.sup_type]}}</td>
+                      <td class="text-center"><small>{{v.sup_contact}}</small></td>
+                      <td class="text-center"><small>{{v.sup_mobile}}</small></td>
+                      <td class="text-center"><small>{{attrs.type[v.sup_type] || 'unknown'}}</small></td>
                       <td class="text-center">
                           <btn class="btn btn-xs btn-rose" @click="del(v.sup_id)"><i class="fa fa-trash-o"></i></btn>
                       </td>
