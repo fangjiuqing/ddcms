@@ -30,4 +30,23 @@ class stat_helper extends rgx {
      * 设计师类型
      */
     const TYPE_DESIGNER         = 3;
+
+    /**
+     * 访问来源
+     * @var [type]
+     */
+    public static $via = [
+        1       => 'PC',
+        2       => 'WAP'
+    ];
+
+    /**
+     * 来源 pc
+     */
+    const VIA_PC                = 1;
+
+    /**
+     * 来源 wap
+     */
+    const VIA_WAP               = 2;
 }
