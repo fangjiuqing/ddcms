@@ -16,17 +16,14 @@ class public_designer_iface extends base_iface {
 
             $out['list'] = $tab->map(function ($row) {
                 # 案例图片
-                $designer_cases = OBJ('case_table')->fields('case_images')->get_all(['case_designer_id' => $row['des_id']]);
+                $designer_cases = OBJ('case_table')->fields('case_cover')->get_all(['case_designer_id' => $row['des_id']]);
                 if ( !empty($designer_cases) ) {
                     $nums = 0;
                     foreach ( $designer_cases as $v ) {
-                        $case_images = explode('#' , $v['case_images']);
-                        foreach ($case_images as $k => $v ) {
-                            if ($nums == 4) break;
-                            $row['case_images'][$nums]['lg'] = IMAGE_URL . $v;
-                            $row['case_images'][$nums]['sm'] = IMAGE_URL . $v . '!500x309';
-                            $nums++;
-                        }
+                        if ($nums == 4) break;
+                        $row['case_images'][$nums]['lg'] = IMAGE_URL . $v['case_cover'];
+                        $row['case_images'][$nums]['sm'] = IMAGE_URL . $v['case_cover'] . '!500x309';
+                        $nums++;
                     }
                 }
 
@@ -103,17 +100,14 @@ class public_designer_iface extends base_iface {
                 }
 
                 # 案例图片
-                $designer_cases = OBJ('case_table')->fields('case_images')->get_all(['case_designer_id' => $id]);
+                $designer_cases = OBJ('case_table')->fields('case_cover')->get_all(['case_designer_id' => $id]);
                 if ( !empty($designer_cases) ) {
                     $nums = 0;
                     foreach ( $designer_cases as $v ) {
-                        $case_images = explode('#' , $v['case_images']);
-                        foreach ($case_images as $k => $v ) {
-                            if ($nums == 4) break;
-                            $out['case_images'][$nums]['lg'] = IMAGE_URL . $v;
-                            $out['case_images'][$nums]['sm'] = IMAGE_URL . $v . '!500x309';
-                            $nums++;
-                        }
+                        if ($nums == 4) break;
+                        $out['case_images'][$nums]['lg'] = IMAGE_URL . $v['case_cover'];
+                        $out['case_images'][$nums]['sm'] = IMAGE_URL . $v['case_cover'] . '!500x309';
+                        $nums++;
                     }
                 }
 
