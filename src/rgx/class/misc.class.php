@@ -75,11 +75,19 @@ class misc extends rgx {
         $nums = 0;
         if (is_dir($dir)) {
             $dir = realpath($dir) . DS;
-            $exec_rm = true;
-            foreach ([preg_quote(DATA_PATH), preg_quote('/dev/shm')] as $regex) {
-                if ($exec_rm) {
-                    $exec_rm = preg_match('/^' . $regex . '/ui', $dir);
-                }
+            $exec_rm = false;
+            // 清理 /dev/shm 目录内容
+            if (preg_match('#^' . preg_quote('/dev/shm') . '#iu', $dir) 
+                && strpos($dir, '..') === false) {
+                $exec_rm = true;
+            }
+            // data 目录下
+            else if (preg_match('#^' . preg_quote(DATA_PATH) . '#iu', $dir) 
+                && strpos($dir, '..') === false) {
+                $exec_rm = true;
+            }
+            else {
+                throw new Exception(LANG('failed to remove dir', misc::relpath($dir)), exception::IO_ERROR);
             }
             if ($exec_rm) {
                 foreach (glob($dir .'*') as $v) {

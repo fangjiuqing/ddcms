@@ -22,6 +22,7 @@ class lang extends rgx {
             'error has been recorded'       => '错误已经被记录',
             'failed to create dir'          => '创建目录「 %s 」失败了',
             'failed to create file'         => '创建文件「 %s 」失败了',
+            'failed to remove dir'          => '删除目录「 %s 」失败了',
             'field not allow null'          => '「 %s 」字段为必填字段',
             'field values cannot be an empty string'    => '「 %s 」字段值不能为空字符串',
             'field values is too large'     => '「 %s 」字段值太大, 最大值为%s',
