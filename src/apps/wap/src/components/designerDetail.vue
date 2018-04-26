@@ -47,10 +47,11 @@
       <span class="work">REPRESENTATIVE WORK</span>
       <div class="cutLine"></div>
       <div>
+        <div v-for="(cc, index) in content" :key="index">
+          <p v-html="cc" class="ccontent"></p>
+        </div>
         <ul class="img-list">
           <li v-for="(item, index) in imgs" :key="index">
-            <p v-html="content[1]" class="ccontent"></p>
-            <p v-html="content[3]" class="ccontent"></p>
             <img :src="item.sm" alt="">
           </li>
         </ul>
@@ -151,12 +152,12 @@ export default {
       this.$http.post('public/designer/get', {
         id: this.id
       }).then(d => {
-        console.log(d.data)
+        // console.log(d.data)
         if (d.code === 0) {
           this.row = d.data.row
           // console.log(this.row)
           this.content = d.data.row.case_content
-          console.log(this.content)
+          // console.log(this.content)
           this.stages = d.data.stags.join('、')
           this.awards = this.awards.concat(d.data.awards)
           if (d.data.case_images) {

@@ -160,10 +160,14 @@ export default {
   transform: translate(-50%, -50%);
 }
 .content {
-  padding: 40px 0 0 64px;
+  display: flex;
+  flex-direction: column;
+  margin: 40px 0 0 64px;
 }
 .word {
   display: flex;
+  width: 100%;
+  flex-wrap: wrap;
 }
 .alread {
   display: flex;
@@ -296,14 +300,15 @@ h2 {
   margin-bottom: 49px;
 }
 .form {
+  display: flex;
   width: 418px;
   height: 55px;
   background-color: #ffffff;
   border: solid 1px #bfbfbf;
 }
 .form input {
-  width: 292px;
-  height: 35px;
+  display: inline-block;
+  width: 80%;
   border: 0;
   outline: none;
   font-size: 24px;
@@ -326,8 +331,9 @@ h2 {
   line-height: 24px;
 }
 .form button {
-  width: 95px;
-  height: 55px;
+  display: inline-block;
+  width: 25%;
+  height: 56px;
   border: none;
   outline: none;
   color: #fff;

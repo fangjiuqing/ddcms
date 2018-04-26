@@ -12,8 +12,10 @@
       <div class="inner" id="inner">
         <swiper class="lists" :options="swiperOption" ref="mySwiper">
           <swiper-slide v-for="(item, index) in banners" :key="index">
-            <img :src="item.img" alt="" class="banner">
-            <div class="black"></div>
+            <div class="banner-box">
+              <img :src="item.img" alt="" class="banner">
+              <div class="black"></div>
+            </div>
           </swiper-slide>
           <div class="swiper-pagination pa" slot="pagination"></div>
         </swiper>
@@ -150,6 +152,10 @@ export default {
   font-size: 12px;
   color: #666666;
 }
+.banner-box {
+  width: 564px;
+  height: 323px;
+}
 .scheme .inner {
   position: relative;
   width: 100%;
@@ -160,11 +166,12 @@ export default {
   background-color: #000;
   opacity: 0.4;
   position: absolute;
+  top: 0;
   transition-duration: .5s;
 }
 .scheme .banner {
   width: 564px;
-  height: 323px;
+  /* height: 323px; */
 }
 .scheme .smart {
   font-size: 18px;
