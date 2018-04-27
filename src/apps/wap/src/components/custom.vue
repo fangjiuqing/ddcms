@@ -241,7 +241,8 @@ h1 {
   width: 25%;
 }
 .master li img {
-  width: 100%;
+  width: 175px;
+  height: 351px;
 }
 .quality {
   width: 100%;
@@ -282,13 +283,13 @@ h1 {
 .intelligence {
   margin-top: 54px;
 }
-  .listSwiper .swiper-slide:nth-child(2n-1) .head,
+  /* .listSwiper .swiper-slide:nth-child(2n-1) .head,
   .listSwiper .swiper-slide:nth-child(2n-1) .subhead,
   .listSwiper .swiper-slide:nth-child(2n-1) .mode,
   .listSwiper .swiper-slide:nth-child(2n-1) .select,
   .listSwiper .swiper-slide:nth-child(2n-1) .con {
-    /* color: #fff; */
-  }
+    color: #fff;
+  } */
   .img {
     width: 100%;
   }
