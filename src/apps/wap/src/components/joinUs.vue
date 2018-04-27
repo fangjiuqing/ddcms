@@ -236,14 +236,18 @@ export default {
     up (e, item) {
       item.upshow = true
       let ev = e.currentTarget
-      $(ev).parent('.con').parent('.lis').animate({height: '50px'}, '500')
+      $(ev).parent('.con').parent('.lis').animate({height: '90px'}, '500')
+      // $(ev).parent('.con').parent('.lis').animate({height: '50px'}, '500')
+      // $(ev).parent('.con').delay(1000).animate({height: '120px'}, '500')
       $(ev).parent('.con').delay(1000).animate({height: '120px'}, '500')
     },
     down (ev, item) {
       item.upshow = false
       let eve = ev.currentTarget
-      let h = $(eve).prev().height() + 120
-      let hh = $(eve).prev().height() + 90
+      let h = $(eve).prev().height() + 180
+      // let h = $(eve).prev().height() + 120
+      // let hh = $(eve).prev().height() + 90
+      let hh = $(eve).prev().height() + 160
       $(eve).parent('.con').parent('.lis').animate({height: h}, '500')
       $(eve).parent('.con').animate({height: hh}, '500')
     }
