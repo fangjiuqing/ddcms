@@ -52,6 +52,7 @@ class public_designer_iface extends base_iface {
         if ( !$id ) {
             $this->failure('获取失败' , '500');
         }
+        stat_helper::count(stat_helper::TYPE_DESIGNER, $id, stat_helper::is_mobile() ? stat_helper::VIA_WAP : stat_helper::VIA_PC);
         // 缓存 10分钟
         $this->success('', CACHE('public@designer-get1-id-' . $id, function () use ($id) {
             $tab        = OBJ('designer_table');

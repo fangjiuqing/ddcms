@@ -123,6 +123,8 @@ class designer_iface extends base_iface {
         foreach ($stags as $k => $v) {
             $out['styles'][] = $v;
         }
+        stat_helper::count(stat_helper::TYPE_DESIGNER, $id, stat_helper::is_mobile() ? stat_helper::VIA_WAP :
+            stat_helper::VIA_PC);
         $this->success('', $out);
     }
 

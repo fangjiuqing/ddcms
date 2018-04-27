@@ -49,6 +49,8 @@ class case_iface extends base_iface {
         foreach ((array)$out['category'] as $k => $v) {
             $out['category'][$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . $v['cat_name'];
         }
+        stat_helper::count(stat_helper::TYPE_CASE, $id, stat_helper::is_mobile() ? stat_helper::VIA_WAP :
+            stat_helper::VIA_PC);
         $this->success('', $out);
     }
 
