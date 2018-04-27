@@ -51,10 +51,10 @@ class stat_helper extends rgx {
     const VIA_WAP               = 2;
     
     /**
-     * @param int $type 内容类型
+     * @param int $type 内容类型(资讯1/案例2/设计师3)
      * @param int $id 内容id
-     * @param int $via 访问来源
-     * @param int $user_id 用户id
+     * @param int $via 访问来源(电脑1/手机2)
+     * @param int $user_id 用户id(默认为0)
      * @return bool
      * author Fox
      */
@@ -82,7 +82,7 @@ class stat_helper extends rgx {
     }
     
     /**
-     * 判断是否是手机号
+     * 判断是否通过手机访问
      * @return bool
      * author Fox
      */
