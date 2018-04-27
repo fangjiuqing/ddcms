@@ -89,6 +89,9 @@ export default {
 </script>
 
 <style scoped>
+* {
+  max-height: 100%;
+}
 .cont {
   width: 93.6%;
   margin: 152px auto 0;

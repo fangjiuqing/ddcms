@@ -11,7 +11,9 @@
             <div class="line"></div>
           </div>
           <div class="right">
-            <img :src="item.des_cover" alt="">
+            <router-link :to="{name:'designer-detail', query: { designerId: item.des_id}}">
+              <img :src="item.des_cover" alt="">
+            </router-link>
           </div>
         </div>
       </swiper-slide>
@@ -172,7 +174,7 @@ export default {
   methods: {
     getImg () {
       this.$http.post('public/designer/index').then(d => {
-        console.log(d.msg)
+        // console.log(d.msg)
         if (d.code === 0) {
           this.designer = this.designer.concat(d.msg.list)
         }

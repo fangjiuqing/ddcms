@@ -148,6 +148,7 @@ class public_case_iface extends base_iface {
                 return $row;
             })->get_all();
         }
+        stat_helper::count(stat_helper::TYPE_CASE, $id, stat_helper::is_mobile() ? stat_helper::VIA_WAP : stat_helper::VIA_PC);
         $this->success('', $out);
     }
 }

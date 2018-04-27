@@ -1,5 +1,5 @@
 <template>
-  <div class="profile">
+  <div class="case">
     <breadcrumbs :items="items">
       <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
         {{v.text}}
@@ -71,7 +71,7 @@
               <h5 class="block-h5">风格标签</h5>
               <div class="">
                 <span style="width:150px; display:inline-block ; text-align:right; line-height:30px;" v-for="(row, row_key) in stags" :key="row_key">
-                  {{stags[row_key]['name']}} <input type="checkbox" :checked="stags[row_key]['checked']" @click="add_styles(stags[row_key]['name'])" :value="stags[row_key]['name']" name="des_taged">
+                  {{stags[row_key]['name']}} <input type="checkbox" :value="stags[row_key]['name']" v-model="styles">
                 </span>
               </div>
             </div>
@@ -133,11 +133,7 @@ export default {
       form: {},
       cover: '',
       extra: {},
-      styles: {
-        key0: {
-          val: ''
-        }
-      },
+      styles: [],
       attrs: {
         key0: {
           val: ''
@@ -260,8 +256,8 @@ export default {
         if (d.code === 0) {
           this.form = this.id ? d.data.row : this.form
           this.cover = d.data.row.cover || ''
-          this.styles = d.data.styles || []
           this.attrs = d.data.attrs || this.attrs
+          this.styles = d.data.styles || this.styles
           this.stags = d.data.stags || this.stags
         } else if (d.code === 9999) {
           this.$alert({

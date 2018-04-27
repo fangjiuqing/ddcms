@@ -126,12 +126,12 @@ export default {
       this.$http.post('public/case/get', {
         id: this.id
       }).then(d => {
-        console.log(d.data)
+        // console.log(d.data)
         if (d.code === 0) {
           this.attrs = d.data.attrs
           this.designer = d.data.designer
           this.row = d.data.row
-          this.summary = d.data.summary
+          // this.summary = d.data.summary
           this.prev = d.data.prev.case_title
           this.next = d.data.next.case_title
           for (let i = 0; i < d.data.more.length; i++) {
