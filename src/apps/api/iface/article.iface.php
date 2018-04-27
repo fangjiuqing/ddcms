@@ -68,6 +68,7 @@ class article_iface extends ubase_iface {
         foreach ((array)$out['category'] as $k => $v) {
             $out['category'][$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . $v['cat_name'];
         }
+        stat_helper::count(stat_helper::TYPE_ARTICLE, $id, stat_helper::VIA_PC);
         $this->success('', $out);
     }
     
