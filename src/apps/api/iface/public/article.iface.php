@@ -62,8 +62,8 @@ class public_article_iface extends base_iface {
         if (!$id) {
             $this->failure('获取失败', '500');
         }
-        stat_helper::count(stat_helper::TYPE_ARTICLE, $id, stat_helper::is_mobile()? stat_helper::VIA_PC :
-            stat_helper::VIA_WAP);
+        stat_helper::count(stat_helper::TYPE_ARTICLE, $id, stat_helper::is_mobile() ? stat_helper::VIA_WAP :
+            stat_helper::VIA_PC);
         $this->success('', CACHE('public@article-get-id-' . $id, function () use ($id) {
             $out['row'] = OBJ('article_table')->left_join('article_content_table', 'article_id', 'article_id')
                 ->get($id) ?: [];
