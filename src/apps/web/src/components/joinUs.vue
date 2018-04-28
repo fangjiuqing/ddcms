@@ -242,6 +242,7 @@ export default {
       let ev = e.currentTarget
       $(ev).parent('.con').parent('.lis').animate({height: '110px'}, '500')
       $(ev).parent('.con').delay(1000).animate({height: '50px'}, '500')
+      $(ev).parent('.con').parent('.lis').css({'borderBottom': '1px solid #9fa0a0', 'boxShadow': '0 15px 30px 0  rgba(255, 255, 255, 255)'})
     },
     down (ev, item) {
       item.upshow = false
@@ -250,6 +251,7 @@ export default {
       let hh = $(eve).prev().height() + 200
       $(eve).parent('.con').parent('.lis').animate({height: h}, '500')
       $(eve).parent('.con').animate({height: hh}, '500')
+      $(eve).parent('.con').parent('.lis').css({'borderBottom': '0', 'boxShadow': '0 15px 30px 0  rgba(0,0,0,0.2)'})
     }
   },
   components: {
@@ -323,15 +325,15 @@ export default {
   }
   .list > li {
     height: 110px;
-    border: 1px solid #9fa0a0;
-    margin-bottom: 42px;
+    border-bottom: 1px solid #9fa0a0;
+    /*margin-bottom: 42px;*/
     overflow: hidden;
     position: relative;
     transition-duration: .5s;
   }
   .list > li:hover {
-    box-shadow:    0 15px 30px 0  rgba(0,0,0,0.2);
-    transition-duration: .5s;
+    /*box-shadow:    0 15px 30px 0  rgba(0,0,0,0.2);*/
+    /*transition-duration: .5s;*/
   }
   .con {
     width: 773px;

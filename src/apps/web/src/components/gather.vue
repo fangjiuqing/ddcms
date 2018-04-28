@@ -67,7 +67,7 @@
         </p>
         <ul class="list3">
           <router-link tag="li" :to="{ name: 'caseDetail', query: { caseId: item.case_id }}" v-for="(item, index) in img3" :key="index">
-            <img v-lazy="item.case_cover_sm" alt="">
+            <img :src="item.case_cover_sm" alt="">
             <p>{{item.case_title}}</p>
             <div class="area">
               <span>面积：{{item.case_area}}</span>
