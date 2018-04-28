@@ -4,44 +4,128 @@
           <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
             {{v.text}}
           </breadcrumb-item>
-          <breadcrumb-item active class="pull-right">
-            <router-link :to="{path:'/material/add'}" class="btn btn-xs btn-info pull-right">
-              <i class="fa fa-plus-square"></i> 新增
-            </router-link>
-          </breadcrumb-item>
         </breadcrumbs>
         <div class="app_page">
           <div class="app_content">
             <div class="content">
               <div class="row">
-                <div class="ibox float-e-margins">
-                  <div class="ibox-title">
-                    <h5>
-                      顾客统计
-                      <span class="label label-info">月度统计</span>
-                      <span class="label label-default">总体统计</span>
-                    </h5>
-                  </div>
-                  <div class="ibox-content">
-                    <div class="col-sm-3">
-                      总数  <b class="text-info">23233</b>
+                <div class="col-sm-6">
+                  <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                      <h5>
+                        <i class="fa fa-user-o"></i>
+                        顾客统计
+                        <!-- <span class="pull-right">
+                          <span class="label label-info" @click="dataChange('customer','month')">月度统计</span>
+                          <span class="label label-default" @click="dataChange('customer','whole')">总体统计</span>
+                        </span> -->
+                      </h5>
                     </div>
-                    <div class="col-sm-3">
-                      今日新增  <b class="text-success">63</b>
+                    <div class="ibox-content">
+                      <div class="col-sm-4">
+                        总数  <b class="text-info">{{customerStatistic['total']}}</b>
+                      </div>
+                      <div class="col-sm-4">
+                        今日新增  <b class="text-success">{{customerStatistic['today']}}</b>
+                      </div>
+                      <div class="col-sm-4">
+                        三日内新增  <b class="text-danger">{{customerStatistic['3days']}}</b>
+                      </div>
+                      <div style="margin-bottom:20px;"></div>
+                      <div class="col-sm-12">
+                        <div id="customerChart" :style="{height: '300px'}"></div>
+                      </div>
+                      <div class="clearfix"></div>
                     </div>
-                    <div class="col-sm-3">
-                      3日内新增  <b class="text-danger">421</b>
-                    </div>
-
-                    <div class="col-sm-12">
-                      <template>
-                        <chart :options="customer"></chart>
-                      </template>
-                    </div>
-                    <div class="clearfix"></div>
                   </div>
                 </div>
+
+                <div class="col-sm-6">
+                  <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                      <h5>
+                        <i class="fa fa-list"></i>
+                        资讯统计
+                      </h5>
+                    </div>
+                    <div class="ibox-content">
+                      <div class="col-sm-4">
+                        总数  <b class="text-info">{{newsStatistic['total']}}</b>
+                      </div>
+                      <div class="col-sm-4">
+                        今日新增  <b class="text-success">{{newsStatistic['today']}}</b>
+                      </div>
+                      <div class="col-sm-4">
+                        三日内新增  <b class="text-danger">{{newsStatistic['3days']}}</b>
+                      </div>
+                      <div style="margin-bottom:20px;"></div>
+                      <div class="col-sm-12">
+                        <div id="newsChart" :style="{height: '300px'}"></div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
+
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                      <h5>
+                        <i class="fa fa-plus"></i>
+                        案例统计
+                      </h5>
+                    </div>
+                    <div class="ibox-content">
+                      <div class="col-sm-4">
+                        总数  <b class="text-info">{{caseStatistic['total']}}</b>
+                      </div>
+                      <div class="col-sm-4">
+                        今日新增  <b class="text-success">{{caseStatistic['today']}}</b>
+                      </div>
+                      <div class="col-sm-4">
+                        三日内新增  <b class="text-danger">{{caseStatistic['3days']}}</b>
+                      </div>
+                      <div style="margin-bottom:20px;"></div>
+                      <div class="col-sm-12">
+                        <div id="caseChart" :style="{height: '300px'}"></div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                      <h5>
+                        <i class="fa fa-eye"></i>
+                        浏览统计
+                      </h5>
+                    </div>
+                    <div class="ibox-content">
+                      <div class="col-sm-4">
+                        总数  <b class="text-info">{{viewStatistic['total']}}</b>
+                      </div>
+                      <div class="col-sm-4">
+                        今日新增  <b class="text-success">{{viewStatistic['today']}}</b>
+                      </div>
+                      <div class="col-sm-4">
+                        三日内新增  <b class="text-danger">{{viewStatistic['3days']}}</b>
+                      </div>
+                      <div style="margin-bottom:20px;"></div>
+                      <div class="col-sm-12">
+                        <div id="viewChart" :style="{height: '300px'}"></div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
             </div>
           </div>
         </div>
@@ -49,26 +133,14 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import ECharts from 'vue-echarts/components/ECharts'
-// import ECharts modules manually to reduce bundle size
-import 'echarts/lib/chart/bar'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/chart/pie'
-import 'echarts/lib/chart/map'
-import 'echarts/lib/chart/radar'
-import 'echarts/lib/chart/scatter'
-import 'echarts/lib/chart/effectScatter'
-import 'echarts/lib/component/tooltip'
-import 'echarts/lib/component/polar'
-import 'echarts/lib/component/geo'
-import 'echarts/lib/component/legend'
-import 'echarts/lib/component/title'
-import 'echarts/lib/component/visualMap'
-import 'echarts/lib/component/dataset'
-
-// register component to use
-Vue.component('chart', ECharts)
+// 引入基本模板
+let echarts = require('echarts/lib/echarts')
+// 引入柱状图组件
+require('echarts/lib/chart/bar')
+require('echarts/lib/chart/line')
+// 引入提示框和title组件
+require('echarts/lib/component/tooltip')
+require('echarts/lib/component/title')
 
 export default {
   name: 'Index',
@@ -76,56 +148,194 @@ export default {
     title: '首页 - 道达智装'
   },
   data () {
-    let customerStatistic = []
-    customerStatistic['title'] = '月度统计'
-    customerStatistic['date'] = ['一月' ,'二月' ,'三月' ,'四月' ,'五月' ,'六月' ,'七月' ,'八月' ,'九月' ,'十月' ,'十一月' ,'十二月']
-    customerStatistic['data'] = []
-    for (let i = 0; i <= 12; i++) {
-      let t = Math.random() * 10000
-      customerStatistic['data'].push(t)
-    }
-
     return {
       items: [
         {text: '首页', to: '/'},
         {text: '数据统计', href: '#'}
       ],
-      customer: {
-        title: {
-          text: customerStatistic['title']
-        },
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'cross',
-            label: {
-              backgroundColor: '#6a7985'
-            }
-          }
-        },
-        xAxis: {
-          type: 'category',
-          data: customerStatistic['date']
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [{
-          data: customerStatistic['data'],
-          type: 'line',
-          smooth: true
-        }]
-      }
+      customerStatistic: {},
+      newsStatistic: {},
+      caseStatistic: {},
+      viewStatistic: {}
     }
   },
   methods: {
+    getStatisticDate () {
+      // 基于准备好的dom，初始化echarts实例
+      let customerChart = echarts.init(document.getElementById('customerChart'))
+      let newsChart = echarts.init(document.getElementById('newsChart'))
+      let caseChart = echarts.init(document.getElementById('caseChart'))
+      let viewChart = echarts.init(document.getElementById('viewChart'))
+
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$http.get('statistic').then(d => {
+        this.$loading.hide()
+        if (d.code === 0) {
+          this.customerStatistic = d.data.customerStatistic || []
+          this.newsStatistic = d.data.newsStatistic || []
+          this.caseStatistic = d.data.caseStatistic || []
+          this.viewStatistic = d.data.viewStatistic || []
+
+          // 绘制图表
+          customerChart.setOption({
+            title: { text: '' },
+            tooltip: {},
+            xAxis: {
+              type: 'category',
+              data: (function (data) {
+                var ret = []
+                for (var k in data) {
+                  if (data.hasOwnProperty(k)) {
+                    ret.push(data[k])
+                  }
+                }
+                return ret
+              })(d.data.customerStatistic.xAxis)
+            },
+            yAxis: {
+              type: 'value'
+            },
+            series: [{
+              name: '当月数',
+              type: 'line',
+              data: (function (data) {
+                var ret = []
+                for (var k in data) {
+                  if (data.hasOwnProperty(k)) {
+                    ret.push(data[k])
+                  }
+                }
+                return ret
+              })(d.data.customerStatistic.data),
+              smooth: true
+            }]
+          })
+
+          // 资讯图表
+          newsChart.setOption({
+            title: { text: '' },
+            tooltip: {},
+            xAxis: {
+              type: 'category',
+              data: (function (data) {
+                var ret = []
+                for (var k in data) {
+                  if (data.hasOwnProperty(k)) {
+                    ret.push(data[k])
+                  }
+                }
+                return ret
+              })(d.data.newsStatistic.xAxis)
+            },
+            yAxis: {
+              type: 'value'
+            },
+            series: [{
+              name: '当月数',
+              type: 'bar',
+              data: (function (data) {
+                var ret = []
+                for (var k in data) {
+                  if (data.hasOwnProperty(k)) {
+                    ret.push(data[k])
+                  }
+                }
+                return ret
+              })(d.data.newsStatistic.data),
+              smooth: true
+            }]
+          })
+
+          // 案例图表
+          caseChart.setOption({
+            title: { text: '' },
+            tooltip: {},
+            xAxis: {
+              type: 'category',
+              data: (function (data) {
+                var ret = []
+                for (var k in data) {
+                  if (data.hasOwnProperty(k)) {
+                    ret.push(data[k])
+                  }
+                }
+                return ret
+              })(d.data.caseStatistic.xAxis)
+            },
+            yAxis: {
+              type: 'value'
+            },
+            series: [{
+              name: '当月数',
+              type: 'line',
+              data: (function (data) {
+                var ret = []
+                for (var k in data) {
+                  if (data.hasOwnProperty(k)) {
+                    ret.push(data[k])
+                  }
+                }
+                return ret
+              })(d.data.caseStatistic.data),
+              smooth: true
+            }]
+          })
+
+          // 浏览图表
+          viewChart.setOption({
+            title: { text: '' },
+            tooltip: {},
+            xAxis: {
+              type: 'category',
+              data: (function (data) {
+                var ret = []
+                for (var k in data) {
+                  if (data.hasOwnProperty(k)) {
+                    ret.push(data[k])
+                  }
+                }
+                return ret
+              })(d.data.viewStatistic.xAxis)
+            },
+            yAxis: {
+              type: 'value'
+            },
+            series: [{
+              name: '当月数',
+              type: 'line',
+              data: (function (data) {
+                var ret = []
+                for (var k in data) {
+                  if (data.hasOwnProperty(k)) {
+                    ret.push(data[k])
+                  }
+                }
+                return ret
+              })(d.data.viewStatistic.data),
+              smooth: true
+            }]
+          })
+        } else if (d.code === 9999) {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
+          })
+        }
+      })
+    }
+  },
+  mounted: function () {
+    this.getStatisticDate()
   }
 }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .echarts {
-  height: 400px;
-  width: 100%
+  height: 300px;
 }
 </style>
