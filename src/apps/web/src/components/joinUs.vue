@@ -12,7 +12,7 @@
     <h3>JOIN&nbsp;US</h3>
     <p class="subhead">我们需要以下职位</p>
     <ul class="list">
-      <li v-for="(items, index) in job" :key="index" class="lis">
+      <li v-for="(items, index) in job" :key="index" class="lis" @click="up($event, items)">
         <div class="con">
           <h1>{{items.name}}</h1>
           <p class="en">{{items.en}}</p>
@@ -26,8 +26,8 @@
               <li v-for="(item, index) in items.require" :key="index">{{item}}</li>
             </ol>
           </div>
-          <img v-if="items.upshow === false" src="../assets/joinUs/up.png" alt="" class="upDown" @click="up($event, items)">
-          <img v-else="" src="../assets/joinUs/down.png" alt="" class="upDown" @click="down($event, items)">
+          <img v-if="items.upshow === false" src="../assets/joinUs/up.png" alt="" class="upDown">
+          <img v-else="" src="../assets/joinUs/down.png" alt="" class="upDown">
           <span class="online">网上招聘渠道</span>
           <span class="email">HR邮箱直投</span>
         </div>
@@ -238,11 +238,20 @@ export default {
   },
   methods: {
     up (e, item) {
-      item.upshow = true
+      item.upshow = !item.upshow
       let ev = e.currentTarget
-      $(ev).parent('.con').parent('.lis').animate({height: '110px'}, '500')
-      $(ev).parent('.con').delay(1000).animate({height: '50px'}, '500')
-      $(ev).parent('.con').parent('.lis').css({'borderBottom': '1px solid #9fa0a0', 'boxShadow': '0 15px 30px 0  rgba(255, 255, 255, 255)'})
+      if (item.upshow === true) {
+        $(ev).animate({height: '110px'}, '500')
+        $(ev).find('.con').delay(1000).animate({height: '50px'}, '500')
+        $(ev).css({'boxShadow': '0 1px 0 #e5e5e5'})
+      } else if (item.upshow === false) {
+        let eve = e.currentTarget
+        let h = $(eve).find('.need').height() + 220
+        let hh = $(eve).find('.need').height() + 200
+        $(eve).animate({height: h}, '500')
+        $(eve).find('.con').animate({height: hh}, '500')
+        $(eve).css({'boxShadow': '0 2px 8px 0 rgba(82,94,102,.15)'})
+      }
     },
     down (ev, item) {
       item.upshow = false
@@ -251,7 +260,7 @@ export default {
       let hh = $(eve).prev().height() + 200
       $(eve).parent('.con').parent('.lis').animate({height: h}, '500')
       $(eve).parent('.con').animate({height: hh}, '500')
-      $(eve).parent('.con').parent('.lis').css({'borderBottom': '0', 'boxShadow': '0 15px 30px 0  rgba(0,0,0,0.2)'})
+      $(eve).parent('.con').parent('.lis').css({'boxShadow': '0 15px 30px 0  rgba(0,0,0,0.2)'})
     }
   },
   components: {
@@ -319,16 +328,18 @@ export default {
     text-align: center;
   }
   .list {
-    width: 1050px;
+    /*width: 1050px;*/
+    max-width: 836px;
     text-align: left;
     margin: 67px auto 60px;
   }
   .list > li {
     height: 110px;
-    border-bottom: 1px solid #9fa0a0;
+    box-shadow: 0 1px 0 #e5e5e5;
     /*margin-bottom: 42px;*/
     overflow: hidden;
     position: relative;
+    padding: 16px 36px 0;
     transition-duration: .5s;
   }
   .list > li:hover {
@@ -342,12 +353,12 @@ export default {
     overflow: hidden;
   }
   .list li h1 {
-    font-size: 24px;
+    font-size: 22px;
     letter-spacing: 1px;
     color: #3e3a39;
   }
   .en {
-    font-size: 16px;
+    font-size: 14px;
     color: #898989;
     margin: 8px 0 32px;
   }
