@@ -13,52 +13,44 @@
     <div class="app_page">
       <form action="/" id="profile_form" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
         <div class="app_content">
-          <div class="content table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th class="text-left" width="100">客户编号</th>
-                  <th class="text-center" width="80">客户姓名</th>
-                  <th class="text-center" width="80">电话</th>
-                  <th class="text-center" width="80">客户来源</th>
-                  <th class="text-center" width="80">客服姓名</th>
-                  <th class="text-center" width="300">详细地址</th>
-                  <th class="text-center" width="150">小区</th>
-                  <th class="text-center" width="120">操作</th>
-                </tr>
-              </thead>
-              <tbody>
-                  <tr v-for="(v) in rows" :key="v.pc_id">
-                    <td class="text-left">
-                      <span>{{v.pc_sn}}</span>
-                    </td>
-                    <td class="text-center">
-                      <code>{{v.pc_nick}}</code>
-                    </td>
-                    <td class="text-center">
-                      <small>{{v.pc_mobile}}</small>
-                    </td>
-                    <td class="text-center">
-                      <small>{{v.pc_via}}</small>
-                    </td>
-                    <td class="text-center">
-                      <small>{{v.pc_adm_nick}}</small>
-                    </td>
-                    <td class="text-center">
-                      <small>{{v.pc_region0_label}} {{v.pc_region1_label}} {{v.pc_region2_label}} {{v.pc_addr}}</small>
-                    </td>
-                    <td class="text-center">
-                      <small>{{v.pc_area}}</small>
-                    </td>
-                    <td class="text-center">
-                      <btn class="btn btn-xs btn-success" @click="modifi(v.pc_id)"><i class="fa fa-pencil"></i></btn>
-                      <btn class="btn btn-xs btn-rose" @click="del(v.pc_id)"><i class="fa fa-trash-o"></i></btn>
-                    </td>
-                  </tr>
-              </tbody>
-            </table>
-            <pagination v-model="pn" :total-page="total" @change="refresh" size="sm"/>
+          <div class="customer-row" v-for="(v) in rows" :key="v.pc_id">
+            <div class="row">
+              <div class="col-md-4">
+                <dl class="dl-horizontal dl-common">
+                  <dt><small>姓名</small></dt>
+                  <dd><span class="text-rose">{{v.pc_nick}}</span></dd>
+                  <dt><small>编号</small></dt>
+                  <dd><span>{{v.pc_sn}}</span></dd>
+                  <dt><small>来源</small></dt>
+                  <dd><span class="text-rose">{{v.pc_via}}</span></dd>
+                  <dt><small>入库时间</small></dt>
+                  <dd><small>{{v.pc_atime|time('yyyy-mm-dd HH:MM')}}</small></dd>
+                  <dt><small>最近更新</small></dt>
+                  <dd><small>{{v.pc_utime|time('yyyy-mm-dd HH:MM')}}</small></dd>
+                </dl>
+              </div>
+              <div class="col-md-6">
+                <dl class="dl-horizontal dl-common">
+                  <dt><small>电话</small></dt>
+                  <dd><span class="text-info">{{v.pc_mobile}}</span></dd>
+                  <dt><small>地区</small></dt>
+                  <dd><small class="">{{v.pc_region0_label || 'unknown'}} {{v.pc_region1_label}}</small></dd>
+                  <dt><small>地址</small></dt>
+                  <dd><small>{{v.pc_region2_label || 'unknown'}}</small></dd>
+                  <dt><small>小区</small></dt>
+                  <dd><span class="text-info">{{v.pc_area}}</span></dd>
+                  <dt><small></small></dt>
+                  <dd><span class="text-info"></span></dd>
+                </dl>
+              </div>
+              <div class="col-md-2">
+                <btn class="btn btn-xs btn-success" @click="modifi(v.pc_id)"><i class="fa fa-pencil"></i></btn>
+                <btn class="btn btn-xs btn-rose" @click="del(v.pc_id)"><i class="fa fa-trash-o"></i></btn>
+              </div>
+            </div>
           </div>
+          <div class="clearfix"></div>
+          <pagination v-model="pn" :total-page="total" @change="refresh" size="sm"/>
         </div>
       </form>
     </div>
@@ -273,5 +265,11 @@ export default {
 }
 .customer {
   background: #fff;
+}
+.customer-row {
+  margin-bottom: 20px;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  border-left: none;
 }
 </style>

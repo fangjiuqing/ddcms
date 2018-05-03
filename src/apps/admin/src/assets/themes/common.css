@@ -2868,3 +2868,40 @@ input:focus,textarea:focus,select:focus {
   border-radius: 3px;
   cursor: pointer;
 }
+.dl-common {
+  margin-bottom: 0;
+}
+.dl-common dt {
+  border-right: 1px dashed #eee;
+  padding-right: 10px;
+  border-left: 1px solid #eee;
+}
+.dl-common dt small {
+  font-weight: 350;
+  color: #555;
+  font-size: 12px;
+}
+.dl-common dt, .dl-common dd {
+  line-height: 25px;
+}
+.dl-common dt:nth-last-of-type(odd){
+  background: #f7f7f7;
+}
+.dl-common dd:last-child {
+  border-color: transparent;
+}
+.dl-common dd {
+  font-size: 14px;
+  border-bottom: 1px dashed #eee;
+  background: #fff;
+  text-align: left;
+}
+@media (min-width: 768px) {
+  .dl-common dt {
+      width: 90px;
+  }
+  .dl-common dd {
+      padding-left: 105px;
+      margin-left: 0;
+  }
+}
