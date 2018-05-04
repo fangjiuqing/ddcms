@@ -75,7 +75,7 @@ var exec = () => {
     var local_file = task.pop()
     helper.putFile(local_file.replace(prefix, ''), local_file, exec)
     console.clear()
-    console.log(((task_len - task.length) / task_len).toFixed(2) * 100 , '%' );
+    console.log((task_len - task.length) + ' / ' + task_len);
   }
 }
 exec()
