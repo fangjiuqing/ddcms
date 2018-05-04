@@ -15,14 +15,15 @@ var helper = {
     var mac = new qiniu.auth.digest.Mac(aKey, sKey)
     var putPolicy = new qiniu.rs.PutPolicy({
        scope: bucketName,
-       expires: 600
+       expires: 600000
     })
     return putPolicy.uploadToken(mac)
   },
 
   // 获取上传助手
   getUploader: function () {
-    return new qiniu.form_up.FormUploader(new qiniu.conf.Config())
+    var config = new qiniu.conf.Config()
+    return new qiniu.form_up.FormUploader(config)
   },
 
   // 添加文件
