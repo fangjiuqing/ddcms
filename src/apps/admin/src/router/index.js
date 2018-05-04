@@ -6,7 +6,6 @@ import Index from '@/components/index/index'
 import Login from '@/components/index/login'
 
 import Profile from '@/components/user/profile'
-import Passwd from '@/components/user/passwd'
 import Category from '@/components/common/category'
 import Brand from '@/components/material/brand'
 import Supplier from '@/components/material/supplier'
@@ -20,9 +19,9 @@ import CaseAdd from '@/components/case/add'
 import Material from '@/components/material/index'
 import MaterialAdd from '@/components/material/add'
 
-import Customer from '@/components/customer/customer'
+import Customer from '@/components/customer/index'
 import Preview from '@/components/customer/preview'
-import CustomerOrder from '@/components/customer/customer-order'
+import CustomerOrder from '@/components/customer/order'
 
 import Logs from '@/components/system/logs'
 import Admin from '@/components/system/admin/index'
@@ -34,14 +33,6 @@ import DesignerAdd from '@/components/designer/add'
 
 Vue.use(Router)
 Vue.use(Meta)
-
-Vue.directive('focus', {
-  update: function (el, {value}) {
-    if (value) {
-      // el.focus()
-    }
-  }
-})
 
 var dateFormat = require('dateformat')
 Vue.filter('time', function (value, format) {
@@ -134,11 +125,6 @@ const router = new Router({
       component: Flush
     },
     {
-      path: '/user/passwd',
-      name: 'Passwd',
-      component: Passwd
-    },
-    {
       path: '/category/case',
       name: 'CCategory',
       component: Category,
@@ -222,10 +208,6 @@ const router = new Router({
       component: DesignerAdd
     }
   ]
-})
-
-router.beforeEach((to, from, next) => {
-  next()
 })
 
 export default router

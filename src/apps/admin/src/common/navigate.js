@@ -84,6 +84,12 @@ export default {
           name: '资讯管理',
           icon: 'fa fa-newspaper-o',
           active: false
+        },
+        {
+          url: '/community',
+          name: '小区管理',
+          icon: 'fa fa-building',
+          active: false
         }
       ]
     },

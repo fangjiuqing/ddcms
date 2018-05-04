@@ -155,6 +155,16 @@ class admin_helper extends rgx {
     }
 
     /**
+     * 生成密码
+     * @param  [type] $pwd  [description]
+     * @param  string $salt [description]
+     * @return [type]       [description]
+     */
+    public static function generate_passwd ($pwd, $salt = '') {
+        return md5(md5($pwd) . $salt);
+    }
+
+    /**
      * 添加管理员操作日志
      * @param [type]  $admin  [description]
      * @param [type]  $url    [description]
