@@ -484,7 +484,7 @@ export default {
     top: 0;
     font-size: 0.72vw;
     background: #000;
-    opacity: 0.8;
+    opacity: 0.6;
     display: inline-block;
     transform: translate(-50%);
   }
