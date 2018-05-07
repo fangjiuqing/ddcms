@@ -57,7 +57,7 @@ class unit_iface extends ubase_iface {
     }
     
     public function save_action () {
-        $this->data['pu_id'] = intval($this->data['id']);
+        $this->data['pu_id'] = intval($this->data['pu_id']);
         if (empty($this->data['pu_area0']) || empty($this->data['pu_area1']) || $this->data['pu_area0'] <
             $this->data['pu_area1']) {
             $this->failure('户型面积有误');
@@ -80,7 +80,6 @@ class unit_iface extends ubase_iface {
         else {
             $this->data['pu_area_range'] = core_helper::RANGE_MAX;
         }
-        var_dump($this->data);
         $tab = OBJ('unit_copy_table');
         if ($tab->load($this->data)) {
             $ret = $tab->save();
