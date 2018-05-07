@@ -10,21 +10,22 @@ namespace re\rgx;
 class community_iface extends ubase_iface {
     
     /**
-     * 获取小区/户型列表接口
+     * author Fox
      */
     public function list_action () {
-        $tab = OBJ('community_table');
+        $tab = OBJ('community_copy_table');
         $paging = new paging_helper($tab, $this->data['pn'] ?: 1, 12);
         $region0 = [];
         $region1 = [];
         $region2 = [];
-        $arts = OBJ('community_table')->akey('pco_id')->map(function ($row) use (&$region0, &$region1, &$region2) {
+        $region_tab = OBJ('region_table');
+        $arts = $tab->map(function ($row) use (&$region0, &$region1,
+            &$region2) {
             $region0[$row['pco_region0'] . '0000']  = 1;
             $region1[$row['pco_region1'] . '00']    = 1;
             $region2[$row['pco_region2']]           = 1;
             return $row;
         })->get_all();
-        $region_tab = OBJ('region_table');
         $region0_list = $region_tab->akey('region_code')->get_all([
             'region_code' => array_keys($region0),
         ]);
@@ -48,19 +49,46 @@ class community_iface extends ubase_iface {
         ]);
     }
     
+    /**
+     * author Fox
+     */
+    public function get_action () {
+        $pco_name = $this->data['pco_name'];
+        $ret = OBJ('community_copy_table')->get([
+            'pco_name' => $pco_name,
+        ]);
+        if (!$ret) {
+            $this->failure('该小区不存在');
+        }
+        $tab = OBJ('region_table');
+        $region0_list = $tab->get([
+            "region_code" => $ret['pco_region0'] . '0000',
+        ]);
+        $region1_list = $tab->get([
+            "region_code" => $ret['pco_region1'] . '00',
+        ]);
+        $region2_list = $tab->get([
+            "region_code" => $ret['pco_region2'],
+        ]);
+        $ret['region0_label'] = $region0_list['region_name'];
+        $ret['region1_label'] = $region1_list ? $region1_list['region_name'] : '';
+        $ret['region2_label'] = $region2_list ? $region2_list['region_name'] : '';
+        $this->success('操作成功', $ret);
+    }
     
     public function save_action () {
-        $this->data['pco_id'] = intval($this->data['id']);
+        $pco_name = $this->data['pco_name'];
         $this->data['pco_region0'] = (int)substr($this->data['pco_region0'], 0, 2);
         $this->data['pco_region1'] = (int)substr($this->data['pco_region1'], 0, 4);
         $this->data['pco_region2'] = (int)substr($this->data['pco_region2'], 0, 6);
         if (empty($this->data['pco_name'])) {
             $this->failure('请输入正确的小区名');
         }
-        if (empty($this->data['pco_addr'])) {
-            $this->data['pco_addr'] = '';
-        }
+        $this->data['pco_addr'] = $this->data['pco_addr'] ?: '';
         $tab = OBJ('community_copy_table');
+        if (isset($this->data['pco_id'])) {
+            $tab->where('pco_name = ' . $pco_name);
+        }
         if ($tab->load($this->data)) {
             $ret = $tab->save();
             if ($ret['code'] === 0) {
