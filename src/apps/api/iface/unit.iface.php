@@ -86,14 +86,12 @@ class unit_iface extends ubase_iface {
         $this->data['pu_room1'] = (int)$this->data['pu_room1'];
         $this->data['pu_room2'] = (int)$this->data['pu_room2'];
         $this->data['pu_room3'] = (int)$this->data['pu_room3'];
-        var_dump($this->data);
         $tab = OBJ('unit_copy_table');
         if ($tab->load($this->data)) {
             $ret = $tab->save();
             if ($ret['code'] === 0) {
                 admin_helper::add_log($this->login['admin_id'], 'unit/save', '2',
                     ($this->data['pu_id'] ? '户型编辑[' . $this->data['pu_id'] : '户型新增[' . $ret['row_id']) . '@]');
-                var_dump($tab->get_sqls());
                 $this->success('操作成功');
             }
         }
