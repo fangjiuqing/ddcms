@@ -14,7 +14,7 @@ class community_iface extends ubase_iface {
      */
     public function list_action () {
         $tab = OBJ('community_copy_table');
-        $paging = new paging_helper($tab, $this->data['pn'] ?: 1, 12);
+        $paging = new paging_helper($tab, $this->data['pn'] ?: 1, 10);
         $region0 = [];
         $region1 = [];
         $region2 = [];
@@ -75,8 +75,8 @@ class community_iface extends ubase_iface {
     }
     
     public function save_action () {
-        $pco_name = $this->data['pco_name'];
-        $this->data['pco_id'] = $this->data['id'];
+        $id = intval($this->data['id']);
+        $tab = OBJ('community_copy_table');
         $this->data['pco_region0'] = (int)substr($this->data['pco_region0'], 0, 2);
         $this->data['pco_region1'] = (int)substr($this->data['pco_region1'], 0, 4);
         $this->data['pco_region2'] = (int)substr($this->data['pco_region2'], 0, 6);
@@ -84,22 +84,25 @@ class community_iface extends ubase_iface {
             $this->failure('请输入正确的小区名');
         }
         $this->data['pco_addr'] = $this->data['pco_addr'] ?: '';
-        $tab = OBJ('community_copy_table');
-        if (isset($this->data['id'])) {
-            $tab->where([
-                'pco_name' => $pco_name,
-            ]);
-        }
-        if ($tab->load($this->data)) {
-            $ret = $tab->save();
-            if ($ret['code'] === 0) {
-                admin_helper::add_log($this->login['admin_id'], 'community/save', '2',
-                ($this->data['pco_id'] ? '小区编辑[' . $this->data['pco_id']
-                    : '小区新增[' . $ret['row_id']) . '@]');
+        if ($id) {
+            $pco_name = $tab->get($id)['pco_name'];
+            $ret = $tab->where('pco_name = \'' . $pco_name . '\'')->update($this->data);
+            if ($ret['rows']) {
+                admin_helper::add_log($this->login['admin_id'], 'community/save', '2', '小区编辑[' . $id . '@]');
                 $this->success('操作成功');
             }
         }
-        $this->failure($tab->get_error_desc(), 101);
+        else {
+            if ($tab->load($this->data)) {
+                $ret_save = $tab->save();
+                if ($ret_save['code'] === 0) {
+                    admin_helper::add_log($this->login['admin_id'], 'community/save', '2', '小区新增[' . $ret_save['row_id']
+                    . '@]');
+                    $this->success('操作成功');
+                }
+            }
+        }
+        $this->failure('操作失败');
     }
     
 }
