@@ -57,6 +57,7 @@ class unit_iface extends ubase_iface {
     }
     
     public function save_action () {
+        var_dump($this->data);
         $this->data['pu_id'] = intval($this->data['pu_id']);
         if (empty($this->data['pu_area0']) || empty($this->data['pu_area1']) || $this->data['pu_area0'] <
             $this->data['pu_area1']) {
