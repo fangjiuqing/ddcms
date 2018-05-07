@@ -57,25 +57,24 @@ class unit_iface extends ubase_iface {
     }
     
     public function save_action () {
-        var_dump($this->data);
-        $this->data['pu_id'] = intval($this->data['pu_id']);
-        if (empty($this->data['pu_area0']) || empty($this->data['pu_area1']) || $this->data['pu_area0'] <
+        $this->data['pu_id'] = intval($this->data['id']);
+        if (empty($this->data['modal_data']['pu_area0']) || empty($this->data['modal_data']['pu_area1']) || $this->data['modal_data']['pu_area0'] <
             $this->data['pu_area1']) {
             $this->failure('户型面积有误');
         }
-        if ($this->data['pu_area0'] <= 60) {
+        if ($this->data['modal_data']['pu_area0'] <= 60) {
             $this->data['pu_area_range'] = core_helper::RANGE_60;
         }
-        elseif ($this->data['pu_area0'] <= 80) {
+        elseif ($this->data['modal_data']['pu_area0'] <= 80) {
             $this->data['pu_area_range'] = core_helper::RANGE_80;
         }
-        elseif ($this->data['pu_area0'] <= 100) {
+        elseif ($this->data['modal_data']['pu_area0'] <= 100) {
             $this->data['pu_area_range'] = core_helper::RANGE_100;
         }
-        elseif ($this->data['pu_area0'] <= 120) {
+        elseif ($this->data['modal_data']['pu_area0'] <= 120) {
             $this->data['pu_area_range'] = core_helper::RANGE_120;
         }
-        elseif ($this->data['pu_area0'] <= 150) {
+        elseif ($this->data['modal_data']['pu_area0'] <= 150) {
             $this->data['pu_area_range'] = core_helper::RANGE_150;
         }
         else {
