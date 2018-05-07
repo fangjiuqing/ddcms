@@ -102,7 +102,7 @@ class community_iface extends ubase_iface {
                 }
             }
         }
-        $this->failure('操作失败');
+        $this->failure($tab->get_error_desc());
     }
     
 }
