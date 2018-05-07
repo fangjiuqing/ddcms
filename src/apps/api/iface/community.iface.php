@@ -53,10 +53,8 @@ class community_iface extends ubase_iface {
      * author Fox
      */
     public function get_action () {
-        $pco_name = $this->data['pco_name'];
-        $ret = OBJ('community_copy_table')->get([
-            'pco_name' => $pco_name,
-        ]);
+        $id = (int)$this->data['id'];
+        $ret = OBJ('community_copy_table')->get($id);
         if (!$ret) {
             $this->failure('该小区不存在');
         }
@@ -78,6 +76,7 @@ class community_iface extends ubase_iface {
     
     public function save_action () {
         $pco_name = $this->data['pco_name'];
+        $this->data['pco_id'] = $this->data['id'];
         $this->data['pco_region0'] = (int)substr($this->data['pco_region0'], 0, 2);
         $this->data['pco_region1'] = (int)substr($this->data['pco_region1'], 0, 4);
         $this->data['pco_region2'] = (int)substr($this->data['pco_region2'], 0, 6);
@@ -86,8 +85,10 @@ class community_iface extends ubase_iface {
         }
         $this->data['pco_addr'] = $this->data['pco_addr'] ?: '';
         $tab = OBJ('community_copy_table');
-        if (isset($this->data['pco_id'])) {
-            $tab->where('pco_name = ' . $pco_name);
+        if (isset($this->data['id'])) {
+            $tab->where([
+                'pco_name' => $pco_name,
+            ]);
         }
         if ($tab->load($this->data)) {
             $ret = $tab->save();
