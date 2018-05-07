@@ -40,7 +40,7 @@ class unit_iface extends ubase_iface {
             $pu_list[$k]['pu_cover_thumb'] = IMAGE_URL . $v['pu_cover'] . '!500x309';
         }
         $this->success('操作成功', [
-            'arts'      => array_values($pu_list),
+            'list'      => array_values($pu_list),
             'paging'    => $paging->to_array(),
         ]);
     }
