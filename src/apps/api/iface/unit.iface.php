@@ -80,12 +80,7 @@ class unit_iface extends ubase_iface {
         else {
             $this->data['pu_area_range'] = core_helper::RANGE_MAX;
         }
-        $this->data['pu_area0'] = (int)$this->data['pu_area0'];
-        $this->data['pu_area1'] = (int)$this->data['pu_area1'];
-        $this->data['pu_room0'] = (int)$this->data['pu_room0'];
-        $this->data['pu_room1'] = (int)$this->data['pu_room1'];
-        $this->data['pu_room2'] = (int)$this->data['pu_room2'];
-        $this->data['pu_room3'] = (int)$this->data['pu_room3'];
+        var_dump($this->data);
         $tab = OBJ('unit_copy_table');
         if ($tab->load($this->data)) {
             $ret = $tab->save();
