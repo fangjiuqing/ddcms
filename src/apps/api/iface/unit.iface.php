@@ -86,6 +86,7 @@ class unit_iface extends ubase_iface {
             if ($ret['code'] === 0) {
                 admin_helper::add_log($this->login['admin_id'], 'unit/save', '2',
                     ($this->data['pu_id'] ? '户型编辑[' . $this->data['pu_id'] : '户型新增[' . $ret['row_id']) . '@]');
+                var_dump($tab->get_sqls());
                 $this->success('操作成功');
             }
         }
