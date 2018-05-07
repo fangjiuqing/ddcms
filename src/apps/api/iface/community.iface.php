@@ -80,7 +80,6 @@ class community_iface extends ubase_iface {
         $this->data['pco_region0'] = (int)substr($this->data['pco_region0'], 0, 2);
         $this->data['pco_region1'] = (int)substr($this->data['pco_region1'], 0, 4);
         $this->data['pco_region2'] = (int)substr($this->data['pco_region2'], 0, 6);
-        var_dump($this->data);
         if (empty($this->data['pco_name'])) {
             $this->failure('请输入正确的小区名');
         }
