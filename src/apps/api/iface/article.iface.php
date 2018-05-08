@@ -34,6 +34,7 @@ class article_iface extends ubase_iface {
         $this->data['article_udate'] = REQUEST_TIME;
         $this->data['article_stat_view'] = (int)$this->data['article_stat_view'] ?: 0;
         $tab = OBJ('article_table');
+        var_dump($this->data);
         if ($tab->load($this->data)) {
             $ret = $tab->save();
             if ($ret['code'] === 0) {
