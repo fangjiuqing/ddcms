@@ -11,6 +11,9 @@ class unit_iface extends ubase_iface {
     public function list_action () {
         $id = intval($this->data['id']);
         $unit_tab = OBJ('unit_copy_table');
+        $unit_tab->where([
+            pu_co_id => $id,
+        ]);
         $paging = new paging_helper($unit_tab, $this->data['pn'] ?: 1, 12);
         $pu_list = $unit_tab->get_all([
             'pu_co_id' => $id,
