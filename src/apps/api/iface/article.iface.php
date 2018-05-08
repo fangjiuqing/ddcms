@@ -42,8 +42,9 @@ class article_iface extends ubase_iface {
                     'article_id'      => $row_id,
                     'article_content' => $this->data['article_content'],
                 ]);
-                admin_helper::add_log($this->login['admin_id'], 'article/save', '2', ($this->data['article_id'] ? '资讯修改'
-                        : '资讯新增') . '[' . $row_id . '@' . $this->data['article_title'] . ']');
+                admin_helper::add_log($this->login['admin_id'], 'article/save', '2',
+                    ($this->data['article_id'] ? '资讯修改[' . $this->data['article_id'] :
+                        '资讯新增[' . $ret['row_id']) . '@' . $this->data['article_title'] . ']');
                 $this->success('操作成功');
             }
         }

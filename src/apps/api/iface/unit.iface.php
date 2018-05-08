@@ -17,7 +17,6 @@ class unit_iface extends ubase_iface {
         ]);
         foreach ((array)$pu_list as $k => $v) {
             $pu_list[$k]['pu_cover_thumb'] = IMAGE_URL . $v['pu_cover'] . '!500x309';
-            $pu_list[$k]['pu_co_id'] = $id;
         }
         $this->success('操作成功', [
             'list'      => array_values($pu_list),
