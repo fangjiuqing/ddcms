@@ -65,7 +65,7 @@
               <label class="col-sm-3 label-on-left">客户编号</label>
               <div class="col-sm-9">
                 <div class="form-group">
-                  <input class="form-control" v-model="modal_data.pc_sn"  v-focus="modal_data.pc_sn" type="text" placeholder="客户编号">
+                  <input class="form-control" v-model="modal_data.pc_sn" type="text" placeholder="客户编号">
                 </div>
               </div>
             </div>
@@ -73,7 +73,7 @@
               <label class="col-sm-3 label-on-left">客户姓名</label>
               <div class="col-sm-9">
                 <div class="form-group">
-                  <input class="form-control" v-model="modal_data.pc_nick"  v-focus="modal_data.pc_nick" type="text" placeholder="客户姓名">
+                  <input class="form-control" v-model="modal_data.pc_nick" type="text" placeholder="客户姓名">
                 </div>
               </div>
             </div>
@@ -81,7 +81,7 @@
               <label class="col-sm-3 label-on-left">电话</label>
               <div class="col-sm-9">
                 <div class="form-group">
-                  <input class="form-control" v-model="modal_data.pc_mobile"  v-focus="modal_data.pc_mobile"  type="text" placeholder="联系电话">
+                  <input class="form-control" v-model="modal_data.pc_mobile" type="text" placeholder="联系电话">
                 </div>
               </div>
             </div>
@@ -89,21 +89,21 @@
               <label class="col-sm-3 label-on-left">所在地</label>
               <div class="col-sm-9">
                 <div class="form-group">
-                  <v-distpicker :province="modal_data.pc_region0" :city="modal_data.pc_region1" :area="modal_data.pc_region2" @selected="onSelected"></v-distpicker>
+                  <v-distpicker :province="modal_data.pc_region0_label" :city="modal_data.pc_region1_label" :area="modal_data.pc_region2_label" @selected="onSelected"></v-distpicker>
                 </div>
               </div>
             </div>
             <div class="row">
               <label class="col-sm-3 label-on-left">详细地址</label>
               <div class="col-sm-9">
-                <input class="form-control" v-model="modal_data.pc_addr"  v-focus="modal_data.pc_addr"  type="text" placeholder="详细地址">
+                <input class="form-control" v-model="modal_data.pc_addr" type="text" placeholder="详细地址">
               </div>
             </div>
             <div class="row">
               <label class="col-sm-3 label-on-left">小区</label>
               <div class="col-sm-9">
                 <div class="form-group">
-                  <input class="form-control" v-model="modal_data.pc_co_id"  v-focus="modal_data.pc_co_id"  type="text" placeholder="小区">
+                  <input class="form-control" v-model="modal_data.pc_co_id" type="text" placeholder="小区">
                 </div>
               </div>
             </div>
@@ -203,6 +203,7 @@ export default {
         msg: '加载中 ...'
       })
       this.$http.list('customer', {pn: this.pn}).then(d => {
+        console.log(d.data)
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data.list
