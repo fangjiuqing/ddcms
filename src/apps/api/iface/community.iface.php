@@ -19,8 +19,7 @@ class community_iface extends ubase_iface {
         $region1 = [];
         $region2 = [];
         $region_tab = OBJ('region_table');
-        $arts = $tab->map(function ($row) use (&$region0, &$region1,
-            &$region2) {
+        $arts = $tab->map(function ($row) use (&$region0, &$region1, &$region2) {
             $region0[$row['pco_region0'] . '0000']  = 1;
             $region1[$row['pco_region1'] . '00']    = 1;
             $region2[$row['pco_region2']]           = 1;
@@ -94,6 +93,19 @@ class community_iface extends ubase_iface {
             }
         }
         $this->failure($tab->get_error_desc());
+    }
+    
+    public function del_action () {
+        $id = intval($this->data['id']);
+        $tab = OBJ('community_copy_table');
+        if (!$ret = $tab->get($id)) {
+            $this->failure('删除的小区不存在');
+        }
+        if ($tab->delete(['pco_id' => $id])['code'] === 0) {
+            admin_helper::add_log($this->login['admin_id'], 'community/del', '3', '删除小区[' . $id . '@]');
+            OBJ('unit_copy_table')->delete(['pu_co_id' => $id]);
+            $this->success('删除小区成功');
+        }
     }
     
 }
