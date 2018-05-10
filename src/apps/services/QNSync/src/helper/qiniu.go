@@ -12,6 +12,7 @@ import (
  */
 type UploaderHelper struct {
 	FUploader *storage.FormUploader
+	BMgr      *storage.BucketManager
 	token     string
 	mac       *qbox.Mac
 	policy    *storage.PutPolicy
@@ -29,6 +30,7 @@ func (helper *UploaderHelper) Init() *UploaderHelper {
 	helper.mac = qbox.NewMac("u_JjrlzWfKefeyKPfsINZWWi1RUT7lh_I1S2dazn", "Nsvra06C8FZc37Jg7YA8SAKPBFm34avv5EnCJMjW")
 	helper.token = helper.policy.UploadToken(helper.mac)
 	helper.FUploader = storage.NewFormUploader(&storage.Config{})
+	helper.BMgr = storage.NewBucketManager(helper.mac, &storage.Config{})
 	return helper
 }
 
@@ -45,6 +47,20 @@ func (helper *UploaderHelper) PutFile(fileKey, filePath string) (code int, err e
 		return
 	}
 	return
+}
+
+/**
+ * 删除文件
+ * @param  {[type]} helper *UploaderHelper) putFile (fileKey, filePath string) (code int, err error [description]
+ * @return {[type]}        [description]
+ */
+func (helper *UploaderHelper) DelFile(fileKey string) (err error) {
+	err = helper.BMgr.Delete("ddzz", fileKey)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	return err
 }
 
 /**

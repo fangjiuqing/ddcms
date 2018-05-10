@@ -39,7 +39,9 @@ class config extends rgx {
     private $cache  = [
         'type'      => 'file',
         'pre'       => 'rgx_',
-        'file'      =>  []
+        'file'      => [],
+        'redis'     => [
+        ]
     ];
 
     /**
@@ -88,8 +90,31 @@ class config extends rgx {
      */
     private $sess = [
         'type'      => 'php',
+
+        // 默认实现
         'php'       => [
-            'ttl'   => 600
+            'ttl'   => 1800
+        ],
+        // Redis 实现
+        'redis'     => [
+            'host'  => '127.0.0.1',
+            'port'  => 6379,
+            'db'    => 5,
+            'ttl'   => 1800
+        ]
+    ];
+
+    /**
+     * MQ默认配置
+     * @var array
+     */
+    private $mq = [
+        'type'      => 'redis',
+        // Redis 实现
+        'redis'     => [
+            'host'  => '127.0.0.1',
+            'port'  => 6379,
+            'db'    => 6
         ]
     ];
     

@@ -8,6 +8,12 @@ namespace re\rgx;
 abstract class mq extends rgx {
 
     /**
+     * 默认前缀
+     * @var string
+     */
+    protected $pre = 'RMQ_';
+
+    /**
      * 获取队列操作对象
      * @param  array  $conf  [description]
      * @param  array  $extra [description]
@@ -52,4 +58,20 @@ abstract class mq extends rgx {
      * @return [type]      [description]
      */
     abstract public function remove ($key);
+
+    /**
+     * 发布订阅
+     * @param  [type] $channel [description]
+     * @param  [type] $message [description]
+     * @return [type]          [description]
+     */
+    abstract public function publish ($channel, $message);
+
+    /**
+     * 频道订阅
+     * @param  [type] $channels [description]
+     * @param  [type] $callback [description]
+     * @return [type]           [description]
+     */
+    abstract public function subscribe ($channels, $callback);
 }
