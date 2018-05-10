@@ -76,6 +76,7 @@
               </div>
               <div class="col-md-1">
                 <btn class="btn btn-xs btn-success" @click="modifi(v.pu_id)"><i class="fa fa-pencil"></i></btn>
+                <btn class="btn btn-xs btn-rose" @click="del(v.pu_id)"><i class="fa fa-trash-o"></i></btn>
               </div>
               <div class="col-md-5">
                 <img :src="v.pu_cover" alt="">
@@ -148,6 +149,7 @@ export default {
         msg: '加载中 ...'
       })
       this.$http.list('unit', {id: this.id || 0, attrs: 1, pn: this.pn}).then(d => {
+        console.log(d.data)
         this.$loading.hide()
         if (d.code === 0) {
           this.form = this.id ? d.data.list : {}
@@ -182,6 +184,37 @@ export default {
             dismissible: false
           })
         }
+      })
+    },
+    del: function (id) {
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$loading.hide()
+      this.$confirm({
+        title: '操作提示',
+        content: '此项将被永久删除。继续?',
+        okText: '确认',
+        cancelText: '取消'
+      }).then(() => {
+        this.$http.del('unit', {id: id}).then(d => {
+          if (d.code === 0) {
+            this.$notify({
+              type: 'success',
+              content: '删除成功.'
+            })
+            this.refresh()
+          } else {
+            this.$notify({
+              content: d.msg,
+              duration: 2000,
+              type: 'danger',
+              dismissible: false
+            })
+          }
+        })
+      }).catch(() => {
+        this.$notify('取消删除.')
       })
     }
   },

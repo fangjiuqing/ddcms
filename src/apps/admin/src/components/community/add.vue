@@ -10,7 +10,7 @@
         <div class="form-block">
           <div class="row">
             <div class="col-md-12">
-              <h5 class="block-h5">新增户型</h5>
+              <h5 class="block-h5">编辑户型</h5>
             </div>
             <div class="clearfix"></div>
             <div class="col-sm-7">
@@ -98,7 +98,7 @@ export default {
   components: { VueEditor },
   metaInfo () {
     return {
-      title: '新增户型 - 道达智装'
+      title: '编辑户型 - 道达智装'
     }
   },
   data () {
@@ -106,7 +106,7 @@ export default {
       items: [
         {text: '首页', to: '/'},
         {text: '小区管理', to: '/community'},
-        {text: '新增户型', href: '#'}
+        {text: '编辑户型', href: '#'}
       ],
       id: this.$route.query['id'] || 0,
       form: {
@@ -205,6 +205,21 @@ export default {
         data: formData
       })
     },
+    refresh: function (id) {
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$http.list('unit', {id: this.id || 0, attrs: 1, pn: this.pn}).then(d => {
+        this.$loading.hide()
+        if (d.code === 0) {
+          this.form = this.id ? d.data.list : {}
+          this.pn = d.data.paging.pn
+          this.total = d.data.paging.max
+        } else {
+          this.form = []
+        }
+      })
+    },
     modify (id) {
       this.$loading.show({
         msg: '加载中 ...'
@@ -233,8 +248,10 @@ export default {
         this.$loading.hide()
         if (d.code === 0) {
           this.$router.push({
-            path: '/community'
+            path: '/community/type',
+            query: {id: this.id}
           })
+          this.refresh()
         } else if (d.code === 9999) {
           this.$alert({
             title: '系统提示',
