@@ -68,5 +68,96 @@ class task_helper extends rgx {
      */
     const STATUS_SUCC         = 10;
 
+    /**
+     * 同步文件
+     * @param  [type] $file [description]
+     * @return [type]       [description]
+     */
+    public static function sync_file ($file) {
+        // 测试新增同步任务
+        $data = [
+            'key'   => $file,
+            'path'  => UPLOAD_PATH . $file
+        ];
+        $tab = OBJ('task_table');
+        $ret = $tab->insert([
+            'task_type'     => R\task_helper::TYPE_SYNC,
+            'task_status'   => R\task_helper::STATUS_NEW,
+            'task_adate'    => REQUEST_TIME,
+            'task_cdate'    => 0,
+            'task_desc'     => R\filter::json_ecsape($data),
+            'task_result'   => ''
+        ]);
+        if ($ret['code'] === 0) {
+            return mq::get_instance()->publish('sync_add', [
+                'id'    => (int)$ret['row_id'],
+                'data'  => $data
+            ]);
+        }
+        return false;
+    }
+
+    /**
+     * 同步文件
+     * @param  [type] $file [description]
+     * @return [type]       [description]
+     */
+    public static function del_file ($file) {
+        // 测试新增同步任务
+        $data = [
+            'key'   => $file,
+            'path'  => UPLOAD_PATH . $file
+        ];
+        $tab = OBJ('task_table');
+        $ret = $tab->insert([
+            'task_type'     => R\task_helper::TYPE_DEL,
+            'task_status'   => R\task_helper::STATUS_NEW,
+            'task_adate'    => REQUEST_TIME,
+            'task_cdate'    => 0,
+            'task_desc'     => R\filter::json_ecsape($data),
+            'task_result'   => ''
+        ]);
+        if ($ret['code'] === 0) {
+            return mq::get_instance()->publish('sync_del', [
+                'id'    => (int)$ret['row_id'],
+                'data'  => $data
+            ]);
+        }
+        return false;
+    }
+
+    /**
+     * 发送短信验证码
+     * @param  [type] $mobile [description]
+     * @param  [type] $code   [description]
+     * @return [type]         [description]
+     */
+    public static function send_verify ($mobile, $code) {
+        $data = [
+            'tpl_id'    => '117861',
+            'mobile'    => $mobile,
+            'code'      => $code,
+            'ttl'       => 5
+        ];
+        $tab = R\OBJ('task_table');
+        $ret = $tab->insert([
+            'task_type'     => R\task_helper::TYPE_SMS,
+            'task_status'   => R\task_helper::STATUS_NEW,
+            'task_adate'    => REQUEST_TIME,
+            'task_cdate'    => 0,
+            'task_desc'     => R\filter::json_ecsape($data),
+            'task_result'   => ''
+        ]);
+
+        $mq = mq::get_instance();
+        if ($ret['code'] === 0) {
+            return mq::get_instance()->publish('sms', [
+                'id'    => (int)$ret['row_id'],
+                'data'  => $data
+            ]);
+        }
+        return false;
+    }
+
 }
 
