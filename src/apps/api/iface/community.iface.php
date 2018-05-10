@@ -19,8 +19,7 @@ class community_iface extends ubase_iface {
         $region1 = [];
         $region2 = [];
         $region_tab = OBJ('region_table');
-        $arts = $tab->map(function ($row) use (&$region0, &$region1,
-            &$region2) {
+        $arts = $tab->map(function ($row) use (&$region0, &$region1, &$region2) {
             $region0[$row['pco_region0'] . '0000']  = 1;
             $region1[$row['pco_region1'] . '00']    = 1;
             $region2[$row['pco_region2']]           = 1;
@@ -75,7 +74,7 @@ class community_iface extends ubase_iface {
     }
     
     public function save_action () {
-        $id = intval($this->data['id']);
+        $this->data['pco_id'] = intval($this->data['id']);
         $tab = OBJ('community_copy_table');
         $this->data['pco_region0'] = (int)substr($this->data['pco_region0'], 0, 2);
         $this->data['pco_region1'] = (int)substr($this->data['pco_region1'], 0, 4);
@@ -84,25 +83,29 @@ class community_iface extends ubase_iface {
             $this->failure('请输入正确的小区名');
         }
         $this->data['pco_addr'] = $this->data['pco_addr'] ?: '';
-        if ($id) {
-            $pco_name = $tab->get($id)['pco_name'];
-            $ret = $tab->where('pco_name = \'' . $pco_name . '\'')->update($this->data);
-            if ($ret['rows']) {
-                admin_helper::add_log($this->login['admin_id'], 'community/save', '2', '小区编辑[' . $id . '@]');
+        if ($tab->load($this->data)) {
+            $ret = $tab->save();
+            if ($ret['code'] === 0) {
+                admin_helper::add_log($this->login['admin_id'], 'community/save',
+                    '2', ($this->data['pco_id'] ? '小区编辑[' . $this->data['pco_id'] : '小区新增[' . $ret['row_id'])
+                    . '@]');
                 $this->success('操作成功');
             }
         }
-        else {
-            if ($tab->load($this->data)) {
-                $ret_save = $tab->save();
-                if ($ret_save['code'] === 0) {
-                    admin_helper::add_log($this->login['admin_id'], 'community/save', '2', '小区新增[' . $ret_save['row_id']
-                    . '@]');
-                    $this->success('操作成功');
-                }
-            }
-        }
         $this->failure($tab->get_error_desc());
+    }
+    
+    public function del_action () {
+        $id = intval($this->data['id']);
+        $tab = OBJ('community_copy_table');
+        if (!$ret = $tab->get($id)) {
+            $this->failure('删除的小区不存在');
+        }
+        if ($tab->delete(['pco_id' => $id])['code'] === 0) {
+            admin_helper::add_log($this->login['admin_id'], 'community/del', '3', '删除小区[' . $id . '@]');
+            OBJ('unit_copy_table')->delete(['pu_co_id' => $id]);
+            $this->success('删除小区成功');
+        }
     }
     
 }

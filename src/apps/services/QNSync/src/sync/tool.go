@@ -30,11 +30,12 @@ func WalkDir(dirPth, suffix string) (files []string, err error) {
 
 /**
  * 执行同步
- * sync /path/to/files
+ * tool /path/to/files
  * @return {[type]} [description]
  */
 func main() {
 	distDir := os.Args[1]
+	prefix := os.Args[2]
 	if !filepath.IsAbs(os.Args[1]) {
 		dst, err := filepath.Abs(os.Args[1])
 		if err == nil {
@@ -46,6 +47,7 @@ func main() {
 
 	for k, sPath := range files {
 		sKey, _ := filepath.Rel(distDir, sPath)
+		sKey = prefix + "/" + sKey
 		uploader := (&helper.UploaderHelper{}).Init()
 		_, err := uploader.PutFile(sKey, sPath)
 		if err != nil {

@@ -11,17 +11,17 @@ class unit_iface extends ubase_iface {
     public function list_action () {
         $id = intval($this->data['id']);
         $unit_tab = OBJ('unit_copy_table');
-        $paging = new paging_helper($unit_tab, $this->data['pn'] ?: 1, 4);
-        $pu_list = $unit_tab->get_all([
+        $unit_tab->where([
             'pu_co_id' => $id,
         ]);
+        $paging = new paging_helper($unit_tab, $this->data['pn'] ?: 1, 4);
+        $pu_list = $unit_tab->get_all();
         foreach ((array)$pu_list as $k => $v) {
             $pu_list[$k]['pu_cover_thumb'] = IMAGE_URL . $v['pu_cover'] . '!500x309';
-            $pu_list[$k]['pu_co_id'] = $id;
         }
         $this->success('操作成功', [
-            'list'      => array_values($pu_list),
-            'paging'    => $paging->to_array(),
+            'list'   => array_values($pu_list),
+            'paging' => $paging->to_array(),
         ]);
     }
     
@@ -69,6 +69,19 @@ class unit_iface extends ubase_iface {
             }
         }
         $this->failure($tab->get_error_desc());
+    }
+    
+    public function del_action () {
+        $id = intval($this->data['id']);
+        $tab = OBJ('unit_copy_table');
+        if (!$ret = $tab->get($id)) {
+            $this->failure('户型不存在');
+        }
+        if ($tab->delete(['pu_id' => $id])['code'] === 0) {
+            admin_helper::add_log($this->login['admin_id'], 'unit/del', '3', '删除户型[' . $id . '@]');
+            $this->success('操作成功');
+        }
+        $this->failure('删除户型失败', 101);
     }
     
 }
