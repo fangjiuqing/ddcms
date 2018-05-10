@@ -14,7 +14,7 @@ return [
 
    // 常量配置
    'defines'  => [
-        'image_url'     => 'http://p4r3lxyo0.bkt.clouddn.com/'
+        'image_url'     => 'http://attachment.ddzz360.com/'
    ],
 
    // 消息队列配置
