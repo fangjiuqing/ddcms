@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"time"
+	"io"
 )
 
 /**
@@ -97,6 +98,16 @@ func delFile(db *sql.DB, uploader *helper.UploaderHelper, msg string) {
 }
 
 func main() {
+    if PathExists("./pid") {
+        log.Println("Sync service has already started")
+        os.Exit(0)
+    }
+
+    f, _ := os.OpenFile("./pid", os.O_WRONLY | os.O_CREATE, os.ModePerm)
+    f.Truncate(0)
+    io.WriteString(f, strconv.Itoa(os.Getpid()))
+    f.Close()
+
 	client := redis.NewClient(&redis.Options{
 		Addr:     "188.server:6379",
 		Password: "",
@@ -106,7 +117,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	log.Println("Sync Server started ")
+	log.Println("Sync Service started ")
 
 	pubsub := client.PSubscribe("RMQ_sync*")
 	db, err := getDB()
@@ -131,5 +142,6 @@ func main() {
 			go delFile(db, uploader, msg.Payload)
 		}
 	}
+
 	return
 }

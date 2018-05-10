@@ -9,6 +9,8 @@ import (
 	"log"
 	"strconv"
 	"time"
+    "os"
+    "io"
 )
 
 /**
@@ -19,6 +21,21 @@ import (
 func getDB() (*sql.DB, error) {
 	dsn := "root:123456@tcp(188.server:3306)/ddzz?charset=utf8&autocommit=true"
 	return sql.Open("mysql", dsn)
+}
+
+/**
+ * 判断目录或文件是否存在
+ * @param {[type]} path string) (bool [description]
+ */
+func PathExists(path string) bool {
+    _, err := os.Stat(path)
+    if err == nil {
+        return true
+    }
+    if os.IsNotExist(err) {
+        return false
+    }
+    return false
 }
 
 /**
@@ -56,6 +73,15 @@ func sendSMS(db *sql.DB, qs *libs.QQSMS, msg string) {
 }
 
 func main() {
+    if PathExists("./pid") {
+        log.Println("SMS service has already started")
+        os.Exit(0)
+    }
+    f, _ := os.OpenFile("./pid", os.O_WRONLY | os.O_CREATE, os.ModePerm)
+    f.Truncate(0)
+    io.WriteString(f, strconv.Itoa(os.Getpid()))
+    f.Close()
+
 	client := redis.NewClient(&redis.Options{
 		Addr:     "188.server:6379",
 		Password: "",
@@ -65,7 +91,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	log.Println("SMS Server started ")
+	log.Println("SMS Service started")
 
 	pubsub := client.Subscribe("RMQ_sms")
 	db, err := getDB()
@@ -90,5 +116,6 @@ func main() {
 		log.Println("Received \t", msg.Payload, "Channel ", msg.Channel)
 		go sendSMS(db, QS, msg.Payload)
 	}
+
 	return
 }
