@@ -14,17 +14,27 @@ class community_iface extends ubase_iface {
      */
     public function list_action () {
         $tab = OBJ('community_copy_table');
-        $paging = new paging_helper($tab, $this->data['pn'] ?: 1, 10);
+        $num = intval($this->data['num']);
+        $paging = new paging_helper($tab, $this->data['pn'] ?: 1, $num ?: 12);
+        $pco_ids = [];
         $region0 = [];
         $region1 = [];
         $region2 = [];
         $region_tab = OBJ('region_table');
-        $arts = $tab->map(function ($row) use (&$region0, &$region1, &$region2) {
+        $arts = $tab->map(function ($row) use (&$pco_ids, &$region0, &$region1, &$region2) {
+            $pco_ids[$row['pco_id']]                = 1;
             $region0[$row['pco_region0'] . '0000']  = 1;
             $region1[$row['pco_region1'] . '00']    = 1;
             $region2[$row['pco_region2']]           = 1;
             return $row;
         })->get_all();
+        $pco_list = OBJ('unit_copy_table')->get_all([
+            'pu_co_id' => array_keys($pco_ids),
+        ]);
+        $img_list = [];
+        foreach ((array)$pco_list as $k => $v) {
+            $img_list[$v['pu_co_id']][] = IMAGE_URL . $v['pu_cover'];
+        }
         $region0_list = $region_tab->akey('region_code')->get_all([
             'region_code' => array_keys($region0),
         ]);
@@ -35,12 +45,14 @@ class community_iface extends ubase_iface {
             'region_code' => array_keys($region2),
         ]);
         foreach ((array)$arts as $k => $v) {
-            $arts[$k]['pco_region0_label'] = isset($arts[$k]['pco_region0']) ?
-                $region0_list[$arts[$k]['pco_region0'] . '0000']['region_name'] : '';
-            $arts[$k]['pco_region1_label'] = isset($arts[$k]['pco_region1']) ?
-                $region1_list[$arts[$k]['pco_region1'] . '00']['region_name'] : '';
-            $arts[$k]['pco_region2_label'] = isset($arts[$k]['pco_region2']) ?
-                $region2_list[$arts[$k]['pco_region2']]['region_name'] : '';
+            $arts[$k]['pco_cover_label'] = isset($img_list[$v['pco_id']]) ?
+                array_slice($img_list[$v['pco_id']], 0, 5) : '';
+            $arts[$k]['pco_region0_label'] = isset($region0_list[$v['pco_region0'] . '0000']) ?
+                $region0_list[$v['pco_region0'] . '0000']['region_name'] : '';
+            $arts[$k]['pco_region1_label'] = isset($region1_list[$v['pco_region1'] . '00']) ?
+                $region1_list[$v['pco_region1'] . '00']['region_name'] : '';
+            $arts[$k]['pco_region2_label'] = isset($region2_list[$v['pco_region2']]) ?
+                $region2_list[$v['pco_region2']]['region_name'] : '';
         }
         $this->success('查询成功', [
             'list'   => array_values($arts),

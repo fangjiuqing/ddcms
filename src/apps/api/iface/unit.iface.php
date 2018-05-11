@@ -14,15 +14,12 @@ class unit_iface extends ubase_iface {
         $unit_tab->where([
             'pu_co_id' => $id,
         ]);
-        $paging = new paging_helper($unit_tab, $this->data['pn'] ?: 1, 4);
         $pu_list = $unit_tab->get_all();
         foreach ((array)$pu_list as $k => $v) {
             $pu_list[$k]['pu_cover_thumb'] = IMAGE_URL . $v['pu_cover'] . '!500x309';
+            unset($pu_list[$k]['pu_cover']);
         }
-        $this->success('操作成功', [
-            'list'   => array_values($pu_list),
-            'paging' => $paging->to_array(),
-        ]);
+        $this->success('操作成功', $pu_list);
     }
     
     public function get_action () {
