@@ -82,7 +82,19 @@ class community_iface extends ubase_iface {
         $ret['region0_label'] = $region0_list['region_name'];
         $ret['region1_label'] = $region1_list ? $region1_list['region_name'] : '';
         $ret['region2_label'] = $region2_list ? $region2_list['region_name'] : '';
-        $this->success('操作成功', $ret);
+        $temp_list = OBJ('unit_copy_table')->get_all([
+            'pu_co_id' => $id,
+        ]);
+        $unit_list = [];
+        foreach ((array)$temp_list as $k => $v) {
+            $v['pu_cover_thumb'] = IMAGE_URL . $v['pu_cover'];
+            unset($v['pu_cover']);
+            $unit_list[] = $v;
+        }
+        $this->success('操作成功', [
+            'detail'      => $ret,
+            'list'    => array_values($unit_list),
+        ]);
     }
     
     public function save_action () {
