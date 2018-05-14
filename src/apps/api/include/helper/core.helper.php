@@ -72,4 +72,30 @@ class core_helper extends rgx {
         2   => '装修',
         3   => '完工'
     ];
+    
+    /**
+     * 户型面积范围
+     * @var array
+     */
+    public static $area_range = [
+        0 => '<60m²',
+        1 => '60-80m²',
+        2 => '80-100m²',
+        3 => '100-120m²',
+        4 => '120-150m²',
+        5 => '>150m²',
+    ];
+    
+    const RANGE_60 = 0;
+    
+    const RANGE_80 = 1;
+    
+    const RANGE_100 = 2;
+    
+    const RANGE_120 = 3;
+    
+    const RANGE_150 = 4;
+    
+    const RANGE_MAX = 5;
+    
 }

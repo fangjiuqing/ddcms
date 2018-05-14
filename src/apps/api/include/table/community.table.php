@@ -83,7 +83,7 @@ class community_table extends table {
             'min'                => 0,
             'max'                => 64,
             'label'              => '详细地址',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
     ];

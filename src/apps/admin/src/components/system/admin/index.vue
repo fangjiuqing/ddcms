@@ -102,28 +102,6 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <label class="col-sm-3 label-on-left">邮箱</label>
-              <div class="col-sm-9">
-                <div class="form-group">
-                 <input class="form-control" v-model="modal_data.admin_email" v-focus="modal_data.admin_email"  type="text" placeholder="请输入要绑定的邮箱">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-sm-3 label-on-left">密码</label>
-              <div class="col-sm-9">
-                <div class="form-group">
-                 <input class="form-control" v-model="modal_data.admin_passwd" v-focus="modal_data.admin_passwd"  type="password" placeholder="请输入密码">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-sm-3 label-on-left">微信</label>
-              <div class="col-sm-9">
-                <input class="form-control" v-model="modal_data.admin_wechat" v-focus="modal_data.admin_wechat"  type="text" placeholder="请输入要绑定的微信号">
-              </div>
-            </div>
           </div>
         </form>
       </div>

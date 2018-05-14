@@ -15,14 +15,15 @@ var helper = {
     var mac = new qiniu.auth.digest.Mac(aKey, sKey)
     var putPolicy = new qiniu.rs.PutPolicy({
        scope: bucketName,
-       expires: 600
+       expires: 600000
     })
     return putPolicy.uploadToken(mac)
   },
 
   // 获取上传助手
   getUploader: function () {
-    return new qiniu.form_up.FormUploader(new qiniu.conf.Config())
+    var config = new qiniu.conf.Config()
+    return new qiniu.form_up.FormUploader(config)
   },
 
   // 添加文件
@@ -33,7 +34,7 @@ var helper = {
       }
 
       if (info.statusCode == 200) {
-        console.log('Success => ' + body.key);
+        //console.log('Success => ' + body.key);
         callback && callback()
       } else {
         console.log(body)
@@ -68,11 +69,14 @@ var task = []
 fs.readdirSync(dist).forEach((ele, i) => {
   task.push(prefix + 'pic/' + ele)
 })
-console.log('Task Length => ' + task.length);
+const task_len = task.length
+console.log('Task Length => ' + task_len);
 var exec = () => {
   if (task.length > 0) {
     var local_file = task.pop()
     helper.putFile(local_file.replace(prefix, ''), local_file, exec)
+    console.clear()
+    console.log((task_len - task.length) + ' / ' + task_len);
   }
 }
 exec()
