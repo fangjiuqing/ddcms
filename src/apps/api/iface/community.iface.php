@@ -99,6 +99,7 @@ class community_iface extends ubase_iface {
     }
     
     public function save_action () {
+        var_dump($this->data);
         $this->data['base']['pco_id'] = intval($this->data['base']['pco_id']);
         $this->data['base']['pco_region0'] = (int)substr($this->data['base']['pco_region0'], 0, 2);
         $this->data['base']['pco_region1'] = (int)substr($this->data['base']['pco_region1'], 0, 4);
@@ -121,7 +122,7 @@ class community_iface extends ubase_iface {
             foreach ((array)$this->data['add'] as $v) {
                 $v['pu_co_id'] = empty($this->data['base']['pco_id']) ?
                     $community_ret['row_id'] : $this->data['base']['pco_id'];
-                if (empty($v['pu_area0']) || empty($v['pu_area1']) || $v['pu_area0'] <
+                if (empty($v['pu_area0']) || empty($v['pu_area1']) || $v['pu_area0'] <=
                     $v['pu_area1']) {
                     $this->failure('户型面积有误', 101);
                 }
