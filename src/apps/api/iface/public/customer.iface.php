@@ -50,11 +50,6 @@ class public_customer_iface extends base_iface {
             $this->failure('验证码有误，请重试。', 102);
         }
         $tab = OBJ('customer_table');
-        if ($tab->get([
-            'pc_mobile' => $this->data['pc_mobile'],
-        ])) {
-            $this->success('您已预留过手机号。');
-        }
         if ($tab->load($this->data)) {
             $ret = $tab->save();
             if ($ret['code'] === 0) {
@@ -78,6 +73,11 @@ class public_customer_iface extends base_iface {
         ]);
         $this->data['verify_desc'] = mt_rand(1000, 9999);
         $this->data['verify_adate'] = REQUEST_TIME;
+        if (OBJ('customer_table')->get([
+            'pc_mobile' => $this->data['verify_mobile'],
+        ])) {
+            $this->failure('此号码已占用');
+        }
         $tab = OBJ('verify_table');
         //验证是否为第二次发送短信
         $result = $tab->get([
@@ -87,7 +87,7 @@ class public_customer_iface extends base_iface {
         if ($result) {
             //同一号码5分钟之内不允许再次发送
             if (REQUEST_TIME - $result['verify_adate'] < 5 * 60) {
-                $this->success('验证码已发送');
+                $this->success('验证码已发送, 5分钟之内有效');
             }
             $tab->where([
                 'verify_mobile' => $this->data['verify_mobile'],
