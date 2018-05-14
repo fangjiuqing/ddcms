@@ -85,7 +85,7 @@ class task_helper extends rgx {
             'task_status'   => self::STATUS_NEW,
             'task_adate'    => REQUEST_TIME,
             'task_cdate'    => 0,
-            'task_desc'     => R\filter::json_ecsape($data),
+            'task_desc'     => filter::json_ecsape($data),
             'task_result'   => ''
         ]);
         if ($ret['code'] === 0) {
@@ -114,7 +114,7 @@ class task_helper extends rgx {
             'task_status'   => self::STATUS_NEW,
             'task_adate'    => REQUEST_TIME,
             'task_cdate'    => 0,
-            'task_desc'     => R\filter::json_ecsape($data),
+            'task_desc'     => filter::json_ecsape($data),
             'task_result'   => ''
         ]);
         if ($ret['code'] === 0) {
@@ -139,13 +139,13 @@ class task_helper extends rgx {
             'code'      => $code,
             'ttl'       => 5
         ];
-        $tab = R\OBJ('task_table');
+        $tab = OBJ('task_table');
         $ret = $tab->insert([
             'task_type'     => self::TYPE_SMS,
             'task_status'   => self::STATUS_NEW,
             'task_adate'    => REQUEST_TIME,
             'task_cdate'    => 0,
-            'task_desc'     => R\filter::json_ecsape($data),
+            'task_desc'     => filter::json_ecsape($data),
             'task_result'   => ''
         ]);
 
