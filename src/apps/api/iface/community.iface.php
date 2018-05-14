@@ -82,6 +82,7 @@ class community_iface extends ubase_iface {
         $ret['region0_label'] = $region0_list['region_name'];
         $ret['region1_label'] = $region1_list ? $region1_list['region_name'] : '';
         $ret['region2_label'] = $region2_list ? $region2_list['region_name'] : '';
+        
         $temp_list = OBJ('unit_copy_table')->get_all([
             'pu_co_id' => $id,
         ]);
@@ -92,30 +93,61 @@ class community_iface extends ubase_iface {
             $unit_list[] = $v;
         }
         $this->success('操作成功', [
-            'detail'      => $ret,
-            'list'    => array_values($unit_list),
+            'detail'    => $ret,
+            'list'      => array_values($unit_list),
         ]);
     }
     
     public function save_action () {
-        $this->data['pco_id'] = intval($this->data['id']);
+        dump($this->data);
+        $this->data['base']['pco_id'] = intval($this->data['base']['pco_id']);
         $tab = OBJ('community_copy_table');
-        $this->data['pco_region0'] = (int)substr($this->data['pco_region0'], 0, 2);
-        $this->data['pco_region1'] = (int)substr($this->data['pco_region1'], 0, 4);
-        $this->data['pco_region2'] = (int)substr($this->data['pco_region2'], 0, 6);
-        if (empty($this->data['pco_name'])) {
+        $this->data['base']['pco_region0'] = (int)substr($this->data['base']['pco_region0'], 0, 2);
+        $this->data['base']['pco_region1'] = (int)substr($this->data['base']['pco_region1'], 0, 4);
+        $this->data['base']['pco_region2'] = (int)substr($this->data['base']['pco_region2'], 0, 6);
+        if (empty($this->data['base']['pco_name'])) {
             $this->failure('请输入正确的小区名');
         }
         $this->data['pco_addr'] = $this->data['pco_addr'] ?: '';
-        if ($tab->load($this->data)) {
+        if ($tab->load($this->data['base'])) {
             $ret = $tab->save();
             if ($ret['code'] === 0) {
-                admin_helper::add_log($this->login['admin_id'], 'community/save',
-                    '2', ($this->data['pco_id'] ? '小区编辑[' . $this->data['pco_id'] : '小区新增[' . $ret['row_id'])
+                admin_helper::add_log($this->login['admin_id'], 'community/save', '2',
+                    ($this->data['base']['pco_id'] ? '小区编辑[' . $this->data['base']['pco_id'] : '小区新增[' . $ret['row_id'])
                     . '@]');
-                $this->success('操作成功');
             }
         }
+        var_dump($this->data);
+        $this->data['add']['pu_area0'] = (int)$this->data['add']['pu_area0'];
+        $this->data['add']['pu_area1'] = (int)$this->data['add']['pu_area1'];
+        $this->data['add']['pu_room0'] = (int)$this->data['add']['pu_room0'];
+        $this->data['add']['pu_room1'] = (int)$this->data['add']['pu_room1'];
+        $this->data['add']['pu_room2'] = (int)$this->data['add']['pu_room2'];
+        $this->data['add']['pu_room3'] = (int)$this->data['add']['pu_room3'];
+        dump($this->data['add']);
+        if (empty($this->temp['pu_area0']) || empty($this->temp['pu_area1']) || $this->temp['pu_area0'] <
+            $this->temp['pu_area1']) {
+            $this->failure('户型面积有误');
+        }
+        if ($this->temp['pu_area0'] <= 60) {
+            $this->temp['pu_area_range'] = core_helper::RANGE_60;
+        }
+        elseif ($this->temp['pu_area0'] <= 80) {
+            $this->temp['pu_area_range'] = core_helper::RANGE_80;
+        }
+        elseif ($this->temp['pu_area0'] <= 100) {
+            $this->temp['pu_area_range'] = core_helper::RANGE_100;
+        }
+        elseif ($this->temp['pu_area0'] <= 120) {
+            $this->temp['pu_area_range'] = core_helper::RANGE_120;
+        }
+        elseif ($this->temp['pu_area0'] <= 150) {
+            $this->temp['pu_area_range'] = core_helper::RANGE_150;
+        }
+        else {
+            $this->temp['pu_area_range'] = core_helper::RANGE_MAX;
+        }
+        dump($this->temp);
         $this->failure($tab->get_error_desc());
     }
     
