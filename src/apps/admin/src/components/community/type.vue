@@ -62,7 +62,7 @@
             <tbody>
               <tr v-for="(row, row_key) in rows" :key="row_key">
                 <td>
-                  <img class="preview_cover" style="width: 100px; height: 130px;" :src="cover" @click="upload_cover">
+                  <img class="preview_cover" style="width: 150px;" :src="row.cover" @click="upload_cover(row_key)">
                   <input class="material_field_input" type="hidden" name="pu_cover" v-model="rows[row_key]['pu_cover']">
                 </td>
                 <td>
@@ -102,7 +102,7 @@
       <form action="" method="post" accept-charset="utf-8">
         <div class="col-md-12 type-row" v-for="(v) in form" :key="v.id">
           <div class="col-md-4">
-            <img :src="v.pu_cover_thumb" alt="" style="width: 100%;">
+            <img :src="v.cover" alt="" style="width: 100%;">
           </div>
           <div class="col-md-5 detail">
             <div class="row unit">
@@ -174,10 +174,9 @@
 </template>
 <script>
 import VDistpicker from 'v-distpicker'
-import { VueEditor } from 'vue2-editor'
 export default {
   name: 'Type',
-  components: { VDistpicker, VueEditor },
+  components: { VDistpicker },
   metaInfo () {
     return {
       title: '小区详情 - 道达智装'
@@ -198,11 +197,14 @@ export default {
       attrs: {},
       rows: [
         {
-          id: 0
+          id: 0,
+          pu_cover: '',
+          cover: require('@/assets/images/default_1x1.jpg')
         }
       ],
       fields: {},
-      field_key: ''
+      field_key: '',
+      rowID: 0
     }
   },
   methods: {
@@ -227,7 +229,9 @@ export default {
     },
     add_row () {
       let row = {
-        id: 0
+        id: 0,
+        pu_cover: '',
+        cover: require('@/assets/images/default_1x1.jpg')
       }
       for (var key in this.fields) {
         if (this.fields.hasOwnProperty(key)) {
@@ -247,7 +251,8 @@ export default {
     //   }
     //   this.rows.pop(row)
     // },
-    upload_cover () {
+    upload_cover (rowID) {
+      this.rowID = rowID
       this.$uploader.select({
         uri: 'upload/image',
         el: this,
@@ -276,8 +281,9 @@ export default {
         type: 'success',
         dismissible: false
       })
-      this.form.pu_cover = d.image
-      this.cover = d.thumb
+      this.rows[this.rowID]['pu_cover'] = d.image
+      this.rows[this.rowID]['cover'] = d.thumb
+      this.rowID = 0
     },
     on_cover_progress (e) {
       if (e) {

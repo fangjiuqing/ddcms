@@ -11,13 +11,14 @@ class task_helper extends rgx {
      * @var array
      */
     public static $type = [
-        1       => '短信发送',
+        1       => '短信验证',
         2       => '附件同步',
-        3       => '附件删除'
+        3       => '附件删除',
+        4       => '预约通知'
     ];
 
     /**
-     * 短信发送
+     * 短信验证
      */
     const TYPE_SMS          = 1;
 
@@ -30,6 +31,11 @@ class task_helper extends rgx {
      * 附件删除
      */
     const TYPE_DEL          = 3;
+
+    /**
+     * 预约通知
+     */
+    const TYPE_SMS_NOTICE   = 4;
 
     /**
      * 任务处理状态
@@ -159,5 +165,41 @@ class task_helper extends rgx {
         return false;
     }
 
-}
+    /**
+     * 发送通知短信
+     * @param  [type] $mobile       [description]
+     * @param  [type] $service_type [description]
+     * @param  [type] $date         [description]
+     * @param  [type] $mobile       [description]
+     * @param  [type] $nick         [description]
+     * @return [type]               [description]
+     */
+    public static function send_notice ($mobile, $service_type, $date, $s_mobile, $s_nick) {
+        $data = [
+            'tpl_id'    => '120945',
+            'mobile'    => $mobile,
+            'type'      => self::$type[$service_type] ?: $service_type,
+            'date'      => date('Y-m-d H:i', $date),
+            's_mobile'  => $s_mobile,
+            's_nick'    => $s_nick
+        ];
+        $tab = OBJ('task_table');
+        $ret = $tab->insert([
+            'task_type'     => self::TYPE_SMS_NOTICE,
+            'task_status'   => self::STATUS_NEW,
+            'task_adate'    => REQUEST_TIME,
+            'task_cdate'    => 0,
+            'task_desc'     => filter::json_ecsape($data),
+            'task_result'   => ''
+        ]);
 
+        $mq = mq::get_instance();
+        if ($ret['code'] === 0) {
+            return mq::get_instance()->publish('sms_notice', [
+                'id'    => (int)$ret['row_id'],
+                'data'  => $data
+            ]);
+        }
+        return false;
+    }
+}

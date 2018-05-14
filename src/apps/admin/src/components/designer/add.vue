@@ -17,12 +17,12 @@
                 <div class="row">
                   <div class="col-md-6">
                       <div class="form-group">
-                        <input class="form-control" name="des_name" v-model="form.des_name"  v-focus="form.des_name"  type="text" placeholder="设计师姓名">
+                        <input class="form-control" name="des_name" v-model="form.des_name" type="text" placeholder="设计师姓名">
                       </div>
                   </div>
                   <div class="col-md-6">
                       <div class="form-group">
-                        <input class="form-control" name="des_title" v-model="form.des_title"  v-focus="form.des_title"  type="text" placeholder="设计师职位">
+                        <input class="form-control" name="des_title" v-model="form.des_title" type="text" placeholder="设计师职位">
                       </div>
                   </div>
                 </div>
@@ -30,7 +30,7 @@
                   <div class="col-md-6">
                       <div class="form-group">
                         <div class="input-group">
-                            <input class="form-control" name="des_workyears" v-model="form.des_workyears"  v-focus="form.des_workyears"  type="number" placeholder="工作年数">
+                            <input class="form-control" name="des_workyears" v-model="form.des_workyears" type="number" placeholder="工作年数">
                             <span class="input-group-addon">年</span>
                         </div>
                       </div>
@@ -38,17 +38,17 @@
                   <div class="col-md-6">
                       <div class="form-group">
                         <div class="input-group">
-                            <input class="form-control" name="des_price" v-model="form.des_price"  v-focus="form.des_price"  type="text" placeholder="设计价格">
+                            <input class="form-control" name="des_price" v-model="form.des_price" type="text" placeholder="设计价格">
                             <span class="input-group-addon">元/M²</span>
                         </div>
                       </div>
                   </div>
                 </div>
                 <div class="form-group">
-                  <input class="form-control" name="des_concept_tags" v-model="form.des_concept_tags"  v-focus="form.des_concept_tags"  type="text" placeholder="设计理念">
+                  <input class="form-control" name="des_concept_tags" v-model="form.des_concept_tags" type="text" placeholder="设计理念">
                 </div>
                 <div class="form-group">
-                  <input class="form-control" name="des_slogan" v-model="form.des_slogan"  v-focus="form.des_slogan"  type="text" placeholder="服务范围">
+                  <input class="form-control" name="des_slogan" v-model="form.des_slogan" type="text" placeholder="服务范围">
                 </div>
                 <div class="row">
                   <div class="col-md-6">

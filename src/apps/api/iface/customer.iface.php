@@ -75,11 +75,18 @@ class customer_iface extends ubase_iface {
      * @param int $id 用户ID
      */
     public function get_action () {
-        $id = intval($this->data['id']);
-        $ret = OBJ('customer_table')->get($id);
-        if (!$ret) {
-            $this->failure('该用户不存在');
+        $ret['row'] = OBJ('customer_table')->get((int)$this->data['id']) ?: null;
+        if (empty($ret['row'])) {
+            $this->failure('该客户不存在');
         }
+        $ret['orders'] = OBJ('customer_order_table')->map(function ($row) {
+            $row['sms_send'] = $row['pco_sms_send'] ? true : false;
+            $row['type']  = core_helper::$order_type[$row['pco_type']];
+            return $row;
+        })->order('pco_atime desc')->get_all([
+            'pco_pc_id'     => $ret['row']['pc_id']
+        ]) ?: [];
+        $ret['type'] = core_helper::$order_type;
         $this->success('操作成功', $ret);
     }
     

@@ -16,55 +16,57 @@
             <div class="col-sm-6">
               <label class="col-sm-3 label-on-left">客户编号</label>
               <div class="form-group col-sm-9">
-                <input type="text" class="form-control" name="pc_sn" v-model="form.pc_sn"  v-focus="form.pc_sn" placeholder="客户编号">
+                <input type="text" class="form-control" name="pc_sn" v-model="form.pc_sn" placeholder="客户编号">
               </div>
             </div>
             <div class="col-sm-6">
               <label class="col-sm-3 label-on-left">客户姓名</label>
               <div class="form-group col-sm-9">
-                <input type="text" class="form-control" name="pc_nick" v-model="form.pc_nick"  v-focus="form.pc_nick" placeholder="客户姓名">
+                <input type="text" class="form-control" name="pc_nick" v-model="form.pc_nick" placeholder="客户姓名">
               </div>
             </div>
             <div class="col-sm-6">
               <label class="col-sm-3 label-on-left">客户性别</label>
               <div class="form-group col-sm-9">
-                <input type="text" class="form-control" name="pc_gender" v-model="form.pc_gender"  v-focus="form.pc_gender" placeholder="客户性别">
+                <p-check class="p-default p-round" v-model="form.pc_gender">Default</p-check>
+                <p-check class="p-default p-round p-fill" v-model="form.pc_gender">Fill</p-check>
+                <p-check class="p-default p-round p-thick" v-model="form.pc_gender">Thick</p-check>
               </div>
             </div>
             <div class="col-sm-6">
               <label class="col-sm-3 label-on-left">身份证号</label>
               <div class="form-group col-sm-9">
-                <input type="text" class="form-control" name="pc_sid" v-model="form.pc_sid"  v-focus="form.pc_sid" placeholder="身份证号">
+                <input type="text" class="form-control" name="pc_sid" v-model="form.pc_sid" placeholder="身份证号">
               </div>
             </div>
             <div class="col-sm-6">
               <label class="col-sm-3 label-on-left">手机号</label>
               <div class="form-group col-sm-9">
-                <input type="text" class="form-control" name="pc_mobile" v-model="form.pc_mobile"  v-focus="form.pc_mobile" placeholder="手机号" disabled>
+                <input type="text" class="form-control" name="pc_mobile" v-model="form.pc_mobile" placeholder="手机号" disabled>
               </div>
             </div>
             <div class="col-sm-6">
               <label class="col-sm-3 label-on-left">客户状态</label>
               <div class="form-group col-sm-9">
-                <input type="text" class="form-control" name="pc_status" v-model="form.pc_status"  v-focus="form.pc_status" placeholder="客户状态" disabled>
+                <input type="text" class="form-control" name="pc_status" v-model="form.pc_status" placeholder="客户状态" disabled>
               </div>
             </div>
             <div class="col-sm-6">
               <label class="col-sm-3 label-on-left">所属客服</label>
               <div class="form-group col-sm-9">
-                <input type="text" class="form-control" name="pc_adm_id" v-model="form.pc_adm_id"  v-focus="form.pc_adm_id" placeholder="所属客服" disabled>
+                <input type="text" class="form-control" name="pc_adm_id" v-model="form.pc_adm_id" placeholder="所属客服" disabled>
               </div>
             </div>
             <div class="col-sm-6">
               <label class="col-sm-3 label-on-left">客服姓名</label>
               <div class="form-group col-sm-9">
-                <input type="text" class="form-control" name="pc_adm_nick" v-model="form.pc_adm_nick"  v-focus="form.pc_adm_nick" placeholder="客服姓名">
+                <input type="text" class="form-control" name="pc_adm_nick" v-model="form.pc_adm_nick" placeholder="客服姓名">
               </div>
             </div>
             <div class="col-sm-6">
               <label class="col-sm-3 label-on-left">客户来源</label>
               <div class="form-group col-sm-9">
-                <input type="text" class="form-control" name="pc_via" v-model="form.pc_via"  v-focus="form.pc_via" placeholder="客户来源">
+                <input type="text" class="form-control" name="pc_via" v-model="form.pc_via" placeholder="客户来源">
               </div>
             </div>
             <div class="col-sm-6">
@@ -76,13 +78,13 @@
             <div class="col-sm-6">
               <label class="col-sm-3 label-on-left">详细地址</label>
               <div class="form-group col-sm-9">
-                <input type="text" class="form-control" name="pc_addr" v-model="form.pc_addr"  v-focus="form.pc_addr" placeholder="详细地址">
+                <input type="text" class="form-control" name="pc_addr" v-model="form.pc_addr" placeholder="详细地址">
               </div>
             </div>
             <div class="col-sm-6">
               <label class="col-sm-3 label-on-left">小区</label>
               <div class="form-group col-sm-9">
-                <input type="text" class="form-control" name="pc_co_id" v-model="form.pc_co_id"  v-focus="form.pc_co_id" placeholder="小区">
+                <input type="text" class="form-control" name="pc_co_id" v-model="form.pc_co_id" placeholder="小区">
               </div>
             </div>
           </div>
@@ -134,13 +136,13 @@
                   <div class="col-sm-6">
                     <label class="col-sm-3 label-on-left">添加时间</label>
                     <div class="form-group col-sm-9">
-                      <input type="text" class="form-control" name="pc_atime" v-model="form.pc_atime"  v-focus="form.pc_atime" placeholder="添加时间">
+                      <input type="text" class="form-control" name="pc_atime" v-model="form.pc_atime" placeholder="添加时间">
                     </div>
                   </div>
                   <div class="col-sm-6">
                     <label class="col-sm-3 label-on-left">更新时间</label>
                     <div class="form-group col-sm-9">
-                      <input type="text" class="form-control" name="pc_utime" v-model="form.pc_utime"  v-focus="form.pc_utime" placeholder="更新时间">
+                      <input type="text" class="form-control" name="pc_utime" v-model="form.pc_utime" placeholder="更新时间">
                     </div>
                   </div>
                 </div>
@@ -158,6 +160,10 @@
   </div>
 </template>
 <script>
+import 'pretty-checkbox/dist/pretty-checkbox.min.css'
+import PrettyCheck from 'pretty-checkbox-vue/check'
+import PrettyRadio from 'pretty-checkbox-vue/radio'
+
 import VDistpicker from 'v-distpicker'
 export default {
   name: 'Preview',
@@ -166,7 +172,11 @@ export default {
       title: '客户预览 - 道达智装'
     }
   },
-  components: { VDistpicker },
+  components: {
+    VDistpicker,
+    'p-check': PrettyCheck,
+    'p-radio': PrettyRadio
+  },
   data () {
     return {
       items: [
@@ -179,18 +189,6 @@ export default {
       attrs: {
         key0: {
           key: '家庭成员',
-          val: ''
-        },
-        key1: {
-          key: '生活习惯',
-          val: ''
-        },
-        key2: {
-          key: '风格喜好',
-          val: ''
-        },
-        key3: {
-          key: '其他要求',
           val: ''
         }
       }
@@ -209,7 +207,7 @@ export default {
       this.$http.get('customer', {id: this.id || 0, attrs: 1}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          this.form = this.id ? d.data : {}
+          this.form = this.id ? d.data.row : {}
         } else {
           this.rows = []
         }

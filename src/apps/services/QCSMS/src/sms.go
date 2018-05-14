@@ -46,30 +46,65 @@ func PathExists(path string) bool {
  * @return {[type]}     [description]
  */
 func sendSMS(db *sql.DB, qs *libs.QQSMS, msg string) {
-	row := make(map[string]interface{})
-	json.Unmarshal([]byte(msg), &row)
-	data := row["data"].(map[string]interface{})
-	for k, v := range data {
-		switch vv := v.(type) {
-		case int:
-			data[k] = strconv.Itoa(vv)
-		case int64:
-			data[k] = strconv.FormatInt(vv, 10)
-		case float64:
-			data[k] = strconv.FormatFloat(vv, 'f', 0, 64)
-		}
-	}
-	log.Println("Send SMS  \t", data["mobile"])
-	// 更新任务状态
-	db.Exec("update pre_task set task_status = 4 where task_id =?", row["id"])
-	rs := qs.SendVerify(data["tpl_id"].(string), data["mobile"].(string), data["code"].(string), data["ttl"].(string))
-	if rs {
-		t := time.Now()
-		db.Exec("update pre_task set task_status = 10, task_cdate =?, task_result =? where task_id =?", t.Unix(), "Success", row["id"])
-		log.Println("Success \t", data["mobile"])
-	} else {
-		log.Println("@@@Fail \t", data["mobile"])
-	}
+    row := make(map[string]interface{})
+    json.Unmarshal([]byte(msg), &row)
+    data := row["data"].(map[string]interface{})
+    for k, v := range data {
+        switch vv := v.(type) {
+        case int:
+            data[k] = strconv.Itoa(vv)
+        case int64:
+            data[k] = strconv.FormatInt(vv, 10)
+        case float64:
+            data[k] = strconv.FormatFloat(vv, 'f', 0, 64)
+        }
+    }
+    log.Println("Send SMS  \t", data["mobile"])
+    // 更新任务状态
+    db.Exec("update pre_task set task_status = 4 where task_id =?", row["id"])
+    rs := qs.SendVerify(data["tpl_id"].(string), data["mobile"].(string), data["code"].(string), data["ttl"].(string))
+    if rs {
+        t := time.Now()
+        db.Exec("update pre_task set task_status = 10, task_cdate =?, task_result =? where task_id =?", t.Unix(), "Success", row["id"])
+        log.Println("Success \t", data["mobile"])
+    } else {
+        log.Println("@@@Fail \t", data["mobile"])
+    }
+}
+
+/**
+ * 发送业务通知短信
+ * @param  {[type]} db  *sql.DB       [description]
+ * @param  {[type]} qs  *libs.QQSMS   [description]
+ * @param  {[type]} msg string        [description]
+ * @return {[type]}     [description]
+ */
+func sendSMSNotice(db *sql.DB, qs *libs.QQSMS, msg string) {
+    row := make(map[string]interface{})
+    json.Unmarshal([]byte(msg), &row)
+    data := row["data"].(map[string]interface{})
+    for k, v := range data {
+        switch vv := v.(type) {
+        case int:
+            data[k] = strconv.Itoa(vv)
+        case int64:
+            data[k] = strconv.FormatInt(vv, 10)
+        case float64:
+            data[k] = strconv.FormatFloat(vv, 'f', 0, 64)
+        }
+    }
+    log.Println("Send SMS Notice  \t", data["mobile"])
+    // 更新任务状态
+    db.Exec("update pre_task set task_status = 4 where task_id =?", row["id"])
+    rs := qs.SendNotice(data["tpl_id"].(string), data["mobile"].(string), data["type"].(string), data["date"].(string), 
+             data["s_mobile"].(string), data["s_nick"].(string))
+    if rs {
+        t := time.Now()
+        db.Exec("update pre_task set task_status = 10, task_cdate =?, task_result =? where task_id =?", t.Unix(), "Success", row["id"])
+        log.Println("Success \t", data["mobile"])
+    } else {
+        log.Println("@@@Fail \t", data["mobile"])
+    }
 }
 
 func main() {
@@ -93,7 +128,7 @@ func main() {
 	}
 	log.Println("SMS Service started")
 
-	pubsub := client.Subscribe("RMQ_sms")
+	pubsub := client.PSubscribe("RMQ_sms*")
 	db, err := getDB()
 	if err != nil {
 		panic(err)
@@ -114,7 +149,11 @@ func main() {
 			break
 		}
 		log.Println("Received \t", msg.Payload, "Channel ", msg.Channel)
-		go sendSMS(db, QS, msg.Payload)
+        if msg.Channel == "RMQ_sms" {
+            go sendSMS(db, QS, msg.Payload)
+        } else if msg.Channel == "RMQ_sms_notice" {
+            go sendSMSNotice(db, QS, msg.Payload)
+        }
 	}
 
 	return

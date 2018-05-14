@@ -50,7 +50,7 @@
             <div class="row">
               <div class="col-sm-6">
                 <div class="form-group">
-                  <input class="form-control" v-model="modal_data.pag_name" v-focus="modal_data.pag_name" type="text" placeholder="请输入权限组名称">
+                  <input class="form-control" v-model="modal_data.pag_name" type="text" placeholder="请输入权限组名称">
                 </div>
               </div>
             </div>

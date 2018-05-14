@@ -55,7 +55,7 @@
                 <label class="col-sm-2 label-on-left">名称</label>
                 <div class="col-sm-10">
                     <div class="form-group">
-                        <input class="form-control" v-model="modal_data.sup_realname"  v-focus="modal_data.sup_realname"  type="text" placeholder="供应商名称">
+                        <input class="form-control" v-model="modal_data.sup_realname" type="text" placeholder="供应商名称">
                     </div>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                 <label class="col-sm-2 label-on-left">联系人</label>
                 <div class="col-sm-10">
                     <div class="form-group">
-                        <input class="form-control" v-model="modal_data.sup_contact"  v-focus="modal_data.sup_contact"  type="text" placeholder="联系人">
+                        <input class="form-control" v-model="modal_data.sup_contact" type="text" placeholder="联系人">
                     </div>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                     <label class="col-sm-4 label-on-left">电话</label>
                     <div class="col-sm-8">
                         <div class="form-group">
-                            <input class="form-control" v-model="modal_data.sup_mobile"  v-focus="modal_data.sup_mobile"  type="text" placeholder="联系电话">
+                            <input class="form-control" v-model="modal_data.sup_mobile" type="text" placeholder="联系电话">
                         </div>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
                     <label class="col-sm-4 label-on-left">微信</label>
                     <div class="col-sm-8">
                         <div class="form-group">
-                            <input class="form-control" v-model="modal_data.sup_wechat"  v-focus="modal_data.sup_wechat"  type="text" placeholder="微信">
+                            <input class="form-control" v-model="modal_data.sup_wechat" type="text" placeholder="微信">
                         </div>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
                     <label class="col-sm-4 label-on-left">邮箱</label>
                     <div class="col-sm-8">
                         <div class="form-group">
-                            <input class="form-control" v-model="modal_data.sup_email"  v-focus="modal_data.sup_email"  type="text" placeholder="邮箱">
+                            <input class="form-control" v-model="modal_data.sup_email" type="text" placeholder="邮箱">
                         </div>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                     <label class="col-sm-4 label-on-left">QQ</label>
                     <div class="col-sm-8">
                         <div class="form-group">
-                            <input class="form-control" v-model="modal_data.sup_qq"  v-focus="modal_data.sup_qq"  type="text" placeholder="QQ">
+                            <input class="form-control" v-model="modal_data.sup_qq" type="text" placeholder="QQ">
                         </div>
                     </div>
                 </div>
@@ -127,13 +127,13 @@
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <input class="form-control" v-model="modal_data.sup_address"  v-focus="modal_data.sup_address"  type="text" placeholder="详细地址">
+                    <input class="form-control" v-model="modal_data.sup_address" type="text" placeholder="详细地址">
                 </div>
             </div>
             <div class="row">
                 <label class="col-sm-2 label-on-left">备注</label>
                 <div class="col-sm-10">
-                    <textarea class="form-control" v-model="modal_data.sup_desc"  v-focus="modal_data.sup_desc"  type="text" placeholder="备注信息"></textarea>
+                    <textarea class="form-control" v-model="modal_data.sup_desc" type="text" placeholder="备注信息"></textarea>
                 </div>
             </div>
           </div>

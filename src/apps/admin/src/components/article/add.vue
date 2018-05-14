@@ -16,10 +16,10 @@
           <div class="row">
             <div class="col-sm-7">
                 <div class="form-group">
-                    <input class="form-control" name="article_title" v-model="form.article_title"  v-focus="form.article_title"  type="text" placeholder="资讯标题">
+                    <input class="form-control" name="article_title" v-model="form.article_title" type="text" placeholder="资讯标题">
                 </div>
                 <div class="form-group">
-                    <input class="form-control" name="article_via" v-model="form.article_via"  v-focus="form.article_via"  type="text" placeholder="资讯来源">
+                    <input class="form-control" name="article_via" v-model="form.article_via" type="text" placeholder="资讯来源">
                 </div>
                 <div class="form-group">
                     <select v-model="form.article_cat_id"  name="article_cat_id" class="form-control">
