@@ -81,8 +81,8 @@ class task_helper extends rgx {
         ];
         $tab = OBJ('task_table');
         $ret = $tab->insert([
-            'task_type'     => R\task_helper::TYPE_SYNC,
-            'task_status'   => R\task_helper::STATUS_NEW,
+            'task_type'     => self::TYPE_SYNC,
+            'task_status'   => self::STATUS_NEW,
             'task_adate'    => REQUEST_TIME,
             'task_cdate'    => 0,
             'task_desc'     => R\filter::json_ecsape($data),
@@ -110,8 +110,8 @@ class task_helper extends rgx {
         ];
         $tab = OBJ('task_table');
         $ret = $tab->insert([
-            'task_type'     => R\task_helper::TYPE_DEL,
-            'task_status'   => R\task_helper::STATUS_NEW,
+            'task_type'     => self::TYPE_DEL,
+            'task_status'   => self::STATUS_NEW,
             'task_adate'    => REQUEST_TIME,
             'task_cdate'    => 0,
             'task_desc'     => R\filter::json_ecsape($data),
@@ -141,8 +141,8 @@ class task_helper extends rgx {
         ];
         $tab = R\OBJ('task_table');
         $ret = $tab->insert([
-            'task_type'     => R\task_helper::TYPE_SMS,
-            'task_status'   => R\task_helper::STATUS_NEW,
+            'task_type'     => self::TYPE_SMS,
+            'task_status'   => self::STATUS_NEW,
             'task_adate'    => REQUEST_TIME,
             'task_cdate'    => 0,
             'task_desc'     => R\filter::json_ecsape($data),
