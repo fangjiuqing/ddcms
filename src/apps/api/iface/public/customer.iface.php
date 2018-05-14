@@ -7,14 +7,14 @@ namespace re\rgx;
 class public_customer_iface extends base_iface {
     
     public function info_action () {
-        $this->data['pc_nick'] = $this->data['pc_nick'] ? filter::char($this->data['pc_nick']) : '';
+        $this->data['pc_nick'] = $this->data['pc_nick'] ? filter::char($this->data['pc_nick']) : '新客户';
         $this->data['pc_area'] = $this->data['pc_area'] ? filter::int($this->data['pc_area']) : 0;
         $this->data['pc_room0'] = $this->data['pc_room0'] ? filter::int($this->data['pc_room0']) : 0;
         $this->data['pc_room1'] = $this->data['pc_room1'] ? filter::int($this->data['pc_room1']) : 0;
         $this->data['pc_room2'] = $this->data['pc_room2'] ? filter::int($this->data['pc_room2']) : 0;
         $this->data['pc_room3'] = 1;
         $this->data['pc_local'] = $this->data['pc_local'] ? filter::char($this->data['pc_local']) : '';
-        $this->data['pc_sn'] = misc::randstr(8);
+        $this->data['pc_sn'] = date('YmdHis', app::get_time());
         $this->data['pc_status'] = 0;
         $this->data['pc_adm_id'] = 0;
         $this->data['pc_adm_nick'] = '';
@@ -34,7 +34,7 @@ class public_customer_iface extends base_iface {
         $this->verify([
             'pc_mobile' => [
                 'code' => 101,
-                'msg'  => '请输入正确的手机号',
+                'msg'  => '请输入正确的手机号。',
                 'rule' => filter::$rules['mobile'],
             ],
         ]);
@@ -44,21 +44,21 @@ class public_customer_iface extends base_iface {
             'verify_type'   => customer_helper::MOBILE_TYPE,
         ]);
         if (REQUEST_TIME - $result['verify_adate'] > 5 * 60) {
-            $this->failure('验证码已失效');
+            $this->failure('验证码已失效。');
         }
         if ($this->data['pc_code'] != $result['verify_desc']) {
-            $this->failure('验证码有误', 102);
+            $this->failure('验证码有误，请重试。', 102);
         }
         $tab = OBJ('customer_table');
         if ($tab->get([
             'pc_mobile' => $this->data['pc_mobile'],
         ])) {
-            $this->success('您已预留过手机号');
+            $this->success('您已预留过手机号。');
         }
         if ($tab->load($this->data)) {
             $ret = $tab->save();
             if ($ret['code'] === 0) {
-                $this->success('操作成功');
+                $this->success('操作成功。');
             }
         }
         $this->failure($tab->get_error_desc(), 103);
