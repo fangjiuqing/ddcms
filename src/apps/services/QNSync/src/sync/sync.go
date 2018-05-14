@@ -42,10 +42,12 @@ func syncFile(db *sql.DB, uploader *helper.UploaderHelper, msg string) {
 	db.Exec("update pre_task set task_status = 4 where task_id =?", row["id"])
 
 	_, err := uploader.PutFile(sKey, sPath)
+	t := time.Now()
 	if err != nil {
 		log.Println(err)
+		db.Exec("update pre_task set task_status = 1, task_cdate =?, task_result =? where task_id =?", t.Unix(), "Fail", row["id"])
+		log.Println("Sync Fail\t", sKey)
 	} else {
-		t := time.Now()
 		db.Exec("update pre_task set task_status = 10, task_cdate =?, task_result =? where task_id =?", t.Unix(), "Success", row["id"])
 		log.Println("Sync Success\t", sKey)
 	}

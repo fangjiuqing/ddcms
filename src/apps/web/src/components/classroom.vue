@@ -351,7 +351,7 @@ export default {
   overflow: hidden;
 }
 .trait .dname {
-  font-size: 36px;
+  font-size: 24px;
   color: #333333;
 }
 .cover {

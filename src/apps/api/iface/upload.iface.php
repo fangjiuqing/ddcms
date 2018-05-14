@@ -27,6 +27,7 @@ class upload_iface extends ubase_iface {
         }
         else {
             $sfile = UPLOAD_PATH . $out['data']['url'];
+            task_helper::sync_file($out['data']['url']);
             // image::get_instance()->thumb($sfile, '500x309');
             // image::get_instance()->thumb($sfile, '1200xauto');
         }
