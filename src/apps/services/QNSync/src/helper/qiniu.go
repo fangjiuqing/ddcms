@@ -24,7 +24,7 @@ type UploaderHelper struct {
 func (helper *UploaderHelper) Init() *UploaderHelper {
 	helper.policy = &storage.PutPolicy{
 		Scope:   "ddzz",
-		Expires: 36000,
+		Expires: 86400000,
 	}
 
 	helper.mac = qbox.NewMac("u_JjrlzWfKefeyKPfsINZWWi1RUT7lh_I1S2dazn", "Nsvra06C8FZc37Jg7YA8SAKPBFm34avv5EnCJMjW")
