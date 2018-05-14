@@ -13,25 +13,45 @@
     <div class="app_page">
       <form action="/" id="profile_form" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
         <div class="app_content">
-          <div class="customer-row" v-for="(v) in rows" :key="v.pco_id" style="width:45%;">
+          <div class="title col-md-12">
+            <h5 class="block-h5">小区管理</h5>
+          </div>
+          <div class="customer-row" v-for="(v) in rows" :key="v.pco_id">
             <div class="row">
-              <div class="col-md-10">
-                <dl class="dl-horizontal dl-common">
-                  <dt><small>省</small></dt>
-                  <dd><small>{{v.pco_region0_label || 'unknown'}}</small></dd>
-                  <dt><small>市</small></dt>
-                  <dd><small>{{v.pco_region1_label || 'unknown'}}</small></dd>
-                  <dt><small>县/区</small></dt>
-                  <dd><span>{{v.pco_region2_label || 'unknown'}}</span></dd>
-                  <dt><small>小区</small></dt>
-                  <dd><a href="javascript:;" class="text-info" @click="modify(v.pco_id)">{{v.pco_name}}</a></dd>
-                  <dt><small>详细地址</small></dt>
-                  <dd><span>{{v.pco_addr || '暂无'}}</span></dd>
-                </dl>
-              </div>
-              <div class="col-md-2">
-                <btn class="btn btn-xs btn-success" @click="modifi(v.pco_id)"><i class="fa fa-pencil"></i></btn>
-                <btn class="btn btn-xs btn-rose" @click="del(v.pco_id)"><i class="fa fa-trash-o"></i></btn>
+              <div class="col-md-12">
+                <div class="media-body">
+                  <h5 class="text-left">
+                    <btn class="btn btn-xs btn-rose pull-right" @click="del(v.pco_id)"><i class="fa fa-trash-o"></i></btn>
+                    <a title="编辑小区" @click="modify(v.pco_id)">{{v.pco_name}}</a>
+                  </h5>
+                  <p class="text-left">
+                    <span>
+                      <small>省 : </small>
+                      <span class="text-rose">{{v.pco_region0_label || 'unknown'}}</span>
+                    </span>
+                    <span class="separator"></span>
+                    <span>
+                      <small>市 : </small>
+                      <span class="text-rose">{{v.pco_region1_label || 'unknown'}}</span>
+                    </span>
+                    <span class="separator"></span>
+                    <span>
+                      <small>县/区 : </small>
+                      <span class="text-rose">{{v.pco_region2_label || 'unknown'}}</span>
+                    </span>
+                  </p>
+                  <p class="text-left">
+                    <span>
+                      <small>详细地址 : </small>
+                      <code>{{v.pco_addr || '暂无'}}</code>
+                    </span>
+                    <span class="separator"></span>
+                  </p>
+                  <p class="text-left">户型图 : </p>
+                  <p class="text-left">
+                    <img class="community-small-image" v-for="(img, img_key) in v.pco_cover_label" :src="img" :key="img_key" alt="">
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -40,38 +60,6 @@
         </div>
       </form>
     </div>
-    <modal v-model="modal_open" title="{modal_title}">
-      <div slot="title" class="text-left">
-        {{modal_title}}
-      </div>
-      <div slot="default">
-        <form action="" method="post" accept-charset="utf-8">
-          <div class="row">
-            <label class="col-sm-2 label-on-left">所在地</label>
-            <div class="col-sm-10">
-              <div class="form-group text-left">
-                <v-distpicker :province="modal_data.region0_label" :city="modal_data.region1_label" :area="modal_data.region2_label" @selected="onSelected"></v-distpicker>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <label class="col-sm-2 label-on-left">所在小区</label>
-            <div class="col-sm-10">
-              <input class="form-control" v-model="modal_data.pco_name" type="text" placeholder="所在小区">
-            </div>
-          </div>
-          <div class="row">
-            <label class="col-sm-2 label-on-left">详细地址</label>
-            <div class="col-sm-10">
-              <textarea class="form-control" v-model="modal_data.pco_addr" type="text" placeholder="详细地址"></textarea>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div slot="footer">
-        <btn @click="save" type="success" class="btn-sm">确认</btn>
-      </div>
-    </modal>
   </div>
 </template>
 <script>
@@ -94,49 +82,14 @@ export default {
       rows: [],
       pn: 1,
       total: 1,
-      attrs: {},
-      modal_open: false,
-      modal_title: '',
-      modal_data: {}
+      attrs: {}
     }
   },
   methods: {
-    onSelected (d) {
-      this.modal_data.pco_region0 = d.province.code
-      this.modal_data.pco_region1 = d.city.code
-      this.modal_data.pco_region2 = d.area.code
-    },
-    modifi (id) {
+    modify (id) {
       this.$router.push({
         path: '/community/type',
         query: {id}
-      })
-    },
-    modify: function (id) {
-      this.modal_open = true
-      if (id === '0') {
-        this.modal_title = '新增小区'
-      } else {
-        this.modal_title = '编辑小区'
-      }
-      this.$loading.show({
-        msg: '加载中 ...'
-      })
-      this.$http.get('community', {id: id, attrs: 1}).then(d => {
-        this.$loading.hide()
-        if (d.code === 0) {
-          this.modal_data = d.data
-        } else if (d.code === 9999) {
-          this.$alert({
-            title: '系统提示',
-            content: d.msg
-          }, (msg) => {
-            this.$router.go(-1)
-          })
-        } else {
-          this.modal_data = {}
-        }
-        this.modal_open = true
       })
     },
     save: function () {
@@ -169,6 +122,7 @@ export default {
         msg: '加载中 ...'
       })
       this.$http.list('community', {pn: this.pn}).then(d => {
+        console.log(d.data)
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data.list
@@ -221,27 +175,29 @@ export default {
   activated: function () {
     this.$store.state.left_active_key = '/operate'
     this.refresh()
-    this.onSelected()
   }
 }
 </script>
 <style scoped>
+.text-left {
+  padding-left: 50px;
+}
+.btn-rose {
+  margin-right: 20px;
+}
 .distpicker-address-wrapper select {
   max-width: 115px!important;
 }
 .community {
   background: #fff;
 }
+.community-small-image {
+  width: 20%;
+}
 .customer-row {
   margin-bottom: 20px;
   border: 1px solid #eee;
   border-radius: 3px;
   border-left: none;
-}
-.app_content .customer-row:nth-child(2n-1) {
-  float: left;
-}
-.app_content .customer-row:nth-child(2n) {
-  float: right;
 }
 </style>
