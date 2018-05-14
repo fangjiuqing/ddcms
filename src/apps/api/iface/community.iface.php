@@ -22,10 +22,10 @@ class community_iface extends ubase_iface {
         $region2 = [];
         $region_tab = OBJ('region_table');
         $arts = $tab->map(function ($row) use (&$pco_ids, &$region0, &$region1, &$region2) {
-            $pco_ids[$row['pco_id']]                = 1;
-            $region0[$row['pco_region0'] . '0000']  = 1;
-            $region1[$row['pco_region1'] . '00']    = 1;
-            $region2[$row['pco_region2']]           = 1;
+            $pco_ids[$row['pco_id']] = 1;
+            $region0[$row['pco_region0'] . '0000'] = 1;
+            $region1[$row['pco_region1'] . '00'] = 1;
+            $region2[$row['pco_region2']] = 1;
             return $row;
         })->get_all();
         $pco_list = OBJ('unit_copy_table')->get_all([
@@ -93,62 +93,72 @@ class community_iface extends ubase_iface {
             $unit_list[] = $v;
         }
         $this->success('操作成功', [
-            'detail'    => $ret,
-            'list'      => array_values($unit_list),
+            'detail' => $ret,
+            'list'   => array_values($unit_list),
         ]);
     }
     
     public function save_action () {
-        dump($this->data);
         $this->data['base']['pco_id'] = intval($this->data['base']['pco_id']);
-        $tab = OBJ('community_copy_table');
         $this->data['base']['pco_region0'] = (int)substr($this->data['base']['pco_region0'], 0, 2);
         $this->data['base']['pco_region1'] = (int)substr($this->data['base']['pco_region1'], 0, 4);
         $this->data['base']['pco_region2'] = (int)substr($this->data['base']['pco_region2'], 0, 6);
         if (empty($this->data['base']['pco_name'])) {
             $this->failure('请输入正确的小区名');
         }
-        $this->data['pco_addr'] = $this->data['pco_addr'] ?: '';
-        if ($tab->load($this->data['base'])) {
-            $ret = $tab->save();
-            if ($ret['code'] === 0) {
+        $this->data['base']['pco_addr'] = $this->data['base']['pco_addr'] ?: '';
+        $community_tab = OBJ('community_copy_table');
+        if ($community_tab->load($this->data['base'])) {
+            $community_ret = $community_tab->save();
+            if ($community_ret['code'] === 0) {
                 admin_helper::add_log($this->login['admin_id'], 'community/save', '2',
-                    ($this->data['base']['pco_id'] ? '小区编辑[' . $this->data['base']['pco_id'] : '小区新增[' . $ret['row_id'])
-                    . '@]');
+                    ($this->data['base']['pco_id'] ? '小区编辑[' . $this->data['base']['pco_id'] :
+                        '小区新增[' . $community_ret['row_id']) . '@]');
             }
         }
-        var_dump($this->data);
-        $this->data['add']['pu_area0'] = (int)$this->data['add']['pu_area0'];
-        $this->data['add']['pu_area1'] = (int)$this->data['add']['pu_area1'];
-        $this->data['add']['pu_room0'] = (int)$this->data['add']['pu_room0'];
-        $this->data['add']['pu_room1'] = (int)$this->data['add']['pu_room1'];
-        $this->data['add']['pu_room2'] = (int)$this->data['add']['pu_room2'];
-        $this->data['add']['pu_room3'] = (int)$this->data['add']['pu_room3'];
-        dump($this->data['add']);
-        if (empty($this->temp['pu_area0']) || empty($this->temp['pu_area1']) || $this->temp['pu_area0'] <
-            $this->temp['pu_area1']) {
-            $this->failure('户型面积有误');
+        if (!empty($this->data['add'])) {
+            $unit_tab = OBJ('unit_copy_table');
+            foreach ((array)$this->data['add'] as $v) {
+                $v['pu_co_id'] = empty($this->data['base']['pco_id']) ?
+                    $community_ret['row_id'] : $this->data['base']['pco_id'];
+                if (empty($v['pu_area0']) || empty($v['pu_area1']) || $v['pu_area0'] <
+                    $v['pu_area1']) {
+                    $this->failure('户型面积有误', 101);
+                }
+                switch ($v['pu_area0']) {
+                    case $v['pu_area0'] <= 60 :
+                        $v['pu_area_range'] = core_helper::RANGE_60;
+                        break;
+                    case $v['pu_area0'] <= 80 :
+                        $v['pu_area_range'] = core_helper::RANGE_80;
+                        break;
+                    case $v['pu_area0'] <= 100 :
+                        $v['pu_area_range'] = core_helper::RANGE_100;
+                        break;
+                    case $v['pu_area0'] <= 120 :
+                        $v['pu_area_range'] = core_helper::RANGE_120;
+                        break;
+                    case $v['pu_area0'] <= 150 :
+                        $v['pu_area_range'] = core_helper::RANGE_150;
+                        break;
+                    default :
+                        $v['pu_area_range'] = core_helper::RANGE_MAX;
+                        break;
+                }
+                if ($unit_tab->load($v)) {
+                    $unit_ret = $unit_tab->save();
+                    if ($unit_ret['code'] !== 0) {
+                        $this->failure($unit_tab->get_error_desc(), 102);
+                    }
+                    admin_helper::add_log($this->login['admin_id'], 'community/save',
+                        '2', '户型新增[' . $unit_ret['row_id'] . '@]');
+                }
+            }
         }
-        if ($this->temp['pu_area0'] <= 60) {
-            $this->temp['pu_area_range'] = core_helper::RANGE_60;
+        if ($community_ret['code'] === 0) {
+            $this->success('操作成功');
         }
-        elseif ($this->temp['pu_area0'] <= 80) {
-            $this->temp['pu_area_range'] = core_helper::RANGE_80;
-        }
-        elseif ($this->temp['pu_area0'] <= 100) {
-            $this->temp['pu_area_range'] = core_helper::RANGE_100;
-        }
-        elseif ($this->temp['pu_area0'] <= 120) {
-            $this->temp['pu_area_range'] = core_helper::RANGE_120;
-        }
-        elseif ($this->temp['pu_area0'] <= 150) {
-            $this->temp['pu_area_range'] = core_helper::RANGE_150;
-        }
-        else {
-            $this->temp['pu_area_range'] = core_helper::RANGE_MAX;
-        }
-        dump($this->temp);
-        $this->failure($tab->get_error_desc());
+        $this->failure($community_tab->get_error_desc(), 103);
     }
     
     public function del_action () {
