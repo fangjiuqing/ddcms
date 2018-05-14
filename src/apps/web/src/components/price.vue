@@ -107,7 +107,7 @@ export default {
       $('.village').val('')
     },
     bgc () {
-      if ($('.ph').val() !== '') {
+      if ($('.ph').val() !== '' && $('.code').val() === '') {
         $('.btn').css({'background': 'red'})
       } else {
         $('.btn').css({'background': '#d3d3d3'})
@@ -214,6 +214,7 @@ select {
   border: none;
   outline: none;
   color: #fff;
+  background: #d3d3d3;
   vertical-align: top;
   margin-bottom: 13px;
   padding: 0;
