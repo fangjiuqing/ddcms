@@ -23,9 +23,9 @@
           <input type="text" class="yname" placeholder="您的称呼">
           <input type="text" class="ph" placeholder="您的手机号">
           <input type="text" placeholder="4位数动态验证码" class="code">
-          <button class="btn">获取验证码</button>
+          <button class="btn" @click="code">获取验证码</button>
           <div class="submit" @click="info">
-            <button>确认<br>提交</button>
+            <div>确认提交</div>
           </div>
         </form>
       </div>
@@ -70,13 +70,20 @@ export default {
       ]
     }
   },
+  mounted () {
+    $('.btn').click(function (e) {
+      e.preventDefault()
+    })
+    document.addEventListener('keyup', this.bgc)
+  },
   methods: {
     hidePanel () {
       this.$emit('update:panelShow', false)
     },
     info () {
-      this.$http.post('customer/info', {
+      this.$http.post('public/customer/info', {
         pc_mobile: $('.ph').val(),
+        pc_code: $('.code').val(),
         pc_nick: $('.yname').val(),
         pc_area: $('.acreage').val(),
         pc_room0: $('.room').find('option:selected').text(),
@@ -96,7 +103,27 @@ export default {
       $('.room').find('option:selected').text('一室')
       $('.hall').find('option:selected').text('一厅')
       $('.bashroom').find('option:selected').text('一卫')
+      $('.code').val('')
       $('.village').val('')
+    },
+    bgc () {
+      if ($('.ph').val() !== '') {
+        $('.btn').css({'background': 'red'})
+      } else {
+        $('.btn').css({'background': '#d3d3d3'})
+      }
+    },
+    code () {
+      this.$http.post('public/customer/code', {
+        verify_mobile: $('.ph').val()
+      }).then(d => {
+        if ($('.ph').val() === '') {
+          alert('手机号不能为空')
+        } else {
+          alert(d.msg)
+        }
+      })
+      $('.btn').css({'background': '#d3d3d3'})
     }
   }
 }
@@ -190,14 +217,12 @@ select {
   vertical-align: top;
   margin-bottom: 13px;
   padding: 0;
+  cursor: pointer;
 }
 .submit {
-  display: flex;
-  justify-content: center;
-}
-.submit button{
   width: 58px;
   height: 58px;
+  text-align: center;
   border-radius: 50%;
   font-size: 14px;
   border: 0;
@@ -205,6 +230,16 @@ select {
   color: #fff;
   cursor: pointer;
   background-color: #d42f31;
+  position: relative;
+  margin: 0 auto;
+}
+.submit div{
+  width: 29px;
+  height: 29px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 }
 .tasking {
   position: fixed;
