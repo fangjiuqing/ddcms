@@ -123,8 +123,14 @@ class community_iface extends ubase_iface {
                     $community_ret['row_id'] : $this->data['base']['pco_id'];
                 if (empty($v['pu_area0']) || empty($v['pu_area1']) || $v['pu_area0'] <=
                     $v['pu_area1']) {
-                    var_dump(empty($v['pu_area0']), empty($v['pu_area1']), $v['pu_area0'] <= $v['pu_area1']);
                     $this->failure('户型面积有误', 101);
+                }
+                $v['pu_room0'] = intval($v['pu_room0']);
+                $v['pu_room1'] = intval($v['pu_room1']);
+                $v['pu_room2'] = intval($v['pu_room2']);
+                $v['pu_room3'] = intval($v['pu_room3']);
+                if (empty($v['pu_cover'])) {
+                    $this->failure('户型图有误', 102);
                 }
                 switch ($v['pu_area0']) {
                     case $v['pu_area0'] <= 60 :
@@ -149,7 +155,7 @@ class community_iface extends ubase_iface {
                 if ($unit_tab->load($v)) {
                     $unit_ret = $unit_tab->save();
                     if ($unit_ret['code'] !== 0) {
-                        $this->failure($unit_tab->get_error_desc(), 102);
+                        $this->failure($unit_tab->get_error_desc(), 103);
                     }
                     admin_helper::add_log($this->login['admin_id'], 'community/save',
                         '2', '户型新增[' . $unit_ret['row_id'] . '@]');
@@ -159,7 +165,7 @@ class community_iface extends ubase_iface {
         if ($community_ret['code'] === 0) {
             $this->success('操作成功');
         }
-        $this->failure($community_tab->get_error_desc(), 103);
+        $this->failure($community_tab->get_error_desc(), 104);
     }
     
     public function del_action () {
