@@ -28,7 +28,7 @@ import Admin from '@/components/system/admin/index'
 import Group from '@/components/system/admin/group'
 import Flush from '@/components/system/flush'
 import Community from '@/components/community/index'
-import CommunityType from '@/components/community/type'
+import CommunityAdd from '@/components/community/add'
 
 import Designer from '@/components/designer/index'
 import DesignerAdd from '@/components/designer/add'
@@ -83,8 +83,8 @@ const router = new Router({
     },
     {
       path: '/community/type',
-      name: 'TypeAdd',
-      component: CommunityType
+      name: 'CommunityAdd',
+      component: CommunityAdd
     },
     {
       path: '/article',
