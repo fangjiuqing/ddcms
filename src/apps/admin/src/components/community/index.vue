@@ -82,7 +82,10 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.save('community', this.modal_data).then(d => {
+      this.$http.save('community', {
+        add: this.rows,
+        base: this.community
+      }).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_open = false
