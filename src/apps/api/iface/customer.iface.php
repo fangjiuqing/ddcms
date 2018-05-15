@@ -104,11 +104,11 @@ class customer_iface extends ubase_iface {
      * @param int    $pc_score      成功率
      */
     public function save_action () {
-        $this->data['pc_sn'] = filter::char($this->data['pc_sn']);
+        $this->data['pc_sn'] = filter::char($this->data['pc_sn']) ?: date('YmdHis', app::get_time());
         if (!filter::is_account($this->data['pc_nick'])) {
             $this->failure('请输入正确的用户名');
         }
-        $this->data['pc_status'] = filter::int($this->data['pc_status']);
+        $this->data['pc_status'] = filter::int($this->data['pc_status']) ?: 1;
         $this->data['pc_adm_id'] = (int)$this->login['admin_id'];
         $this->data['pc_adm_nick'] = $this->login['admin_account'];
         $this->data['pc_atime'] = (int)$this->data['pc_atime'] ?: REQUEST_TIME;
@@ -125,7 +125,7 @@ class customer_iface extends ubase_iface {
         $this->data['pc_score'] = filter::int($this->data['pc_score']);
         $this->verify([
             'pc_mobile' => [
-                'code' => 100,
+                'code' => 101,
                 'msg'  => '请输入正确的手机号',
                 'rule' => filter::$rules['mobile'],
             ],
@@ -139,7 +139,7 @@ class customer_iface extends ubase_iface {
                 $this->success('操作成功');
             }
         }
-        $this->failure($tab->get_error_desc());
+        $this->failure($tab->get_error_desc(), 102);
     }
     
 }
