@@ -15,7 +15,7 @@ class public_customer_iface extends base_iface {
         $this->data['pc_room3'] = 1;
         $this->data['pc_local'] = $this->data['pc_local'] ? filter::char($this->data['pc_local']) : '';
         $this->data['pc_sn'] = date('YmdHis', app::get_time());
-        $this->data['pc_status'] = 0;
+        $this->data['pc_status'] = 1;
         $this->data['pc_adm_id'] = 0;
         $this->data['pc_adm_nick'] = '';
         $this->data['pc_atime'] = REQUEST_TIME;
