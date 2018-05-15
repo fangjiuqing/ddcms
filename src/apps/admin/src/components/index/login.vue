@@ -4,10 +4,10 @@
       <div class="login-form">
         <form>
           <div class="form-group">
-            <input type="email" class="form-control" v-model.lazy="account" v-focus="account_focus" placeholder="用户名">
+            <input type="email" class="form-control" v-model.lazy="account" placeholder="用户名">
           </div>
           <div class="form-group">
-            <input type="password" class="form-control" autocomplete="off" v-model.lazy="passwd" v-focus="passwd_focus" placeholder="密码" maxlength="32">
+            <input type="password" class="form-control" autocomplete="off" v-model.lazy="passwd" placeholder="密码" maxlength="32">
           </div>
           <button type="button" @click="submit" class="btn btn-primary btn-default">登录</button>
         </form>

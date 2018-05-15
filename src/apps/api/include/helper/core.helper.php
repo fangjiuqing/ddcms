@@ -7,7 +7,7 @@ namespace re\rgx;
 class core_helper extends rgx {
 
     /**
-     * 方形
+     * 房型
      * @var [type]
      */
     public static $house_type = [
@@ -59,31 +59,50 @@ class core_helper extends rgx {
      * @var [type]
      */
     public static $customer_via = [
-        1   => '网销',
-        2   => '电视广告',
-        3   => '户外广告',
-        4   => '市场',
-        5   => '网络',
-        6   => '上门客户'
+        1   => '官网',
+        2   => '线上活动',
+        3   => '线下活动',
+        4   => '门店',
+        5   => '网络'
     ];
 
+    /**
+     * 上门预约订单类型
+     * @var [type]
+     */
     public static $order_type = [
         1   => '量房',
-        2   => '装修',
-        3   => '完工'
+        2   => '施工',
+        3   => '售后'
     ];
+
+    /**
+     * 测量
+     */
+    const ORDER_TYPE_MEASURE        = 1;
+
+    /**
+     * 施工 (装修)
+     */
+    const ORDER_TYPE_WORK           = 2;
+
+    /**
+     * 售后
+     */
+    const ORDER_TYPE_AFTER_SALE     = 3;
+
     
     /**
      * 户型面积范围
      * @var array
      */
     public static $area_range = [
-        0 => '<60m²',
-        1 => '60-80m²',
-        2 => '80-100m²',
-        3 => '100-120m²',
-        4 => '120-150m²',
-        5 => '>150m²',
+        0   => '<60m²',
+        1   => '60-80m²',
+        2   => '80-100m²',
+        3   => '100-120m²',
+        4   => '120-150m²',
+        5   => '>150m²',
     ];
     
     const RANGE_60 = 0;
@@ -97,5 +116,4 @@ class core_helper extends rgx {
     const RANGE_150 = 4;
     
     const RANGE_MAX = 5;
-    
 }

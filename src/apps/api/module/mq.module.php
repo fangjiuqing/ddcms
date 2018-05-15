@@ -87,4 +87,9 @@ class mq_module extends R\module {
             'data'  => $data
         ]);
     }
+
+    public function notice_action () {
+        R\task_helper::send_notice('15951077382', R\core_helper::$order_type[R\core_helper::ORDER_TYPE_MEASURE], 
+            REQUEST_TIME, '13800138000', '小张');
+    }
 }

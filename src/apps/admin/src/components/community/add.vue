@@ -45,50 +45,52 @@
           <table class="table table-striped">
             <thead>
               <tr style="background-color:#f7f7f7">
-                <th v-for="(v, k) in fields" :key="k" width="13%" v-if="k !== 'id'">
+                <th v-for="(v, k) in fields" :key="k" v-if="k !== 'id'" width="13%">
                   <input class="material_field_input" @focus="set_active(k)" v-model="fields[k]" :placeholder="v"/>
                 </th>
-                <th width="7%" class="text-center"><span class="material_field_text">户型图</span></th>
-                <th width="7%" class="text-center"><span class="material_field_text">户型名</span></th>
-                <th width="7%" class="text-center"><span class="material_field_text">总面积</span></th>
-                <th width="7%" class="text-center"><span class="material_field_text">可用面积</span></th>
-                <th width="7%" class="text-center"><span class="material_field_text">卧室</span></th>
-                <th width="7%" class="text-center"><span class="material_field_text">客厅</span></th>
-                <th width="7%" class="text-center"><span class="material_field_text">厨房</span></th>
-                <th width="7%" class="text-center"><span class="material_field_text">卫生间</span></th>
-                <!-- <th width="7%" class="text-center"><span class="material_field_text"></span></th> -->
               </tr>
             </thead>
-            <tbody>
-              <tr v-for="(row, row_key) in rows" :key="row_key">
+            <tbody v-for="(row, row_key) in rows" :key="row_key">
+              <tr>
                 <td>
-                  <img class="preview_cover" style="width: 100px; height: 130px;" :src="cover" @click="upload_cover">
+                  <img class="preview_cover" style="width: 150px;" :src="row.cover" @click="upload_cover(row_key)">
                   <input class="material_field_input" type="hidden" name="pu_cover" v-model="rows[row_key]['pu_cover']">
                 </td>
                 <td>
-                  <input class="material_field_input" v-model="rows[row_key]['pu_name']" value="" placeholder="户型名" />
+                  <div class="input-group col-md-8">
+                    <input class="material_field_input form-control" v-model="rows[row_key]['pu_name']" value="" placeholder="户型名" />
+                    <span class="input-group-addon">户型名</span>
+                  </div>
+                  <div class="input-group col-md-8">
+                    <input class="material_field_input form-control" v-model="rows[row_key]['pu_area0']" value="" placeholder="总面积" />
+                    <span class="input-group-addon">总面积</span>
+                  </div>
+                  <div class="input-group col-md-8">
+                    <input class="material_field_input form-control" v-model="rows[row_key]['pu_area1']" value="" placeholder="可用面积" />
+                    <span class="input-group-addon">可用面积</span>
+                  </div>
+                  <div class="input-group col-md-8">
+                    <input class="material_field_input form-control" v-model="rows[row_key]['pu_room0']" value="" placeholder="卧室" />
+                    <span class="input-group-addon">卧室</span>
+                  </div>
                 </td>
                 <td>
-                  <input class="material_field_input" v-model="rows[row_key]['pu_area0']" value="" placeholder="总面积" />
+                  <div class="input-group col-md-8">
+                    <input class="material_field_input form-control" v-model="rows[row_key]['pu_room1']" value="" placeholder="客厅" />
+                    <span class="input-group-addon">客厅</span>
+                  </div>
+                  <div class="input-group col-md-8">
+                    <input class="material_field_input form-control" v-model="rows[row_key]['pu_room2']" value="" placeholder="厨房" />
+                    <span class="input-group-addon">厨房</span>
+                  </div>
+                  <div class="input-group col-md-8">
+                    <input class="material_field_input form-control" v-model="rows[row_key]['pu_room3']" value="" placeholder="卫生间" />
+                    <span class="input-group-addon">卫生间</span>
+                  </div>
                 </td>
                 <td>
-                  <input class="material_field_input" v-model="rows[row_key]['pu_area1']" value="" placeholder="可用面积" />
+                  <btn class="btn btn-xs btn-danger pull-right" @click="del_row(row_key)" style="margin-left: 10px;"><i class="fa fa-trash-o"></i></btn>
                 </td>
-                <td>
-                  <input class="material_field_input" v-model="rows[row_key]['pu_room0']" value="" placeholder="卧室" />
-                </td>
-                <td>
-                  <input class="material_field_input" v-model="rows[row_key]['pu_room1']" value="" placeholder="客厅" />
-                </td>
-                <td>
-                  <input class="material_field_input" v-model="rows[row_key]['pu_room2']" value="" placeholder="厨房" />
-                </td>
-                <td>
-                  <input class="material_field_input" v-model="rows[row_key]['pu_room3']" value="" placeholder="卫生间" />
-                </td>
-                <!-- <td>
-                  <btn class="btn btn-xs btn-danger pull-right" @click="del_row" style="margin-left: 10px;"><i class="fa fa-trash-o"></i></btn>
-                </td> -->
               </tr>
             </tbody>
           </table>
@@ -106,10 +108,10 @@
           </div>
           <div class="col-md-5 detail">
             <div class="row unit">
-              <label class="col-md-3 label-on-left">户型名称</label>
-              <div class="col-md-9">
-                <div class="input-group col-md-8">
+              <div class="form-group col-md-12">
+                <div class="input-group">
                   <input class="form-control" name="pu_name" v-model="v.pu_name" type="text" placeholder="户型名称">
+                  <span class="input-group-addon">户型名称</span>
                 </div>
               </div>
             </div>
@@ -174,10 +176,9 @@
 </template>
 <script>
 import VDistpicker from 'v-distpicker'
-import { VueEditor } from 'vue2-editor'
 export default {
-  name: 'Type',
-  components: { VDistpicker, VueEditor },
+  name: 'CommunityAdd',
+  components: { VDistpicker },
   metaInfo () {
     return {
       title: '小区详情 - 道达智装'
@@ -198,36 +199,26 @@ export default {
       attrs: {},
       rows: [
         {
-          id: 0
+          id: 0,
+          pu_cover: '',
+          cover: require('@/assets/images/default_1x1.jpg')
         }
       ],
       fields: {},
-      field_key: ''
+      field_key: '',
+      rowID: 0,
+      i: 0
     }
   },
   methods: {
     set_active (key) {
       this.field_key = key
     },
-    rm_filed () {
-      if (this.field_key !== '') {
-        this.$delete(this.$data.fields, this.field_key)
-        for (var i = 0; i < this.rows.length; i++) {
-          delete this.rows[i][this.field_key]
-        }
-        this.field_index = ''
-      } else {
-        this.$notify({
-          content: '请选择字段输入框',
-          duration: 1000,
-          type: 'warning',
-          dismissible: false
-        })
-      }
-    },
     add_row () {
       let row = {
-        id: 0
+        id: 1,
+        pu_cover: '',
+        cover: require('@/assets/images/default_1x1.jpg')
       }
       for (var key in this.fields) {
         if (this.fields.hasOwnProperty(key)) {
@@ -236,18 +227,19 @@ export default {
       }
       this.rows.push(row)
     },
-    // del_row (k) {
-    //   let row = {
-    //     id: 0
-    //   }
-    //   for (var key in this.fields) {
-    //     if (this.fields.hasOwnProperty(key)) {
-    //       row[key] = ''
-    //     }
-    //   }
-    //   this.rows.pop(row)
-    // },
-    upload_cover () {
+    del_row (i) {
+      let row = {
+        id: 0
+      }
+      for (var key in this.fields) {
+        if (this.fields.hasOwnProperty(key)) {
+          row[key] = ''
+        }
+      }
+      this.rows.splice(i, 1)
+    },
+    upload_cover (rowID) {
+      this.rowID = rowID
       this.$uploader.select({
         uri: 'upload/image',
         el: this,
@@ -276,8 +268,9 @@ export default {
         type: 'success',
         dismissible: false
       })
-      this.form.pu_cover = d.image
-      this.cover = d.thumb
+      this.rows[this.rowID]['pu_cover'] = d.image
+      this.rows[this.rowID]['cover'] = d.thumb
+      this.rowID = 0
     },
     on_cover_progress (e) {
       if (e) {
@@ -433,6 +426,12 @@ export default {
 .address {
   margin-left: 12%;
 }
+.input-group {
+  margin-bottom: 20px;
+}
+.preview_cover {
+  padding-top: 30px;
+}
 .type, .col-md-12 {
   background: #fff;
 }
@@ -441,6 +440,9 @@ export default {
 }
 .btn-rose {
   margin-top: 20px;
+}
+.btn-danger {
+  margin-right: 40px;
 }
 .unit {
   margin-bottom: 15px;

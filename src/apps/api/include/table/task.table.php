@@ -81,7 +81,7 @@ class task_table extends table {
             'type'               => 'char',
             'field_type'         => 'varchar',
             'min'                => 0,
-            'max'                => 255,
+            'max'                => 512,
             'label'              => '任务内容',
             'allow_empty_string' => true,
             'allow_null'         => true

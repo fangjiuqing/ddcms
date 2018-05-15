@@ -13,9 +13,6 @@
     <div class="app_page">
       <form action="/" id="profile_form" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
         <div class="app_content">
-          <div class="title col-md-12">
-            <h5 class="block-h5">小区管理</h5>
-          </div>
           <div class="customer-row" v-for="(v) in rows" :key="v.pco_id">
             <div class="row">
               <div class="col-md-12">
@@ -26,28 +23,17 @@
                   </h5>
                   <p class="text-left">
                     <span>
-                      <small>省 : </small>
-                      <span class="text-rose">{{v.pco_region0_label || 'unknown'}}</span>
+                      <span class="text-rose">{{v.pco_region0_label || ''}}</span>
+                    </span>
+                    <span>
+                      <span class="text-rose">{{v.pco_region1_label || ''}}</span>
+                    </span>
+                    <span>
+                      <span class="text-rose">{{v.pco_region2_label || ''}}</span>
                     </span>
                     <span class="separator"></span>
-                    <span>
-                      <small>市 : </small>
-                      <span class="text-rose">{{v.pco_region1_label || 'unknown'}}</span>
-                    </span>
-                    <span class="separator"></span>
-                    <span>
-                      <small>县/区 : </small>
-                      <span class="text-rose">{{v.pco_region2_label || 'unknown'}}</span>
-                    </span>
+                    <code>{{v.pco_addr}}</code>
                   </p>
-                  <p class="text-left">
-                    <span>
-                      <small>详细地址 : </small>
-                      <code>{{v.pco_addr || '暂无'}}</code>
-                    </span>
-                    <span class="separator"></span>
-                  </p>
-                  <p class="text-left">户型图 : </p>
                   <p class="text-left">
                     <img class="community-small-image" v-for="(img, img_key) in v.pco_cover_label" :src="img" :key="img_key" alt="">
                   </p>
