@@ -366,23 +366,24 @@ export default {
     cursor: pointer;
   }
   .list1 li:nth-child(1) {
-    width: 500px;
-    height: 309px;
+    width: 520px;
+    height: 329px;
   }
   .list1 li:nth-child(2),
   .list1 li:nth-child(3) {
-    /*margin-bottom: 18px;*/
+    margin-bottom: 10px;
   }
   .list1 li:nth-child(2),
   .list1 li:nth-child(3),
   .list1 li:nth-child(4),
   .list1 li:nth-child(5) {
      width: 250px;
-     /*height: 174px;*/
-     margin-left: 15px;
+     height: 160px;
+     margin-left: 10px;
    }
   .list1 li img {
     width: 100%;
+    height: 100%;
   }
   .list2 {
     width: 1000px;

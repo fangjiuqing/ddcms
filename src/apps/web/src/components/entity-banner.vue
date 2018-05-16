@@ -128,7 +128,7 @@ export default {
 .btn {
   width: 139px;
   height: 43px;
-  background-color: #d42f31;
+  background-color: #d42f31!important;
   border-radius: 5px;
   margin-left: 189px;
   font-size: 18px;

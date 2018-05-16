@@ -237,6 +237,7 @@ select {
 .submit div{
   width: 29px;
   height: 29px;
+  line-height: 1;
   position: absolute;
   top: 50%;
   left: 50%;
