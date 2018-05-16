@@ -393,13 +393,14 @@ export default {
   }
   .list2 li {
     width: 312px;
-    /*height: 234px;*/
+    height: 234px;
     float: left;
     transition-duration: .5s;
     transform:translateY(1px);
   }
   .list2 img {
     width: 100%;
+    height: 100%;
   }
   .list2 li:nth-child(1), .list2 li:nth-child(3) {
     margin-bottom: 33px;

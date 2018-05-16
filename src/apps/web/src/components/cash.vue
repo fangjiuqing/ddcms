@@ -476,7 +476,7 @@ export default {
     height: 428px;
     float: left;
     margin: 23px 17px 29px 20px;
-    overflow: hidden;
+    /*overflow: hidden;*/
   }
   .box {
     width: 472px;
@@ -491,8 +491,12 @@ export default {
     width: 115px;
     height: 95px;
     float: left;
-    margin-right: 3px;
+    margin-right: 1px;
+    border: 1px solid transparent;
     cursor: pointer;
+  }
+  .active {
+    border: 1px solid red;
   }
   .btns:nth-child(5) {
     margin-right: 0;
@@ -562,11 +566,6 @@ export default {
   }
   .quote:hover {
     cursor: pointer;
-  }
-
-  .active {
-    border: 1px solid red;
-    box-sizing: border-box
   }
 
   .fade-enter-active, .fade-leave-active {
