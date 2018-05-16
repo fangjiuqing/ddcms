@@ -2,23 +2,23 @@
 <div class="classroom">
   <Head></Head>
   <div class="classBanner"></div>
-  <div class="conten">
-    <swiper class="list" :options="swiperOption" ref="mySwiper">
-      <swiper-slide v-for="(item, index) in banners" :key="index">
-        <p class="new">最新资讯</p>
-        <p class="fashion">THE FASHION NEW</p>
-        <div class="introduce">
-          <h1>{{item.name}}</h1>
-          <p class="eN">{{item.eN}}</p>
-          <p class="address">{{item.address}}</p>
-          <p class="addr">{{item.style}}</p>
-        </div>
-        <img class="study" :src="item.imgUrl" alt="">
-      </swiper-slide>
-    </swiper>
-    <div class="swiper-button-prev pre" slot="button-prev"></div>
-    <div class="swiper-button-next pre" slot="button-next"></div>
-  </div>
+  <!--<div class="conten">-->
+    <!--<swiper class="list" :options="swiperOption" ref="mySwiper">-->
+      <!--<swiper-slide v-for="(item, index) in banners" :key="index">-->
+        <!--<p class="new">最新资讯</p>-->
+        <!--<p class="fashion">THE FASHION NEW</p>-->
+        <!--<div class="introduce">-->
+          <!--<h1>{{item.name}}</h1>-->
+          <!--<p class="eN">{{item.eN}}</p>-->
+          <!--<p class="address">{{item.address}}</p>-->
+          <!--<p class="addr">{{item.style}}</p>-->
+        <!--</div>-->
+        <!--<img class="study" :src="item.imgUrl" alt="">-->
+      <!--</swiper-slide>-->
+    <!--</swiper>-->
+    <!--<div class="swiper-button-prev pre" slot="button-prev"></div>-->
+    <!--<div class="swiper-button-next pre" slot="button-next"></div>-->
+  <!--</div>-->
   <div class="allInformation">
     <h1>全部资讯</h1>
     <div class="middle">
@@ -30,17 +30,13 @@
                 <div class="left">
                     <img :src="item.article_cover_thumb" alt="">
                 </div>
-                <div class="trait">
-                  <div class="tra">
-                    <div class="ename">
-                      <span class="dname">{{item.article_title}}</span>
-                      <div class="cover">
-                        <p class="little">{{item.article_admin_nick}}</p><span class="line"></span><span class="time">{{item.article_udate}}</span>
-                        <p class="readNum">阅读量：{{item.article_stat_view}}</p>
-                      </div>
-                      <p class="procedure" v-html="item.article_content"></p>
-                    </div>
+                <div class="ename">
+                  <span class="dname">{{item.article_title}}</span>
+                  <div class="cover">
+                    <p class="little">{{item.article_admin_nick}}</p><span class="line"></span><span class="time">{{item.article_udate|time('yyyy-mm-dd HH:MM')}}</span>
+                    <p class="readNum">阅读量：{{item.article_stat_view}}</p>
                   </div>
+                  <p class="procedure" v-html="item.article_content"></p>
                 </div>
               </div>
             </router-link>
@@ -161,10 +157,10 @@ export default {
         // console.log('ddd=========', d)
         if (d.code === 0) {
           for (let i = 0; i < d.data.list.length; i++) {
-            let time = new Date(Number(d.data.list[i].article_udate))
+            let time = new Date(Number(d.data.list[i].article_adate))
             let a = this.date(time)
             this.detail.push(d.data.list[i])
-            this.detail[i].article_udate = a
+            this.detail[i].article_adate = a
           }
         } else {
         }
@@ -318,39 +314,30 @@ export default {
   flex-direction: column;
 }
 .experience .ex {
-  height: 310px;
+  /*height: 310px;*/
   margin-bottom: 9px;
+  padding-bottom: 20px;
 }
 .design-ex {
-  display: flex;
-  justify-content: flex-start;
-  padding: 20px 0 19px;
+  padding: 20px;
   transition: .5s;
+  overflow: hidden;
 }
 .ex .left {
-  height: 246px;
-  margin-left: 22px;
-  display: flex;
+  /*height: 246px;*/
+  float: left;
 }
 .experience .design-ex:hover {
   transition: .5s;
   box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.2);
 }
-.trait {
-  width: 100%;
-  height: 246px;
-  margin: 0 47px 0 55px;
-}
-.tra {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-}
 .ename {
+  width: 550px;
   text-align: left;
-  overflow: hidden;
+  margin-left: 50px;
+  float: left;
 }
-.trait .dname {
+.dname {
   font-size: 24px;
   color: #333333;
 }

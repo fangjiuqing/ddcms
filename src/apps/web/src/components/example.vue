@@ -20,36 +20,6 @@
           </transition>
         </li>
       </ul>
-      <div class="content">
-      <ul class="left">
-        <li v-for="(item, index) in img" :key="index" @mouseenter="show(item)" @mouseleave="show(item)">
-          <img :src="item.imgUrl">
-          <transition name="fade">
-            <div class="tasking" v-show="item.isShow">
-              <div>
-                <p>{{item.home}}</p>
-                <span>热销：{{item.craze}}</span>
-                <i>收藏：{{item.collect}}</i>
-              </div>
-            </div>
-          </transition>
-        </li>
-      </ul>
-      <ul class="menu">
-        <li v-for="(item, index) in images" :key="index" @mouseenter="show(item)" @mouseleave="show(item)">
-          <img :src="item.imgUrl">
-          <transition name="fade">
-            <div class="tasking" v-show="item.isShow">
-              <div>
-                <p>{{item.home}}</p>
-                <span>热销：{{item.craze}}</span>
-                <i>收藏：{{item.collect}}</i>
-              </div>
-            </div>
-          </transition>
-        </li>
-      </ul>
-    </div>
   </div>
 </template>
 <script type="text/javascript">
@@ -89,18 +59,14 @@ export default {
           home: '回归田园惬意美家',
           craze: 523,
           collect: 752
-        }
-      ],
-      img: [
+        },
         {
           imgUrl: img3,
           isShow: false,
           home: '回归田园惬意美家',
           craze: 523,
           collect: 752
-        }
-      ],
-      images: [
+        },
         {
           imgUrl: img4,
           isShow: false,
@@ -169,7 +135,7 @@ export default {
   transform: translate(-50%, -50%);
 }
 .index {
-  width: 1200px;
+  width: 1191px;
   margin: 48px auto 0;
   margin-bottom: 64px;
 }
@@ -194,47 +160,53 @@ export default {
   color: #d42f31;
 }
 .list {
-  display: flex;
-  flex-wrap: wrap;
   margin: 0 0 18px 10px;
+  overflow: hidden;
 }
-.list li, .menu li, .left li {
+.list li {
+  float: left;
   position: relative;
-  cursor: pointer;
 }
-.list img {
-  width: 100%;
-  height: 100%;
+.list li:nth-child(3),
+.list li:nth-child(6),
+.list li:nth-child(7),
+.list li:nth-child(8){
+  float: right;
 }
-.list li:nth-child(1) {
+.list li:nth-child(1),
+.list li:nth-child(2),
+.list li:nth-child(7),
+.list li:nth-child(8) {
+  width: 347px;
   height: 291px;
 }
 .list li:nth-child(2) {
-  height: 291px;
-  margin: 0 15px 0 16px;
+  margin: 0 18px 18px;
+}
+.list li:nth-child(3),
+.list li:nth-child(5){
+  width: 451px;
+  height: 620px;
+}
+.list li:nth-child(5){
+  margin-right: 15px;
 }
 .list li:nth-child(4) {
-  margin-top: -312px;
+  margin: 0 19px 18px 0;
 }
-.content {
+.list li:nth-child(4),
+.list li:nth-child(6){
+  width: 710px;
+  height: 310px;
+}
+.list li:nth-child(6){
+  margin-bottom: 19px;
+}
+.list li:nth-child(8) {
+  margin-right: 20px;
+}
+.list img {
   width: 100%;
-  display: flex;
-  margin-left: 10px;
-}
-.menu {
-  display: flex;
-  flex-wrap: wrap;
-}
-.menu li:nth-child(1) {
-  margin: 0 0 17px 15px;
-}
-.left .tasking {
-  height: 100%;
-  position: absolute;
-  top: 0;
-}
-.menu li:nth-child(2) {
-  margin: 0 16px 0 15px;
 }
 
 .fade-enter-active, .fade-leave-active {

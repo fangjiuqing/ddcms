@@ -3,17 +3,17 @@
     <div class="middle">
       <ul class="box">
         <li class="left">
-          <img v-lazy="factory" height="79" width="97">
+          <img src="../assets/home/factory.png" height="79" width="97">
           <p>工厂</p>
         </li>
         <li class="mid">
-          <img v-lazy="ad" height="45" width="120">
+          <img src="../assets/home/ad-dz.png" height="45" width="120">
           <div class="line"></div>
           <p>自有工厂 自有品牌 工厂直销有保障</p>
           <p>自建仓库 省去运输费用</p>
         </li>
         <li class="right">
-          <img v-lazy="family" height="73" width="87">
+          <img src="../assets/home/family.png" height="73" width="87">
           <p>家</p>
         </li>
       </ul>
@@ -21,23 +21,14 @@
   </div>
 </template>
 <script>
-import factory from '../assets/home/factory.png'
-import ad from '../assets/home/ad-dz.png'
-import family from '../assets/home/family.png'
 export default {
-  name: 'advert',
-  data () {
-    return {
-      factory: factory,
-      ad: ad,
-      family: family
-    }
-  }
+  name: 'advert'
 }
 </script>
 <style scoped>
   .advert {
-    background: url("../assets/construction/ad-bg.png")  no-repeat center 0;
+    background: url("../assets/home/abanana.png")  no-repeat;
+    background-size: 100%;
     margin-bottom: 88px;
     margin-top: 80px;
     opacity: 0.8;

@@ -19,7 +19,7 @@
               <div v-for="(item, index) in awards" :key="index" class="ownhonor">
                 <span>{{item}}</span>
               </div>
-              <p class="quick">立即预约</p>
+              <p class="quick" @click="showPanel">立即预约</p>
             </div>
           </div>
         </div>
@@ -92,12 +92,14 @@
     </div>
     <Foot></Foot>
     <sideBar></sideBar>
+    <Price :panelShow.sync="panelShow"></Price>
   </div>
 </template>
 <script>
 import Head from './head'
 import Foot from './foot'
 import sideBar from './sidebar'
+import Price from './price'
 import $ from 'jquery'
 export default {
   name: 'designerDetail',
@@ -115,7 +117,8 @@ export default {
       awards: [],
       len: '',
       id: this.$route.query.designerId || 0,
-      imgs: []
+      imgs: [],
+      panelShow: false
     }
   },
   methods: {
@@ -139,6 +142,9 @@ export default {
         } else {
         }
       })
+    },
+    showPanel () {
+      this.panelShow = true
     }
   },
   created () {
@@ -148,7 +154,7 @@ export default {
     // console.log('this.row.case_content=====', this.row)
   },
   components: {
-    Head, Foot, sideBar
+    Head, Foot, sideBar, Price
   }
 }
 </script>

@@ -28,7 +28,7 @@
         <h1>设计背景</h1>
         <table border="1" cellspacing="0" cellpadding="0" v-for="items in attrs" :key="items.index">
           <!--<tr><th class="font">房主年龄<th class="color">35</th><th class="font">房主职位</th> <th class="color">销售</th> </tr>-->
-          <tr v-for="item in items" :key="item.index">
+          <tr v-for="item in items" :key="item.index" v-if="item.val">
             <td class="font">{{item.key}}</td>
             <td class="color">{{item.val}}</td>
           </tr>
@@ -45,20 +45,22 @@
         </ul>
         <!--<div class="case"></div>-->
         <div class="bt">
-          <p class="last">上一篇：{{prev}}</p>
-          <p class="next">下一篇：{{next}}</p>
+          <p class="last" v-if="prev">上一篇：{{prev}}</p>
+          <p class="next" v-if="next">下一篇：{{next}}</p>
         </div>
         <p class="similar">相似风格</p>
         <ul class="slist">
-          <li v-for="(item,index) in more" :key="index" @mouseenter="show(item)" @mouseleave="show(item)">
-            <img :src="item.case_cover" alt="">
-            <transition name="fade">
-              <div class="tasking" v-show="item.toggle">
-                <div>
-                  <p><span>{{item.case_title}}&nbsp;</span><span>{{item.type}}</span></p>
+          <li v-for="(item, index) in more" :key="index" @mouseenter="show(item)" @mouseleave="hidden(item)" @click="flushCom">
+            <router-link :to="{ name: 'caseDetail', query: { caseId: item.case_id }}">
+              <img :src="item.case_cover" alt="">
+              <transition name="fade">
+                <div class="tasking" v-show="item.toggle">
+                  <div>
+                    <p><span>{{item.case_title}}&nbsp;</span><span>{{item.type}}</span></p>
+                  </div>
                 </div>
-              </div>
-            </transition>
+              </transition>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -139,16 +141,23 @@ export default {
   },
   methods: {
     show (item) {
-      item.toggle = !item.toggle
+      item.toggle = true
+    },
+    hidden (item) {
+      item.toggle = false
+    },
+    flushCom () {
+      this.id = this.$route.query.caseId
+      $('.cont .right').removeClass('top').addClass('ri')
     },
     menu () {
       this.scroll = document.documentElement.scrollTop || document.body.scrollTop
       if (this.scroll < 180) {
         $('.cont .right').removeClass('fixed').addClass('ri')
-      } else if (this.scroll > 180 && this.scroll <= 1865) {
-        $('.cont .right').removeClass('ri bottom').addClass('fixed')
-      } else if (this.scroll > 1665) {
-        $('.cont .right').removeClass('fixed').addClass('bottom')
+      } else if (this.scroll > 180 && this.scroll <= 1565) {
+        $('.cont .right').removeClass('ri top').addClass('fixed')
+      } else if (this.scroll > 1565) {
+        $('.cont .right').removeClass('fixed').addClass('top')
       }
     },
     showPanel () {
@@ -158,7 +167,16 @@ export default {
       this.$http.post('public/case/get', {
         id: this.id
       }).then(d => {
-        // console.log('caseDetail=========', d.data)
+        // console.log('caseDetail=========', d.data.images)
+        this.attrs = []
+        this.row = {}
+        this.designer = {}
+        this.summary = ''
+        this.prev = ''
+        this.next = ''
+        this.more = []
+        this.images = []
+        this.style = []
         if (d.code === 0) {
           this.attrs.push(d.data.attrs)
           $.extend(this.designer, d.data.designer)
@@ -179,6 +197,13 @@ export default {
   },
   created () {
     this.getImg()
+  },
+  watch: {
+    '$route' (to, from) {
+      // 刷新参数放到这里里面去触发就可以刷新相同界面了
+      this.getImg()
+      // console.log('id=======', this.id)
+    }
   },
   mounted () {
     document.addEventListener('scroll', this.menu)
@@ -224,9 +249,9 @@ export default {
     position: fixed;
     top: 101px;
   }
-  .bottom {
+  .top {
     position: absolute;
-    bottom: 475px;
+    top: 1565px;
   }
   .to {
     width: 240px;
@@ -492,6 +517,11 @@ export default {
     float: left;
     position: relative;
   }
+  .slist li a {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+  }
   .tasking {
     position: absolute;
     width: 100%;
@@ -513,7 +543,7 @@ export default {
     transform: translate(-50%, -50%);
     z-index: 10;
   }
-  .slist li > img {
+  .slist li img {
     width: 252px;
     height: 190px;
   }
