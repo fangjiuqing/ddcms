@@ -33,6 +33,13 @@ Vue.use(sess, {cache})
 Vue.use(http, {sess, cache})
 Vue.use(VueImg)
 
+var dateFormat = require('dateformat')
+Vue.filter('time', function (value, format) {
+  var d = new Date()
+  d.setTime(value * 1000)
+  return dateFormat(d, format)
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

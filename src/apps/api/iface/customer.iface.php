@@ -8,9 +8,6 @@ class customer_iface extends ubase_iface {
     
     /**
      * 获取顾客列表接口
-     * @param string $uri          请求的接口
-     * @param array  $data
-     * @param string $access_token token
      */
     public function list_action () {
         $tab = OBJ('customer_table');
@@ -52,7 +49,7 @@ class customer_iface extends ubase_iface {
     
     /**
      * 删除顾客信息
-     * @param array $data 被删除用户id
+     * @param int $id 被删除顾客id
      */
     public function del_action () {
         $id = intval($this->data['id']);
@@ -93,10 +90,10 @@ class customer_iface extends ubase_iface {
         }
         $ret['orders'] = OBJ('customer_order_table')->map(function ($row) {
             $row['sms_send'] = $row['pco_sms_send'] ? true : false;
-            $row['type']  = core_helper::$order_type[$row['pco_type']];
+            $row['type'] = core_helper::$order_type[$row['pco_type']];
             return $row;
         })->order('pco_atime desc')->get_all([
-            'pco_pc_id'     => $ret['row']['pc_id']
+            'pco_pc_id' => $ret['row']['pc_id'],
         ]) ?: [];
         $ret['type'] = core_helper::$order_type;
         $ret['status'] = core_helper::$customer_status;
@@ -106,7 +103,7 @@ class customer_iface extends ubase_iface {
     
     /**
      * 用户信息保存接口
-     * @param int    $id            用户ID
+     * @param int    $pc_id         用户ID
      * @param int    $pc_sn         用户编号
      * @param int    $pc_sid        身份证号
      * @param string $pc_nick       用户名
@@ -115,21 +112,21 @@ class customer_iface extends ubase_iface {
      * @param int    $pc_atime      添加时间
      * @param int    $pc_via        客户来源
      * @param int    $pc_status_del 用户是否被删除
-     * @param int    $pc_region0    省份
-     * @param int    $pc_region1    市区
-     * @param int    $pc_region2    县区
+     * @param int    $pc_region0    省份id
+     * @param int    $pc_region1    市区id
+     * @param int    $pc_region2    县区id
      * @param string $pc_addr       详细地址
-     * @param int    $pc_co_id      所在小区
+     * @param int    $pc_co_id      所在小区id
      * @param int    $pc_gender     性别
      * @param string $pc_memo       备注
      * @param int    $pc_score      成功率
      */
     public function save_action () {
-        $this->data['pc_sn'] = filter::char($this->data['pc_sn']);
+        $this->data['pc_sn'] = filter::char($this->data['pc_sn']) ?: date('YmdHis', app::get_time());
         if (!filter::is_account($this->data['pc_nick'])) {
             $this->failure('请输入正确的用户名');
         }
-        $this->data['pc_status'] = filter::int($this->data['pc_status']);
+        $this->data['pc_status'] = filter::int($this->data['pc_status']) ?: 1;
         $this->data['pc_adm_id'] = (int)$this->login['admin_id'];
         $this->data['pc_adm_nick'] = $this->login['admin_account'];
         $this->data['pc_atime'] = (int)$this->data['pc_atime'] ?: REQUEST_TIME;
@@ -146,7 +143,7 @@ class customer_iface extends ubase_iface {
         $this->data['pc_score'] = filter::int($this->data['pc_score']);
         $this->verify([
             'pc_mobile' => [
-                'code' => 100,
+                'code' => 101,
                 'msg'  => '请输入正确的手机号',
                 'rule' => filter::$rules['mobile'],
             ],
@@ -160,7 +157,7 @@ class customer_iface extends ubase_iface {
                 $this->success('操作成功');
             }
         }
-        $this->failure($tab->get_error_desc());
+        $this->failure($tab->get_error_desc(), 102);
     }
     
 }

@@ -12,17 +12,13 @@
                   <p>{{item.synopsisa}}</p>
                   <p class="synopsisa">{{item.synopsis}}</p>
                   <ul class="work-img">
-                    <li>
-                      <router-link v-for="(item, index) in imgs" :key="index" :to="{name:item.name}">
-                        <img :src="item.imga" alt="">
-                      </router-link>
+                    <li v-for="(item, index) in imgs" :key="index" :to="{name:item.name}">
+                      <img :src="item.imga" alt="">
                     </li>
                   </ul>
                 </div>
                 <div class="right">
-                  <router-link :to="{name:item.name}">
-                    <img :src="item.imgUrl" alt="">
-                  </router-link>
+                  <img :src="item.imgUrl" alt="">
                 </div>
               </div>
             </div>
