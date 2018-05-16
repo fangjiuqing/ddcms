@@ -6,6 +6,17 @@ namespace re\rgx;
  */
 class public_customer_iface extends base_iface {
     
+    /**
+     * pc客户预留手机号及信息接口
+     * @param string  $pc_nick   用户名
+     * @param integer $pc_area   总面积
+     * @param int     $pc_room0  几室
+     * @param int     $pc_room1  几厅
+     * @param int     $pc_room2  几卫
+     * @param string  $pc_local  所在小区
+     * @param int     $pc_mobile 客户手机号
+     * @param int     $pc_code   验证码
+     */
     public function info_action () {
         $this->data['pc_nick'] = $this->data['pc_nick'] ? filter::char($this->data['pc_nick']) : '新客户';
         $this->data['pc_area'] = $this->data['pc_area'] ? filter::int($this->data['pc_area']) : 0;
@@ -60,8 +71,8 @@ class public_customer_iface extends base_iface {
     }
     
     /**
-     * 发送手机验证码
-     * @param $verify_mobile string 接收验证码的手机
+     * 根据手机号发送手机验证码
+     * @param int $verify_mobile 接收验证码的手机号
      */
     public function code_action () {
         $this->verify([

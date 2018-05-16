@@ -5,7 +5,7 @@ namespace re\rgx;
  * 管理员管理
  */
 class system_admin_iface extends ubase_iface {
-
+    
     /**
      * 管理员账号列表
      */
@@ -36,6 +36,7 @@ class system_admin_iface extends ubase_iface {
     
     /**
      * 删除管理员账号
+     * @param int $id 要删除的账号id
      */
     public function del_action () {
         $id = intval($this->data['id']);
@@ -51,6 +52,7 @@ class system_admin_iface extends ubase_iface {
     
     /**
      * 管理员账号信息获取
+     * @param int $id 管理员id
      */
     public function get_action () {
         $id = intval($this->data['id']);
@@ -64,6 +66,10 @@ class system_admin_iface extends ubase_iface {
     
     /**
      * 管理员账号新增
+     * @param string $admin_account  管理员账号名
+     * @param int    $admin_mobile   手机号
+     * @param string $admin_nick     真实姓名
+     * @param int    $admin_group_id 所在组id
      */
     public function save_action () {
         if (!filter::is_account($this->data['admin_account'])) {
