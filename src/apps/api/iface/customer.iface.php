@@ -23,6 +23,10 @@ class customer_iface extends ubase_iface {
             $region_ids[$row['pc_region1']] = 1;
             $region_ids[$row['pc_region2']] = 1;
             $area_ids[$row['pc_co_id']] = 1;
+            $row['via'] = core_helper::$customer_via[$row['pc_via']] ?: '未知';
+            $row['status'] = core_helper::$customer_status[$row['pc_status']];
+            $row['status_style'] = ['', 'text-primary', 'text-info', 'text-success', 'text-rose'][$row['pc_status']];
+            $row['gender'] = ['', '先生', '女士'][$row['pc_gender']];
             return $row;
         })->order('pc_utime desc')->get_all();
         $region_list = OBJ('region_table')->akey('region_code')->get_all([
@@ -41,8 +45,8 @@ class customer_iface extends ubase_iface {
             $arts[$k]['pc_area'] = isset($area_list[$v['pc_co_id']]) ? $area_list[$v['pc_co_id']]['pco_name'] : '';
         }
         $this->success('获取列表成功', [
-            'list'   => array_values($arts),
-            'paging' => $paging->to_array(),
+            'list'      => array_values($arts),
+            'paging'    => $paging->to_array()
         ]);
     }
     
@@ -75,7 +79,15 @@ class customer_iface extends ubase_iface {
      * @param int $id 用户ID
      */
     public function get_action () {
-        $ret['row'] = OBJ('customer_table')->get((int)$this->data['id']) ?: null;
+        $ret['row'] = OBJ('customer_table')->map(function ($row) {
+            $regions = OBJ('region_table')->akey('region_code')->get_all([
+                'region_code'   => [$row['pc_region0'] ?: 0, $row['pc_region1'] ?: 0, $row['pc_region2'] ?: 0]
+            ]);
+            $row['region0'] = $regions[$row['pc_region0']]['region_name'] ?: '';
+            $row['region1'] = $regions[$row['pc_region1']]['region_name'] ?: '';
+            $row['region2'] = $regions[$row['pc_region2']]['region_name'] ?: '';
+            return $row;
+        })->get((int)$this->data['id']) ?: null;
         if (empty($ret['row'])) {
             $this->failure('该客户不存在');
         }
@@ -87,6 +99,8 @@ class customer_iface extends ubase_iface {
             'pco_pc_id'     => $ret['row']['pc_id']
         ]) ?: [];
         $ret['type'] = core_helper::$order_type;
+        $ret['status'] = core_helper::$customer_status;
+        $ret['via'] = core_helper::$customer_via;
         $this->success('操作成功', $ret);
     }
     

@@ -17,6 +17,17 @@ class core_helper extends rgx {
     ];
 
     /**
+     * 客户状态
+     * @var [type]
+     */
+    public static $customer_status = [
+        1   => '新客户',
+        2   => '沟通中',
+        3   => '有意向',
+        4   => '无意向'
+    ];
+
+    /**
      * 户型
      * @var [type]
      */
