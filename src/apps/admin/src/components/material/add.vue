@@ -18,7 +18,7 @@
                   <div class="row">
                     <label class="col-sm-2 field-label">名称</label>
                     <div class="col-sm-10 input-label">
-                      <input class="form-control" name="mat_name" v-model="form.mat_name"  v-focus="form.mat_name"  type="text" placeholder="材料名称">
+                      <input class="form-control" name="mat_name" v-model="form.mat_name" type="text" placeholder="材料名称">
                     </div>
                   </div>
                   <div class="row">

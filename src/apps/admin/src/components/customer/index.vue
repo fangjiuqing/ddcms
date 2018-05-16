@@ -203,7 +203,6 @@ export default {
         msg: '加载中 ...'
       })
       this.$http.list('customer', {pn: this.pn}).then(d => {
-        console.log(d.data)
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data.list

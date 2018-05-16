@@ -15,7 +15,7 @@
             <div class="clearfix"></div>
             <div class="col-sm-7">
                 <div class="form-group">
-                    <input class="form-control" name="case_title" v-model="form.case_title"  v-focus="form.case_title"  type="text" placeholder="案例名称">
+                    <input class="form-control" name="case_title" v-model="form.case_title" type="text" placeholder="案例名称">
                 </div>
                 <div class="row">
                   <div class="col-md-6">
@@ -85,13 +85,13 @@
                 <v-distpicker :province="form.province" :city="form.city" hide-area @selected="onSelected"></v-distpicker>
               </div>
               <div class="form-group">
-                  <input class="form-control" name="case_community" v-model="form.case_community"  v-focus="form.case_community"  type="text" placeholder="小区">
+                  <input class="form-control" name="case_community" v-model="form.case_community" type="text" placeholder="小区">
               </div>
               <div class="form-group">
-                  <input class="form-control" name="case_area" v-model="form.case_area"  v-focus="form.case_area"  type="text" placeholder="面积">
+                  <input class="form-control" name="case_area" v-model="form.case_area" type="text" placeholder="面积">
               </div>
               <div class="form-group">
-                  <input class="form-control" name="case_price" v-model="form.case_price"  v-focus="form.case_price"  type="text" placeholder="造价">
+                  <input class="form-control" name="case_price" v-model="form.case_price" type="text" placeholder="造价">
               </div>
             </div>
             <div class="col-md-7">

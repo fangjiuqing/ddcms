@@ -72,7 +72,7 @@
               <label class="col-sm-3 label-on-left">真实姓名</label>
               <div class="col-sm-9">
                 <div class="form-group">
-                  <input class="form-control" v-model="modal_data.admin_nick" v-focus="modal_data.admin_nick" type="text" placeholder="请输入您的真实姓名">
+                  <input class="form-control" v-model="modal_data.admin_nick" type="text" placeholder="请输入您的真实姓名">
                 </div>
               </div>
             </div>
@@ -90,7 +90,7 @@
               <label class="col-sm-3 label-on-left">登录账号</label>
               <div class="col-sm-9">
                 <div class="form-group">
-                  <input class="form-control" v-model="modal_data.admin_account" v-focus="modal_data.admin_account" type="text" placeholder="请输入您的账号">
+                  <input class="form-control" v-model="modal_data.admin_account" type="text" placeholder="请输入您的账号">
                 </div>
               </div>
             </div>
@@ -98,7 +98,7 @@
               <label class="col-sm-3 label-on-left">手机号码</label>
               <div class="col-sm-9">
                 <div class="form-group">
-                  <input class="form-control" v-model="modal_data.admin_mobile" v-focus="modal_data.admin_mobile"  type="text" placeholder="联系电话">
+                  <input class="form-control" v-model="modal_data.admin_mobile"  type="text" placeholder="联系电话">
                 </div>
               </div>
             </div>

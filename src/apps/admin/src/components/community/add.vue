@@ -1,104 +1,187 @@
 <template>
-  <div class="community">
+  <div class="type">
     <breadcrumbs :items="items">
       <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
         {{v.text}}
       </breadcrumb-item>
     </breadcrumbs>
-    <div class="app_page">
-      <form action="" method="post" accept-charset="utf-8">
-        <div class="form-block">
-          <div class="row">
-            <div class="col-md-12">
-              <h5 class="block-h5">编辑户型</h5>
+    <div class="community-concent col-md-12">
+      <h5 class="block-h5">小区详情</h5>
+      <div class="col-sm-12">
+        <div class="row">
+          <div class="col-md-8">
+            <label for="" class="label-on-left col-sm-2">小区名称</label>
+            <div class="form-group col-sm-8">
+              <input class="form-control" name="pco_name" v-model="community.pco_name" type="text" placeholder="小区名称">
             </div>
+          </div>
+          <div class="col-md-8">
+            <label for="" class="label-on-left col-sm-2">详细地址</label>
+            <div class="form-group col-sm-8">
+              <input class="form-control" name="pco_addr" v-model="community.pco_addr" type="text" placeholder="详细地址">
+            </div>
+          </div>
+          <div class="address">
+            <div class="col-sm-8">
+              <div class="form-group text-left">
+                <v-distpicker :province="community.province" :city="community.city" :area="community.area" @selected="onSelected"></v-distpicker>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12">
+          <h5 class="block-h5">新增户型
+            <btn class="btn btn-xs btn-success pull-right" @click="add_row">新增户型</btn>
             <div class="clearfix"></div>
-            <div class="col-sm-7">
-              <div class="row">
-                <label class="col-sm-4 label-on-left">户型名称</label>
-                <div class="col-md-8">
-                  <div class="form-group">
-                    <input class="form-control" name="pu_name" v-model="form.pu_name" type="text" placeholder="户型名称">
+          </h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-striped">
+            <thead>
+              <tr style="background-color:#f7f7f7">
+                <th v-for="(v, k) in fields" :key="k" v-if="k !== 'id'" width="13%">
+                  <input class="material_field_input" @focus="set_active(k)" v-model="fields[k]" :placeholder="v"/>
+                </th>
+              </tr>
+            </thead>
+            <tbody v-for="(row, row_key) in rows" :key="row_key">
+              <tr>
+                <td>
+                  <img class="preview_cover" style="width: 150px;" :src="row.cover" @click="upload_cover(row_key)">
+                  <input class="material_field_input" type="hidden" name="pu_cover" v-model="rows[row_key]['pu_cover']">
+                </td>
+                <td>
+                  <div class="input-group col-md-8">
+                    <input class="material_field_input form-control" v-model="rows[row_key]['pu_name']" value="" placeholder="户型名" />
+                    <span class="input-group-addon">户型名</span>
                   </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <div class="input-group">
-                      <input class="form-control" name="pu_area0" v-model="form.pu_area0" type="number" placeholder="总面积">
-                      <span class="input-group-addon">M²</span>
-                    </div>
+                  <div class="input-group col-md-8">
+                    <input class="material_field_input form-control" v-model="rows[row_key]['pu_area0']" value="" placeholder="总面积" />
+                    <span class="input-group-addon">总面积</span>
                   </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <div class="input-group">
-                      <input class="form-control" name="pu_area1" v-model="form.pu_area1" type="text" placeholder="可用面积">
-                      <span class="input-group-addon">M²</span>
-                    </div>
+                  <div class="input-group col-md-8">
+                    <input class="material_field_input form-control" v-model="rows[row_key]['pu_area1']" value="" placeholder="可用面积" />
+                    <span class="input-group-addon">可用面积</span>
                   </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <div class="input-group">
-                      <input class="form-control" name="pu_room0" v-model="form.pu_room0" type="text" placeholder="卧室">
-                      <span class="input-group-addon">室</span>
-                    </div>
+                  <div class="input-group col-md-8">
+                    <input class="material_field_input form-control" v-model="rows[row_key]['pu_room0']" value="" placeholder="卧室" />
+                    <span class="input-group-addon">卧室</span>
                   </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <div class="input-group">
-                      <input class="form-control" name="pu_room1" v-model="form.pu_room1" type="text" placeholder="客厅">
-                      <span class="input-group-addon">厅</span>
-                    </div>
+                </td>
+                <td>
+                  <div class="input-group col-md-8">
+                    <input class="material_field_input form-control" v-model="rows[row_key]['pu_room1']" value="" placeholder="客厅" />
+                    <span class="input-group-addon">客厅</span>
                   </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <div class="input-group">
-                      <input class="form-control" name="pu_room2" v-model="form.pu_room2" type="text" placeholder="厨房">
-                      <span class="input-group-addon">厨</span>
-                    </div>
+                  <div class="input-group col-md-8">
+                    <input class="material_field_input form-control" v-model="rows[row_key]['pu_room2']" value="" placeholder="厨房" />
+                    <span class="input-group-addon">厨房</span>
                   </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <div class="input-group">
-                      <input class="form-control" name="pu_room3" v-model="form.pu_room3" type="text" placeholder="卫生间">
-                      <span class="input-group-addon">卫</span>
-                    </div>
+                  <div class="input-group col-md-8">
+                    <input class="material_field_input form-control" v-model="rows[row_key]['pu_room3']" value="" placeholder="卫生间" />
+                    <span class="input-group-addon">卫生间</span>
                   </div>
+                </td>
+                <td>
+                  <btn class="btn btn-xs btn-danger pull-right" @click="del_row(row_key)" style="margin-left: 10px;"><i class="fa fa-trash-o"></i></btn>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  <div class="col-md-12">
+    <div class="content">
+      <h5 class="block-h5" v-if="id !== '0'">户型详情
+      </h5>
+      <form action="" method="post" accept-charset="utf-8">
+        <div class="col-md-12 type-row" v-for="(v) in form" :key="v.id">
+          <div class="col-md-4">
+            <img :src="v.pu_cover_thumb" alt="" style="width: 100%;">
+          </div>
+          <div class="col-md-5 detail">
+            <div class="row unit">
+              <div class="form-group col-md-12">
+                <div class="input-group">
+                  <input class="form-control" name="pu_name" v-model="v.pu_name" type="text" placeholder="户型名称">
+                  <span class="input-group-addon">户型名称</span>
                 </div>
               </div>
             </div>
-        <div class="col-sm-5">
-          <img class="preview_cover" style="width: 200px; height: 230px;" :src="cover" @click="upload_cover">
-          <input type="hidden" name="pu_cover" v-model="form.pu_cover">
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <div class="input-group">
+                  <input class="form-control" name="pu_area0" v-model="v.pu_area0" type="number" placeholder="户型总面积">
+                    <span class="input-group-addon">总面积M²</span>
+                </div>
+              </div>
+              <div class="form-group col-sm-6">
+                <div class="input-group">
+                  <input class="form-control" name="pu_area1" v-model="v.pu_area1" type="text" placeholder="户型可用面积">
+                  <span class="input-group-addon">可用面积M²</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <div class="input-group">
+                  <input class="form-control" name="pu_room0" v-model="v.pu_room0" type="text" placeholder="室">
+                  <span class="input-group-addon">室</span>
+                </div>
+              </div>
+              <div class="form-group col-sm-6">
+                <div class="input-group">
+                  <input class="form-control" name="pu_room1" v-model="v.pu_room1" type="text" placeholder="厅">
+                  <span class="input-group-addon">厅</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <div class="input-group">
+                  <input class="form-control" name="pu_room2" v-model="v.pu_room2" type="text" placeholder="厨">
+                  <span class="input-group-addon">厨</span>
+                </div>
+              </div>
+              <div class="form-group col-sm-6">
+                <div class="input-group">
+                  <input class="form-control" name="pu_room3" v-model="v.pu_room3" type="text" placeholder="卫">
+                  <span class="input-group-addon">卫</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <btn class="btn btn-xs btn-rose" @click="del(v.pu_id)"><i class="fa fa-trash-o"></i></btn>
+          </div>
+          <div class="line"></div>
         </div>
         <div class="clearfix"></div>
-      </div>
-    </div>
-      <div class="row">
-        <div class="col-md-11" style="margin:0 auto; float: none">
-          <btn type="success" @click="save" class="btn btn-success pull-right">保存</btn>
+        <div class="row">
+          <div class="col-md-11" style="margin:0 auto; float: none">
+            <btn type="success" v-on:click="save" class="btn btn-success pull-right">保存</btn>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
     </div>
   </div>
+</div>
 </template>
 <script>
-import { VueEditor } from 'vue2-editor'
+import VDistpicker from 'v-distpicker'
 export default {
-  name: 'TypeAdd',
-  components: { VueEditor },
+  name: 'CommunityAdd',
+  components: { VDistpicker },
   metaInfo () {
     return {
-      title: '编辑户型 - 道达智装'
+      title: '小区详情 - 道达智装'
     }
   },
   data () {
@@ -106,19 +189,57 @@ export default {
       items: [
         {text: '首页', to: '/'},
         {text: '小区管理', to: '/community'},
-        {text: '编辑户型', href: '#'}
+        {text: '小区编辑', href: '#'}
       ],
       id: this.$route.query['id'] || 0,
-      form: {
-        pu_co_id: this.$route.query['id'] || 0
-      },
+      form: {},
+      community: {},
+      extra: {},
       cover: '',
-      attrs: 1,
-      extra: {}
+      attrs: {},
+      rows: [
+        {
+          id: 0,
+          pu_cover: '',
+          cover: require('@/assets/images/default_1x1.jpg')
+        }
+      ],
+      fields: {},
+      field_key: '',
+      rowID: 0,
+      i: 0
     }
   },
   methods: {
-    upload_cover () {
+    set_active (key) {
+      this.field_key = key
+    },
+    add_row () {
+      let row = {
+        id: 1,
+        pu_cover: '',
+        cover: require('@/assets/images/default_1x1.jpg')
+      }
+      for (var key in this.fields) {
+        if (this.fields.hasOwnProperty(key)) {
+          row[key] = ''
+        }
+      }
+      this.rows.push(row)
+    },
+    del_row (i) {
+      let row = {
+        id: 0
+      }
+      for (var key in this.fields) {
+        if (this.fields.hasOwnProperty(key)) {
+          row[key] = ''
+        }
+      }
+      this.rows.splice(i, 1)
+    },
+    upload_cover (rowID) {
+      this.rowID = rowID
       this.$uploader.select({
         uri: 'upload/image',
         el: this,
@@ -147,8 +268,9 @@ export default {
         type: 'success',
         dismissible: false
       })
-      this.form.pu_cover = d.image
-      this.cover = d.thumb
+      this.rows[this.rowID]['pu_cover'] = d.image
+      this.rows[this.rowID]['cover'] = d.thumb
+      this.rowID = 0
     },
     on_cover_progress (e) {
       if (e) {
@@ -205,38 +327,22 @@ export default {
         data: formData
       })
     },
+    onSelected (d) {
+      this.community.pco_region0 = d.province.code
+      this.community.pco_region1 = d.city.code
+      this.community.pco_region1 = d.city.code
+    },
     refresh: function (id) {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.list('unit', {id: this.id || 0, attrs: 1, pn: this.pn}).then(d => {
+      this.$http.get('community', {id: this.id || 0, attrs: 1}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.form = this.id ? d.data.list : {}
-          this.pn = d.data.paging.pn
-          this.total = d.data.paging.max
+          this.community = this.id ? d.data.detail : {}
         } else {
-          this.form = []
-        }
-      })
-    },
-    modify (id) {
-      this.$loading.show({
-        msg: '加载中 ...'
-      })
-      this.$http.get('unit', {id: this.id || 0, attrs: 1}).then(d => {
-        this.$loading.hide()
-        if (d.code === 0) {
-          this.form = this.id ? d.data : this.form
-        } else if (d.code === 9999) {
-          this.$alert({
-            title: '系统提示',
-            content: d.msg
-          }, (msg) => {
-            this.$router.go(-1)
-          })
-        } else {
-          this.form = this.form || {}
+          this.form = {}
         }
       })
     },
@@ -244,91 +350,117 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.save('unit', this.form).then(d => {
+      this.$http.save('community', {
+        // attr_key: this.fields,
+        add: this.rows,
+        base: this.community
+      }).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.$router.push({
-            path: '/community/type',
-            query: {id: this.id}
+            path: '/community'
           })
           this.refresh()
-        } else if (d.code === 9999) {
-          this.$alert({
-            title: '系统提示',
-            content: d.msg
-          }, (msg) => {
-            this.$router.go(-1)
+          this.$notify({
+            content: d.msg,
+            duration: 2000,
+            type: 'success',
+            dismissible: false
           })
         } else {
           this.$notify({
             content: d.msg,
-            duration: 1500,
+            duration: 2000,
             type: 'danger',
             dismissible: false
           })
         }
       })
+    },
+    del: function (id) {
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$loading.hide()
+      this.$confirm({
+        title: '操作提示',
+        content: '此项将被永久删除。继续?',
+        okText: '确认',
+        cancelText: '取消'
+      }).then(() => {
+        this.$http.del('unit', {id: id}).then(d => {
+          if (d.code === 0) {
+            this.$notify({
+              type: 'success',
+              content: '删除成功.'
+            })
+            this.refresh()
+          } else {
+            this.$notify({
+              content: d.msg,
+              duration: 2000,
+              type: 'danger',
+              dismissible: false
+            })
+          }
+        })
+      }).catch(() => {
+        this.$notify('取消删除.')
+      })
     }
   },
   mounted: function () {
     this.$store.state.left_active_key = '/operate'
-    this.modify()
+    this.refresh()
   },
   destroyed: function () {
     this.$loading.hide()
   },
   activated: function () {
     this.$store.state.left_active_key = '/operate'
+    this.refresh()
   }
 }
 </script>
 <style scoped>
-  /* #editor {
-  } */
-  .quillWrapper {
-    position: relative;
-  }
-  .quillWrapper .ql-snow.ql-toolbar {
-    width: 100%;
-  }
-  .ql-editor {
-    min-height: 360px;
-  }
-  .ql-toolbar {
-    text-align: left;
-  }
-
-  [v-cloak] {
-      display: none;
-  }
-
-  .hintsbox-mark {
-      position: relative;
-      z-index:9999;
-  }
-
-  .hintsbox-mark input{
-      width: 100%;
-  }
-
-  .hintsbox {
-      width: 100%;
-      border: 1px solid #ddd;
-
-  }
-
-  .hintslist .hint {
-      padding: 4px 2px 4px 8px;
-      list-style-type : none;
-      text-align:left;
-  }
-
-  .hintslist .hint:hover {
-      background-color: #DDD8E5;
-      cursor: pointer;
-  }
-
-  .hintslist .hint.active {
-      background-color: #DDD8E5;
-  }
+.address {
+  margin-left: 12%;
+}
+.input-group {
+  margin-bottom: 20px;
+}
+.preview_cover {
+  padding-top: 30px;
+}
+.type, .col-md-12 {
+  background: #fff;
+}
+.detail {
+  padding-top: 50px;
+}
+.btn-rose {
+  margin-top: 20px;
+}
+.btn-danger {
+  margin-right: 40px;
+}
+.unit {
+  margin-bottom: 15px;
+}
+.line {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: #ccc;
+  bottom: 0;
+}
+.app_page .type-row {
+  margin-bottom: 50px;
+}
+.distpicker-address-wrapper {
+  text-align: left;
+}
+.distpicker-address-wrapper select {
+  max-width: 105px!important;
+}
 </style>

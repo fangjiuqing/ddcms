@@ -53,7 +53,7 @@
                 <label class="col-sm-3 label-on-left">名称</label>
                 <div class="col-sm-9">
                     <div class="form-group">
-                        <input class="form-control" v-model="modal_data.pb_name"  v-focus="modal_data.pb_name"  type="text" placeholder="品牌名称">
+                        <input class="form-control" v-model="modal_data.pb_name" type="text" placeholder="品牌名称">
                     </div>
                 </div>
             </div>

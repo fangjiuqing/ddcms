@@ -75,11 +75,18 @@ class customer_iface extends ubase_iface {
      * @param int $id 用户ID
      */
     public function get_action () {
-        $id = intval($this->data['id']);
-        $ret = OBJ('customer_table')->get($id);
-        if (!$ret) {
-            $this->failure('该用户不存在');
+        $ret['row'] = OBJ('customer_table')->get((int)$this->data['id']) ?: null;
+        if (empty($ret['row'])) {
+            $this->failure('该客户不存在');
         }
+        $ret['orders'] = OBJ('customer_order_table')->map(function ($row) {
+            $row['sms_send'] = $row['pco_sms_send'] ? true : false;
+            $row['type']  = core_helper::$order_type[$row['pco_type']];
+            return $row;
+        })->order('pco_atime desc')->get_all([
+            'pco_pc_id'     => $ret['row']['pc_id']
+        ]) ?: [];
+        $ret['type'] = core_helper::$order_type;
         $this->success('操作成功', $ret);
     }
     
@@ -104,11 +111,11 @@ class customer_iface extends ubase_iface {
      * @param int    $pc_score      成功率
      */
     public function save_action () {
-        $this->data['pc_sn'] = filter::char($this->data['pc_sn']);
+        $this->data['pc_sn'] = filter::char($this->data['pc_sn']) ?: date('YmdHis', app::get_time());
         if (!filter::is_account($this->data['pc_nick'])) {
             $this->failure('请输入正确的用户名');
         }
-        $this->data['pc_status'] = filter::int($this->data['pc_status']);
+        $this->data['pc_status'] = filter::int($this->data['pc_status']) ?: 1;
         $this->data['pc_adm_id'] = (int)$this->login['admin_id'];
         $this->data['pc_adm_nick'] = $this->login['admin_account'];
         $this->data['pc_atime'] = (int)$this->data['pc_atime'] ?: REQUEST_TIME;
@@ -125,7 +132,7 @@ class customer_iface extends ubase_iface {
         $this->data['pc_score'] = filter::int($this->data['pc_score']);
         $this->verify([
             'pc_mobile' => [
-                'code' => 100,
+                'code' => 101,
                 'msg'  => '请输入正确的手机号',
                 'rule' => filter::$rules['mobile'],
             ],
@@ -139,7 +146,7 @@ class customer_iface extends ubase_iface {
                 $this->success('操作成功');
             }
         }
-        $this->failure($tab->get_error_desc());
+        $this->failure($tab->get_error_desc(), 102);
     }
     
 }
