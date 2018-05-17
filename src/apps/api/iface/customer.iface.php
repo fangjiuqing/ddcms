@@ -42,8 +42,8 @@ class customer_iface extends ubase_iface {
             $arts[$k]['pc_area'] = isset($area_list[$v['pc_co_id']]) ? $area_list[$v['pc_co_id']]['pco_name'] : '';
         }
         $this->success('获取列表成功', [
-            'list'      => array_values($arts),
-            'paging'    => $paging->to_array()
+            'list'   => array_values($arts),
+            'paging' => $paging->to_array(),
         ]);
     }
     
@@ -78,7 +78,7 @@ class customer_iface extends ubase_iface {
     public function get_action () {
         $ret['row'] = OBJ('customer_table')->map(function ($row) {
             $regions = OBJ('region_table')->akey('region_code')->get_all([
-                'region_code'   => [$row['pc_region0'] ?: 0, $row['pc_region1'] ?: 0, $row['pc_region2'] ?: 0]
+                'region_code' => [$row['pc_region0'] ?: 0, $row['pc_region1'] ?: 0, $row['pc_region2'] ?: 0],
             ]);
             $row['region0'] = $regions[$row['pc_region0']]['region_name'] ?: '';
             $row['region1'] = $regions[$row['pc_region1']]['region_name'] ?: '';
@@ -137,6 +137,14 @@ class customer_iface extends ubase_iface {
             }
         }
         $this->failure($tab->get_error_desc(), 102);
+    }
+    
+    public function region_action () {
+        $arg = filter::char($this->data['region_name']);
+        $ret = OBJ('community_table')->akey('pco_id')->where([
+            'pco_name like \'' . $arg . '%\'',
+        ])->get_all();
+        $this->success('操作成功', $ret);
     }
     
 }
