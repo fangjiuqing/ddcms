@@ -7,7 +7,7 @@
     </breadcrumbs>
     <div class="app_page">
       <div class="form-block">
-        <tabs style="padding-top:15px;">
+        <tabs style="padding-top:15px;" @change="onTabChange">
           <tab title="基本信息">
             <div class="form-block">
               <div class="row">
@@ -93,18 +93,43 @@
             </div>
           </tab>
           <tab title="预约记录">
-            <dropdown ref="dropdown" style="margin-top:0px;" class="pull-right">
-              <btn type="success" class="btn dropdown-toggle btn-xs">
-                <i class="fa fa-plus"></i> 新增预约 <span class="caret"></span>
-              </btn>
-              <template slot="dropdown">
-                <li v-for="(v, k) in type" :key="k">
-                  <a role="button" @click="addOrder(form.pc_id, k)"><small>新增<code>{{v}}</code>预约</small></a>
-                </li>
-              </template>
-            </dropdown>
+            <btn type="success" class="btn btn-xs pull-right" @click="addOrder">
+              <i class="fa fa-plus"></i> 新增预约
+            </btn>
             <div class="form-block">
-
+              <div class="content table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                      <tr>
+                        <th class="text-center" width="25%"><small>发布时间</small></th>
+                        <th class="text-center" width="25%"><small>预约类型</small></th>
+                        <th class="text-center" width="25%"><small>预约时间</small></th>
+                        <th class="text-center" width="25%"><small>短信通知</small></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr v-for="(v) in sortOrders" :key="v.pco_id">
+                          <td class="text-center">
+                            <small>{{v.pco_atime|time('yyyy-mm-dd HH:MM')}}</small>
+                          </td>
+                          <td class="text-center">
+                              <code>{{type[v.pco_type]}}</code>
+                          </td>
+                          <td class="text-center">
+                            <code><small>{{v.pco_stime|time('yyyy-mm-dd HH:MM')}}</small></code>
+                          </td>
+                          <td class="text-center">
+                            <small class="text-success" v-if="v.pco_sms_send === '1'">
+                              已通知
+                            </small>
+                            <small class="text-warning" v-if="v.pco_sms_send === '0'">
+                              未通知
+                            </small>
+                          </td>
+                      </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </tab>
           <tab title="方案管理">
@@ -116,6 +141,67 @@
         </tabs>
       </div>
     </div>
+
+    <modal v-model="addModalOpen" title="新增预约">
+      <div slot="title" class="text-left">
+        新增预约
+      </div>
+      <div slot="default">
+        <form action="" method="post" accept-charset="utf-8">
+          <div style="padding-right:30px;">
+            <div class="row">
+                <label class="col-sm-2 label-on-left">预约类型</label>
+                <div class="col-sm-5">
+                  <div class="form-group">
+                    <select v-model="order.pco_type" class="form-control">
+                      <option disabled value="">请选择预约类型</option>
+                      <option v-for="(v, k) in type" :key="k" :value="k">
+                        {{v}}服务
+                      </option>
+                    </select>
+                  </div>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-sm-2 label-on-left">预约日期</label>
+                <div class="col-sm-5">
+                  <dropdown class="form-group">
+                    <div class="input-group">
+                      <input class="form-control" type="text" v-model="order.date" placeholder="请选择预约日期">
+                      <div class="input-group-btn">
+                        <btn class="dropdown-toggle"><i class="fa fa-calendar"></i></btn>
+                      </div>
+                    </div>
+                    <template slot="dropdown">
+                      <li>
+                        <date-picker v-model="order.date" :limit-from="dateLimitFrom"/>
+                      </li>
+                    </template>
+                  </dropdown>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-group">
+                      <time-picker v-model="order.time" :max="timeMax" :min="timeMin" :controls="false" :show-meridian="false"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-sm-2 label-on-left">短信通知</label>
+                <div class="col-sm-5 text-left">
+                  <div class="form-group">
+                    <p-check class="p-icon p-curve" v-model="order.pco_sms_send" color="success" style="top:11px;font-size: 16px">
+                        <i slot="extra" class="icon fa fa-check"></i>
+                    </p-check>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div slot="footer">
+        <btn type="success" @click="saveOrder" class="btn-sm">确认</btn>
+      </div>
+    </modal>
   </div>
 </template>
 <script>
@@ -137,6 +223,7 @@ export default {
     'p-radio': PrettyRadio
   },
   data () {
+    var d = new Date()
     return {
       items: [
         {text: '首页', to: '/'},
@@ -154,12 +241,97 @@ export default {
       status: {},
       via: {},
       orders: [],
-      type: {}
+      type: {},
+      addModalOpen: false,
+      dateLimitFrom: d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(),
+      timeMin: new Date('2017/01/01 07:00'),
+      timeMax: new Date('2017/01/01 22:00'),
+      order: {
+        pco_id: 0,
+        pco_type: '',
+        pco_stime: '',
+        pco_etime: '',
+        pco_pc_id: 0,
+        pco_atime: 0,
+        pco_sms_send: false,
+        type: '',
+        date: '',
+        time: new Date()
+      }
+    }
+  },
+  computed: {
+    sortOrders () {
+      return this.orders.slice().sort((a, b) => {
+        return a.pco_atime < b.pco_atime
+      })
     }
   },
   methods: {
-    addOrder (pcID, key) {
-      console.log(pcID, key)
+    // 选项卡切换
+    onTabChange (i) {
+      if (i === 1 && this.orders.length === 0) {
+        this.getOrders()
+      }
+    },
+    // 获取预约记录
+    getOrders () {
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$http.list('customer/order', {id: this.form.pc_id || 0}).then(d => {
+        this.$loading.hide()
+        if (d.code === 0) {
+          this.orders = d.data.orders || this.orders
+        } else {
+          this.$alert({
+            title: '操作提示',
+            content: d.msg
+          }, (msg) => {
+            if (d.code === 9999) {
+              this.$router.go(-1)
+            }
+          })
+        }
+      })
+    },
+    // 新增预约订单
+    addOrder () {
+      this.order = {
+        pco_id: 0,
+        pco_type: 0,
+        pco_stime: '',
+        pco_etime: '',
+        pco_pc_id: this.form.pc_id,
+        pco_atime: 0,
+        pco_sms_send: false,
+        date: '',
+        time: new Date()
+      }
+      this.addModalOpen = true
+    },
+    saveOrder () {
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      var data = this.order
+      data['timestr'] = this.order.date + ' ' + this.order.time.getHours() + ':' + this.order.time.getMinutes() + ':00'
+      this.$http.save('customer/order', {data}).then(d => {
+        this.$loading.hide()
+        if (d.code === 0) {
+          this.orders.push(d.data.order)
+          this.addModalOpen = false
+        } else {
+          this.$alert({
+            title: '操作提示',
+            content: d.msg
+          }, (msg) => {
+            if (d.code === 9999) {
+              this.$router.go(-1)
+            }
+          })
+        }
+      })
     },
     onSelected (d) {
       this.form.pc_region0 = d.province.code
@@ -176,16 +348,21 @@ export default {
           this.form = this.id ? d.data.row : {}
           this.status = d.data.status
           this.via = d.data.via
-          this.orders = d.data.orders
           this.type = d.data.type
-
           this.items = [
             {text: '首页', to: '/'},
             {text: '客户', to: '/customer'},
             {text: this.form.pc_nick, href: '#'}
           ]
         } else {
-          this.rows = []
+          this.$alert({
+            title: '操作提示',
+            content: d.msg
+          }, (msg) => {
+            if (d.code === 9999) {
+              this.$router.go(-1)
+            }
+          })
         }
       })
     },

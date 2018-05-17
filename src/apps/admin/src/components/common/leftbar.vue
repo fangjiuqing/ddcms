@@ -20,12 +20,11 @@
                       {{sitem.name}}
                     </router-link>
                  </li>
-
               </ul>
            </li>
         </ul>
     </nav>
-  </div> 
+  </div>
 </template>
 
 <script>
