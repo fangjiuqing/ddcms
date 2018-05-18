@@ -620,6 +620,11 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-default.active {
 .btn.btn-warning.active.focus {
   border-color: transparent;
 }
+.btn.btn-rose,
+.btn.btn-rose:active:focus,
+.btn.btn-rose.active.focus {
+  border-color: transparent;
+}
 .btn.btn-primary,
 .btn.btn-primary:hover,
 .btn.btn-primary:focus,
