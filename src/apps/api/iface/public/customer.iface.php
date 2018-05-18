@@ -76,6 +76,12 @@ class public_customer_iface extends base_iface {
                 OBJ('customer_house_table')->insert($this->data);
                 admin_helper::add_log($this->login['admin_id'], 'public/customer/save', '2', '客户新增[' . $ret['row_id']
                     . '@]');
+                $this->data['pct_adm_id']   = 0;
+                $this->data['pct_adm_nick'] = '';
+                $this->data['pct_cus_id']   = $ret['row_id'];
+                $this->data['pct_memo']     = 'PC客户信息预留';
+                $this->data['pct_atime']    = REQUEST_TIME;
+                OBJ('customer_trace_table')->insert($this->data);
                 $this->success('操作成功。');
             }
         }
