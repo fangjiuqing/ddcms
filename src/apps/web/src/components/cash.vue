@@ -1,4 +1,4 @@
-<template xmlns:>
+<template>
   <div class="case">
     <Head></Head>
     <div class="customization">
@@ -89,7 +89,7 @@
         </div>
       </div>
     </div>
-    <div class="case">
+    <div class="cases">
       <h1 class="head">VILLA&nbsp;CASE</h1>
       <p class="subhead">设计案例&nbsp;经典赏析</p>
       <ul class="caseList">
@@ -539,7 +539,7 @@ export default {
     float: left;
     margin: 23px 21px 29px 0;
   }
-  .case {
+  .cases {
     margin-top: 83px;
   }
   .caseList {
