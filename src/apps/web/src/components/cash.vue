@@ -137,10 +137,10 @@ import Head from './head.vue'
 import Foot from './foot.vue'
 import sideBar from './sidebar'
 import Price from './price'
-import master1 from '../assets/cash/master1.png'
-import master2 from '../assets/cash/master2.png'
-import master3 from '../assets/cash/master3.png'
-import master4 from '../assets/cash/master4.png'
+// import master1 from '../assets/cash/master1.png'
+// import master2 from '../assets/cash/master2.png'
+// import master3 from '../assets/cash/master3.png'
+// import master4 from '../assets/cash/master4.png'
 import process1 from '../assets/cash/process1.png'
 import process2 from '../assets/cash/process2.png'
 import process3 from '../assets/cash/process3.png'
@@ -179,34 +179,34 @@ export default {
       indexss: 0,
       panelShow: false,
       list1: [
-        {
-          master: master1,
-          isShow: false,
-          name: 'Peter Marino',
-          intr: '拥有康奈尔大学建筑学学士学位，是美国建筑师学会会员。\n' +
-          '目前已跻身全球一流行列，在费城、纽约、加州和巴黎都有分部，雇员超过135名。'
-        },
-        {
-          master: master2,
-          isShow: false,
-          name: 'Peter Marino',
-          intr: '拥有康奈尔大学建筑学学士学位，是美国建筑师学会会员。\n' +
-          '目前已跻身全球一流行列，在费城、纽约、加州和巴黎都有分部，雇员超过135名。'
-        },
-        {
-          master: master3,
-          isShow: false,
-          name: 'Peter Marino',
-          intr: '拥有康奈尔大学建筑学学士学位，是美国建筑师学会会员。\n' +
-          '目前已跻身全球一流行列，在费城、纽约、加州和巴黎都有分部，雇员超过135名。'
-        },
-        {
-          master: master4,
-          isShow: false,
-          name: 'Peter Marino',
-          intr: '拥有康奈尔大学建筑学学士学位，是美国建筑师学会会员。\n' +
-          '目前已跻身全球一流行列，在费城、纽约、加州和巴黎都有分部，雇员超过135名。'
-        }
+        // {
+        //   master: master1,
+        //   isShow: false,
+        //   name: 'Peter Marino',
+        //   intr: '拥有康奈尔大学建筑学学士学位，是美国建筑师学会会员。\n' +
+        //   '目前已跻身全球一流行列，在费城、纽约、加州和巴黎都有分部，雇员超过135名。'
+        // },
+        // {
+        //   master: master2,
+        //   isShow: false,
+        //   name: 'Peter Marino',
+        //   intr: '拥有康奈尔大学建筑学学士学位，是美国建筑师学会会员。\n' +
+        //   '目前已跻身全球一流行列，在费城、纽约、加州和巴黎都有分部，雇员超过135名。'
+        // },
+        // {
+        //   master: master3,
+        //   isShow: false,
+        //   name: 'Peter Marino',
+        //   intr: '拥有康奈尔大学建筑学学士学位，是美国建筑师学会会员。\n' +
+        //   '目前已跻身全球一流行列，在费城、纽约、加州和巴黎都有分部，雇员超过135名。'
+        // },
+        // {
+        //   master: master4,
+        //   isShow: false,
+        //   name: 'Peter Marino',
+        //   intr: '拥有康奈尔大学建筑学学士学位，是美国建筑师学会会员。\n' +
+        //   '目前已跻身全球一流行列，在费城、纽约、加州和巴黎都有分部，雇员超过135名。'
+        // }
       ],
       list2: [
         {
