@@ -376,11 +376,10 @@ a {
 
 .btn,
 .navbar .navbar-nav>li>a.btn {
-  border: none;
-  border-radius: 3px;
+  border-radius: 4px;
   position: relative;
-  padding: 12px 30px;
-  margin: 10px 1px;
+  padding: 7px 12px;
+  margin:0;
   font-size: 12px;
   font-weight: 400;
   text-transform: uppercase;
@@ -449,8 +448,8 @@ a {
 .open>.navbar .navbar-nav>li>a.btn.btn-default.dropdown-toggle,
 .open>.navbar .navbar-nav>li>a.btn.btn-default.dropdown-toggle:focus,
 .open>.navbar .navbar-nav>li>a.btn.btn-default.dropdown-toggle:hover {
-  background-color: #999999;
-  color: #FFFFFF;
+/*  background-color: #999999;*/
+/*  color: #FFFFFF;*/
 }
 
 .btn:focus,
@@ -596,7 +595,36 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-default.active {
 .navbar .navbar-nav>li>a.btn.btn-primary {
   box-shadow: 0 2px 2px 0 rgba(156, 39, 176, 0.14), 0 3px 1px -2px rgba(156, 39, 176, 0.2), 0 1px 5px 0 rgba(156, 39, 176, 0.12);
 }
-
+.btn.btn-primary,
+.btn.btn-primary:active:focus,
+.btn.btn-primary.active.focus {
+  border-color: transparent;
+}
+.btn.btn-success,
+.btn.btn-success:active:focus,
+.btn.btn-success.active.focus {
+  border-color: transparent;
+}
+.btn.btn-info,
+.btn.btn-info:active:focus,
+.btn.btn-info.active.focus {
+  border-color: transparent;
+}
+.btn.btn-danger,
+.btn.btn-danger:active:focus,
+.btn.btn-danger.active.focus {
+  border-color: transparent;
+}
+.btn.btn-warning,
+.btn.btn-warning:active:focus,
+.btn.btn-warning.active.focus {
+  border-color: transparent;
+}
+.btn.btn-rose,
+.btn.btn-rose:active:focus,
+.btn.btn-rose.active.focus {
+  border-color: transparent;
+}
 .btn.btn-primary,
 .btn.btn-primary:hover,
 .btn.btn-primary:focus,
@@ -1661,7 +1689,6 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-rose.active {
 .btn-group-sm .btn,
 .navbar .navbar-nav>li>a.btn.btn-sm,
 .btn-group-sm .navbar .navbar-nav>li>a.btn {
-  padding: 5px 20px;
   font-size: 11px;
 }
 
@@ -1730,7 +1757,6 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-rose.active {
 .btn-group,
 .btn-group-vertical {
   position: relative;
-  margin: 10px 1px;
 }
 
 .btn-group.open>.dropdown-toggle.btn,
@@ -1831,7 +1857,8 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-rose.active {
   height: 38px;
   line-height: 38px;
   text-align: right;
-  padding-right: 20px;
+  padding: 0 20px 0 0;
+
 }
 
 .help-block {
@@ -2796,6 +2823,15 @@ fieldset[disabled] .navbar .navbar-nav>li>a.btn.btn-rose.active {
     border-bottom: 1px dashed #ddd;
     margin: 0 0 15px 0;
 }
+.block-h5-btm {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: normal;
+    padding: 15px 10px 5px 0;
+    text-align: left;
+    border-top: 1px dashed #ddd;
+    margin: 10px 0 5px 0;
+}
 
 .title-h6 {
     font-size: 14px;
@@ -2904,4 +2940,10 @@ input:focus,textarea:focus,select:focus {
       padding-left: 105px;
       margin-left: 0;
   }
+}
+.form-block > section {
+  padding: 15px 0 0 0;
+}
+.tab-pane .form-block {
+  padding: 20px 0 0 0;
 }

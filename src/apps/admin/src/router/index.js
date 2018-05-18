@@ -20,7 +20,7 @@ import Material from '@/components/material/index'
 import MaterialAdd from '@/components/material/add'
 
 import Customer from '@/components/customer/index'
-import Preview from '@/components/customer/preview'
+import CustomerAdd from '@/components/customer/add'
 import CustomerOrder from '@/components/customer/order'
 
 import Logs from '@/components/system/logs'
@@ -72,9 +72,9 @@ const router = new Router({
       component: CustomerOrder
     },
     {
-      path: '/customer/preview',
-      name: 'Preview',
-      component: Preview
+      path: '/customer/add',
+      name: 'CustomerAdd',
+      component: CustomerAdd
     },
     {
       path: '/community',
@@ -82,7 +82,7 @@ const router = new Router({
       component: Community
     },
     {
-      path: '/community/type',
+      path: '/community/add',
       name: 'CommunityAdd',
       component: CommunityAdd
     },

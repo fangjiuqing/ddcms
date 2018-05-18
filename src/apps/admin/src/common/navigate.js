@@ -129,7 +129,7 @@ export default {
           active: false
         },
         {
-          url: '/category/type',
+          url: '/category/add',
           name: '户型分类',
           icon: 'fa fa-superpowers',
           active: false

@@ -20,7 +20,6 @@
                       {{sitem.name}}
                     </router-link>
                  </li>
-
               </ul>
            </li>
         </ul>

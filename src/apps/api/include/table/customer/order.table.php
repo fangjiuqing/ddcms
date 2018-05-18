@@ -96,6 +96,16 @@ class customer_order_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
+        'pco_sms_send' => [
+            'name'               => 'pco_sms_send',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 255,
+            'label'              => '是否发送短信',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ],
     ];
 
     /*
@@ -121,6 +131,7 @@ class customer_order_table extends table {
         'pco_pc_id'   => 0,
         'pco_admin_id'=> 0,
         'pco_atime'   => 0,
+        'pco_sms_send'=> 0
     ];
 
     /*
@@ -136,6 +147,7 @@ class customer_order_table extends table {
         'pco_pc_id'   => ['re\rgx\filter', 'int'],
         'pco_admin_id'=> ['re\rgx\filter', 'int'],
         'pco_atime'   => ['re\rgx\filter', 'int'],
+        'pco_sms_send' => ['re\rgx\filter', 'int'],
     ];
 
     /*

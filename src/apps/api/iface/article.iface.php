@@ -9,13 +9,13 @@ class article_iface extends ubase_iface {
     
     /**
      * 添加资讯接口
-     * @article_title [str] 资讯标题
-     * @article_cat_id [int] 资讯分类id
-     * @article_cover [str] 资讯封面图片名称
-     * @article_content [str] 资讯内容
-     * @article_id [int] 资讯id(可选参数)
-     * @article_adate [int] 资讯发布时间(可选参数)
-     * @article_stat_view [int] 浏览量(可选参数)
+     * @param string $article_title     资讯标题
+     * @param int    $article_cat_id    资讯分类id
+     * @param string $article_cover     资讯封面图片名称
+     * @param string $article_content   资讯内容
+     * @param int    $article_id        资讯id(可选参数)
+     * @param int    $article_adate     资讯发布时间(可选参数)
+     * @param int    $article_stat_view 浏览量(可选参数)
      */
     public function save_action () {
         $this->data['article_title'] = filter::text($this->data['article_title']);
@@ -53,14 +53,14 @@ class article_iface extends ubase_iface {
     
     /**
      * 获取单条资讯
-     * @id [int] 要获取资讯的id
+     * @param int $id 要获取资讯的id
      */
     public function get_action () {
         $id = intval($this->data['id']);
         $out['row'] = OBJ('article_table')->left_join('article_content_table', 'article_id', 'article_id')
             ->get($id) ?: [];
         if ($out['row']) {
-            $out['row']['article_status']  = $out['row']['article_status'] == '2' ? true : false;
+            $out['row']['article_status'] = $out['row']['article_status'] == '2' ? true : false;
             $out['row']['article_content'] = htmlspecialchars_decode($out['row']['article_content'], ENT_QUOTES);
             $out['row']['article_cover_thumb'] = IMAGE_URL . $out['row']['article_cover'] . '!500x309';
         }
@@ -127,16 +127,28 @@ class article_iface extends ubase_iface {
     
     /**
      * 资讯删除接口
-     * @id [int] 要删除资讯的id
+     * @param int $id 要删除资讯的id
      */
     public function del_action () {
         $id = intval($this->data['id']);
         $tab = OBJ('article_table');
         $ret = $tab->get($id);
-        if (empty($ret)) {
+        if (!$ret) {
             $this->failure('该资讯不存在');
         }
-        if (OBJ('article_content_table')->delete(['article_id' => $id])['code'] === 0) {
+        if (upload_helper::is_upload_file($ret['article_cover'])) {
+            unlink(UPLOAD_PATH . $ret['article_cover']);
+        }
+        $content_tab = OBJ('article_content_table');
+        $content_ret = $content_tab->get(['article_id' => $id]);
+        preg_match_all('/src=\"http:\/\/api.dev.ddzz360.com\/data\/attachment\/(.*?)\"/',
+            $content_ret['article_content'], $matches);
+        foreach ((array)$matches[1] as $v) {
+            if (upload_helper::is_upload_file($v)) {
+                unlink(UPLOAD_PATH . $v);
+            }
+        }
+        if ($content_tab->delete(['article_id' => $id])['code'] === 0) {
             if ($tab->delete(['article_id' => $id])['code'] === 0) {
                 admin_helper::add_log($this->login['admin_id'], 'article/del', '3',
                     '删除资讯[' . $id . '@' . $ret['article_title'] . ']');

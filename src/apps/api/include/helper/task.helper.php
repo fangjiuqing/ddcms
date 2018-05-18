@@ -178,7 +178,7 @@ class task_helper extends rgx {
         $data = [
             'tpl_id'    => '120945',
             'mobile'    => $mobile,
-            'type'      => self::$type[$service_type] ?: $service_type,
+            'type'      => core_helper::$order_type[$service_type] ?: $service_type,
             'date'      => date('Y-m-d H:i', $date),
             's_mobile'  => $s_mobile,
             's_nick'    => $s_nick

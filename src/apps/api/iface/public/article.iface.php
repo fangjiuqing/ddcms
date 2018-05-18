@@ -6,6 +6,9 @@ namespace re\rgx;
  */
 class public_article_iface extends base_iface {
     
+    /**
+     * pc获取智装课堂资讯列表
+     */
     public function index_action () {
         $this->success('', CACHE('public@article-list', function () {
             $tab = OBJ('article_table');
@@ -57,6 +60,10 @@ class public_article_iface extends base_iface {
         }, 600));
     }
     
+    /**
+     * pc获取单条资讯
+     * @param $id int 要获取的资讯id
+     */
     public function get_action () {
         $id = intval($this->data['id']);
         if (!$id) {

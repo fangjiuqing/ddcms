@@ -18,34 +18,53 @@
               <div class="col-md-4">
                 <dl class="dl-horizontal dl-common">
                   <dt><small>姓名</small></dt>
-                  <dd><span class="text-rose">{{v.pc_nick}}</span></dd>
+                  <dd>
+                    <span class="text-rose">{{v.pc_nick}}</span>
+                    <span v-if="v.gender"><span class="separator"></span> <small>{{v.gender}}</small></span>
+                  </dd>
                   <dt><small>编号</small></dt>
                   <dd><span>{{v.pc_sn}}</span></dd>
                   <dt><small>来源</small></dt>
-                  <dd><span class="text-rose">{{v.pc_via}}</span></dd>
+                  <dd><small class="text-default">{{v.via}}</small></dd>
                   <dt><small>入库时间</small></dt>
                   <dd><small>{{v.pc_atime|time('yyyy-mm-dd HH:MM')}}</small></dd>
                   <dt><small>最近更新</small></dt>
                   <dd><small>{{v.pc_utime|time('yyyy-mm-dd HH:MM')}}</small></dd>
                 </dl>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <dl class="dl-horizontal dl-common">
+                  <dt><small>状态</small></dt>
+                  <dd><small :class="v.status_style">{{v.status}}</small></dd>
                   <dt><small>电话</small></dt>
-                  <dd><span class="text-info">{{v.pc_mobile}}</span></dd>
+                  <dd><span>{{v.pc_mobile}}</span></dd>
                   <dt><small>地区</small></dt>
                   <dd><small class="">{{v.pc_region0_label || 'unknown'}} {{v.pc_region1_label}}</small></dd>
                   <dt><small>地址</small></dt>
                   <dd><small>{{v.pc_region2_label || 'unknown'}}</small></dd>
                   <dt><small>小区</small></dt>
-                  <dd><span class="text-info">{{v.pc_area}}</span></dd>
-                  <dt><small></small></dt>
-                  <dd><span class="text-info"></span></dd>
+                  <dd><small>{{v.pc_area}}</small></dd>
                 </dl>
               </div>
-              <div class="col-md-2">
-                <btn class="btn btn-xs btn-success" @click="modifi(v.pc_id)"><i class="fa fa-pencil"></i></btn>
-                <btn class="btn btn-xs btn-rose" @click="del(v.pc_id)"><i class="fa fa-trash-o"></i></btn>
+              <div class="col-md-4">
+                <dl class="dl-horizontal dl-common">
+                  <dt><small>电话</small></dt>
+                  <dd><span>{{v.pc_mobile}}</span></dd>
+                  <dt><small>地区</small></dt>
+                  <dd><small class="">{{v.pc_region0_label || 'unknown'}} {{v.pc_region1_label}}</small></dd>
+                  <dt><small>地址</small></dt>
+                  <dd><small>{{v.pc_region2_label || 'unknown'}}</small></dd>
+                  <dt><small>小区</small></dt>
+                  <dd><small>{{v.pc_area}}</small></dd>
+                  <dt><small></small></dt>
+                  <dd>
+                    <div class="text-right">
+                      <btn class="btn btn-xs btn-success" @click="modifi(v.pc_id)"><i class="fa fa-pencil"></i> 编辑</btn>
+                      <btn class="btn btn-xs btn-warning" @click="modifi(v.pc_id)"><i class="fa fa-sticky-note-o"></i> 方案</btn>
+                      <btn class="btn btn-xs btn-rose" @click="del(v.pc_id)"><i class="fa fa-trash-o"></i> 删除</btn>
+                    </div>
+                  </dd>
+                </dl>
               </div>
             </div>
           </div>
@@ -151,7 +170,7 @@ export default {
     },
     modifi (id) {
       this.$router.push({
-        path: '/customer/preview',
+        path: '/customer/add',
         query: {id}
       })
     },
@@ -240,8 +259,6 @@ export default {
             })
           }
         })
-      }).catch(() => {
-        this.$notify('取消删除.')
       })
     }
   },

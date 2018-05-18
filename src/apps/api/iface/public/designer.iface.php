@@ -39,6 +39,7 @@ class public_designer_iface extends base_iface {
                 $row['des_cover'] = IMAGE_URL . $row['des_cover'] . '!364x490';
                 $row['stags']  = explode('#', $row['des_style_tags']);
                 $row['awards'] = explode('#', $row['des_awards']);
+                $row['toggle'] = false;
                 return $row;
             })->get_all();
 

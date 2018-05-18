@@ -10,62 +10,62 @@ namespace re\rgx;
 class community_iface extends ubase_iface {
     
     /**
-     * author Fox
+     * 获取小区和5张户型图列表
      */
     public function list_action () {
-        $tab = OBJ('community_copy_table');
+        $tab = OBJ('community_table');
         $num = intval($this->data['num']);
         $paging = new paging_helper($tab, $this->data['pn'] ?: 1, $num ?: 12);
-        $pco_ids = [];
-        $region0 = [];
-        $region1 = [];
-        $region2 = [];
-        $region_tab = OBJ('region_table');
-        $arts = $tab->map(function ($row) use (&$pco_ids, &$region0, &$region1, &$region2) {
-            $pco_ids[$row['pco_id']] = 1;
-            $region0[$row['pco_region0'] . '0000'] = 1;
-            $region1[$row['pco_region1'] . '00'] = 1;
-            $region2[$row['pco_region2']] = 1;
+
+        $regions = [];
+        $coms = $tab->akey('pco_id')->map(function ($row) use (&$regions) {
+            $regions[sprintf("%-'06s",$row['pco_region0'])] = 1;
+            $regions[sprintf("%-'06s",$row['pco_region1'])] = 1;
+            $regions[sprintf("%-'06s",$row['pco_region2'])] = 1;
+            $row['units'] = [];
             return $row;
         })->get_all();
-        $pco_list = OBJ('unit_copy_table')->get_all([
-            'pu_co_id' => array_keys($pco_ids),
+
+        // 获取户型信息
+        OBJ('unit_table')->map(function ($row) use (&$coms) {
+            $coms[$row['pu_co_id']]['units'][] = [
+                'cover' => IMAGE_URL . $row['pu_cover'] . '!500x309',
+                'name'  => "{$row['pu_area0']} m² - {$row['pu_room0']}室{$row['pu_room1']}厅{$row['pu_room3']}厨{$row['pu_room2']}卫"
+            ];
+            return null;
+        })->get_all([
+            'pu_co_id' => array_keys($coms) ?: [0],
         ]);
-        $img_list = [];
-        foreach ((array)$pco_list as $k => $v) {
-            $img_list[$v['pu_co_id']][] = IMAGE_URL . $v['pu_cover'];
+
+        // 获取地区信息
+        $regions = OBJ('region_table')->akey('region_code')->get_all([
+            'region_code'   => array_keys($regions) ?: ['0']
+        ]);
+
+        // 关联地区数据
+        foreach ((array)$coms as $k => $v) {
+            $coms[$k]['nums'] = count($coms[$k]['units']);
+            if (count($v['units']) > 3) {
+                $coms[$k]['units'] = array_slice($v['units'], 0, 3);
+            }
+            $coms[$k]['region0'] = $regions[sprintf("%-'06s",$v['pco_region0'])]['region_name'] ?: '';
+            $coms[$k]['region1'] = $regions[sprintf("%-'06s",$v['pco_region1'])]['region_name'] ?: '';
+            $coms[$k]['region2'] = $regions[sprintf("%-'06s",$v['pco_region2'])]['region_name'] ?: '';
         }
-        $region0_list = $region_tab->akey('region_code')->get_all([
-            'region_code' => array_keys($region0),
-        ]);
-        $region1_list = $region_tab->akey('region_code')->get_all([
-            'region_code' => array_keys($region1),
-        ]);
-        $region2_list = $region_tab->akey('region_code')->get_all([
-            'region_code' => array_keys($region2),
-        ]);
-        foreach ((array)$arts as $k => $v) {
-            $arts[$k]['pco_cover_label'] = isset($img_list[$v['pco_id']]) ?
-                array_slice($img_list[$v['pco_id']], 0, 5) : '';
-            $arts[$k]['pco_region0_label'] = isset($region0_list[$v['pco_region0'] . '0000']) ?
-                $region0_list[$v['pco_region0'] . '0000']['region_name'] : '';
-            $arts[$k]['pco_region1_label'] = isset($region1_list[$v['pco_region1'] . '00']) ?
-                $region1_list[$v['pco_region1'] . '00']['region_name'] : '';
-            $arts[$k]['pco_region2_label'] = isset($region2_list[$v['pco_region2']]) ?
-                $region2_list[$v['pco_region2']]['region_name'] : '';
-        }
-        $this->success('查询成功', [
-            'list'   => array_values($arts),
+
+        $this->success('操作成功', [
+            'list'   => array_values($coms),
             'paging' => $paging->to_array(),
         ]);
     }
     
     /**
-     * author Fox
+     * 获取小区详情和所属户型列表
+     * @param int $id 小区id
      */
     public function get_action () {
         $id = (int)$this->data['id'];
-        $ret = OBJ('community_copy_table')->get($id);
+        $ret = OBJ('community_table')->get($id);
         if (!$ret) {
             $this->failure('该小区不存在');
         }
@@ -83,7 +83,7 @@ class community_iface extends ubase_iface {
         $ret['region1_label'] = $region1_list ? $region1_list['region_name'] : '';
         $ret['region2_label'] = $region2_list ? $region2_list['region_name'] : '';
         
-        $temp_list = OBJ('unit_copy_table')->get_all([
+        $temp_list = OBJ('unit_table')->get_all([
             'pu_co_id' => $id,
         ]);
         $unit_list = [];
@@ -98,6 +98,24 @@ class community_iface extends ubase_iface {
         ]);
     }
     
+    /**
+     * 小区和户型新增
+     * @param int    $pco_id      小区id(可选
+     * @param int    $pco_region0 小区省id
+     * @param int    $pco_region1 小区市id
+     * @param int    $pco_region2 小区县id
+     * @param string $pco_name    小区名
+     * @param string $pco_addr    小区详细地址
+     *
+     * @param string $pu_name     户型名称
+     * @param int    $pu_area0    总面积
+     * @param int    $pu_area1    可用面积
+     * @param int    $pu_room0    几室
+     * @param int    $pu_room1    几厅
+     * @param int    $pu_room2    几卫
+     * @param int    $pu_room3    几厨
+     * @param string $pu_cover    户型图
+     */
     public function save_action () {
         $this->data['base']['pco_id'] = intval($this->data['base']['pco_id']);
         $this->data['base']['pco_region0'] = (int)substr($this->data['base']['pco_region0'], 0, 2);
@@ -107,7 +125,7 @@ class community_iface extends ubase_iface {
             $this->failure('请输入正确的小区名');
         }
         $this->data['base']['pco_addr'] = $this->data['base']['pco_addr'] ?: '';
-        $community_tab = OBJ('community_copy_table');
+        $community_tab = OBJ('community_table');
         if ($community_tab->load($this->data['base'])) {
             $community_ret = $community_tab->save();
             if ($community_ret['code'] === 0) {
@@ -117,7 +135,7 @@ class community_iface extends ubase_iface {
             }
         }
         if (!empty($this->data['add'])) {
-            $unit_tab = OBJ('unit_copy_table');
+            $unit_tab = OBJ('unit_table');
             foreach ((array)$this->data['add'] as $v) {
                 $v['pu_co_id'] = empty($this->data['base']['pco_id']) ?
                     $community_ret['row_id'] : $this->data['base']['pco_id'];
@@ -168,15 +186,26 @@ class community_iface extends ubase_iface {
         $this->failure($community_tab->get_error_desc(), 104);
     }
     
+    /**
+     * 小区删除
+     * @param int $id 要删除小区的id
+     */
     public function del_action () {
         $id = intval($this->data['id']);
-        $tab = OBJ('community_copy_table');
+        $tab = OBJ('community_table');
         if (!$ret = $tab->get($id)) {
             $this->failure('删除的小区不存在');
         }
+        $unit_tab = OBJ('unit_table');
+        $unit_ret = $unit_tab->get_all(['pu_co_id' => $id]);
+        foreach ((array)$unit_ret as $v) {
+            if (upload_helper::is_upload_file($v['pu_cover'])) {
+                unlink(UPLOAD_PATH . $v['pu_cover']);
+            }
+        }
+        $unit_tab->delete(['pu_co_id' => $id]);
         if ($tab->delete(['pco_id' => $id])['code'] === 0) {
             admin_helper::add_log($this->login['admin_id'], 'community/del', '3', '删除小区[' . $id . '@]');
-            OBJ('unit_copy_table')->delete(['pu_co_id' => $id]);
             $this->success('删除小区成功');
         }
     }
