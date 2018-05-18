@@ -43,15 +43,13 @@
                 </router-link>
               </span>
               <ul class="sub-menu" v-show="index === num" v-if="show">
-                <div class="vh">
-                  <li v-for="(subMenu, index) in menuItem.children" :key="index" class="two">
-                    <img :src="subMenu.img" alt="">
-                    <p>
-                      {{subMenu.tTitle}}
-                      <span>{{subMenu.price}}</span>
-                    </p>
-                  </li>
-                </div>
+                <li v-for="(subMenu, index) in menuItem.children" :key="index" class="two">
+                  <img :src="subMenu.img" alt="">
+                  <p>
+                    {{subMenu.tTitle}}
+                    <span>{{subMenu.price}}</span>
+                  </p>
+                </li>
               </ul>
             </li>
           </ul>
@@ -296,18 +294,12 @@ export default {
     z-index: 100;
   }
   .nav-top {
-    display: flex;
     width: 100%;
     height: 45px;
-    justify-content: space-around;
-    align-items: center;
     background-color: #333333;
   }
   .nav-foot {
-    display: flex;
     height: 70px;
-    align-items: center;
-    justify-content: space-around;
     position: relative;
   }
   .shadow {
@@ -372,23 +364,28 @@ export default {
   }
   .mid {
     width: 1200px;
-    height: 97px;
-    display: flex;
-    justify-content: space-between;
     margin: 0 auto;
+    overflow: hidden;
   }
   .logo {
-    display: flex;
-    align-items: center;
+    height: 88px;
+    display: inline-block;
+    position: relative;
+    z-index: 11;
+    line-height: 88px;
+  }
+  .logo img {
   }
   .menu {
-    display: flex;
-    align-items: center;
-    margin-right: 20px;
+    height: 70px;
+    margin-right: 90px;
+    display: inline-block;
+    float: right;
   }
   .menu-index {
-    display: flex;
+    display: inline-block;
     margin: 0 12px;
+    line-height: 70px;
   }
   .menu-span {
     width: 100%;
@@ -402,27 +399,17 @@ export default {
   }
   .sub-menu {
     width: 100vw;
-    /*height: 128px;*/
     background-color: #ffffff;
     box-shadow: 0 6px 9px 0 rgba(0, 0, 0, 0.08);
-    font-size: 0;
     position: absolute;
-    display: flex;
-    margin-top: 56px;
     left: 0;
-    z-index: 77777;
+    z-index: 10;
     text-align: center;
-    padding-bottom: 30px;
+    padding-top: 30px;
   }
-  .vh {
-    margin: 0 auto;
-  }
-  .vh li {
+  .sub-menu li {
     display: inline-block;
     margin-right: 23px;
-  }
-  .sub-menu .two:nth-child(2) {
-    /*margin: 0 33px 0 23px;*/
   }
   .menu-index a:hover {
     padding-bottom: 7px;
@@ -433,18 +420,15 @@ export default {
     border-bottom: 2px solid #d42f31;
   }
   .two {
-    display: flex;
-    flex-direction: column;
+    cursor: pointer;
   }
   .two img {
     margin-bottom: 10px;
   }
-  .two {
-    cursor: pointer;
-  }
   .two p {
     color: #666666;
     font-size: 12px;
+    line-height: 20px;
   }
   .two span {
     color: #e74700;
@@ -475,7 +459,6 @@ export default {
     margin: 21px 0 7px;
   }
   .sm {
-    font-family: MicrosoftYaHei;
     font-size: 14px;
     color: #666666;
     cursor: pointer;
@@ -487,7 +470,6 @@ export default {
     overflow: hidden;
   }
   .chose {
-    /*display: flex;*/
     box-sizing: border-box;
   }
   input {
