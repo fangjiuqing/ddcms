@@ -84,7 +84,7 @@ class customer_iface extends ubase_iface {
             $row['region1'] = $regions[$row['pc_region1']]['region_name'] ?: '';
             $row['region2'] = $regions[$row['pc_region2']]['region_name'] ?: '';
             return $row;
-        })->get((int)$this->data['id']) ?: null;
+        })->left_join('customer_house_table', 'pch_pc_id', (int)$this->data['id'])->get((int)$this->data['id']) ?: null;
         if (empty($ret['row'])) {
             $this->failure('该客户不存在');
         }
@@ -135,25 +135,16 @@ class customer_iface extends ubase_iface {
             if ($ret['code'] === 0) {
                 admin_helper::add_log($this->login['admin_id'], 'customer/save', '2',
                     '客户' . ($this->data['pc_id'] ? '修改[' . $this->data['pc_id'] : '新增[' . $ret['row_id']) . '@]');
+                $this->data['pct_adm_id']   = $this->login['admin_id'];
+                $this->data['pct_adm_nick'] = $this->login['admin_account'];
+                $this->data['pct_cus_id']   = intval($this->data['pc_id']) ?: $ret['row_id'];
+                $this->data['pct_memo']     = $this->data['pc_id'] ? '修改客户信息' : '后台新增客户';
+                $this->data['pct_atime']    = REQUEST_TIME;
+                OBJ('customer_trace_table')->insert($this->data);
                 $this->success('操作成功');
             }
         }
         $this->failure($tab->get_error_desc(), 102);
-    }
-    
-    /**
-     * 小区模糊查询
-     * @param string $region_name 小区名
-     */
-    public function region_action () {
-        $arg = filter::char($this->data['region_name']);
-        if (empty($arg)) {
-            $this->success('操作成功');
-        }
-        $ret = OBJ('community_table')->akey('pco_id')->where([
-            'pco_name like \'' . $arg . '%\'',
-        ])->limit(30)->get_all();
-        $this->success('操作成功', $ret);
     }
     
 }

@@ -53,7 +53,7 @@ class customer_trace_table extends table {
             'min'                => 0,
             'max'                => 16,
             'label'              => '客服姓名',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'pct_cus_id' => [
