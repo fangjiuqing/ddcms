@@ -11,13 +11,13 @@
         <li v-for="(item, index) in list1" :key="index" @mouseenter="show(item)" @mouseleave="show(item)">
           <router-link :to="{ name: 'designerDetail', query: { designerId: item.des_id}}" exact>
             <img :src="item.des_cover" alt="">
+            <transition name="fade">
+              <div class="show" v-show="item.toggle">
+                <span>{{item.des_name}}</span>
+                <p>{{item.des_slogan}}</p>
+              </div>
+            </transition>
           </router-link>
-          <transition name="fade">
-            <div class="show" v-show="item.toggle">
-              <span>{{item.des_name}}</span>
-              <p>{{item.des_slogan}}</p>
-            </div>
-          </transition>
         </li>
       </ul>
     </div>
