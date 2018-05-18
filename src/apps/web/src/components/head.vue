@@ -299,7 +299,7 @@ export default {
     background-color: #333333;
   }
   .nav-foot {
-    height: 70px;
+    height: 71px;
     position: relative;
   }
   .shadow {
