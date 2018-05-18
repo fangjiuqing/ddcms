@@ -11,7 +11,7 @@
         <div class="read">
           <input type="checkbox" class="checkbox"><span>我已阅读并接受<p>《装修常见问题条款》</p></span>
         </div>
-        <p class="gain">立即预约</p>
+        <p class="gain" @click="showPanel">立即预约</p>
         <p class="gainService">已有 <span>2425</span>人获得金牌服务</p>
       </div>
     </div>

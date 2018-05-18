@@ -9,13 +9,13 @@
       <p class="subhead">国际大师&nbsp;打造国际品牌</p>
       <ul class="list1 list">
         <li v-for="(item, index) in list1" :key="index" @mouseenter="show(item)" @mouseleave="show(item)">
-          <router-link :to="{name: 'designerDetail'}" exact>
-            <img :src="item.master" alt="">
+          <router-link :to="{ name: 'designerDetail', query: { designerId: item.des_id}}" exact>
+            <img :src="item.des_cover" alt="">
           </router-link>
           <transition name="fade">
-            <div class="show" v-show="item.isShow">
-              <span>{{item.name}}</span>
-              <p>{{item.intr}}</p>
+            <div class="show" v-show="item.toggle">
+              <span>{{item.des_name}}</span>
+              <p>{{item.des_slogan}}</p>
             </div>
           </transition>
         </li>
@@ -94,8 +94,8 @@
       <p class="subhead">设计案例&nbsp;经典赏析</p>
       <ul class="caseList">
         <li v-for="(item, index) in cash" :key="index">
-          <router-link :to="{name: 'caseDetail'}" exact>
-            <img :src="item" alt="">
+          <router-link :to="{ name: 'caseDetail', query: { caseId: item.case_id }}" exact>
+            <img :src="item.case_cover_sm" alt="">
           </router-link>
         </li>
       </ul>
@@ -147,18 +147,18 @@ import process3 from '../assets/cash/process3.png'
 import degree1 from '../assets/cash/degree1.png'
 import degree2 from '../assets/cash/degree2.png'
 import degree3 from '../assets/cash/degree3.png'
-import case1 from '../assets/cash/case1.png'
-import case2 from '../assets/cash/case2.png'
-import case3 from '../assets/cash/case3.png'
-import case4 from '../assets/cash/case4.png'
-import case5 from '../assets/cash/case5.png'
-import case6 from '../assets/cash/case6.png'
-import case7 from '../assets/cash/case7.png'
-import case8 from '../assets/cash/case8.png'
-import science1 from '../assets/cash/science1.png'
-import science2 from '../assets/cash/science2.png'
-import science3 from '../assets/cash/science3.png'
-import science4 from '../assets/cash/science4.png'
+// import case1 from '../assets/cash/case1.png'
+// import case2 from '../assets/cash/case2.png'
+// import case3 from '../assets/cash/case3.png'
+// import case4 from '../assets/cash/case4.png'
+// import case5 from '../assets/cash/case5.png'
+// import case6 from '../assets/cash/case6.png'
+// import case7 from '../assets/cash/case7.png'
+// import case8 from '../assets/cash/case8.png'
+import science1 from '../assets/cash/science1.jpg'
+import science2 from '../assets/cash/science2.jpg'
+import science3 from '../assets/cash/science3.jpg'
+import science4 from '../assets/cash/science4.jpg'
 import intelligence1 from '../assets/cash/intelligence1.png'
 import intelligence2 from '../assets/cash/intelligence2.png'
 import cloud from '../assets/cash/cloud.png'
@@ -258,7 +258,7 @@ export default {
         degree1, degree2, degree3
       ],
       cash: [
-        case1, case2, case3, case4, case5, case6, case7, case8
+        // case1, case2, case3, case4, case5, case6, case7, case8
       ],
       swiperOption: {
         autoplay: true,
@@ -273,7 +273,7 @@ export default {
   },
   methods: {
     show (item) {
-      item.isShow = !item.isShow
+      item.toggle = !item.toggle
     },
     showPanel () {
       this.panelShow = true
@@ -283,7 +283,35 @@ export default {
     },
     b (str) {
       this.indexss = str
+    },
+    getImg: function () {
+      this.$http.post('public/case/index', {}).then(d => {
+        // console.log('gather=========', d.data)
+        if (d.code === 0) {
+          // for (let i = 0; i < d.data.length; i++) {
+          this.cash = this.cash.concat(d.data[0].list)
+          this.cash = this.cash.concat(d.data[2].list)
+          // }
+        } else {
+        }
+      })
+    },
+    getList: function () {
+      this.$http.post('public/designer/index', {}).then(d => {
+        // console.log('designerList=========', d.msg)
+        if (d.code === 0) {
+          this.list1 = this.list1.concat(d.msg.list[0])
+          this.list1 = this.list1.concat(d.msg.list[1])
+          this.list1 = this.list1.concat(d.msg.list[2])
+          this.list1 = this.list1.concat(d.msg.list[3])
+        } else {
+        }
+      })
     }
+  },
+  created () {
+    this.getImg()
+    this.getList()
   }
 }
 </script>
@@ -298,7 +326,7 @@ export default {
   }
   .master {
     width: 100%;
-    height: 742px;
+    /*height: 742px;*/
     padding-top: 93px;
     background-color: #fafafa;
   }
@@ -324,7 +352,7 @@ export default {
   }
   .show {
     width: 220px;
-    height: 220px;
+    height: 188px;
     background-color: rgba(0, 0, 0, 0.5);
     position: absolute;
     bottom: 3px;
@@ -495,6 +523,10 @@ export default {
     border: 1px solid transparent;
     cursor: pointer;
   }
+  .btns img {
+    width: 100%;
+    height: 100%;
+  }
   .active {
     border: 1px solid red;
   }
@@ -519,6 +551,9 @@ export default {
     width: 245px;
     height: 164px;
     display: inline-block;
+  }
+  .caseList li img {
+    width: 100%;
   }
   .caseList li:nth-child(1),
   .caseList li:nth-child(2),
