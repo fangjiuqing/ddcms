@@ -82,7 +82,7 @@ const router = new Router({
       component: Community
     },
     {
-      path: '/community/type',
+      path: '/community/add',
       name: 'CommunityAdd',
       component: CommunityAdd
     },

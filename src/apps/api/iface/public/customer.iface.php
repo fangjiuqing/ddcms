@@ -39,8 +39,7 @@ class public_customer_iface extends base_iface {
         $this->data['pc_addr'] = '';
         $this->data['pc_co_id'] = 0;
         $this->data['pc_gender'] = 0;
-        $this->data['pc_memo'] = $this->data['pc_local'] . '@' . $this->data['pc_area'] . '@' . $this->data['pc_room0']
-            . '@' . $this->data['pc_room1'] . '@' . $this->data['pc_room2'] . '@' . $this->data['pc_room3'];
+        $this->data['pc_memo'] = '';
         $this->data['pc_score'] = 0;
         $this->verify([
             'pc_mobile' => [
@@ -64,6 +63,25 @@ class public_customer_iface extends base_iface {
         if ($tab->load($this->data)) {
             $ret = $tab->save();
             if ($ret['code'] === 0) {
+                $this->data['pch_pc_id']    = $ret['row_id'];
+                $this->data['pch_type']     = 0;
+                $this->data['pch_mode']     = 0;
+                $this->data['pch_style']    = 0;
+                $this->data['pch_area']     = (int)$this->data['pc_area'];
+                $this->data['pch_area_use'] = 0;
+                $this->data['pch_floor']    = 0;
+                $this->data['pch_exists']   = 0;
+                $this->data['pch_gtime']    = 0;
+                $this->data['pch_budget']   = 0;
+                OBJ('customer_house_table')->insert($this->data);
+                admin_helper::add_log($this->login['admin_id'], 'public/customer/save', '2', '客户新增[' . $ret['row_id']
+                    . '@]');
+                $this->data['pct_adm_id']   = 0;
+                $this->data['pct_adm_nick'] = '';
+                $this->data['pct_cus_id']   = $ret['row_id'];
+                $this->data['pct_memo']     = 'PC客户信息预留';
+                $this->data['pct_atime']    = REQUEST_TIME;
+                OBJ('customer_trace_table')->insert($this->data);
                 $this->success('操作成功。');
             }
         }

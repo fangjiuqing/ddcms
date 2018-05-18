@@ -53,7 +53,7 @@ class customer_house_table extends table {
             'min'                => 0,
             'max'                => 255,
             'label'              => '房型',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'pch_mode' => [
@@ -63,7 +63,7 @@ class customer_house_table extends table {
             'min'                => 0,
             'max'                => 255,
             'label'              => '户型',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'pch_style' => [
@@ -73,7 +73,7 @@ class customer_house_table extends table {
             'min'                => 0,
             'max'                => 255,
             'label'              => '风格',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'pch_area' => [
@@ -83,7 +83,7 @@ class customer_house_table extends table {
             'min'                => 5,
             'max'                => 2,
             'label'              => '面积',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'pch_area_use' => [
@@ -93,7 +93,7 @@ class customer_house_table extends table {
             'min'                => 5,
             'max'                => 2,
             'label'              => '使用面积',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'pch_floor' => [
@@ -103,7 +103,7 @@ class customer_house_table extends table {
             'min'                => 0,
             'max'                => 255,
             'label'              => '楼层',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'pch_exists' => [
@@ -113,7 +113,7 @@ class customer_house_table extends table {
             'min'                => 0,
             'max'                => 255,
             'label'              => '是否现房',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'pch_gtime' => [
@@ -123,7 +123,7 @@ class customer_house_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '拿房时间',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'pch_budget' => [
@@ -133,7 +133,7 @@ class customer_house_table extends table {
             'min'                => 5,
             'max'                => 2,
             'label'              => '预算',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
     ];

@@ -16,46 +16,45 @@ class community_iface extends ubase_iface {
         $tab = OBJ('community_table');
         $num = intval($this->data['num']);
         $paging = new paging_helper($tab, $this->data['pn'] ?: 1, $num ?: 12);
-        $pco_ids = [];
-        $region0 = [];
-        $region1 = [];
-        $region2 = [];
-        $region_tab = OBJ('region_table');
-        $arts = $tab->map(function ($row) use (&$pco_ids, &$region0, &$region1, &$region2) {
-            $pco_ids[$row['pco_id']] = 1;
-            $region0[$row['pco_region0'] . '0000'] = 1;
-            $region1[$row['pco_region1'] . '00'] = 1;
-            $region2[$row['pco_region2']] = 1;
+
+        $regions = [];
+        $coms = $tab->akey('pco_id')->map(function ($row) use (&$regions) {
+            $regions[sprintf("%-'06s",$row['pco_region0'])] = 1;
+            $regions[sprintf("%-'06s",$row['pco_region1'])] = 1;
+            $regions[sprintf("%-'06s",$row['pco_region2'])] = 1;
+            $row['units'] = [];
             return $row;
         })->get_all();
-        $pco_list = OBJ('unit_table')->get_all([
-            'pu_co_id' => array_keys($pco_ids),
+
+        // 获取户型信息
+        OBJ('unit_table')->map(function ($row) use (&$coms) {
+            $coms[$row['pu_co_id']]['units'][] = [
+                'cover' => IMAGE_URL . $row['pu_cover'] . '!500x309',
+                'name'  => "{$row['pu_area0']} m² - {$row['pu_room0']}室{$row['pu_room1']}厅{$row['pu_room3']}厨{$row['pu_room2']}卫"
+            ];
+            return null;
+        })->get_all([
+            'pu_co_id' => array_keys($coms) ?: [0],
         ]);
-        $img_list = [];
-        foreach ((array)$pco_list as $k => $v) {
-            $img_list[$v['pu_co_id']][] = IMAGE_URL . $v['pu_cover'];
+
+        // 获取地区信息
+        $regions = OBJ('region_table')->akey('region_code')->get_all([
+            'region_code'   => array_keys($regions) ?: ['0']
+        ]);
+
+        // 关联地区数据
+        foreach ((array)$coms as $k => $v) {
+            $coms[$k]['nums'] = count($coms[$k]['units']);
+            if (count($v['units']) > 3) {
+                $coms[$k]['units'] = array_slice($v['units'], 0, 3);
+            }
+            $coms[$k]['region0'] = $regions[sprintf("%-'06s",$v['pco_region0'])]['region_name'] ?: '';
+            $coms[$k]['region1'] = $regions[sprintf("%-'06s",$v['pco_region1'])]['region_name'] ?: '';
+            $coms[$k]['region2'] = $regions[sprintf("%-'06s",$v['pco_region2'])]['region_name'] ?: '';
         }
-        $region0_list = $region_tab->akey('region_code')->get_all([
-            'region_code' => array_keys($region0),
-        ]);
-        $region1_list = $region_tab->akey('region_code')->get_all([
-            'region_code' => array_keys($region1),
-        ]);
-        $region2_list = $region_tab->akey('region_code')->get_all([
-            'region_code' => array_keys($region2),
-        ]);
-        foreach ((array)$arts as $k => $v) {
-            $arts[$k]['pco_cover_label'] = isset($img_list[$v['pco_id']]) ?
-                array_slice($img_list[$v['pco_id']], 0, 5) : '';
-            $arts[$k]['pco_region0_label'] = isset($region0_list[$v['pco_region0'] . '0000']) ?
-                $region0_list[$v['pco_region0'] . '0000']['region_name'] : '';
-            $arts[$k]['pco_region1_label'] = isset($region1_list[$v['pco_region1'] . '00']) ?
-                $region1_list[$v['pco_region1'] . '00']['region_name'] : '';
-            $arts[$k]['pco_region2_label'] = isset($region2_list[$v['pco_region2']]) ?
-                $region2_list[$v['pco_region2']]['region_name'] : '';
-        }
-        $this->success('查询成功', [
-            'list'   => array_values($arts),
+
+        $this->success('操作成功', [
+            'list'   => array_values($coms),
             'paging' => $paging->to_array(),
         ]);
     }

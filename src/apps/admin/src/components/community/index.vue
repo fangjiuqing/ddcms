@@ -11,40 +11,40 @@
       </breadcrumb-item>
     </breadcrumbs>
     <div class="app_page">
-      <form action="/" id="profile_form" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
-        <div class="app_content">
-          <div class="customer-row" v-for="(v) in rows" :key="v.pco_id">
-            <div class="row">
-              <div class="col-md-12">
-                <div class="media-body">
-                  <h5 class="text-left">
-                    <btn class="btn btn-xs btn-rose pull-right" @click="del(v.pco_id)"><i class="fa fa-trash-o"></i></btn>
-                    <a title="编辑小区" @click="modify(v.pco_id)">{{v.pco_name}}</a>
-                  </h5>
-                  <p class="text-left">
-                    <span>
-                      <span class="text-rose">{{v.pco_region0_label || ''}}</span>
-                    </span>
-                    <span>
-                      <span class="text-rose">{{v.pco_region1_label || ''}}</span>
-                    </span>
-                    <span>
-                      <span class="text-rose">{{v.pco_region2_label || ''}}</span>
-                    </span>
-                    <span class="separator"></span>
-                    <code>{{v.pco_addr}}</code>
-                  </p>
-                  <p class="text-left">
-                    <img class="community-small-image" v-for="(img, img_key) in v.pco_cover_label" :src="img" :key="img_key" alt="">
-                  </p>
-                </div>
+      <div class="app_content">
+        <div class="customer-row" v-for="(v) in rows" :key="v.pco_id">
+          <div class="row">
+            <div class="col-md-3" style="border-right: 1px dashed #ddd">
+              <h4 class="text-left" style="font-weight: 300;font-size: 16px;">
+                <a title="编辑小区" @click="modify(v.pco_id)">{{v.pco_name}}</a>
+              </h4>
+              <p class="text-left">
+                <i class="fa fa-location-arrow text-info"></i> &nbsp;
+                <small class="text-default">{{v.region0 || '未知'}}</small>
+                <small class="text-default" v-if="v.region1"> - {{v.region1}}</small>
+                <small class="text-default" v-if="v.region2"> - {{v.region2}}</small>
+              </p>
+              <p class="text-left">
+                <small v-if="v.pco_addr">{{v.pco_addr}}</small>
+              </p>
+              <p class="text-left">
+                <small>共有 <code>{{v.nums}}</code> 个户型</small>
+              </p>
+              <p class="text-left">
+                <btn class="btn btn-xs btn-rose" @click="del(v.pco_id)"><i class="fa fa-trash-o"></i></btn>
+              </p>
+            </div>
+            <div class="col-md-9">
+              <div class="unit" v-for="(v, k) in v.units" :key="k">
+                <img :src="v.cover" alt="">
+                <h6>{{v.name}}</h6>
               </div>
             </div>
           </div>
-          <div class="clearfix"></div>
-          <pagination v-model="pn" :total-page="total" @change="refresh" size="sm"/>
         </div>
-      </form>
+        <div class="clearfix"></div>
+        <pagination v-model="pn" :total-page="total" @change="refresh" size="sm"/>
+      </div>
     </div>
   </div>
 </template>
@@ -62,8 +62,8 @@ export default {
     return {
       items: [
         {text: '首页', to: '/'},
-        {text: '小区管理', to: '/community'},
-        {text: '小区', href: '#'}
+        {text: '小区', to: '/community'},
+        {text: '列表', href: '#'}
       ],
       rows: [],
       pn: 1,
@@ -74,36 +74,8 @@ export default {
   methods: {
     modify (id) {
       this.$router.push({
-        path: '/community/type',
+        path: '/community/add',
         query: {id}
-      })
-    },
-    save: function () {
-      this.$loading.show({
-        msg: '加载中 ...'
-      })
-      this.$http.save('community', {
-        add: this.rows,
-        base: this.community
-      }).then(d => {
-        this.$loading.hide()
-        if (d.code === 0) {
-          this.modal_open = false
-          this.refresh()
-          this.$notify({
-            content: d.msg,
-            duration: 2000,
-            type: 'success',
-            dismissible: false
-          })
-        } else {
-          this.$notify({
-            content: d.msg,
-            duration: 2000,
-            type: 'danger',
-            dismissible: false
-          })
-        }
       })
     },
     refresh: function () {
@@ -111,14 +83,20 @@ export default {
         msg: '加载中 ...'
       })
       this.$http.list('community', {pn: this.pn}).then(d => {
-        console.log(d.data)
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data.list
           this.pn = d.data.paging.pn
           this.total = d.data.paging.max
         } else {
-          this.rows = []
+          this.$alert({
+            title: '操作提示',
+            content: d.msg
+          }, (msg) => {
+            if (d.code === 9999) {
+              this.$router.go(-1)
+            }
+          })
         }
       })
     },
@@ -141,16 +119,16 @@ export default {
             })
             this.refresh()
           } else {
-            this.$notify({
-              content: d.msg,
-              duration: 2000,
-              type: 'danger',
-              dismissible: false
+            this.$alert({
+              title: '操作提示',
+              content: d.msg
+            }, (msg) => {
+              if (d.code === 9999) {
+                this.$router.go(-1)
+              }
             })
           }
         })
-      }).catch(() => {
-        this.$notify('取消删除.')
       })
     }
   },
@@ -169,7 +147,7 @@ export default {
 </script>
 <style scoped>
 .text-left {
-  padding-left: 50px;
+  padding-left: 15px;
 }
 .btn-rose {
   margin-right: 20px;
@@ -180,13 +158,20 @@ export default {
 .community {
   background: #fff;
 }
-.community-small-image {
-  width: 20%;
+.unit {
+  width: 33%;
+  float: left
+}
+.unit img {
+  max-width: 100%;
+  max-height: 120px;
 }
 .customer-row {
-  margin-bottom: 20px;
-  border: 1px solid #eee;
-  border-radius: 3px;
-  border-left: none;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px dashed #ccc;
+}
+.customer-row .row {
+  height: 150px;
 }
 </style>
