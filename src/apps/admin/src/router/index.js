@@ -222,7 +222,7 @@ const router = new Router({
       component: DesignerAdd
     },
     {
-      path: '/goods/type',
+      path: '/store/goods/type',
       name: 'GoodsType',
       component: GoodsType
     }
