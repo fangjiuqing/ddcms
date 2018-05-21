@@ -84,16 +84,14 @@ class customer_iface extends ubase_iface {
             $row['region1'] = $regions[$row['pc_region1']]['region_name'] ?: '';
             $row['region2'] = $regions[$row['pc_region2']]['region_name'] ?: '';
             return $row;
-        })->left_join('community_table', 'pco_id', intval(OBJ('customer_table')
-                ->get((int)$this->data['id'])['pc_co_id']))
-            ->get((int)$this->data['id']) ?: null;
+        })->left_join('community_table', 'pco_id', 'pco_id')->get((int)$this->data['id']) ?: null;
         if (empty($ret['row'])) {
             $this->failure('该客户不存在');
         }
-        $ret['row']['pc_co_name'] = $ret['row']['pco_name'];
-        $ret['type'] = core_helper::$order_type;
-        $ret['status'] = core_helper::$customer_status;
-        $ret['via'] = core_helper::$customer_via;
+        $ret['row']['pc_co_name']   = $ret['row']['pco_name'];
+        $ret['type']    = core_helper::$order_type;
+        $ret['status']  = core_helper::$customer_status;
+        $ret['via']     = core_helper::$customer_via;
         $this->success('操作成功', $ret);
     }
     
@@ -110,7 +108,7 @@ class customer_iface extends ubase_iface {
         }
         $this->data['pc_status'] = filter::int($this->data['pc_status']) ?: 1;
         $this->data['pc_adm_id'] = isset($this->data['pc_adm_id']) ?
-        (int)$this->data['pc_adm_id'] : $this->login['admin_id'];
+            (int)$this->data['pc_adm_id'] : $this->login['admin_id'];
         $this->data['pc_adm_nick'] = isset($this->data['pc_adm_nick']) ?
             $this->data['pc_adm_nick'] : $this->login['admin_account'];
         $this->data['pc_atime'] = (int)$this->data['pc_atime'] ?: REQUEST_TIME;
@@ -138,11 +136,11 @@ class customer_iface extends ubase_iface {
             if ($ret['code'] === 0) {
                 admin_helper::add_log($this->login['admin_id'], 'customer/save', '2',
                     '客户' . ($this->data['pc_id'] ? '修改[' . $this->data['pc_id'] : '新增[' . $ret['row_id']) . '@]');
-                $this->data['pct_adm_id']   = $this->login['admin_id'];
+                $this->data['pct_adm_id'] = $this->login['admin_id'];
                 $this->data['pct_adm_nick'] = $this->login['admin_account'];
-                $this->data['pct_cus_id']   = intval($this->data['pc_id']) ?: $ret['row_id'];
-                $this->data['pct_memo']     = $this->data['pc_id'] ? '修改客户信息' : '后台新增客户';
-                $this->data['pct_atime']    = REQUEST_TIME;
+                $this->data['pct_cus_id'] = intval($this->data['pc_id']) ?: $ret['row_id'];
+                $this->data['pct_memo'] = $this->data['pc_id'] ? '修改客户信息' : '后台新增客户';
+                $this->data['pct_atime'] = REQUEST_TIME;
                 OBJ('customer_trace_table')->insert($this->data);
                 $this->success('操作成功');
             }
