@@ -17,7 +17,7 @@
       <ul class="list">
         <li v-for="(item, index) in banners" :key="index">
           <!--<div class="show">-->
-            <img v-lazy="item.img" alt="" class="exhibition box1">
+            <img :src="item.img" alt="" class="exhibition box1">
             <div class="into box1">
               <p class="title">{{item.title}}</p>
               <p class="intr">{{item.intr}}</p>
@@ -30,8 +30,8 @@
       <span class="choice">精选国内外一线品牌</span>
       <p class="choice env">20+合作商&nbsp;选材耐用环保</p>
       <p class="ddzz">道达智装拥有强大的供应链体系和严格的选材标准机制，所选用材以健康环保为基础标准，精选国内外一线品牌，给业主更好的品质保证</p>
-      <img v-lazy="brand" alt="" class="img">
-      <img v-lazy="parlour" alt="" class="img">
+      <img :src="brand" alt="" class="img">
+      <img :src="parlour" alt="" class="img">
     </div>
     <foot></foot>
     <sideBar></sideBar>
@@ -90,9 +90,6 @@ export default {
   },
   components: {
     Head, foot, sideBar
-  },
-  created: {
-
   }
 }
 </script>

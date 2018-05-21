@@ -152,11 +152,11 @@ export default {
     },
     menu () {
       this.scroll = document.documentElement.scrollTop || document.body.scrollTop
-      if (this.scroll < 180) {
+      if (this.scroll < 131) {
         $('.cont .right').removeClass('fixed').addClass('ri')
-      } else if (this.scroll > 180 && this.scroll <= 1565) {
+      } else if (this.scroll >= 131 && this.scroll <= 1535) {
         $('.cont .right').removeClass('ri top').addClass('fixed')
-      } else if (this.scroll > 1565) {
+      } else if (this.scroll > 1535) {
         $('.cont .right').removeClass('fixed').addClass('top')
       }
     },
@@ -456,6 +456,7 @@ export default {
   .last {
     float: left;
     margin-left: 9px;
+    cursor: pointer;
   }
   .last:before{
     content: '';
@@ -478,6 +479,7 @@ export default {
   .next {
     float: right;
     margin-right: 9px;
+    cursor: pointer;
   }
   .next:before{
     content: '';

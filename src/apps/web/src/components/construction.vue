@@ -35,7 +35,7 @@
     <ul class="show">
       <li class="floorWater" v-for="(items, index) in photo" :key="index">
         <div class="cover">
-          <img v-lazy="items.img" alt="" class="floor">
+          <img :src="items.img" alt="" class="floor">
           <div class="water">
             <h1>{{items.title}}</h1>
             <ol class="order">
@@ -49,7 +49,7 @@
     <div class="struct">
       <ul class="str">
         <li v-for="(item, index) in struct" :key="index">
-          <img v-lazy="item.img" alt="" class="img">
+          <img :src="item.img" alt="" class="img">
           <div class="con">
             <h3>{{item.title}}</h3>
             <p>{{item.content}}</p>
