@@ -85,7 +85,8 @@ class customer_iface extends ubase_iface {
             $row['region2'] = $regions[$row['pc_region2']]['region_name'] ?: '';
             return $row;
         })->left_join('customer_house_table', 'pch_pc_id', (int)$this->data['id'])
-            ->left_join('region_table', 'region_code', (int)OBJ('customer_table')->get($this->data['id'])['pc_co_id'])
+            ->left_join('community_table', 'pco_id', intval(OBJ('customer_table')
+                ->get((int)$this->data['id'])['pc_co_id']))
             ->get((int)$this->data['id']) ?: null;
         if (empty($ret['row'])) {
             $this->failure('该客户不存在');
