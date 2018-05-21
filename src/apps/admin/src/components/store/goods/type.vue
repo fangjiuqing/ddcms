@@ -58,17 +58,18 @@
 
 <script>
 export default {
-  name: 'Article',
+  name: 'GoodsType',
   metaInfo () {
     return {
-      title: '资讯管理 - 道达智装'
+      title: '商品类型 - 道达智装'
     }
   },
   data () {
     return {
       items: [
         {text: '首页', to: '/'},
-        {text: '资讯', to: '/article'},
+        {text: '商品', to: '/goods'},
+        {text: '商品类型', to: '/goods/type'},
         {text: '列表', href: '#'}
       ],
       rows: [],

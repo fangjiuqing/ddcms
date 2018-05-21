@@ -94,6 +94,43 @@ export default {
       ]
     },
     {
+      url: '/store',
+      name: '商城管理',
+      icon: 'fa fa-shopping-bag',
+      children: [
+        {
+          url: '/store/order',
+          name: '订单列表',
+          icon: 'fa fa-calendar-o',
+          active: false
+        },
+        {
+          url: '/store/goods',
+          name: '商品列表',
+          icon: 'fa fa-gift',
+          active: false
+        },
+        {
+          url: '/store/goods/type',
+          name: '商品类型',
+          icon: 'fa fa-cog',
+          active: false
+        },
+        {
+          url: '/store/promotion',
+          name: '促销管理',
+          icon: 'fa fa-rocket',
+          active: false
+        },
+        {
+          url: '/store/shipping',
+          name: '配送管理',
+          icon: 'fa fa-truck',
+          active: false
+        }
+      ]
+    },
+    {
       url: '/category',
       name: '分类管理',
       icon: 'fa fa-yelp',
@@ -129,7 +166,7 @@ export default {
           active: false
         },
         {
-          url: '/category/add',
+          url: '/category/type',
           name: '户型分类',
           icon: 'fa fa-superpowers',
           active: false

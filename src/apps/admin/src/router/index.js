@@ -33,6 +33,8 @@ import CommunityAdd from '@/components/community/add'
 import Designer from '@/components/designer/index'
 import DesignerAdd from '@/components/designer/add'
 
+import GoodsType from '@/components/store/goods/type'
+
 Vue.use(Router)
 Vue.use(Meta)
 
@@ -218,6 +220,11 @@ const router = new Router({
       path: '/designer/add',
       name: 'DesignerAdd',
       component: DesignerAdd
+    },
+    {
+      path: '/store/goods/type',
+      name: 'GoodsType',
+      component: GoodsType
     }
   ]
 })
