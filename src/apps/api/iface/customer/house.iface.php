@@ -14,6 +14,10 @@ class customer_house_iface extends ubase_iface {
     public function get_action () {
         $id = intval($this->data['id']);
         $ret = OBJ('customer_table')->left_join('customer_house_table', 'pch_pc_id', $id)->get($id) ?: null;
+        $ret['type'] = core_helper::$house_type;
+        $ret['mode'] = core_helper::$house_mode;
+        $ret['style'] = core_helper::$house_style;
+        $ret['exists'] = core_helper::$house_exists;
         $this->success('操作成功', $ret);
     }
     

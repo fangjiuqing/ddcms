@@ -76,7 +76,7 @@ class customer_iface extends ubase_iface {
      * @param int $id 用户ID
      */
     public function get_action () {
-        $ret['row'] = OBJ('customer_table')->map(function ($row) {
+        $ret['row'] = OBJ('customer_table')->map(function (&$row) {
             $regions = OBJ('region_table')->akey('region_code')->get_all([
                 'region_code' => [$row['pc_region0'] ?: 0, $row['pc_region1'] ?: 0, $row['pc_region2'] ?: 0],
             ]);
@@ -84,8 +84,7 @@ class customer_iface extends ubase_iface {
             $row['region1'] = $regions[$row['pc_region1']]['region_name'] ?: '';
             $row['region2'] = $regions[$row['pc_region2']]['region_name'] ?: '';
             return $row;
-        })->left_join('customer_house_table', 'pch_pc_id', (int)$this->data['id'])
-            ->left_join('community_table', 'pco_id', intval(OBJ('customer_table')
+        })->left_join('community_table', 'pco_id', intval(OBJ('customer_table')
                 ->get((int)$this->data['id'])['pc_co_id']))
             ->get((int)$this->data['id']) ?: null;
         if (empty($ret['row'])) {
