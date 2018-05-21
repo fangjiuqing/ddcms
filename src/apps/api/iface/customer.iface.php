@@ -76,7 +76,7 @@ class customer_iface extends ubase_iface {
      * @param int $id 用户ID
      */
     public function get_action () {
-        $ret['row'] = OBJ('customer_table')->map(function (&$row) {
+        $ret['row'] = OBJ('customer_table')->map(function ($row) {
             $regions = OBJ('region_table')->akey('region_code')->get_all([
                 'region_code' => [$row['pc_region0'] ?: 0, $row['pc_region1'] ?: 0, $row['pc_region2'] ?: 0],
             ]);
@@ -90,6 +90,7 @@ class customer_iface extends ubase_iface {
         if (empty($ret['row'])) {
             $this->failure('该客户不存在');
         }
+        $ret['row']['pc_co_name'] = $ret['row']['pco_name'];
         $ret['type'] = core_helper::$order_type;
         $ret['status'] = core_helper::$customer_status;
         $ret['via'] = core_helper::$customer_via;

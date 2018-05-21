@@ -14,10 +14,10 @@ class customer_house_iface extends ubase_iface {
     public function get_action () {
         $id = intval($this->data['id']);
         $ret = OBJ('customer_table')->left_join('customer_house_table', 'pch_pc_id', $id)->get($id) ?: null;
-        $ret['type'] = core_helper::$house_type;
-        $ret['mode'] = core_helper::$house_mode;
-        $ret['style'] = core_helper::$house_style;
-        $ret['exists'] = core_helper::$house_exists;
+        $ret['type']    = core_helper::$house_type;
+        $ret['mode']    = core_helper::$house_mode;
+        $ret['style']   = core_helper::$house_style;
+        $ret['exists']  = core_helper::$house_exists;
         $this->success('操作成功', $ret);
     }
     
@@ -38,7 +38,7 @@ class customer_house_iface extends ubase_iface {
         $this->data['pch_floor']    = (int)$this->data['pch_floor'];
         $this->data['pch_exists']   = (int)$this->data['pch_exists'];
         $this->data['pch_gtime']    = (int)$this->data['pch_gtime'];
-        $this->data['pch_budget']    = number_format($this->data['pch_budget'], 2) ?: 0.00;
+        $this->data['pch_budget']   = number_format($this->data['pch_budget'], 2) ?: 0.00;
         $house_tab = OBJ('customer_house_table');
         if ($house_tab->load($this->data)) {
             $house_ret = $house_tab->save();
