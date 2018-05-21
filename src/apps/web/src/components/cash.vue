@@ -326,7 +326,7 @@ export default {
   }
   .master {
     width: 100%;
-    /*height: 742px;*/
+    height: 577px;
     padding-top: 93px;
     background-color: #fafafa;
   }
