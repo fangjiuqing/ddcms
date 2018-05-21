@@ -18,7 +18,7 @@ class customer_region_iface extends ubase_iface {
         }
         $ret = OBJ('community_table')->akey('pco_id')->where([
             'pco_name like \'' . $arg . '%\'',
-        ])->limit(30)->get_all();
+        ])->limit(10)->get_all();
         $this->success('操作成功', $ret);
     }
     

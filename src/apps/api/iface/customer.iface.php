@@ -141,6 +141,20 @@ class customer_iface extends ubase_iface {
                 $this->data['pct_memo']     = $this->data['pc_id'] ? '修改客户信息' : '后台新增客户';
                 $this->data['pct_atime']    = REQUEST_TIME;
                 OBJ('customer_trace_table')->insert($this->data);
+                $this->data['pch_id']       = (int)$this->data['pch_id'];
+                $this->data['pch_pc_id']    = (int)$this->data['pch_pc_id'] ?: $ret['row_id'];
+                $this->data['pch_type']     = (int)$this->data['pch_type'];
+                $this->data['pch_mode']     = (int)$this->data['pch_mode'];
+                $this->data['pch_style']    = (int)$this->data['pch_style'];
+                $this->data['pch_area']     = (int)$this->data['pch_area'];
+                $this->data['pch_area_use'] = (int)$this->data['pch_area_use'];
+                $this->data['pch_floor']    = (int)$this->data['pch_floor'];
+                $this->data['pch_exists']   = (int)$this->data['pch_exists'];
+                $this->data['pch_gtime']    = (int)$this->data['pch_gtime'];
+                $this->data['pch_budget']    = number_format($this->data['pch_budget'], 2) ?: 0.00;
+                $house_tab = OBJ('customer_house_table');
+                $house_tab->load($this->data);
+                $house_tab->save();
                 $this->success('操作成功');
             }
         }
