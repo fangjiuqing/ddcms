@@ -549,7 +549,7 @@ export default {
   }
   .caseList li {
     width: 245px;
-    height: 164px;
+    /*height: 164px;*/
     display: inline-block;
   }
   .caseList li img {
@@ -559,7 +559,7 @@ export default {
   .caseList li:nth-child(2),
   .caseList li:nth-child(3),
   .caseList li:nth-child(4) {
-    margin-bottom: 6px;
+    margin-bottom: 3px;
   }
   .caseList li:nth-child(2),
   .caseList li:nth-child(6) {
