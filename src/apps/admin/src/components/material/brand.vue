@@ -1,5 +1,5 @@
 <template>
-  <div class="profile">
+  <div class="case">
     <breadcrumbs :items="items">
       <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
         {{v.text}}
@@ -14,7 +14,7 @@
       <form action="/" id="profile_form" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
         <div class="app_content">
           <div class="content table-responsive">
-            <table class="table table-striped">
+            <table class="table table-hover">
               <thead>
                   <tr>
                     <th class="text-left">名称</th>
