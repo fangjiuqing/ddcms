@@ -24,7 +24,7 @@
           <div class="address">
             <div class="col-sm-8">
               <div class="form-group text-left">
-                <v-distpicker :province="community.province" :city="community.city" :area="community.area" @selected="onSelected"></v-distpicker>
+                <v-distpicker :province="community.region0_label" :city="community.region1_label" :area="community.region2_label" @selected="onSelected"></v-distpicker>
               </div>
             </div>
           </div>
@@ -330,7 +330,7 @@ export default {
     onSelected (d) {
       this.community.pco_region0 = d.province.code
       this.community.pco_region1 = d.city.code
-      this.community.pco_region1 = d.city.code
+      this.community.pco_region2 = d.area.code
     },
     refresh: function (id) {
       this.$loading.show({

@@ -77,16 +77,88 @@
                   </div>
                 </div>
                 <div class="col-sm-6">
-                  <label class="col-sm-3 label-on-left">小区</label>
+                  <section>
+                    <label for="input-5" class="label-on-left col-sm-3 ">小区</label>
+                    <div class="form-group col-sm-9">
+                      <input id="input-5" class="form-control" type="text" placeholder="请输入小区" v-model="queryString">
+                      <typeahead :value="form.pc_co_name" target="#input-5" :async-function="baseInfo" item-key="pco_id">
+                        <template slot="item" slot-scope="props">
+                          <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}" :key="index">
+                            <a role="button" @click="typeHeadSelect(item, props)">
+                              <span>{{item.pco_name}}</span>
+                            </a>
+                          </li>
+                        </template>
+                      </typeahead>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12" style="margin:0px auto;">
+                  <h5 class="block-h5-btm">
+                    <btn type="success" class="btn btn-success pull-right" @click="save">保存</btn>
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </tab>
+          <tab title="房型信息">
+            <div class="form-block">
+              <div class="row">
+                <div class="col-sm-6">
+                  <label class="col-sm-3 label-on-left">户型</label>
                   <div class="form-group col-sm-9">
-                    <input type="text" class="form-control" name="pc_co_id" v-model="form.pc_co_id" placeholder="小区">
+                    <input type="text" class="form-control" name="pch_mode" v-model="form.pch_mode" placeholder="户型">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label class="col-sm-3 label-on-left">风格</label>
+                  <div class="form-group col-sm-9 text-left" style="padding-top:10px;">
+                    <input type="text" class="form-control" name="pch_style" v-model="form.pch_style" placeholder="风格">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label class="col-sm-3 label-on-left">总面积</label>
+                  <div class="form-group col-sm-9">
+                    <input type="text" class="form-control" name="pch_area" v-model="form.pch_area" placeholder="总面积">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label class="col-sm-3 label-on-left">可用面积</label>
+                  <div class="form-group col-sm-9">
+                    <input type="text" class="form-control" name="pch_area_use" v-model="form.pch_area_use" placeholder="可用面积">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label class="col-sm-3 label-on-left">楼层</label>
+                  <div class="form-group col-sm-9">
+                    <input type="text" class="form-control" name="pch_floor" v-model="form.pch_floor" placeholder="楼层">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label class="col-sm-3 label-on-left">是否现房</label>
+                  <div class="form-group col-sm-9">
+                    <input type="text" class="form-control" name="pch_exists" v-model="form.pch_exists" placeholder="是否现房">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label class="col-sm-3 label-on-left">拿房时间</label>
+                  <div class="form-group col-sm-9">
+                    <input type="text" class="form-control" name="pch_gtime" v-model="form.pch_gtime" placeholder="拿房时间">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <label class="col-sm-3 label-on-left">预算</label>
+                  <div class="form-group col-sm-9">
+                    <input type="text" class="form-control" name="pch_budget" v-model="form.pch_budget" placeholder="预算">
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-12" style="margin:0px auto;">
                   <h5 class="block-h5-btm">
-                    <btn type="success" class="btn btn-success pull-right">保存</btn>
+                    <btn type="success" class="btn btn-success pull-right" @click="save">保存</btn>
                   </h5>
                 </div>
               </div>
@@ -136,7 +208,38 @@
             <p>Profile tab.</p>
           </tab>
           <tab title="操作记录">
-            <p>Others tab.</p>
+            <div class="form-block">
+              <div class="content table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th class="text-center" width="20%"><small>客服姓名</small></th>
+                      <th class="text-center" width="20%"><small>客户姓名</small></th>
+                      <th class="text-center" width="20%"><small>录入时间</small></th>
+                      <th class="text-center" width="40%"><small>备注</small></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(v) in rows" :key="v.pct_id">
+                      <td class="text-center">
+                        <small>{{v.pct_adm_nick}}</small>
+                      </td>
+                      <td class="text-center">
+                        <code>{{v.pc_nick}}</code>
+                      </td>
+                      <td class="text-center">
+                        <code><small>{{v.pct_atime|time('yyyy-mm-dd HH:MM')}}</small></code>
+                      </td>
+                      <td class="text-center">
+                        <small class="text-success">
+                          {{v.pct_memo}}
+                        </small>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </tab>
         </tabs>
       </div>
@@ -239,6 +342,7 @@ export default {
         }
       },
       status: {},
+      rows: [],
       via: {},
       orders: [],
       type: {},
@@ -257,7 +361,8 @@ export default {
         type: '',
         date: '',
         time: new Date()
-      }
+      },
+      queryString: ''
     }
   },
   computed: {
@@ -338,6 +443,36 @@ export default {
       this.form.pc_region1 = d.city.code
       this.form.pc_region2 = d.area.code
     },
+    typeHeadSelect (item, props) {
+      this.form.pc_co_id = item.pco_id
+      this.queryString = item.pco_name
+    },
+    baseInfo (query, done) {
+      this.$http.get('customer/region', {region_name: query}).then(d => {
+        if (d.code === 0) {
+          var data = []
+          for (var key in d.data) {
+            if (d.data.hasOwnProperty(key)) {
+              data.push(d.data[key])
+            }
+          }
+          done(data)
+        }
+      })
+    },
+    logInfo: function () {
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$http.list('customer/log', {id: this.id}).then(d => {
+        this.$loading.hide()
+        if (d.code === 0) {
+          this.rows = d.data
+        } else {
+          this.rows = []
+        }
+      })
+    },
     modify: function (id) {
       this.$loading.show({
         msg: '加载中 ...'
@@ -366,6 +501,32 @@ export default {
         }
       })
     },
+    save: function () {
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$http.save('customer', this.form).then(d => {
+        this.$loading.hide()
+        if (d.code === 0) {
+          this.$router.push({
+            path: '/customer'
+          })
+          this.$notify({
+            content: d.msg,
+            duration: 2000,
+            type: 'success',
+            dismissible: false
+          })
+        } else {
+          this.$notify({
+            content: d.msg,
+            duration: 2000,
+            type: 'danger',
+            dismissible: false
+          })
+        }
+      })
+    },
     add_attr () {
       this.$set(this.$data.attrs, this.$util.rand_str(16), {
         key: '',
@@ -379,6 +540,7 @@ export default {
   mounted: function () {
     this.$store.state.left_active_key = '/customer'
     this.modify()
+    this.logInfo()
   },
   destroyed: function () {
     this.$loading.hide()
@@ -388,7 +550,10 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
+.dropdown-menu li{
+  width: 100%;
+}
 .distpicker-address-wrapper {
   text-align: left;
 }
