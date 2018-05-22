@@ -40,7 +40,7 @@ class admin_helper extends rgx {
                 'system/admin/group/list'   => '权限列表',
                 'system/admin/group/save'   => '权限更新',
                 'system/admin/group/del'    => '权限删除',
-                'system/logs'               => '日志查看',
+                'system/list'               => '日志查看',
             ]
         ],
         [

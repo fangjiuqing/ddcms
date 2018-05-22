@@ -9,7 +9,7 @@ class system_iface extends ubase_iface {
     /**
      * 操作日志列表获取接口
      */
-    public function logs_action () {
+    public function list_action () {
         $tab = OBJ('admin_log_table');
         $paging = new paging_helper($tab, $this->data['pn'] ?: 1, 12);
         $user_ids = [];
