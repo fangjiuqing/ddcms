@@ -21,6 +21,13 @@ class customer_house_iface extends ubase_iface {
         $this->success('操作成功', $ret);
     }
     
+    /**
+     * 用户房型信息更新
+     * @param int $pc_id    用户id
+     * @param int $pch_id   用户房型id
+     * @param
+     *
+     */
     public function save_action () {
         $this->data['pct_adm_id']   = $this->login['admin_id'];
         $this->data['pct_adm_nick'] = $this->login['admin_account'];

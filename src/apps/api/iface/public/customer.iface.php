@@ -17,7 +17,7 @@ class public_customer_iface extends base_iface {
      * @param int     $pc_mobile 客户手机号
      * @param int     $pc_code   验证码
      */
-    public function info_action () {
+    public function save_action () {
         $this->data['pc_nick'] = $this->data['pc_nick'] ? filter::char($this->data['pc_nick']) : '新客户';
         $this->data['pc_area'] = $this->data['pc_area'] ? filter::int($this->data['pc_area']) : 0;
         $this->data['pc_room0'] = $this->data['pc_room0'] ? filter::int($this->data['pc_room0']) : 0;

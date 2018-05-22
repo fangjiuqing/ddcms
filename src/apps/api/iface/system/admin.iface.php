@@ -121,7 +121,8 @@ class system_admin_iface extends ubase_iface {
                 ],
             ]);
             $this->data['admin_salt'] = misc::randstr();
-            $this->data['admin_passwd'] = md5(md5($this->data['admin_passwd']) . $this->data['admin_salt']);
+            $this->data['admin_passwd'] = admin_helper::generate_passwd($this->data['admin_passwd'],
+                $this->data['admin_salt']);
         }
         $this->data['admin_group_id'] = (int)$this->data['admin_group_id'];
         $tab = OBJ('admin_table');

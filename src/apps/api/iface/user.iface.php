@@ -47,7 +47,8 @@ class user_iface extends ubase_iface {
         if (!admin_helper::verify_passwd($this->data['passwd'], $this->login['admin_passwd'], $this->login['admin_salt'])) {
             $this->failure('原密码错误', '104');
         }
-        $this->data['admin_passwd'] = md5(md5($this->data['newpasswd']) . $this->login['admin_salt']);
+        $this->data['admin_passwd'] = admin_helper::generate_passwd($this->data['newpasswd'],
+            $this->login['admin_salt']);
         $this->data['admin_id'] = $this->login['admin_id'];
         if (OBJ('admin_table')->update($this->data)['rows']) {
             admin_helper::add_log($this->login['admin_id'], 'admin/passwd', '2',

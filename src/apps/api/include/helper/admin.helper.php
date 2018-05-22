@@ -27,6 +27,9 @@ class admin_helper extends rgx {
                 'customer/list'             => '客户列表',
                 'customer/save'             => '客户更新',
                 'customer/del'              => '客户删除',
+                'customer/house/get'        => '客户房型详情',
+                'customer/house/save'       => '客户房型更新',
+                'customer/log/list'         => '客户维护记录',
             ]
         ],
         [
@@ -119,6 +122,15 @@ class admin_helper extends rgx {
                 'category/layout/get'       => '布局分类-详情',
                 'category/layout/save'      => '布局分类-更新',
                 'category/layout/del'       => '布局分类-删除',
+            ]
+        ],
+        [
+            'name'      => '小区管理',
+            'actions'   => [
+                'community/list'            => '小区列表',
+                'community/get'             => '小区详情',
+                'community/save'            => '小区更新',
+                'community/del'             => '小区删除',
             ]
         ],
         
