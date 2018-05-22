@@ -5,7 +5,7 @@
         {{v.text}}
       </breadcrumb-item>
       <breadcrumb-item active class="pull-right">
-        <router-link :to="{path:'/article/add'}" class="btn btn-xs btn-info pull-right">
+        <router-link :to="{path:'/store/goods/type/add'}" class="btn btn-xs btn-info pull-right">
           <i class="fa fa-plus-square"></i> 新增
         </router-link>
       </breadcrumb-item>
