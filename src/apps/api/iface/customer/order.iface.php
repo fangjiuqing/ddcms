@@ -50,6 +50,12 @@ class customer_order_iface extends ubase_iface {
                 }
                 admin_helper::add_log($this->login['admin_id'], 'customer/order/save', '2', 
                     "新增了" . core_helper::$order_type[$order['pco_type']] . "预约[{$cus['pc_id']}@{$cus['pc_nick']}]");
+                $this->data['pct_adm_id']   = $this->login['admin_id'];
+                $this->data['pct_adm_nick'] = $this->login['admin_account'];
+                $this->data['pct_cus_id']   = $cus['pc_id'];
+                $this->data['pct_memo']     = '新增客户预约';
+                $this->data['pct_atime']    = REQUEST_TIME;
+                OBJ('customer_trace_table')->insert($this->data);
                 $this->success('添加成功', [
                     'order' => $tab->get($ret['row_id'])
                 ]);
