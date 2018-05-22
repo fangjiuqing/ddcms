@@ -36,7 +36,7 @@ class customer_house_iface extends ubase_iface {
         $this->data['pct_atime']    = REQUEST_TIME;
         OBJ('customer_trace_table')->insert($this->data);
         $this->data['pch_id']       = (int)$this->data['pch_id'];
-        $this->data['pch_pc_id']    = (int)$this->data['pch_pc_id'];
+        $this->data['pch_pc_id']    = (int)$this->data['pc_id'];
         $this->data['pch_type']     = (int)$this->data['pch_type'];
         $this->data['pch_mode']     = (int)$this->data['pch_mode'];
         $this->data['pch_style']    = (int)$this->data['pch_style'];
