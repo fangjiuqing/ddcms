@@ -71,10 +71,10 @@ class community_iface extends ubase_iface {
         }
         $tab = OBJ('region_table');
         $region0_list = $tab->get([
-            "region_code" => $ret['pco_region0'] . '0000',
+            "region_code" => sprintf("%-'06s", $ret['pco_region0']),
         ]);
         $region1_list = $tab->get([
-            "region_code" => $ret['pco_region1'] . '00',
+            "region_code" => sprintf("%-'06s", $ret['pco_region1']),
         ]);
         $region2_list = $tab->get([
             "region_code" => $ret['pco_region2'],
