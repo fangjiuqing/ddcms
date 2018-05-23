@@ -1,20 +1,44 @@
 <template>
   <div class="home">
-    <common></common>
-    <div class="typ">
-      <div class="type">
+    <div class="black">
+      <div class="nav">
+        <div class="rl">
+          <span>登录</span>
+          <span>注册</span>
+        </div>
+      </div>
+    </div>
+    <div class="topSearch">
+      <div class="logo"></div>
+      <div class="left">优材商城</div>
+      <div class="mar">
+        <input type="text" class="search" placeholder="瓷砖类"/>
+        <p>搜索</p>
+        <div class="shop">
+          <span>购物车</span>
+        </div>
+      </div>
+    </div>
+    <div class="commodity">
+      <div class="all">
+        <p>全部商品分类</p>
         <ul>
-          <li v-for="items in type" :key="items.index">
-            <h1>{{items.title}}</h1>
-            <div class="con">
-              <router-link :to="{name: 'shopping-list'}">
-                <span v-for="item in items.content" :key="item.index">{{item}}</span>
-              </router-link>
-            </div>
+          <li>
+            <a href="javascript:;">限时抢购</a>
+          </li>
+          <li>
+            <a href="javascript:;">品牌特卖</a>
+          </li>
+          <li>
+            <a href="javascript:;">爆款拼团</a>
+          </li>
+          <li>
+            <a href="javascript:;">智能家居馆</a>
           </li>
         </ul>
       </div>
     </div>
+    <Common :panelShow.sync="panelShow" v-show="panelShow"/>
     <swiper :options="swiperOption" ref="mySwiper">
       <swiper-slide v-for="(item, index) in imgs" :key="index" class="imgs">
         <img :src="item.imgUrl" alt="">
@@ -70,13 +94,13 @@
         <span>30天内 买贵速赔</span>
       </li>
     </ul>
-    <Foot></Foot>
+    <Foot/>
   </div>
 </template>
 
 <script>
 import Foot from './foot'
-import common from './common'
+import Common from './common'
 import carousel from '../assets/home/carousel.png'
 import list1 from '../assets/home/list1.png'
 import list2 from '../assets/home/list2.png'
@@ -100,47 +124,11 @@ export default {
   name: 'foot',
   data () {
     return {
+      panelShow: true,
       imgs: [
         {imgUrl: carousel},
         {imgUrl: carousel},
         {imgUrl: carousel}
-      ],
-      type: [
-        {
-          title: '建材',
-          content: [
-            '瓷砖', '地板', '卫浴', '厨房', '门窗', '灯饰',
-            '涂料', '吊顶', '五金', '工具', '电料', '管材'
-          ]
-        },
-        {
-          title: '全屋定制',
-          content: [
-            '瓷砖', '地板', '卫浴', '厨房', '门窗', '灯饰',
-            '涂料', '吊顶', '五金', '工具', '电料', '管材'
-          ]
-        },
-        {
-          title: '家具',
-          content: [
-            '瓷砖', '地板', '卫浴', '厨房', '门窗', '灯饰',
-            '涂料', '吊顶', '五金', '工具', '电料', '管材'
-          ]
-        },
-        {
-          title: '家电',
-          content: [
-            '瓷砖', '地板', '卫浴', '厨房', '门窗', '灯饰',
-            '涂料', '吊顶', '五金', '工具', '电料', '管材'
-          ]
-        },
-        {
-          title: '家饰',
-          content: [
-            '瓷砖', '地板', '卫浴', '厨房', '门窗', '灯饰',
-            '涂料', '吊顶', '五金', '工具', '电料', '管材'
-          ]
-        }
       ],
       list: [
         {
@@ -377,60 +365,153 @@ export default {
     }
   },
   components: {
-    common, Foot, swiper, swiperSlide
+    Common, Foot, swiper, swiperSlide
   }
 }
 </script>
 
 <style scoped>
-  .typ {
+  .black {
+    width: 100%;
+    height: 48px;
+    background: #171717;
+  }
+  .nav {
     width: 1200px;
+    height: 48px;
     margin: 0 auto;
+    position: relative;
   }
-  .type {
-    width: 280px;
-    height: 420px;
-    background-color: #f6f6f6;
-    position: absolute;
-    /*left: 0;*/
-    z-index: 5;
-    text-align: left;
-  }
-  .type ul {
-    width: 231px;
-    margin: 0 auto;
-  }
-  .type ul li {
-    margin-top: 20px;
-  }
-  .type ul h1 {
+  .rl {
     font-size: 14px;
-    color: #3e3a39;
+    color: #ffffff;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
   }
-  .type span {
-    font-size: 12px;
-    color: #727171;
-    line-height: 20px;
+  .rl span:nth-child(1):before {
     display: inline-block;
-  }
-  .type span:first-child {
-    color: #d42f31;
-  }
-  .con {
-    margin-top: 7px;
-  }
-  .type span:after {
-    width: 1px;
-    height: 13px;
-    background-color: #999999;
     content: '';
+    width: 16px;
+    height: 16px;
+    margin-right: 16px;
+    background: url("../assets/home/nav/lr.png");
+  }
+  .rl span:nth-child(1):after {
+    width: 1px;
+    height: 11px;
+    background-color: #ffffff;
     display: inline-block;
-    margin: 0 6px;
+    content: '';
+    margin: 0 8px;
+  }
+  .topSearch {
+    width: 1200px;
+    height: 68px;
+    margin: 24px auto 0;
+    text-align: left;
+    overflow: hidden;
+  }
+  .logo {
+    width: 68px;
+    height: 68px;
+    display: inline-block;
+    background: url("../assets/home/logo.png") no-repeat;
+    float: left;
+  }
+  .left {
+    width: 156px;
+    font-size: 28px;
+    letter-spacing: 1px;
+    color: #3e3a39;
+    font-weight: bold;
+    margin: 8px 0 0 22px;
+    float: left;
+  }
+  .left:after {
+    width: 156px;
+    height: 25px;
+    content: '';
+    display: block;
+    margin-top: 8px;
+    background: url("../assets/home/mall.png");
+  }
+  .mar {
+    margin-top: 17px;
+  }
+  .search {
+    width: 436px;
+    height: 38px;
+    margin-left: 101px;
+    padding-left: 15px;
+    border: solid 1px #d8d8d8;
+    float: left;
+  }
+  .topSearch p {
+    width: 88px;
+    height: 42px;
+    background-color: #d42f31;
+    text-align: center;
+    line-height: 42px;
+    font-size: 16px;
+    color: #ffffff;
+    float: left;
+  }
+  .shop {
+    width: 100px;
+    height: 38px;
+    border: solid 1px #d8d8d8;
+    margin-left: 102px;
+    line-height: 38px;
+    text-align: center;
+    float: left;
+  }
+  .shop span {
+    font-size: 14px;
+    color: #3a3a3a;
+  }
+  .shop span:before {
+    width: 17px;
+    height: 17px;
+    display: inline-block;
+    content: '';
+    background: url("../assets/home/shopCar.png");
+    margin-right: 9px;
     vertical-align: middle;
   }
-  .type span:last-child:after {
-    width: 0;
-    height: 0;
+  .commodity {
+    width: 1200px;
+    margin: 16px auto 0;
+    text-align: left;
+  }
+  .all {
+    /*position: relative;*/
+  }
+  .all p {
+    width: 280px;
+    height: 51px;
+    background-color: #f3f3f3;
+    /*box-shadow: 0 15px 29px 0 rgba(0, 0, 0, 0.1);*/
+    font-size: 18px;
+    color: #3e3a39;
+    text-align: center;
+    line-height: 51px;
+    display: inline-block;
+    cursor: pointer;
+  }
+  .all ul {
+    margin-left: 32px;
+    display: inline-block;
+  }
+  .all > ul li {
+    display: inline-block;
+    font-size: 16px;
+    color: #3e3a39;
+    margin-right: 49px;
+  }
+  .all ul li a {
+    color: #3e3a39;
   }
   .swiper-container img {
     width: 100vw;

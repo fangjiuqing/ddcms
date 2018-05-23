@@ -1,181 +1,129 @@
 <template>
-  <div>
-    <div class="black">
-      <div class="nav">
-        <div class="rl">
-          <span>登录</span>
-          <span>注册</span>
-        </div>
-      </div>
-    </div>
-    <div class="topSearch">
-      <div class="logo"></div>
-      <div class="left">优材商城</div>
-      <div class="mar">
-        <input type="text" class="search" placeholder="瓷砖类"/>
-        <p>搜索</p>
-        <div class="shop">
-          <span>购物车</span>
-        </div>
-      </div>
-    </div>
-    <div class="commodity">
-      <div class="all">
-        <p>全部商品分类</p>
-        <ul>
-          <li>限时抢购</li>
-          <li>品牌特卖</li>
-          <li>爆款拼团</li>
-          <li>智能家居馆</li>
-        </ul>
-      </div>
+  <div class="typ">
+    <div class="type" @mouseenter="showPanel" @mouseleave="hidePanel">
+      <ul>
+        <li v-for="items in type" :key="items.index">
+          <h1>{{items.title}}</h1>
+          <div class="con">
+            <router-link :to="{name: 'shopping-list'}">
+              <span v-for="item in items.content" :key="item.index">{{item}}</span>
+            </router-link>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'common'
+  name: 'common',
+  props: {
+    panelShow: {
+      type: Boolean
+    }
+  },
+  data () {
+    return {
+      type: [
+        {
+          title: '建材',
+          content: [
+            '瓷砖', '地板', '卫浴', '厨房', '门窗', '灯饰',
+            '涂料', '吊顶', '五金', '工具', '电料', '管材'
+          ]
+        },
+        {
+          title: '全屋定制',
+          content: [
+            '瓷砖', '地板', '卫浴', '厨房', '门窗', '灯饰',
+            '涂料', '吊顶', '五金', '工具', '电料', '管材'
+          ]
+        },
+        {
+          title: '家具',
+          content: [
+            '瓷砖', '地板', '卫浴', '厨房', '门窗', '灯饰',
+            '涂料', '吊顶', '五金', '工具', '电料', '管材'
+          ]
+        },
+        {
+          title: '家电',
+          content: [
+            '瓷砖', '地板', '卫浴', '厨房', '门窗', '灯饰',
+            '涂料', '吊顶', '五金', '工具', '电料', '管材'
+          ]
+        },
+        {
+          title: '家饰',
+          content: [
+            '瓷砖', '地板', '卫浴', '厨房', '门窗', '灯饰',
+            '涂料', '吊顶', '五金', '工具', '电料', '管材'
+          ]
+        }
+      ]
+    }
+  },
+  methods: {
+    showPanel () {
+      this.$emit('update:Show', true)
+    },
+    hidePanel () {
+      this.$emit('update:Show', false)
+    }
+  }
 }
 </script>
 
 <style scoped>
-  .black {
-    width: 100%;
-    height: 48px;
-    background: #171717;
-  }
-  .nav {
+  .typ {
     width: 1200px;
-    height: 48px;
     margin: 0 auto;
-    position: relative;
   }
-  .rl {
-    font-size: 14px;
-    color: #ffffff;
+  .type {
+    width: 280px;
+    height: 420px;
+    background-color: #f6f6f6;
     position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  .rl span:nth-child(1):before {
-    display: inline-block;
-    content: '';
-    width: 16px;
-    height: 16px;
-    margin-right: 16px;
-    background: url("../assets/home/nav/lr.png");
-  }
-  .rl span:nth-child(1):after {
-    width: 1px;
-    height: 11px;
-    background-color: #ffffff;
-    display: inline-block;
-    content: '';
-    margin: 0 8px;
-  }
-  .topSearch {
-    width: 1200px;
-    height: 68px;
-    margin: 24px auto 0;
+    /*left: 0;*/
+    z-index: 5;
     text-align: left;
-    overflow: hidden;
+    box-shadow: -1px 14px 20px -1px rgba(0,0,0,.3);
   }
-  .logo {
-    width: 68px;
-    height: 68px;
-    display: inline-block;
-    background: url("../assets/home/logo.png") no-repeat;
-    float: left;
+  .type ul {
+    width: 231px;
+    margin: 0 auto;
   }
-  .left {
-    width: 156px;
-    font-size: 28px;
-    letter-spacing: 1px;
-    color: #3e3a39;
-    font-weight: bold;
-    margin: 8px 0 0 22px;
-    float: left;
+  .type ul li {
+    margin-top: 20px;
   }
-  .left:after {
-    width: 156px;
-    height: 25px;
-    content: '';
-    display: block;
-    margin-top: 8px;
-    background: url("../assets/home/mall.png");
-  }
-  .mar {
-    margin-top: 17px;
-  }
-  .search {
-    width: 436px;
-    height: 38px;
-    margin-left: 101px;
-    padding-left: 15px;
-    border: solid 1px #d8d8d8;
-    float: left;
-  }
-  .topSearch p {
-    width: 88px;
-    height: 42px;
-    background-color: #d42f31;
-    text-align: center;
-    line-height: 42px;
-    font-size: 16px;
-    color: #ffffff;
-    float: left;
-  }
-  .shop {
-    width: 100px;
-    height: 38px;
-    border: solid 1px #d8d8d8;
-    margin-left: 102px;
-    line-height: 38px;
-    text-align: center;
-    float: left;
-  }
-  .shop span {
+  .type ul h1 {
     font-size: 14px;
-    color: #3a3a3a;
+    color: #3e3a39;
   }
-  .shop span:before {
-    width: 17px;
-    height: 17px;
+  .type span {
+    font-size: 12px;
+    color: #727171;
+    line-height: 20px;
     display: inline-block;
+  }
+  .type span:first-child {
+    color: #d42f31;
+  }
+  .con {
+    margin-top: 7px;
+  }
+  .type span:after {
+    width: 1px;
+    height: 13px;
+    background-color: #999999;
     content: '';
-    background: url("../assets/home/shopCar.png");
-    margin-right: 9px;
+    display: inline-block;
+    margin: 0 6px;
     vertical-align: middle;
   }
-  .commodity {
-    width: 1200px;
-    margin: 16px auto 0;
-    text-align: left;
-  }
-  .all {
-    /*position: relative;*/
-  }
-  .all p {
-    width: 280px;
-    height: 51px;
-    background-color: #f3f3f3;
-    /*box-shadow: 0 15px 29px 0 rgba(0, 0, 0, 0.1);*/
-    font-size: 18px;
-    color: #3e3a39;
-    text-align: center;
-    line-height: 51px;
-    display: inline-block;
-  }
-  .all ul {
-    margin-left: 32px;
-    display: inline-block;
-  }
-  .all > ul li {
-    display: inline-block;
-    font-size: 16px;
-    color: #3e3a39;
-    margin-right: 49px;
+  .type span:last-child:after {
+    width: 0;
+    height: 0;
   }
 </style>
