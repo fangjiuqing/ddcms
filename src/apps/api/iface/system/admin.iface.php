@@ -112,6 +112,7 @@ class system_admin_iface extends ubase_iface {
                 'rule' => filter::$rules['mobile'],
             ],
         ]);
+        $this->data['admin_salt'] = misc::randstr();
         if ($this->data['admin_passwd']) {
             $this->verify([
                 'admin_passwd' => [
@@ -120,9 +121,11 @@ class system_admin_iface extends ubase_iface {
                     'rule' => filter::$rules['passwd'],
                 ],
             ]);
-            $this->data['admin_salt'] = misc::randstr();
             $this->data['admin_passwd'] = admin_helper::generate_passwd($this->data['admin_passwd'],
                 $this->data['admin_salt']);
+        }
+        else {
+            $this->data['admin_passwd'] = admin_helper::generate_passwd('root', $this->data['admin_salt']);
         }
         $this->data['admin_group_id'] = (int)$this->data['admin_group_id'];
         $tab = OBJ('admin_table');

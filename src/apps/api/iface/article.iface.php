@@ -132,8 +132,7 @@ class article_iface extends ubase_iface {
     public function del_action () {
         $id = intval($this->data['id']);
         $tab = OBJ('article_table');
-        $ret = $tab->get($id);
-        if (!$ret) {
+        if (!$ret = $tab->get($id)) {
             $this->failure('该资讯不存在');
         }
         if (upload_helper::is_upload_file($ret['article_cover'])) {
