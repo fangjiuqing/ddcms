@@ -19,7 +19,7 @@
                   <tr>
                     <th class="text-left"><small>名称</small></th>
                     <th class="text-center" width="300"><small>类型</small></th>
-                    <th class="text-center" width="80"><small>操作</small></th>
+                    <th class="text-center" width="120"><small>操作</small></th>
                   </tr>
               </thead>
               <tbody>
@@ -29,7 +29,8 @@
                   </td>
                   <td class="text-center">{{mtype[v.gt_type]}}</td>
                   <td class="text-center">
-                    <btn class="btn btn-xs btn-rose" @click="del(v.gt_id)"><i class="fa fa-trash-o"></i></btn>
+                    <btn class="btn btn-xs btn-info" @click="attrs(v.gt_id)" title="属性配置"><i class="fa fa-cog"></i></btn>
+                    <btn class="btn btn-xs btn-rose" @click="del(v.gt_id)" title="删除记录"><i class="fa fa-trash-o"></i></btn>
                   </td>
                 </tr>
               </tbody>
@@ -78,7 +79,7 @@
 
 <script>
 export default {
-  name: 'Brand',
+  name: 'GoodsType',
   metaInfo () {
     return {
       title: '品牌管理 - 道达智装'
@@ -103,6 +104,12 @@ export default {
     }
   },
   methods: {
+    attrs (id) {
+      this.$router.push({
+        path: '/store/goods/attrs',
+        query: {id}
+      })
+    },
     modify: function (id) {
       this.$loading.show({
         msg: '加载中 ...'
