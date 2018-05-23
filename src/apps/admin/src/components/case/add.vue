@@ -78,7 +78,7 @@
         </div>
         <div class="form-block">
           <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-6">
               <h5 class="block-h5">项目信息
               </h5>
               <div class="form-group text-left">
@@ -142,7 +142,7 @@
           </div>
         </div>
 
-        <div class="form-block">
+        <div class="form-block case-edit">
           <div class="row">
             <div class="col-md-12" style="padding-top: 15px;">
               <vue-editor ref="editor" id="editor"
@@ -453,6 +453,9 @@ export default {
 }
 </script>
 <style scoped>
+  form {
+    background: #fff;
+  }
   .case-image {
     width: 49%;
     height: 120px;
@@ -479,6 +482,9 @@ export default {
     top: 0;
     bottom: 0;
     border-radius: 3px;
+  }
+  .case-edit {
+    max-width: 1000px;
   }
   .case-image .case-image-wrap .btn {
     display: none;

@@ -67,7 +67,7 @@
         </div>
         <div class="form-block">
           <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-8">
               <h5 class="block-h5">风格标签</h5>
               <div class="">
                 <span style="width:150px; display:inline-block ; text-align:right; line-height:30px;" v-for="(row, row_key) in stags" :key="row_key">
@@ -75,7 +75,7 @@
                 </span>
               </div>
             </div>
-            <div class="col-md-7">
+            <div class="col-md-8">
               <h5 class="block-h5">所获奖项
                 <btn class="btn btn-info btn-xs pull-right" @click="add_attr">新增</btn>
               </h5>
@@ -99,7 +99,7 @@
           <h5 class="block-h5">设计师简介</h5>
           <vue-editor ref="editor" id="editor"
             useCustomImageHandler
-            @imageAdded="upload_image" v-model="form.des_about">
+            @imageAdded="upload_image" v-model="form.des_about" class="designer-edit">
           </vue-editor>
         </div>
         <div class="row">
@@ -318,6 +318,12 @@ export default {
 <style scoped>
   /* #editor {
   } */
+  form {
+    background: #fff;
+  }
+  .designer-edit {
+    max-width: 1000px;
+  }
   .quillWrapper {
     position: relative;
   }
