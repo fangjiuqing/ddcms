@@ -5,9 +5,9 @@
         {{v.text}}
       </breadcrumb-item>
       <breadcrumb-item active class="pull-right">
-        <router-link :to="{path:'/store/goods/type/add'}" class="btn btn-xs btn-info pull-right">
+        <a @click="modify('0')" class="btn btn-xs btn-info pull-right">
           <i class="fa fa-plus-square"></i> 新增
-        </router-link>
+        </a>
       </breadcrumb-item>
     </breadcrumbs>
     <div class="app_page">
@@ -17,93 +17,157 @@
             <table class="table table-hover">
               <thead>
                   <tr>
-                    <th class="text-left"><small>标题</small></th>
-                    <th class="text-center" width="120"><small>状态</small></th>
-                    <th class="text-center" width="100"><small>浏览</small></th>
-                    <th class="text-center" width="150"><small>发布时间</small></th>
-                    <th class="text-center" width="100"></th>
+                    <th class="text-left"><small>名称</small></th>
+                    <th class="text-center" width="300"><small>类型</small></th>
+                    <th class="text-center" width="80"><small>操作</small></th>
                   </tr>
               </thead>
               <tbody>
-                  <tr v-for="(v) in rows" :key="v.article_id">
-                      <td class="text-left">
-                        <a @click="modify(v.article_id)" class="text-default">
-                          <small class="text-success">「{{v.cat_name}}」</small>{{v.article_title}}
-                        </a>
-                      </td>
-                      <td class="text-center">
-                        <small v-if="v.article_status === '2'" class="text-success">发布</small>
-                        <small v-if="v.article_status !== '2'" class="text-rose">草稿</small>
-                      </td>
-                      <td class="text-center">
-                        <code>{{v.article_stat_view}}</code>
-                      </td>
-                      <td class="text-center">
-                        <small>{{v.article_udate|time('yyyy-mm-dd HH:MM:ss')}}</small>
-                      </td>
-                      <td class="text-center">
-                          <btn class="btn btn-xs btn-success" @click="modify(v.article_id)"><i class="fa fa-pencil"></i></btn>
-                          <btn class="btn btn-xs btn-rose" @click="del(v.article_id)"><i class="fa fa-trash-o"></i></btn>
-                      </td>
-                  </tr>
+                <tr v-for="(v) in rows" :key="v.gt_id">
+                  <td class="text-left">
+                    <a @click="modify(v.gt_id)">{{v.gt_name}}</a>
+                  </td>
+                  <td class="text-center">{{mtype[v.gt_type]}}</td>
+                  <td class="text-center">
+                    <btn class="btn btn-xs btn-rose" @click="del(v.gt_id)"><i class="fa fa-trash-o"></i></btn>
+                  </td>
+                </tr>
               </tbody>
             </table>
-            <pagination v-model="pn" :total-page="total" @change="refresh" size="sm"/>
           </div>
         </div>
       </form>
     </div>
+    <modal v-model="modal_open" title="{modal_title}">
+      <div slot="title" class="text-left">
+        {{modal_title}}
+      </div>
+      <div slot="default">
+        <form action="" method="post" accept-charset="utf-8">
+          <div>
+            <div class="row">
+                <label class="col-sm-2 label-on-left">名称</label>
+                <div class="col-sm-9">
+                    <div class="form-group">
+                        <input class="form-control" v-model="modal_data.gt_name" type="text" placeholder="类型名称">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-sm-2 label-on-left">类型</label>
+                <div class="col-sm-9">
+                    <div class="form-group">
+                        <select v-model="modal_data.gt_type" class="form-control">
+                          <option value="" disabled="">请选择</option>
+                          <option v-for="(v, k) in mtype" v-bind:key="k" :value="k">
+                            {{v}}
+                          </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div slot="footer">
+        <btn @click="save" type="success" class="btn-sm">确认</btn>
+      </div>
+    </modal>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GoodsType',
+  name: 'Brand',
   metaInfo () {
     return {
-      title: '商品类型 - 道达智装'
+      title: '品牌管理 - 道达智装'
     }
   },
   data () {
     return {
       items: [
         {text: '首页', to: '/'},
-        {text: '商品', to: '/store/goods'},
-        {text: '商品类型', to: '/store/goods/type'},
-        {text: '列表', href: '#'}
+        {text: '商城', to: '/store'},
+        {text: '商品管理', to: '/store/goods'},
+        {text: '类型', href: '#'}
       ],
       rows: [],
-      attrs: {},
-      pn: 1,
-      total: 1
+      modal_open: false,
+      modal_title: '',
+      modal_data: {
+        gt_id: 0,
+        gt_type: ''
+      },
+      mtype: {}
     }
   },
   methods: {
-    modify (id) {
-      this.$router.push({
-        path: '/article/add',
-        query: {id}
+    modify: function (id) {
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.modal_title = id === '0' ? '新增类型' : '编辑类型'
+      this.$http.get('store/goods/type', {id: id}).then(d => {
+        if (d.code === 0) {
+          this.modal_data = d.data.row || this.modal_data
+        } else {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            if (d.code === 9999) {
+              this.$router.go(-1)
+            }
+          })
+        }
+        this.modal_open = true
+        this.$loading.hide()
+      })
+    },
+    save: function () {
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$http.save('store/goods/type', this.modal_data).then(d => {
+        this.$loading.hide()
+        if (d.code === 0) {
+          this.modal_open = false
+          this.modal_data = {
+            gt_id: 0,
+            gt_type: ''
+          }
+          this.refresh()
+        } else {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            if (d.code === 9999) {
+              this.$router.go(-1)
+            }
+          })
+        }
       })
     },
     refresh: function () {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.list('article', {pn: this.pn}).then(d => {
+      this.$http.list('store/goods/type').then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          this.rows = d.data.list
-          this.pn = d.data.paging.pn
-          this.total = d.data.paging.max
-        } else if (d.code === 9999) {
+          this.rows = d.data.rows || this.rows
+          this.mtype = d.data.mtype || this.mtype
+        } else {
           this.$alert({
             title: '系统提示',
             content: d.msg
           }, (msg) => {
-            this.$router.go(-1)
+            if (d.code === 9999) {
+              this.$router.go(-1)
+            }
           })
-        } else {
-          this.rows = []
         }
       })
     },
@@ -118,20 +182,24 @@ export default {
         okText: '确认',
         cancelText: '取消'
       }).then(() => {
-        this.$http.del('article', {id: id}).then(d => {
+        this.$http.del('store/goods/type', {id: id}).then(d => {
           if (d.code === 0) {
             this.$notify({
               type: 'success',
-              content: d.msg
-            })
-            this.refresh()
-          } else {
-            this.$notify({
-              content: d.msg,
+              content: '删除成功.',
               duration: 2000,
-              type: 'danger',
-              dismissible: false,
-              cancelText: '取消'
+              dismissible: false
+            }, () => {
+              this.refresh()
+            })
+          } else {
+            this.$alert({
+              title: '系统提示',
+              content: d.msg
+            }, (msg) => {
+              if (d.code === 9999) {
+                this.$router.go(-1)
+              }
             })
           }
         })

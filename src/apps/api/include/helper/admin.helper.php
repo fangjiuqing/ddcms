@@ -133,6 +133,15 @@ class admin_helper extends rgx {
                 'community/del'             => '小区删除',
             ]
         ],
+        [
+            'name'      => '商城管理',
+            'actions'   => [
+                'store/goods/type/list'     => '商品类型-列表',
+                'store/goods/type/get'      => '商品类型-详情',
+                'store/goods/type/save'     => '商品类型-更新',
+                'store/goods/type/del'      => '商品类型-删除',
+            ]
+        ]
         
     ];
 
