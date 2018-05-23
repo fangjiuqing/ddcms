@@ -11,38 +11,38 @@
           <tab title="基本信息">
             <div class="form-block">
               <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <label class="col-sm-3 label-on-left">客户姓名</label>
                   <div class="form-group col-sm-9">
                     <input type="text" class="form-control" name="pc_nick" v-model="form.pc_nick" placeholder="客户姓名">
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <label class="col-sm-3 label-on-left">客户编号</label>
                   <div class="form-group col-sm-9">
                     <input type="text" class="form-control" name="pc_sn" v-model="form.pc_sn" placeholder="客户编号">
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <label class="col-sm-3 label-on-left">客户性别</label>
                   <div class="form-group col-sm-9 text-left" style="padding-top:10px;">
                     <p-check class="p-default p-round" v-model="form.pc_gender" true-value="1">先生</p-check>
                     <p-check class="p-default p-round p-fill" v-model="form.pc_gender" true-value="2">女士</p-check>
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <label class="col-sm-3 label-on-left">身份证号</label>
                   <div class="form-group col-sm-9">
                     <input type="text" class="form-control" name="pc_sid" v-model="form.pc_sid" placeholder="身份证号">
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <label class="col-sm-3 label-on-left">手机号</label>
                   <div class="form-group col-sm-9">
                     <input type="text" class="form-control" name="pc_mobile" v-model="form.pc_mobile" placeholder="手机号" disabled>
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <label class="col-sm-3 label-on-left">客户来源</label>
                   <div class="form-group col-sm-9">
                     <select v-model="form.pc_via" class="form-control">
@@ -53,7 +53,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <label class="col-sm-3 label-on-left">客户状态</label>
                   <div class="form-group col-sm-9">
                     <select v-model="form.pc_status" class="form-control">
@@ -64,23 +64,23 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <label class="col-sm-3 label-on-left">所在地</label>
                   <div class="form-group col-sm-9">
                     <v-distpicker :province="form.region0" :city="form.region1" :area="form.region2" @selected="onSelected"></v-distpicker>
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <label class="col-sm-3 label-on-left">详细地址</label>
                   <div class="form-group col-sm-9">
                     <input type="text" class="form-control" name="pc_addr" v-model="form.pc_addr" placeholder="详细地址">
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <section>
                     <label for="input-5" class="label-on-left col-sm-3 ">小区</label>
                     <div class="form-group col-sm-9">
-                      <input id="input-5" class="form-control" type="text" placeholder="请输入小区" v-model="queryString">
+                      <input id="input-5" class="form-control" type="text" placeholder="请选择小区" v-model="queryString">
                       <typeahead :value="form.pc_co_name" target="#input-5" :async-function="baseInfo" item-key="pco_id">
                         <template slot="item" slot-scope="props">
                           <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}" :key="index">
@@ -95,7 +95,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-12" style="margin:0px auto;">
+                <div class="col-md-10" style="margin:0px auto;">
                   <h5 class="block-h5-btm">
                     <btn type="success" class="btn btn-success pull-right" @click="save">保存</btn>
                   </h5>
@@ -106,59 +106,85 @@
           <tab title="房型信息">
             <div class="form-block">
               <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-5">
+                  <label class="col-sm-3 label-on-left">房型</label>
+                  <div class="form-group col-sm-8">
+                    <select v-model="house.pch_mode" class="form-control">
+                      <option disabled value="0">未知</option>
+                      <option v-for="(v, k) in mode" v-bind:key="k" :value="k">
+                        {{v}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-5">
                   <label class="col-sm-3 label-on-left">户型</label>
-                  <div class="form-group col-sm-9">
-                    <input type="text" class="form-control" name="pch_mode" v-model="form.pch_mode" placeholder="户型">
+                  <div class="form-group col-sm-8">
+                    <select v-model="house.pch_type" class="form-control">
+                      <option disabled value="0">未知</option>
+                      <option v-for="(v, k) in type" v-bind:key="k" :value="k">
+                        {{v}}
+                      </option>
+                    </select>
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <label class="col-sm-3 label-on-left">风格</label>
-                  <div class="form-group col-sm-9 text-left" style="padding-top:10px;">
-                    <input type="text" class="form-control" name="pch_style" v-model="form.pch_style" placeholder="风格">
+                  <div class="form-group col-sm-8">
+                    <select v-model="house.pch_style" class="form-control">
+                      <option disabled value="0">未知</option>
+                      <option v-for="(v, k) in style" v-bind:key="k" :value="k">
+                        {{v}}
+                      </option>
+                    </select>
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <label class="col-sm-3 label-on-left">总面积</label>
-                  <div class="form-group col-sm-9">
-                    <input type="text" class="form-control" name="pch_area" v-model="form.pch_area" placeholder="总面积">
+                  <div class="form-group col-sm-8">
+                    <input type="text" class="form-control" name="pch_area" v-model="house.pch_area" placeholder="总面积">
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <label class="col-sm-3 label-on-left">可用面积</label>
-                  <div class="form-group col-sm-9">
-                    <input type="text" class="form-control" name="pch_area_use" v-model="form.pch_area_use" placeholder="可用面积">
+                  <div class="form-group col-sm-8">
+                    <input type="text" class="form-control" name="pch_area_use" v-model="house.pch_area_use" placeholder="可用面积">
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <label class="col-sm-3 label-on-left">楼层</label>
-                  <div class="form-group col-sm-9">
-                    <input type="text" class="form-control" name="pch_floor" v-model="form.pch_floor" placeholder="楼层">
+                  <div class="form-group col-sm-8">
+                    <input type="text" class="form-control" name="pch_floor" v-model="house.pch_floor" placeholder="楼层">
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <label class="col-sm-3 label-on-left">是否现房</label>
-                  <div class="form-group col-sm-9">
-                    <input type="text" class="form-control" name="pch_exists" v-model="form.pch_exists" placeholder="是否现房">
+                  <div class="form-group col-sm-8">
+                    <select v-model="house.pch_exists" class="form-control">
+                      <option disabled value="0">未知</option>
+                      <option v-for="(v, k) in exists" v-bind:key="k" :value="k">
+                        {{v}}
+                      </option>
+                    </select>
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <label class="col-sm-3 label-on-left">拿房时间</label>
-                  <div class="form-group col-sm-9">
-                    <input type="text" class="form-control" name="pch_gtime" v-model="form.pch_gtime" placeholder="拿房时间">
+                  <div class="form-group col-sm-8">
+                    <input type="text" class="form-control" name="pch_gtime" v-model="house.pch_gtime" placeholder="拿房时间">
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                   <label class="col-sm-3 label-on-left">预算</label>
-                  <div class="form-group col-sm-9">
-                    <input type="text" class="form-control" name="pch_budget" v-model="form.pch_budget" placeholder="预算">
+                  <div class="form-group col-sm-8">
+                    <input type="text" class="form-control" name="pch_budget" v-model="house.pch_budget" placeholder="预算">
                   </div>
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-12" style="margin:0px auto;">
+                <div class="col-md-10" style="margin:0px auto;">
                   <h5 class="block-h5-btm">
-                    <btn type="success" class="btn btn-success pull-right" @click="save">保存</btn>
+                    <btn type="success" class="btn btn-success pull-right" @click="savehouse">保存</btn>
                   </h5>
                 </div>
               </div>
@@ -341,10 +367,14 @@ export default {
           val: ''
         }
       },
+      house: {},
       status: {},
       rows: [],
       via: {},
       orders: [],
+      style: {},
+      mode: {},
+      exists: {},
       type: {},
       addModalOpen: false,
       dateLimitFrom: d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(),
@@ -481,6 +511,7 @@ export default {
         this.$loading.hide()
         if (d.code === 0) {
           this.form = this.id ? d.data.row : {}
+          this.queryString = this.form.pc_co_name
           this.status = d.data.status
           this.via = d.data.via
           this.type = d.data.type
@@ -489,6 +520,30 @@ export default {
             {text: '客户', to: '/customer'},
             {text: this.form.pc_nick, href: '#'}
           ]
+        } else {
+          this.$alert({
+            title: '操作提示',
+            content: d.msg
+          }, (msg) => {
+            if (d.code === 9999) {
+              this.$router.go(-1)
+            }
+          })
+        }
+      })
+    },
+    modihouse: function (id) {
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$http.get('customer/house', {id: this.id || 0, attrs: 1}).then(d => {
+        this.$loading.hide()
+        if (d.code === 0) {
+          this.house = this.id ? d.data : {}
+          this.mode = this.id ? d.data.mode : {}
+          this.exists = this.id ? d.data.exists : {}
+          this.style = this.id ? d.data.style : {}
+          this.type = this.id ? d.data.type : {}
         } else {
           this.$alert({
             title: '操作提示',
@@ -527,6 +582,32 @@ export default {
         }
       })
     },
+    savehouse: function () {
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$http.save('customer/house', this.house).then(d => {
+        this.$loading.hide()
+        if (d.code === 0) {
+          this.$router.push({
+            path: '/customer'
+          })
+          this.$notify({
+            content: d.msg,
+            duration: 2000,
+            type: 'success',
+            dismissible: false
+          })
+        } else {
+          this.$notify({
+            content: d.msg,
+            duration: 2000,
+            type: 'danger',
+            dismissible: false
+          })
+        }
+      })
+    },
     add_attr () {
       this.$set(this.$data.attrs, this.$util.rand_str(16), {
         key: '',
@@ -540,6 +621,7 @@ export default {
   mounted: function () {
     this.$store.state.left_active_key = '/customer'
     this.modify()
+    this.modihouse()
     this.logInfo()
   },
   destroyed: function () {

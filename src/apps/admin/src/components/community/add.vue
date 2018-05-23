@@ -10,19 +10,19 @@
       <div class="col-sm-12">
         <div class="row">
           <div class="col-md-8">
-            <label for="" class="label-on-left col-sm-2">小区名称</label>
-            <div class="form-group col-sm-8">
-              <input class="form-control" name="pco_name" v-model="community.pco_name" type="text" placeholder="小区名称">
+            <div class="input-group col-md-6">
+              <input class="material_field_input form-control" name="pco_name" v-model="community.pco_name" value="" placeholder="小区名称" />
+              <span class="input-group-addon">小区名称</span>
             </div>
           </div>
           <div class="col-md-8">
-            <label for="" class="label-on-left col-sm-2">详细地址</label>
-            <div class="form-group col-sm-8">
-              <input class="form-control" name="pco_addr" v-model="community.pco_addr" type="text" placeholder="详细地址">
+            <div class="input-group col-md-6">
+              <input class="material_field_input form-control" name="pco_addr" v-model="community.pco_addr" value="" placeholder="详细地址" />
+              <span class="input-group-addon">详细地址</span>
             </div>
           </div>
           <div class="address">
-            <div class="col-sm-8">
+            <div class="col-sm-6">
               <div class="form-group text-left">
                 <v-distpicker :province="community.region0_label" :city="community.region1_label" :area="community.region2_label" @selected="onSelected"></v-distpicker>
               </div>
@@ -44,52 +44,50 @@
         <div class="col-md-12">
           <table class="table table-striped">
             <thead>
-              <tr style="background-color:#f7f7f7">
+              <tr>
                 <th v-for="(v, k) in fields" :key="k" v-if="k !== 'id'" width="13%">
                   <input class="material_field_input" @focus="set_active(k)" v-model="fields[k]" :placeholder="v"/>
                 </th>
+                <th class="text-center"><span class="material_field_text"></span></th>
+                <th class="text-center"><span class="material_field_text"></span></th>
               </tr>
             </thead>
             <tbody v-for="(row, row_key) in rows" :key="row_key">
               <tr>
                 <td>
-                  <img class="preview_cover" style="width: 150px;" :src="row.cover" @click="upload_cover(row_key)">
-                  <input class="material_field_input" type="hidden" name="pu_cover" v-model="rows[row_key]['pu_cover']">
-                </td>
-                <td>
-                  <div class="input-group col-md-8">
+                  <div class="row col-md-7">
+                    <img class="preview_cover" style="width: 150px;" :src="row.cover" @click="upload_cover(row_key)">
+                    <input class="material_field_input" type="hidden" name="pu_cover" v-model="rows[row_key]['pu_cover']">
+                    <btn class="btn btn-xs btn-danger pull-right" @click="del_row(row_key)" style="margin-left: 10px;"><i class="fa fa-trash-o"></i></btn>
+                  </div>
+                  <div class="input-group col-md-6">
                     <input class="material_field_input form-control" v-model="rows[row_key]['pu_name']" value="" placeholder="户型名" />
                     <span class="input-group-addon">户型名</span>
                   </div>
-                  <div class="input-group col-md-8">
+                  <div class="input-group col-md-6">
                     <input class="material_field_input form-control" v-model="rows[row_key]['pu_area0']" value="" placeholder="总面积" />
                     <span class="input-group-addon">总面积</span>
                   </div>
-                  <div class="input-group col-md-8">
+                  <div class="input-group col-md-6">
                     <input class="material_field_input form-control" v-model="rows[row_key]['pu_area1']" value="" placeholder="可用面积" />
                     <span class="input-group-addon">可用面积</span>
                   </div>
-                  <div class="input-group col-md-8">
+                  <div class="input-group col-md-6">
                     <input class="material_field_input form-control" v-model="rows[row_key]['pu_room0']" value="" placeholder="卧室" />
                     <span class="input-group-addon">卧室</span>
                   </div>
-                </td>
-                <td>
-                  <div class="input-group col-md-8">
+                  <div class="input-group col-md-6">
                     <input class="material_field_input form-control" v-model="rows[row_key]['pu_room1']" value="" placeholder="客厅" />
                     <span class="input-group-addon">客厅</span>
                   </div>
-                  <div class="input-group col-md-8">
+                  <div class="input-group col-md-6">
                     <input class="material_field_input form-control" v-model="rows[row_key]['pu_room2']" value="" placeholder="厨房" />
                     <span class="input-group-addon">厨房</span>
                   </div>
-                  <div class="input-group col-md-8">
+                  <div class="input-group col-md-6">
                     <input class="material_field_input form-control" v-model="rows[row_key]['pu_room3']" value="" placeholder="卫生间" />
                     <span class="input-group-addon">卫生间</span>
                   </div>
-                </td>
-                <td>
-                  <btn class="btn btn-xs btn-danger pull-right" @click="del_row(row_key)" style="margin-left: 10px;"><i class="fa fa-trash-o"></i></btn>
                 </td>
               </tr>
             </tbody>
@@ -161,7 +159,7 @@
           <div class="col-md-3">
             <btn class="btn btn-xs btn-rose" @click="del(v.pu_id)"><i class="fa fa-trash-o"></i></btn>
           </div>
-          <div class="line"></div>
+          <!-- <div class="line"></div> -->
         </div>
         <div class="clearfix"></div>
         <div class="row">
@@ -423,14 +421,11 @@ export default {
 }
 </script>
 <style scoped>
-.address {
-  margin-left: 12%;
-}
 .input-group {
   margin-bottom: 20px;
 }
 .preview_cover {
-  padding-top: 30px;
+  margin-bottom: 20px;
 }
 .type, .col-md-12 {
   background: #fff;

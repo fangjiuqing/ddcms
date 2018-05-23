@@ -76,7 +76,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.post('system/logs', {pn: this.pn}).then(d => {
+      this.$http.list('system', {pn: this.pn}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data.list

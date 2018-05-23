@@ -225,6 +225,7 @@ export default {
 
 <style>
   #editor {
+    max-width: 1000px;
   }
   .quillWrapper {
     position: relative;
