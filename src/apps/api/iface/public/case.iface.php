@@ -64,6 +64,16 @@ class public_case_iface extends base_iface {
      */
     public function get_action () {
         $id = intval($this->data['id']);
+        //记录点击量
+        stat_helper::count(stat_helper::TYPE_CASE, $id, stat_helper::is_mobile() ?
+            stat_helper::VIA_WAP : stat_helper::VIA_PC);
+        //更新点击量
+        $stat_ret = count(OBJ('stat_table')->get_all([
+            'stat_type'     => stat_helper::TYPE_CASE,
+            'stat_ref_id'   => $id,
+        ]));
+        OBJ('case_table')->update(['case_id' => $id, 'case_views' => $stat_ret]);
+        
         $out['row'] = OBJ('case_table')->left_join('case_content_table', 'case_id', 'case_id')->get($id) ?: [];
         $out['attrs'] = $out['images'] = $out['desc'] = null;
         $region_ids = [];
@@ -148,7 +158,6 @@ class public_case_iface extends base_iface {
                 return $row;
             })->get_all();
         }
-        stat_helper::count(stat_helper::TYPE_CASE, $id, stat_helper::is_mobile() ? stat_helper::VIA_WAP : stat_helper::VIA_PC);
         $this->success('', $out);
     }
 }
