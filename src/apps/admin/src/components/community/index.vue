@@ -12,7 +12,7 @@
     </breadcrumbs>
     <div class="app_page">
       <div class="app_content">
-        <div class="customer-row" v-for="(v) in rows" :key="v.pco_id">
+        <div class="customer-row col-offset-2" v-for="(v) in rows" :key="v.pco_id">
           <div class="row">
             <div class="col-md-3" style="border-right: 1px dashed #ddd">
               <h4 class="text-left" style="font-weight: 300;font-size: 16px;">
@@ -34,7 +34,7 @@
                 <btn class="btn btn-xs btn-rose" @click="del(v.pco_id)"><i class="fa fa-trash-o"></i></btn>
               </p>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-6">
               <div class="unit" v-for="(v, k) in v.units" :key="k">
                 <img :src="v.cover" alt="">
                 <h6>{{v.name}}</h6>
@@ -155,12 +155,18 @@ export default {
 .distpicker-address-wrapper select {
   max-width: 115px!important;
 }
+.col-md-3 {
+  margin-left: 2%;
+}
+.col-md-6 {
+  margin-right: 5%;
+}
 .community {
   background: #fff;
 }
 .unit {
   width: 33%;
-  float: left
+  float: right;
 }
 .unit img {
   max-width: 100%;
@@ -170,8 +176,5 @@ export default {
   padding-bottom: 15px;
   margin-bottom: 15px;
   border-bottom: 1px dashed #ccc;
-}
-.customer-row .row {
-  height: 150px;
 }
 </style>

@@ -13,6 +13,7 @@ class public_article_iface extends base_iface {
         $this->success('', CACHE('public@article-list', function () {
             $tab = OBJ('article_table');
             
+            $tab->where(['article_status' => 2]);
             // 分页
             $paging = new paging_helper($tab, $this->data['pn'] ?: 1, 12);
             
@@ -83,7 +84,7 @@ class public_article_iface extends base_iface {
             }
             $out['category'] = category_helper::get_options(3, 0, 0);
             $out['row']['article_admin_name'] = OBJ('admin_table')->
-            get($out['row']['article_admin_id'])['admin_account'];
+                get($out['row']['article_admin_id'])['admin_account'];
             foreach ((array)$out['category'] as $k => $v) {
                 $out['category'][$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . $v['cat_name'];
             }

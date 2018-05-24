@@ -12,13 +12,12 @@ class customer_region_iface extends ubase_iface {
      * @param string $region_name 小区名
      */
     public function get_action () {
-        $arg = filter::char($this->data['region_name']);
-        if (empty($arg)) {
+        if (!$this->data['region_name']) {
             $this->success('操作成功');
         }
         $ret = OBJ('community_table')->akey('pco_id')->where([
-            'pco_name like \'' . $arg . '%\'',
-        ])->limit(10)->get_all();
+            'pco_name like \'' . $this->data['region_name'] . '%\'',
+        ])->limit(10)->get_all() ?: [];
         $this->success('操作成功', $ret);
     }
     

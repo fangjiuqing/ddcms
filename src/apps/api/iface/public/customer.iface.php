@@ -18,13 +18,16 @@ class public_customer_iface extends base_iface {
      * @param int     $pc_code   验证码
      */
     public function save_action () {
-        $this->data['pc_nick'] = $this->data['pc_nick'] ? filter::char($this->data['pc_nick']) : '新客户';
+        $this->data['pc_nick'] = $this->data['pc_nick'] ?: '新客户';
+        if (!filter::is_account($this->data['pc_nick'])) {
+            $this->failure('请输入正确的用户名');
+        }
         $this->data['pc_area'] = $this->data['pc_area'] ? filter::int($this->data['pc_area']) : 0;
         $this->data['pc_room0'] = $this->data['pc_room0'] ? filter::int($this->data['pc_room0']) : 0;
         $this->data['pc_room1'] = $this->data['pc_room1'] ? filter::int($this->data['pc_room1']) : 0;
         $this->data['pc_room2'] = $this->data['pc_room2'] ? filter::int($this->data['pc_room2']) : 0;
         $this->data['pc_room3'] = 1;
-        $this->data['pc_local'] = $this->data['pc_local'] ? filter::char($this->data['pc_local']) : '';
+        $this->data['pc_memo'] = $this->data['pc_local'] ? filter::normal($this->data['pc_local']) : '';
         $this->data['pc_sn'] = date('YmdHis', app::get_time());
         $this->data['pc_status'] = 1;
         $this->data['pc_adm_id'] = 0;
@@ -39,7 +42,6 @@ class public_customer_iface extends base_iface {
         $this->data['pc_addr'] = '';
         $this->data['pc_co_id'] = 0;
         $this->data['pc_gender'] = 0;
-        $this->data['pc_memo'] = '';
         $this->data['pc_score'] = 0;
         $this->verify([
             'pc_mobile' => [
@@ -74,12 +76,12 @@ class public_customer_iface extends base_iface {
                 $this->data['pch_gtime']    = 0;
                 $this->data['pch_budget']   = 0;
                 OBJ('customer_house_table')->insert($this->data);
-                admin_helper::add_log($this->login['admin_id'], 'public/customer/save', '2', '客户新增[' . $ret['row_id']
-                    . '@]');
+                admin_helper::add_log($this->login['admin_id'], 'public/customer/save', '2',
+                    '客户新增[' . $ret['row_id'] . '@]');
                 $this->data['pct_adm_id']   = 0;
                 $this->data['pct_adm_nick'] = '';
                 $this->data['pct_cus_id']   = $ret['row_id'];
-                $this->data['pct_memo']     = 'PC客户信息预留';
+                $this->data['pct_memo']     = 'PC客户信息预留&新增房型信息';
                 $this->data['pct_atime']    = REQUEST_TIME;
                 OBJ('customer_trace_table')->insert($this->data);
                 $this->success('操作成功。');
@@ -103,14 +105,14 @@ class public_customer_iface extends base_iface {
         $this->data['verify_desc'] = mt_rand(1000, 9999);
         $this->data['verify_adate'] = REQUEST_TIME;
         if (OBJ('customer_table')->get([
-            'pc_mobile' => $this->data['verify_mobile'],
+            'pc_mobile' => (int)$this->data['verify_mobile'],
         ])) {
             $this->failure('此号码已占用');
         }
         $tab = OBJ('verify_table');
         //验证是否为第二次发送短信
         $result = $tab->get([
-            'verify_mobile' => $this->data['verify_mobile'],
+            'verify_mobile' => (int)$this->data['verify_mobile'],
             'verify_type'   => customer_helper::MOBILE_TYPE,
         ]);
         if ($result) {
@@ -119,7 +121,7 @@ class public_customer_iface extends base_iface {
                 $this->success('验证码已发送, 5分钟之内有效');
             }
             $tab->where([
-                'verify_mobile' => $this->data['verify_mobile'],
+                'verify_mobile' => (int)$this->data['verify_mobile'],
                 'verify_type'   => customer_helper::MOBILE_TYPE,
             ])->update($this->data);
             task_helper::send_verify($this->data['verify_mobile'], $this->data['verify_desc']);

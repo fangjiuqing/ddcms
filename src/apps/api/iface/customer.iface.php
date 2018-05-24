@@ -54,8 +54,7 @@ class customer_iface extends ubase_iface {
     public function del_action () {
         $id = intval($this->data['id']);
         $tab = OBJ('customer_table');
-        $ret = $tab->get($id);
-        if (empty($ret)) {
+        if (!$ret = $tab->get($id)) {
             $this->failure('要删除的用户信息不存在');
         }
         $this->data['pc_id'] = $id;
@@ -107,10 +106,8 @@ class customer_iface extends ubase_iface {
             $this->failure('请输入正确的用户名');
         }
         $this->data['pc_status'] = filter::int($this->data['pc_status']) ?: 1;
-        $this->data['pc_adm_id'] = isset($this->data['pc_adm_id']) ?
-            (int)$this->data['pc_adm_id'] : $this->login['admin_id'];
-        $this->data['pc_adm_nick'] = isset($this->data['pc_adm_nick']) ?
-            $this->data['pc_adm_nick'] : $this->login['admin_account'];
+        $this->data['pc_adm_id'] = (int)($this->data['pc_adm_id']) ?: $this->login['admin_id'];
+        $this->data['pc_adm_nick'] = $this->data['pc_adm_nick'] ?: $this->login['admin_account'];
         $this->data['pc_atime'] = (int)$this->data['pc_atime'] ?: REQUEST_TIME;
         $this->data['pc_utime'] = REQUEST_TIME;
         $this->data['pc_via'] = filter::int($this->data['pc_via']);
