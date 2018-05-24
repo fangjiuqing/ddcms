@@ -40,7 +40,9 @@
             useCustomImageHandler
             @imageAdded="upload_image" v-model="form.article_content">
           </vue-editor>
-          <btn type="success" v-on:click="save" class="btn btn-success pull-right">保存</btn>
+          <div class="col-md-12">
+            <btn type="success" v-on:click="save" class="btn btn-success pull-right">保存</btn>
+          </div>
           <div class="clearfix"></div>
         </div>
       </form>
@@ -231,7 +233,7 @@ export default {
     position: relative;
   }
   .quillWrapper .ql-snow.ql-toolbar {
-    width: 100%;
+    max-width: 1000px;
   }
   .ql-editor {
     min-height: 360px;

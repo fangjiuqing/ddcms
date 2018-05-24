@@ -170,7 +170,7 @@
         </div>
         <div class="clearfix"></div>
         <div class="row">
-          <div class="col-md-11" style="margin:0 auto; float: none">
+          <div class="col-md-10" style="margin:0 auto; float: none">
             <btn type="success" v-on:click="save" class="btn btn-success pull-right">保存</btn>
           </div>
         </div>
@@ -449,15 +449,9 @@ export default {
 .btn-danger {
   margin-right: 40px;
 }
-.line {
-  position: absolute;
-  width: 100%;
-  height: 1px;
-  background: #ccc;
-  bottom: 0;
-}
-.app_page .type-row {
+.type-row {
   margin-bottom: 50px;
+  border-bottom: 1px dashed #ccc;
 }
 .distpicker-address-wrapper {
   text-align: left;
