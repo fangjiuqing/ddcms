@@ -4,7 +4,7 @@
     <div class="cont">
       <h1>{{form.article_title}}</h1>
       <div class="cover">
-        <p class="little">{{form.article_admin_name}}</p><span class="line"></span><span class="time">{{form.article_udate}}</span>
+        <p class="little">{{form.article_admin_name}}</p><span class="line"></span><span class="time">{{form.article_udate|time('yyyy-mm-dd HH:MM')}}</span>
         <span class="line"></span>
         <p class="readNum">阅读量：{{form.article_stat_view}}</p>
         <div class="right">
@@ -59,30 +59,16 @@ export default {
     // console.log('params===========', this.$route.params)
   },
   methods: {
-    date (time) {
-      let date = new Date(time)
-      let str = date.getFullYear() + '-' +
-        (date.getMonth() + 1) + '-' +
-        date.getDate() + ' ' +
-        date.getHours() + ':' +
-        date.getMinutes() + ':' +
-        date.getSeconds()
-      return str
-    },
     gets () {
       this.$http.post('public/article/get', {
         id: this.id
       }).then(d => {
-        // console.log('classDetail==========', d)
+        // console.log('classDetail==========', d.data.row)
         if (d.code === 0) {
-          this.article_cover = this.form['article_cover_thumb'] || ''
-          let time = new Date(Number(d.data.row.article_udate))
-          let a = this.date(time)
           this.form = this.id ? d.data.row : {}
-          this.form.article_udate = a
           this.article_cover = d.data.row.article_cover_thumb
         } else {
-          this.form = []
+          this.form = {}
         }
       })
     }

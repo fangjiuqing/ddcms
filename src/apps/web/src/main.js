@@ -36,6 +36,7 @@ Vue.use(VueImg)
 var dateFormat = require('dateformat')
 Vue.filter('time', function (value, format) {
   var d = new Date()
+  value = value || 0
   d.setTime(value * 1000)
   return dateFormat(d, format)
 })
