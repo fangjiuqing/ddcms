@@ -142,25 +142,12 @@ export default {
     this.getImg()
   },
   methods: {
-    date (time) {
-      let date = new Date(time)
-      let str = date.getFullYear() + '-' +
-        (date.getMonth() + 1) + '-' +
-        date.getDate() + ' ' +
-        date.getHours() + ':' +
-        date.getMinutes() + ':' +
-        date.getSeconds()
-      return str
-    },
     getImg: function () {
       this.$http.post('public/article/index', {}).then(d => {
-        // console.log('ddd=========', d)
+        // console.log('ddd=========', d.data.list)
         if (d.code === 0) {
           for (let i = 0; i < d.data.list.length; i++) {
-            let time = new Date(Number(d.data.list[i].article_adate))
-            let a = this.date(time)
             this.detail.push(d.data.list[i])
-            this.detail[i].article_adate = a
           }
         } else {
         }

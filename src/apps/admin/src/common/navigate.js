@@ -131,6 +131,25 @@ export default {
       ]
     },
     {
+      url: '/advert',
+      name: '广告管理',
+      icon: 'fa fa-audio-description',
+      children: [
+        {
+          url: '/advert',
+          name: '广告列表',
+          icon: 'fa fa-file-audio-o',
+          active: false
+        },
+        {
+          url: '/advert-content',
+          name: '广告内容',
+          icon: 'fa fa-inbox',
+          active: false
+        }
+      ]
+    },
+    {
       url: '/category',
       name: '分类管理',
       icon: 'fa fa-yelp',
