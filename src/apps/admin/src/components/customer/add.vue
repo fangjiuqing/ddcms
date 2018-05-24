@@ -105,80 +105,78 @@
           </tab>
           <tab title="房型信息">
             <div class="form-block">
-              <div class="row">
-                <div class="col-sm-5">
-                  <label class="col-sm-3 label-on-left">房型</label>
-                  <div class="form-group col-sm-8">
-                    <select v-model="house.pch_mode" class="form-control">
-                      <option disabled value="0">未知</option>
-                      <option v-for="(v, k) in mode" v-bind:key="k" :value="k">
-                        {{v}}
-                      </option>
-                    </select>
-                  </div>
+              <div class="col-sm-5">
+                <label class="col-sm-3 label-on-left">房型</label>
+                <div class="form-group col-sm-9">
+                  <select v-model="house.pch_mode" class="form-control">
+                    <option disabled value="0">未知</option>
+                    <option v-for="(v, k) in mode" v-bind:key="k" :value="k">
+                      {{v}}
+                    </option>
+                  </select>
                 </div>
-                <div class="col-sm-5">
-                  <label class="col-sm-3 label-on-left">户型</label>
-                  <div class="form-group col-sm-8">
-                    <select v-model="house.pch_type" class="form-control">
-                      <option disabled value="0">未知</option>
-                      <option v-for="(v, k) in type" v-bind:key="k" :value="k">
-                        {{v}}
-                      </option>
-                    </select>
-                  </div>
+              </div>
+              <div class="col-sm-5">
+                <label class="col-sm-3 label-on-left">户型</label>
+                <div class="form-group col-sm-9">
+                  <select v-model="house.pch_type" class="form-control">
+                    <option disabled value="0">未知</option>
+                    <option v-for="(v, k) in type" v-bind:key="k" :value="k">
+                      {{v}}
+                    </option>
+                  </select>
                 </div>
-                <div class="col-sm-5">
-                  <label class="col-sm-3 label-on-left">风格</label>
-                  <div class="form-group col-sm-8">
-                    <select v-model="house.pch_style" class="form-control">
-                      <option disabled value="0">未知</option>
-                      <option v-for="(v, k) in style" v-bind:key="k" :value="k">
-                        {{v}}
-                      </option>
-                    </select>
-                  </div>
+              </div>
+              <div class="col-sm-5">
+                <label class="col-sm-3 label-on-left">风格</label>
+                <div class="form-group col-sm-9">
+                  <select v-model="house.pch_style" class="form-control">
+                    <option disabled value="0">未知</option>
+                    <option v-for="(v, k) in style" v-bind:key="k" :value="k">
+                      {{v}}
+                    </option>
+                  </select>
                 </div>
-                <div class="col-sm-5">
-                  <label class="col-sm-3 label-on-left">总面积</label>
-                  <div class="form-group col-sm-8">
-                    <input type="text" class="form-control" name="pch_area" v-model="house.pch_area" placeholder="总面积">
-                  </div>
+              </div>
+              <div class="col-sm-5">
+                <label class="col-sm-3 label-on-left">总面积</label>
+                <div class="form-group col-sm-9">
+                  <input type="text" class="form-control" name="pch_area" v-model="house.pch_area" placeholder="总面积">
                 </div>
-                <div class="col-sm-5">
-                  <label class="col-sm-3 label-on-left">可用面积</label>
-                  <div class="form-group col-sm-8">
-                    <input type="text" class="form-control" name="pch_area_use" v-model="house.pch_area_use" placeholder="可用面积">
-                  </div>
+              </div>
+              <div class="col-sm-5">
+                <label class="col-sm-3 label-on-left">可用面积</label>
+                <div class="form-group col-sm-9">
+                  <input type="text" class="form-control" name="pch_area_use" v-model="house.pch_area_use" placeholder="可用面积">
                 </div>
-                <div class="col-sm-5">
-                  <label class="col-sm-3 label-on-left">楼层</label>
-                  <div class="form-group col-sm-8">
-                    <input type="text" class="form-control" name="pch_floor" v-model="house.pch_floor" placeholder="楼层">
-                  </div>
+              </div>
+              <div class="col-sm-5">
+                <label class="col-sm-3 label-on-left">楼层</label>
+                <div class="form-group col-sm-9">
+                  <input type="text" class="form-control" name="pch_floor" v-model="house.pch_floor" placeholder="楼层">
                 </div>
-                <div class="col-sm-5">
-                  <label class="col-sm-3 label-on-left">是否现房</label>
-                  <div class="form-group col-sm-8">
-                    <select v-model="house.pch_exists" class="form-control">
-                      <option disabled value="0">未知</option>
-                      <option v-for="(v, k) in exists" v-bind:key="k" :value="k">
-                        {{v}}
-                      </option>
-                    </select>
-                  </div>
+              </div>
+              <div class="col-sm-5">
+                <label class="col-sm-3 label-on-left">是否现房</label>
+                <div class="form-group col-sm-9">
+                  <select v-model="house.pch_exists" class="form-control">
+                    <option disabled value="0">未知</option>
+                    <option v-for="(v, k) in exists" v-bind:key="k" :value="k">
+                      {{v}}
+                    </option>
+                  </select>
                 </div>
-                <div class="col-sm-5">
-                  <label class="col-sm-3 label-on-left">拿房时间</label>
-                  <div class="form-group col-sm-8">
-                    <input type="text" class="form-control" name="pch_gtime" v-model="house.pch_gtime" placeholder="拿房时间">
-                  </div>
+              </div>
+              <div class="col-sm-5">
+                <label class="col-sm-3 label-on-left">拿房时间</label>
+                <div class="form-group col-sm-9">
+                  <input type="text" class="form-control" name="pch_gtime" v-model="house.pch_gtime" placeholder="拿房时间">
                 </div>
-                <div class="col-sm-5">
-                  <label class="col-sm-3 label-on-left">预算</label>
-                  <div class="form-group col-sm-8">
-                    <input type="text" class="form-control" name="pch_budget" v-model="house.pch_budget" placeholder="预算">
-                  </div>
+              </div>
+              <div class="col-sm-5">
+                <label class="col-sm-3 label-on-left">预算</label>
+                <div class="form-group col-sm-9">
+                  <input type="text" class="form-control" name="pch_budget" v-model="house.pch_budget" placeholder="预算">
                 </div>
               </div>
               <div class="row">
