@@ -161,10 +161,10 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-5">
             <img :src="v.pu_cover_thumb" alt="" style="width: 100%;">
           </div>
-          <div class="col-md-3">
+          <div class="col-md-2">
             <btn class="btn btn-xs btn-rose" @click="del(v.pu_id)"><i class="fa fa-trash-o"></i></btn>
           </div>
         </div>
