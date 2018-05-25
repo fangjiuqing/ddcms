@@ -36,7 +36,7 @@
                     <p class="little">{{item.article_admin_nick}}</p><span class="line"></span><span class="time">{{item.article_udate|time('yyyy-mm-dd HH:MM')}}</span>
                     <p class="readNum">阅读量：{{item.article_stat_view}}</p>
                   </div>
-                  <p class="procedure" v-html="item.article_content"></p>
+                  <p class="proced" v-html="item.article_content"></p>
                 </div>
               </div>
             </router-link>
@@ -376,7 +376,7 @@ export default {
     color: #595757;
     float: right;
   }
-  .procedure {
+  .proced {
     font-size: 14px;
     float: left;
     line-height: 21px;
@@ -385,10 +385,10 @@ export default {
   }
 </style>
 <style>
-  .procedure p {
+  .proced p {
     display: none;
   }
-  .procedure p:first-child {
+  .proced p:first-child {
     display: block;
     overflow:hidden;
     text-overflow:ellipsis;
