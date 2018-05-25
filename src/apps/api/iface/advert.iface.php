@@ -4,6 +4,23 @@ namespace re\rgx;
 class advert_iface extends ubase_iface {
     
     /**
+     * 广告详情
+     * @param int $id 要获取广告的id
+     */
+    public function get_action () {
+        $id = intval($this->data['id']);
+        $ad_tab = OBJ('ad_table');
+        if ($ad_ret = $ad_tab->get($id)) {
+            $ad_ret['ad_status']    = ad_helper::$ad_status[$ad_ret['ad_status']];
+            $ad_ret['ad_desc']      = filter::json_unecsape($ad_ret['ad_desc']);
+            $out['row']             = $ad_ret;
+            $out['ad_status']       = ad_helper::$ad_status;
+            $this->success('操作成功', $out);
+        }
+        $this->failure('操作失败');
+    }
+    
+    /**
      * 广告列表
      */
     public function list_action () {
@@ -30,14 +47,15 @@ class advert_iface extends ubase_iface {
         $ad_tab = OBJ('ad_table');
         $arr = [];
         foreach ($this->data as $v) {
+            $arr['ad_id']       = filter::int($v['id']);
             $arr['ad_name']     = filter::text($v['name']);
-            $arr['ad_status']   = 0;
+            $arr['ad_status']   = filter::int($v['ad_status']) ?: 0;
             $arr['ad_desc']     = filter::json_ecsape($v);
             $arr['ad_adate']    = REQUEST_TIME;
             $ad_tab->load($arr);
             $ad_ret = $ad_tab->save();
-            admin_helper::add_log($this->login['admin_id'], 'advert/save', '2', '广告新增[' . $ad_ret['row_id'] . '@' .
-                $arr['ad_name'] . ']');
+            admin_helper::add_log($this->login['admin_id'], 'advert/save', '2', ($arr['ad_id'] ?
+                    '广告修改[' . $arr['ad_id'] : '广告新增[' . $ad_ret['row_id']) . '@' . $arr['ad_name'] . ']');
         }
         $this->success($ad_tab->get_error_desc());
     }
