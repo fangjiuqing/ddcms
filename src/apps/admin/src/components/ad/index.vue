@@ -115,14 +115,9 @@ export default {
     }
   },
   methods: {
-    onSelected (d) {
-      this.modal_data.pc_region0 = d.province.code
-      this.modal_data.pc_region1 = d.city.code
-      this.modal_data.pc_region2 = d.area.code
-    },
     modifi (id) {
       this.$router.push({
-        path: '/customer/preview',
+        path: '/advert/add',
         query: {id}
       })
     },
@@ -195,15 +190,11 @@ export default {
   activated: function () {
     this.$store.state.left_active_key = '/advert'
     this.refresh()
-    this.onSelected()
   }
 }
 </script>
 <style>
-.distpicker-address-wrapper select {
-  max-width: 115px!important;
-}
-.customer {
+.customer, .app_mask {
   background: #fff;
 }
 </style>
