@@ -57,7 +57,7 @@ class advert_iface extends ubase_iface {
             admin_helper::add_log($this->login['admin_id'], 'advert/save', '2', ($arr['ad_id'] ?
                     '广告修改[' . $arr['ad_id'] : '广告新增[' . $ad_ret['row_id']) . '@' . $arr['ad_name'] . ']');
         }
-        $this->success($ad_tab->get_error_desc());
+        $this->success('操作成功');
     }
     
     /**
