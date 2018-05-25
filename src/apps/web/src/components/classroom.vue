@@ -36,7 +36,7 @@
                     <p class="little">{{item.article_admin_nick}}</p><span class="line"></span><span class="time">{{item.article_udate|time('yyyy-mm-dd HH:MM')}}</span>
                     <p class="readNum">阅读量：{{item.article_stat_view}}</p>
                   </div>
-                  <p class="procedure" v-html="item.article_content"></p>
+                  <p class="proced" v-html="item.article_content"></p>
                 </div>
               </div>
             </router-link>
@@ -287,7 +287,7 @@ export default {
 }
 
 .middle {
-  width: 1157px;
+  width: 1100px;
   height: 100%;
   display: flex;
   margin: 63px auto 0;
@@ -302,7 +302,7 @@ export default {
 }
 .experience .ex {
   /*height: 310px;*/
-  margin-bottom: 9px;
+  margin-bottom: 30px;
   padding-bottom: 20px;
 }
 .design-ex {
@@ -311,8 +311,18 @@ export default {
   overflow: hidden;
 }
 .ex .left {
-  /*height: 246px;*/
+  height: 200px;
+  width: 418px;
   float: left;
+  overflow: hidden;
+}
+.left img {
+  transform: scale(1);
+  transition: .5s;
+}
+.ex:hover img {
+  transform: scale(1.1);
+  transition: .5s;
 }
 .experience .design-ex:hover {
   transition: .5s;
@@ -366,7 +376,7 @@ export default {
     color: #595757;
     float: right;
   }
-  .procedure {
+  .proced {
     font-size: 14px;
     float: left;
     line-height: 21px;
@@ -375,10 +385,10 @@ export default {
   }
 </style>
 <style>
-  .procedure p {
+  .proced p {
     display: none;
   }
-  .procedure p:first-child {
+  .proced p:first-child {
     display: block;
     overflow:hidden;
     text-overflow:ellipsis;
