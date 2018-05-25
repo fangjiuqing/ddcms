@@ -49,7 +49,7 @@ class advert_iface extends ubase_iface {
         foreach ($this->data as $v) {
             $arr['ad_id']       = filter::int($v['id']);
             $arr['ad_name']     = filter::text($v['name']);
-            $arr['ad_status']   = filter::int($v['ad_status']) ?: 0;
+            $arr['ad_status']   = filter::int($v['status']) ?: 0;
             $arr['ad_desc']     = filter::json_ecsape($v);
             $arr['ad_adate']    = REQUEST_TIME;
             $ad_tab->load($arr);
