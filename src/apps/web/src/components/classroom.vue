@@ -287,7 +287,7 @@ export default {
 }
 
 .middle {
-  width: 1157px;
+  width: 1100px;
   height: 100%;
   display: flex;
   margin: 63px auto 0;
@@ -302,7 +302,7 @@ export default {
 }
 .experience .ex {
   /*height: 310px;*/
-  margin-bottom: 9px;
+  margin-bottom: 30px;
   padding-bottom: 20px;
 }
 .design-ex {
@@ -311,8 +311,18 @@ export default {
   overflow: hidden;
 }
 .ex .left {
-  /*height: 246px;*/
+  height: 200px;
+  width: 418px;
   float: left;
+  overflow: hidden;
+}
+.left img {
+  transform: scale(1);
+  transition: .5s;
+}
+.ex:hover img {
+  transform: scale(1.1);
+  transition: .5s;
 }
 .experience .design-ex:hover {
   transition: .5s;
