@@ -36,6 +36,7 @@ import DesignerAdd from '@/components/designer/add'
 import StoreGoodsType from '@/components/store/goods/type'
 import StoreGoodsAttr from '@/components/store/goods/attr'
 import StoreGoodsCategory from '@/components/store/goods/category'
+import StoreGoodsCategoryAdd from '@/components/store/goods/category/add'
 
 import Advert from '@/components/ad/index'
 
@@ -239,6 +240,11 @@ const router = new Router({
       path: '/store/goods/category',
       name: 'StoreGoodsCategory',
       component: StoreGoodsCategory
+    },
+    {
+      path: '/store/goods/category/add',
+      name: 'StoreGoodsCategoryAdd',
+      component: StoreGoodsCategoryAdd
     },
     {
       path: '/advert',
