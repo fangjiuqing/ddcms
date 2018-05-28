@@ -103,7 +103,7 @@
           </vue-editor>
         </div>
         <div class="row">
-          <div class="col-md-11" style="margin:0 auto; float: none">
+          <div class="col-md-10" style="margin:0 auto; float: none">
             <btn type="success" v-on:click="save" class="btn btn-success pull-right">保存</btn>
           </div>
         </div>

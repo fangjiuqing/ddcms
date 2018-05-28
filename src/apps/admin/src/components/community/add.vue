@@ -55,39 +55,41 @@
             <tbody v-for="(row, row_key) in rows" :key="row_key">
               <tr>
                 <td>
-                  <div class="row col-md-7">
-                    <img class="preview_cover" style="width: 150px;" :src="row.cover" @click="upload_cover(row_key)">
-                    <input class="material_field_input" type="hidden" name="pu_cover" v-model="rows[row_key]['pu_cover']">
-                    <btn class="btn btn-xs btn-danger pull-right" @click="del_row(row_key)" style="margin-left: 10px;"><i class="fa fa-trash-o"></i></btn>
-                  </div>
-                  <div class="input-group col-md-6">
+                  <div class="input-group col-md-7">
                     <input class="material_field_input form-control" v-model="rows[row_key]['pu_name']" value="" placeholder="户型名" />
                     <span class="input-group-addon">户型名</span>
                   </div>
-                  <div class="input-group col-md-6">
+                  <div class="input-group col-md-7">
                     <input class="material_field_input form-control" v-model="rows[row_key]['pu_area0']" value="" placeholder="总面积" />
                     <span class="input-group-addon">总面积</span>
                   </div>
-                  <div class="input-group col-md-6">
+                  <div class="input-group col-md-7">
                     <input class="material_field_input form-control" v-model="rows[row_key]['pu_area1']" value="" placeholder="可用面积" />
                     <span class="input-group-addon">可用面积</span>
                   </div>
-                  <div class="input-group col-md-6">
+                  <div class="input-group col-md-7">
                     <input class="material_field_input form-control" v-model="rows[row_key]['pu_room0']" value="" placeholder="卧室" />
                     <span class="input-group-addon">卧室</span>
                   </div>
-                  <div class="input-group col-md-6">
+                  <div class="input-group col-md-7">
                     <input class="material_field_input form-control" v-model="rows[row_key]['pu_room1']" value="" placeholder="客厅" />
                     <span class="input-group-addon">客厅</span>
                   </div>
-                  <div class="input-group col-md-6">
+                  <div class="input-group col-md-7">
                     <input class="material_field_input form-control" v-model="rows[row_key]['pu_room2']" value="" placeholder="厨房" />
                     <span class="input-group-addon">厨房</span>
                   </div>
-                  <div class="input-group col-md-6">
+                  <div class="input-group col-md-7">
                     <input class="material_field_input form-control" v-model="rows[row_key]['pu_room3']" value="" placeholder="卫生间" />
                     <span class="input-group-addon">卫生间</span>
                   </div>
+                </td>
+                <td style="width:30%;">
+                  <div class="row col-md-6">
+                    <img class="preview_cover" style="width: 150px;" :src="row.cover" @click="upload_cover(row_key)">
+                    <input class="material_field_input" type="hidden" name="pu_cover" v-model="rows[row_key]['pu_cover']">
+                  </div>
+                    <btn class="btn btn-xs btn-danger pull-right" @click="del_row(row_key)" style="margin-left: 10px;"><i class="fa fa-trash-o"></i></btn>
                 </td>
               </tr>
             </tbody>
@@ -101,12 +103,9 @@
       </h5>
       <form action="" method="post" accept-charset="utf-8">
         <div class="col-md-12 type-row" v-for="(v) in form" :key="v.id">
-          <div class="col-md-4">
-            <img :src="v.pu_cover_thumb" alt="" style="width: 100%;">
-          </div>
           <div class="col-md-5 detail">
             <div class="row unit">
-              <div class="form-group col-md-12">
+              <div class="form-group col-sm-12">
                 <div class="input-group">
                   <input class="form-control" name="pu_name" v-model="v.pu_name" type="text" placeholder="户型名称">
                   <span class="input-group-addon">户型名称</span>
@@ -114,13 +113,15 @@
               </div>
             </div>
             <div class="row">
-              <div class="form-group col-sm-6">
+              <div class="form-group col-sm-12">
                 <div class="input-group">
                   <input class="form-control" name="pu_area0" v-model="v.pu_area0" type="number" placeholder="户型总面积">
                     <span class="input-group-addon">总面积M²</span>
                 </div>
               </div>
-              <div class="form-group col-sm-6">
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-12">
                 <div class="input-group">
                   <input class="form-control" name="pu_area1" v-model="v.pu_area1" type="text" placeholder="户型可用面积">
                   <span class="input-group-addon">可用面积M²</span>
@@ -128,13 +129,15 @@
               </div>
             </div>
             <div class="row">
-              <div class="form-group col-sm-6">
+              <div class="form-group col-md-12">
                 <div class="input-group">
                   <input class="form-control" name="pu_room0" v-model="v.pu_room0" type="text" placeholder="室">
                   <span class="input-group-addon">室</span>
                 </div>
               </div>
-              <div class="form-group col-sm-6">
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-12">
                 <div class="input-group">
                   <input class="form-control" name="pu_room1" v-model="v.pu_room1" type="text" placeholder="厅">
                   <span class="input-group-addon">厅</span>
@@ -142,13 +145,15 @@
               </div>
             </div>
             <div class="row">
-              <div class="form-group col-sm-6">
+              <div class="form-group col-sm-12">
                 <div class="input-group">
                   <input class="form-control" name="pu_room2" v-model="v.pu_room2" type="text" placeholder="厨">
                   <span class="input-group-addon">厨</span>
                 </div>
               </div>
-              <div class="form-group col-sm-6">
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-12">
                 <div class="input-group">
                   <input class="form-control" name="pu_room3" v-model="v.pu_room3" type="text" placeholder="卫">
                   <span class="input-group-addon">卫</span>
@@ -156,14 +161,16 @@
               </div>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-5">
+            <img :src="v.pu_cover_thumb" alt="" style="width: 100%;">
+          </div>
+          <div class="col-md-2">
             <btn class="btn btn-xs btn-rose" @click="del(v.pu_id)"><i class="fa fa-trash-o"></i></btn>
           </div>
-          <!-- <div class="line"></div> -->
         </div>
         <div class="clearfix"></div>
         <div class="row">
-          <div class="col-md-11" style="margin:0 auto; float: none">
+          <div class="col-md-10" style="margin:0 auto; float: none">
             <btn type="success" v-on:click="save" class="btn btn-success pull-right">保存</btn>
           </div>
         </div>
@@ -424,8 +431,11 @@ export default {
 .input-group {
   margin-bottom: 20px;
 }
+.form-group {
+  margin-bottom: 0;
+}
 .preview_cover {
-  margin-bottom: 20px;
+  padding-top: 20px;
 }
 .type, .col-md-12 {
   background: #fff;
@@ -439,18 +449,9 @@ export default {
 .btn-danger {
   margin-right: 40px;
 }
-.unit {
-  margin-bottom: 15px;
-}
-.line {
-  position: absolute;
-  width: 100%;
-  height: 1px;
-  background: #ccc;
-  bottom: 0;
-}
-.app_page .type-row {
+.type-row {
   margin-bottom: 50px;
+  border-bottom: 1px dashed #ccc;
 }
 .distpicker-address-wrapper {
   text-align: left;

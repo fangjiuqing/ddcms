@@ -17,11 +17,9 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th class="text-left" width="100">预约客户</th>
-                  <th class="text-center" width="80">预约类型</th>
-                  <th class="text-center" width="120">预约开始时间</th>
-                  <th class="text-center" width="120">预约结束时间</th>
-                  <th class="text-center" width="100">所属客服</th>
+                  <th class="text-left" width="100">广告名称</th>
+                  <th class="text-center" width="80">广告状态</th>
+                  <th class="text-center" width="100">广告内容</th>
                   <th class="text-center" width="150">添加时间</th>
                   <th class="text-center" width="120">操作</th>
                 </tr>
@@ -33,12 +31,6 @@
                     </td>
                     <td class="text-center">
                       <code>{{v.pco_type_name}}</code>
-                    </td>
-                    <td class="text-center">
-                      <small>{{v.pco_stime|time('yyyy-mm-dd HH:MM:ss')}}</small>
-                    </td>
-                    <td class="text-center">
-                      <small>{{v.pco_etime|time('yyyy-mm-dd HH:MM:ss')}}</small>
                     </td>
                     <td class="text-center">
                       <small>{{v.pco_admin_name}}</small>
@@ -65,48 +57,26 @@
         <form action="" method="post" accept-charset="utf-8">
           <div style="padding-right:80px;">
             <div class="row">
-              <label class="col-sm-3 label-on-left">客户编号</label>
+              <label class="col-sm-3 label-on-left">广告名称</label>
               <div class="col-sm-9">
                 <div class="form-group">
-                  <input class="form-control" v-model="modal_data.pc_sn"  v-focus="modal_data.pc_sn" type="text" placeholder="客户编号">
+                  <input class="form-control" v-model="modal_data.pc_sn" type="text" placeholder="广告名称">
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-3 label-on-left">客户姓名</label>
+              <label class="col-sm-3 label-on-left">广告状态</label>
               <div class="col-sm-9">
                 <div class="form-group">
-                  <input class="form-control" v-model="modal_data.pc_nick"  v-focus="modal_data.pc_nick" type="text" placeholder="客户姓名">
+                  <input class="form-control" v-model="modal_data.pc_nick" type="text" placeholder="广告状态">
                 </div>
               </div>
             </div>
             <div class="row">
-              <label class="col-sm-3 label-on-left">电话</label>
+              <label class="col-sm-3 label-on-left">广告内容</label>
               <div class="col-sm-9">
                 <div class="form-group">
-                  <input class="form-control" v-model="modal_data.pc_mobile"  v-focus="modal_data.pc_mobile"  type="text" placeholder="联系电话">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-sm-3 label-on-left">所在地</label>
-              <div class="col-sm-9">
-                <div class="form-group">
-                  <v-distpicker :province="modal_data.pc_region0" :city="modal_data.pc_region1" :area="modal_data.pc_region2" @selected="onSelected"></v-distpicker>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-sm-3 label-on-left">详细地址</label>
-              <div class="col-sm-9">
-                <input class="form-control" v-model="modal_data.pc_addr"  v-focus="modal_data.pc_addr"  type="text" placeholder="详细地址">
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-sm-3 label-on-left">小区</label>
-              <div class="col-sm-9">
-                <div class="form-group">
-                  <input class="form-control" v-model="modal_data.pc_co_id"  v-focus="modal_data.pc_co_id"  type="text" placeholder="小区">
+                  <input class="form-control" v-model="modal_data.pc_mobile" type="text" placeholder="广告内容">
                 </div>
               </div>
             </div>
@@ -121,21 +91,19 @@
 </template>
 
 <script>
-import VDistpicker from 'v-distpicker'
 export default {
-  name: 'CustomerOrder',
+  name: 'Advert',
   metaInfo () {
     return {
       title: '客户预约 - 道达智装'
     }
   },
-  components: { VDistpicker },
   data () {
     return {
       items: [
         {text: '首页', to: '/'},
-        {text: '客户', to: '/customer-order'},
-        {text: '预约', href: '#'}
+        {text: '广告', to: '/advert'},
+        {text: '列表', href: '#'}
       ],
       rows: [],
       pn: 1,
@@ -147,14 +115,9 @@ export default {
     }
   },
   methods: {
-    onSelected (d) {
-      this.modal_data.pc_region0 = d.province.code
-      this.modal_data.pc_region1 = d.city.code
-      this.modal_data.pc_region2 = d.area.code
-    },
     modifi (id) {
       this.$router.push({
-        path: '/customer/preview',
+        path: '/advert/add',
         query: {id}
       })
     },
@@ -218,24 +181,20 @@ export default {
     }
   },
   mounted: function () {
-    this.$store.state.left_active_key = '/customer'
+    this.$store.state.left_active_key = '/advert'
     this.refresh()
   },
   destroyed: function () {
     this.$loading.hide()
   },
   activated: function () {
-    this.$store.state.left_active_key = '/customer'
+    this.$store.state.left_active_key = '/advert'
     this.refresh()
-    this.onSelected()
   }
 }
 </script>
 <style>
-.distpicker-address-wrapper select {
-  max-width: 115px!important;
-}
-.customer {
+.customer, .app_mask {
   background: #fff;
 }
 </style>

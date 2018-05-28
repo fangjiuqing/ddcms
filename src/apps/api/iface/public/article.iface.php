@@ -13,6 +13,7 @@ class public_article_iface extends base_iface {
         $this->success('', CACHE('public@article-list', function () {
             $tab = OBJ('article_table');
             
+            $tab->where(['article_status' => 2]);
             // 分页
             $paging = new paging_helper($tab, $this->data['pn'] ?: 1, 12);
             
@@ -69,11 +70,19 @@ class public_article_iface extends base_iface {
         if (!$id) {
             $this->failure('获取失败', '500');
         }
-        stat_helper::count(stat_helper::TYPE_ARTICLE, $id, stat_helper::is_mobile() ? stat_helper::VIA_WAP :
-            stat_helper::VIA_PC);
-        $this->success('', CACHE('public@article-get-id-' . $id, function () use ($id) {
-            $out['row'] = OBJ('article_table')->left_join('article_content_table', 'article_id', 'article_id')
-                ->get($id) ?: [];
+        //记录点击量
+        stat_helper::count(stat_helper::TYPE_ARTICLE, $id, stat_helper::is_mobile() ?
+            stat_helper::VIA_WAP : stat_helper::VIA_PC);
+        //更新点击量
+        $art_tab = OBJ('article_table');
+        $stat_ret = count(OBJ('stat_table')->get_all([
+            'stat_type'     => stat_helper::TYPE_ARTICLE,
+            'stat_ref_id'   => $id,
+        ]));
+        $art_tab->update(['article_id' => $id, 'article_stat_view' => $stat_ret]);
+        
+        $this->success('', CACHE('public@article-get-id-' . $id, function () use ($id, $art_tab) {
+            $out['row'] = $art_tab->left_join('article_content_table', 'article_id', 'article_id')->get($id) ?: [];
             if ($out['row']) {
                 $out['row']['article_status'] = $out['row']['article_status'] == '2' ? true : false;
                 $out['row']['article_content'] = htmlspecialchars_decode($out['row']['article_content'], ENT_QUOTES);
@@ -82,8 +91,7 @@ class public_article_iface extends base_iface {
                 $out['row']['article_cover_thumb'] = IMAGE_URL . $out['row']['article_cover'] . '!500x309';
             }
             $out['category'] = category_helper::get_options(3, 0, 0);
-            $out['row']['article_admin_name'] = OBJ('admin_table')->
-            get($out['row']['article_admin_id'])['admin_account'];
+            $out['row']['article_admin_name'] = $art_tab->get($out['row']['article_admin_id'])['admin_account'];
             foreach ((array)$out['category'] as $k => $v) {
                 $out['category'][$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . $v['cat_name'];
             }

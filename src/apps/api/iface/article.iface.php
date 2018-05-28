@@ -69,8 +69,6 @@ class article_iface extends ubase_iface {
         foreach ((array)$out['category'] as $k => $v) {
             $out['category'][$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . $v['cat_name'];
         }
-        stat_helper::count(stat_helper::TYPE_ARTICLE, $id, stat_helper::is_mobile() ? stat_helper::VIA_WAP :
-            stat_helper::VIA_PC);
         $this->success('', $out);
     }
     
@@ -132,8 +130,7 @@ class article_iface extends ubase_iface {
     public function del_action () {
         $id = intval($this->data['id']);
         $tab = OBJ('article_table');
-        $ret = $tab->get($id);
-        if (!$ret) {
+        if (!$ret = $tab->get($id)) {
             $this->failure('该资讯不存在');
         }
         if (upload_helper::is_upload_file($ret['article_cover'])) {

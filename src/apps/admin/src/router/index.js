@@ -37,6 +37,8 @@ import StoreGoodsType from '@/components/store/goods/type'
 import StoreGoodsAttr from '@/components/store/goods/attr'
 import StoreGoodsCategory from '@/components/store/goods/category'
 
+import Advert from '@/components/ad/index'
+
 Vue.use(Router)
 Vue.use(Meta)
 
@@ -237,6 +239,11 @@ const router = new Router({
       path: '/store/goods/category',
       name: 'StoreGoodsCategory',
       component: StoreGoodsCategory
+    },
+    {
+      path: '/advert',
+      name: 'Advert',
+      component: Advert
     }
   ]
 })
