@@ -33,7 +33,9 @@ import CommunityAdd from '@/components/community/add'
 import Designer from '@/components/designer/index'
 import DesignerAdd from '@/components/designer/add'
 
-import GoodsType from '@/components/store/goods/type'
+import StoreGoodsType from '@/components/store/goods/type'
+import StoreGoodsAttr from '@/components/store/goods/attr'
+import StoreGoodsCategory from '@/components/store/goods/category'
 
 Vue.use(Router)
 Vue.use(Meta)
@@ -223,8 +225,18 @@ const router = new Router({
     },
     {
       path: '/store/goods/type',
-      name: 'GoodsType',
-      component: GoodsType
+      name: 'StoreGoodsType',
+      component: StoreGoodsType
+    },
+    {
+      path: '/store/goods/attr',
+      name: 'StoreGoodsAttr',
+      component: StoreGoodsAttr
+    },
+    {
+      path: '/store/goods/category',
+      name: 'StoreGoodsCategory',
+      component: StoreGoodsCategory
     }
   ]
 })

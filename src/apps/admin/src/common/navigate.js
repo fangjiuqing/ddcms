@@ -111,6 +111,12 @@ export default {
           active: false
         },
         {
+          url: '/store/goods/category',
+          name: '商品分类',
+          icon: 'fa fa-cog',
+          active: false
+        },
+        {
           url: '/store/goods/type',
           name: '商品类型',
           icon: 'fa fa-cog',

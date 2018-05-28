@@ -75,12 +75,13 @@
                 </div>
             </div>
             <div class="row">
-                <label class="col-sm-2 label-on-left">状态</label>
+                <label class="col-sm-2 label-on-left">商品类型</label>
                 <div class="col-sm-10">
                     <div class="form-group">
-                        <select v-model="modal_data.cat_status" class="form-control">
-                          <option v-for="(v, key) in modal_data.status_options" v-bind:key="key" :value="key">
-                            {{v}}
+                        <select v-model="modal_data.cat_extra" class="form-control">
+                          <option value="" disabled="">请选择</option>
+                          <option v-for="(v, key) in type" v-bind:key="key" :value="v.gt_id">
+                            {{v.gt_name}}
                           </option>
                         </select>
                     </div>
@@ -98,31 +99,25 @@
 
 <script>
 export default {
-  name: 'Category',
-  props: ['label', 'code'],
+  name: 'StoreGoodsCategory',
   metaInfo () {
     return {
-      title: this.label + '分类 - 道达智装'
-    }
-  },
-  watch: {
-    '$route' (to, from) {
-      if (to.name.match(/Category$/) && from.name.match(/Category$/)) {
-        this.refresh()
-      }
+      title: '商品分类 - 商城管理 - 道达智装'
     }
   },
   data () {
     return {
       items: [
         {text: '首页', to: '/'},
-        {text: '分类管理', to: '/category'},
-        {text: this.label + '分类', href: '#'}
+        {text: '商城', to: '/store'},
+        {text: '商品类型', to: '/store/goods/category'},
+        {text: '列表', href: '#'}
       ],
       rows: [],
       modal_open: false,
       modal_title: '',
-      modal_data: {}
+      modal_data: {},
+      type: []
     }
   },
   methods: {
@@ -136,10 +131,11 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.get('category/' + this.code, {id: id, parent: 1}).then(d => {
+      this.$http.get('store/goods/category', {id: id, parent: 1}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_data = d.data || this.modal_data
+          this.type = d.data.type || this.type
           this.modal_open = true
         } else {
           this.$alert({
@@ -157,7 +153,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.save('category/' + this.code, this.modal_data).then(d => {
+      this.$http.save('store/goods/category', this.modal_data).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.modal_open = false
@@ -175,15 +171,10 @@ export default {
       })
     },
     refresh: function () {
-      this.items = [
-        {text: '首页', to: '/'},
-        {text: '分类管理', href: '#'},
-        {text: this.label + '分类', href: '#'}
-      ]
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.list('category/' + this.code).then(d => {
+      this.$http.list('store/goods/category').then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data || []
@@ -210,7 +201,7 @@ export default {
         okText: '确认',
         cancelText: '取消'
       }).then(() => {
-        this.$http.del('category/' + this.code, {id: id}).then(d => {
+        this.$http.del('goods/store/category', {id: id}).then(d => {
           if (d.code === 0) {
             this.$notify({
               type: 'success',
@@ -232,14 +223,14 @@ export default {
     }
   },
   mounted: function () {
-    this.$store.state.left_active_key = '/category'
+    this.$store.state.left_active_key = '/store'
     this.refresh()
   },
   destroyed: function () {
     this.$loading.hide()
   },
   activated: function () {
-    this.$store.state.left_active_key = '/category'
+    this.$store.state.left_active_key = '/store'
     this.refresh()
   }
 }

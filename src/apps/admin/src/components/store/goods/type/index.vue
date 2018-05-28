@@ -79,7 +79,7 @@
 
 <script>
 export default {
-  name: 'GoodsType',
+  name: 'StoreGoodsType',
   metaInfo () {
     return {
       title: '品牌管理 - 道达智装'
@@ -106,8 +106,8 @@ export default {
   methods: {
     attrs (id) {
       this.$router.push({
-        path: '/store/goods/attrs',
-        query: {id}
+        path: '/store/goods/attr',
+        query: {type: id}
       })
     },
     modify: function (id) {
