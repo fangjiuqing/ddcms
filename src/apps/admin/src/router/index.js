@@ -35,6 +35,9 @@ import DesignerAdd from '@/components/designer/add'
 
 import GoodsType from '@/components/store/goods/type'
 
+import Shipping from '@/components/store/shipping'
+import ShippingAdd from '@/components/store/shipping/add'
+
 import Advert from '@/components/ad/index'
 
 Vue.use(Router)
@@ -227,7 +230,18 @@ const router = new Router({
       path: '/store/goods/type',
       name: 'GoodsType',
       component: GoodsType
-    }, {
+    },
+    {
+      path: '/store/shipping',
+      name: 'Shipping',
+      component: Shipping
+    },
+    {
+      path: '/store/shipping/add',
+      name: 'ShippingAdd',
+      component: ShippingAdd
+    },
+    {
       path: '/advert',
       name: 'Advert',
       component: Advert
