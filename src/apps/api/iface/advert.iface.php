@@ -16,8 +16,10 @@ class advert_iface extends ubase_iface {
         $ad_tab = OBJ('ad_table');
         if ($ad_ret = $ad_tab->get($id)) {
             $ad_ret['ad_status']    = ad_helper::$ad_status[$ad_ret['ad_status']] ?: '';
-            $ad_ret['ad_url']       = filter::json_unecsape($ad_ret['ad_desc'])['ad_url'];
-            $ad_ret['ad_image']     = IMAGE_URL . filter::json_unecsape($ad_ret['ad_desc'])['ad_image'] . '!500x309';
+            if (is_array($ad_ret['ad_desc'])) {
+                $ad_ret['ad_url']       = filter::json_unecsape($ad_ret['ad_desc'])['ad_url'];
+                $ad_ret['ad_image']     = IMAGE_URL . filter::json_unecsape($ad_ret['ad_desc'])['ad_image'] . '!500x309';
+            }
             $out['row']             = $ad_ret;
         }
         $out['ad_status']           = ad_helper::$ad_status;
@@ -71,7 +73,7 @@ class advert_iface extends ubase_iface {
             $ad_ret = $ad_tab->save();
             if ($ad_ret['code'] === 0) {
                 admin_helper::add_log($this->login['admin_id'], 'advert/save', '2', ($this->data['ad_id'] ?
-                        '广告修改[' . $this->data['ad_id'] : '广告新增[' . $ad_ret['row_id']) . '@' . $this->data['ad_name'] . ']');
+                    '广告修改[' . $this->data['ad_id'] : '广告新增[' . $ad_ret['row_id']) . '@' . $this->data['ad_name'] . ']');
                 $this->success('操作成功');
             }
         }
