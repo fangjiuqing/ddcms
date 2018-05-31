@@ -38,6 +38,9 @@ import StoreGoodsAttr from '@/components/store/goods/attr'
 import StoreGoodsCategory from '@/components/store/goods/category'
 import StoreGoodsCategoryAdd from '@/components/store/goods/category/add'
 
+import Shipping from '@/components/store/shipping'
+import ShippingAdd from '@/components/store/shipping/add'
+
 import Advert from '@/components/ad/index'
 
 Vue.use(Router)
@@ -225,6 +228,16 @@ const router = new Router({
       path: '/designer/add',
       name: 'DesignerAdd',
       component: DesignerAdd
+    },
+    {
+      path: '/store/shipping',
+      name: 'Shipping',
+      component: Shipping
+    },
+    {
+      path: '/store/shipping/add',
+      name: 'ShippingAdd',
+      component: ShippingAdd
     },
     {
       path: '/store/goods/type',

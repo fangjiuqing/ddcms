@@ -13,48 +13,66 @@
     <div class="app_page">
       <form action="/" id="profile_form" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
         <div class="app_content">
-          <div class="content table-responsive">
-            <table class="table table-striped">
-              <thead>
-                  <tr>
-                    <th class="text-left" width="180"><small>姓名</small></th>
-                    <th class="text-center" width="100"><small>职位</small></th>
-                    <th class="text-center" width="80"><small>年限</small></th>
-                    <th class="text-center" width="100"><small>价格</small></th>
-                    <th class="text-center" width="150"><small>地区</small></th>
-                    <th class="text-left"><small>风格</small></th>
-                    <th class="text-center" width="80"></th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr v-for="(v) in rows" :key="v.des_id">
-                      <td class="text-left">
-                        <a @click="modify(v.des_id)">{{v.des_name}}</a>
-                      </td>
-                      <td class="text-center">
-                        <small>{{v.des_title}}</small>
-                      </td>
-                      <td class="text-center">
-                        <small><b class="text-warning">{{v.des_workyears}}</b></small>
-                      </td>
-                      <td class="text-center">
-                        <small><b class="text-danger">{{v.des_price}}</b> 元/M²</small>
-                      </td>
-                      <td class="text-center">
-                        <small>
-                          {{(attrs.region[v.des_region0]).region_name}} - {{(attrs.region[v.des_region1]).region_name}}
-                        </small>
-                      </td>
-                      <td class="text-left">
-                        <span v-for="(sv) in v.stags" :key="sv" class="label label-info" style="margin-right:5px;">{{sv}}</span>
-                      </td>
-                      <td class="text-center">
-                          <btn class="btn btn-xs btn-rose" @click="del(v.des_id)"><i class="fa fa-trash-o"></i></btn>
-                          <btn class="btn btn-xs btn-info" @click="caseList(v.des_id)"><i class="fa fa-link"></i></btn>
-                      </td>
-                  </tr>
-              </tbody>
-            </table>
+          <div class="content">
+            <div class="designer-list" v-for="(v) in rows" :key="v.des_id">
+              <div class="col-sm-2 div-bottom-border">
+                <img class="preview_cover" :src="v.des_cover" style="width:140px; height: 160px" />
+              </div>
+
+              <div class="col-sm-3 designer-info div-bottom-border">
+                <p>
+                  <span class="info-key">姓名：</span>
+                  <span class="info-val">
+                    <a @click="modify(v.des_id)">{{v.des_name}}</a>
+                  </span>
+                </p>
+                <p>
+                  <span class="info-key">职位：</span>
+                  <span class="info-val">{{v.des_title}}</span>
+                </p>
+                <p>
+                  <span class="info-key">工龄：</span>
+                  <span class="info-val"><b class="text-warning">{{v.des_workyears}}</b> 年</span>
+                </p>
+                <p>
+                  <span class="info-key">设计价格：</span>
+                  <span class="info-val"><b class="text-danger">{{v.des_price}}</b> 元/M²</span>
+                </p>
+                <p>
+                  <span class="info-key">所在地区：</span>
+                  <span class="info-val">{{(attrs.region[v.des_region0]).region_name}} - {{(attrs.region[v.des_region1]).region_name}}</span>
+                </p>
+              </div>
+
+              <div class="col-sm-7 sm3-style">
+                <div class="mb10">
+                  <p class="sm3-style-title">
+                    <i class="fa fa-newspaper-o"></i>
+                    设计理念
+                  </p>
+                  <div class="design-info-content">
+                    {{v.des_concept_tags}}
+                  </div>
+                </div>
+
+                <div class="mb10">
+                  <p class="sm3-style-title">
+                    <i class="fa fa-empire"></i>
+                    设计风格
+                  </p>
+                  <div class="design-info-content">
+                    <span v-for="(sv) in v.stags" :key="sv" class="label label-info" style="margin-right:5px;">{{sv}}</span>
+                  </div>
+                </div>
+
+                <div class="" style="position: absolute; right: 14px;bottom: -14px;">
+                  <btn class="btn btn-xs btn-rose" @click="del(v.des_id)"><i class="fa fa-trash-o"></i></btn>
+                  <btn class="btn btn-xs btn-info" @click="caseList(v.des_id)"><i class="fa fa-link"></i></btn>
+                </div>
+              </div>
+
+              <div class="clearfix"></div>
+            </div>
             <pagination v-model="pn" :total-page="total" @change="refresh" size="sm"/>
           </div>
         </div>
@@ -232,5 +250,37 @@ export default {
     display: inline-block;
     width: 30%;
     margin-right: 1%;
+  }
+  .designer-list {
+    padding: 10px 15px;background-color: #f9f9f9; position: relative;
+    font-size: 85%;margin-bottom: 20px;
+  }
+  .designer-info p {
+    line-height: 32px;
+  }
+  .info-key,.info-val{
+    display: block;
+    float: left;
+  }
+  .info-key {
+    text-align: right;
+    width: 80px;
+  }
+  .info-val {
+    text-align: left;
+    width: 150px;
+  }
+  .design-info-content {
+    padding: 10px 3px; border: 1px solid #ddd;
+  }
+  .sm3-style {
+    text-align:left
+  }
+  .sm3-style-title {
+    background-color: #ddd;padding: 3px 5px;margin: 0;
+  }
+  .mb10 {margin-bottom: 15px}
+  .div-bottom-border {
+    border-right: 1px dashed #ddd
   }
 </style>
