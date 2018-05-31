@@ -14,10 +14,9 @@ class advert_iface extends ubase_iface {
             $ad_ret['ad_status']    = ad_helper::$ad_status[$ad_ret['ad_status']];
             $ad_ret['ad_desc']      = filter::json_unecsape($ad_ret['ad_desc']);
             $out['row']             = $ad_ret;
-            $out['ad_status']       = ad_helper::$ad_status;
-            $this->success('操作成功', $out);
         }
-        $this->failure('操作失败');
+        $out['ad_status']           = ad_helper::$ad_status;
+        $this->success('操作成功', $out);
     }
     
     /**
