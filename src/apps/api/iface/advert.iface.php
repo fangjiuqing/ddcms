@@ -31,9 +31,11 @@ class advert_iface extends ubase_iface {
         $ad_tab = OBJ('ad_table');
         $paging = new paging_helper($ad_tab, $this->data['pn'] ?: 1, 12);
         $ad_ret = $ad_tab->map(function ($row) {
-            $row['ad_status']           = ad_helper::$ad_status[$row['ad_status']];
-            $row['ad_desc']             = filter::json_unecsape($row['ad_desc']);
-            $row['ad_desc']['image']    = IMAGE_URL . $row['ad_desc']['image'] . '!500x309' ?: '';
+            $row['ad_status']   = ad_helper::$ad_status[$row['ad_status']];
+            $row['ad_desc']     = filter::json_unecsape($row['ad_desc']);
+            if (is_array($row['ad_desc'])) {
+                $row['ad_desc']['image']    = IMAGE_URL . $row['ad_desc']['image'] . '!500x309';
+            }
             return $row;
         })->order('ad_adate desc')->get_all();
         $this->success('操作成功', [
