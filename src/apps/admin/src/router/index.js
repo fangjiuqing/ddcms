@@ -42,6 +42,7 @@ import Shipping from '@/components/store/shipping'
 import ShippingAdd from '@/components/store/shipping/add'
 
 import Advert from '@/components/ad/index'
+import AdvertAdd from '@/components/ad/add'
 
 Vue.use(Router)
 Vue.use(Meta)
@@ -263,6 +264,11 @@ const router = new Router({
       path: '/advert',
       name: 'Advert',
       component: Advert
+    },
+    {
+      path: '/advert/add',
+      name: 'AdvertAdd',
+      component: AdvertAdd
     }
   ]
 })
