@@ -116,6 +116,16 @@ class category_table extends table {
             'allow_empty_string' => true,
             'allow_null'         => true
         ],
+        'cat_extra' => [
+            'name'               => 'cat_extra',
+            'type'               => 'char',
+            'field_type'         => 'char',
+            'min'                => 0,
+            'max'                => 255,
+            'label'              => '扩展信息',
+            'allow_empty_string' => true,
+            'allow_null'         => true
+        ]
     ];
 
     /*
@@ -143,6 +153,7 @@ class category_table extends table {
         'cat_level'   => 0,
         'cat_type'    => 0,
         'cat_status'  => 0,
+        'cat_extra'   => '',
     ];
 
     /*
@@ -160,6 +171,7 @@ class category_table extends table {
         'cat_level'   => ['re\rgx\filter', 'int'],
         'cat_type'    => ['re\rgx\filter', 'int'],
         'cat_status'  => ['re\rgx\filter', 'int'],
+        'cat_extra'   => ['re\rgx\filter', 'char'],
     ];
 
     /*

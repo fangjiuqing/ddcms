@@ -33,7 +33,13 @@ import CommunityAdd from '@/components/community/add'
 import Designer from '@/components/designer/index'
 import DesignerAdd from '@/components/designer/add'
 
-import GoodsType from '@/components/store/goods/type'
+import StoreGoodsType from '@/components/store/goods/type'
+import StoreGoodsAttr from '@/components/store/goods/attr'
+import StoreGoodsCategory from '@/components/store/goods/category'
+import StoreGoodsCategoryAdd from '@/components/store/goods/category/add'
+
+import Shipping from '@/components/store/shipping'
+import ShippingAdd from '@/components/store/shipping/add'
 
 import Advert from '@/components/ad/index'
 import AdvertAdd from '@/components/ad/add'
@@ -225,9 +231,34 @@ const router = new Router({
       component: DesignerAdd
     },
     {
+      path: '/store/shipping',
+      name: 'Shipping',
+      component: Shipping
+    },
+    {
+      path: '/store/shipping/add',
+      name: 'ShippingAdd',
+      component: ShippingAdd
+    },
+    {
       path: '/store/goods/type',
-      name: 'GoodsType',
-      component: GoodsType
+      name: 'StoreGoodsType',
+      component: StoreGoodsType
+    },
+    {
+      path: '/store/goods/attr',
+      name: 'StoreGoodsAttr',
+      component: StoreGoodsAttr
+    },
+    {
+      path: '/store/goods/category',
+      name: 'StoreGoodsCategory',
+      component: StoreGoodsCategory
+    },
+    {
+      path: '/store/goods/category/add',
+      name: 'StoreGoodsCategoryAdd',
+      component: StoreGoodsCategoryAdd
     },
     {
       path: '/advert',

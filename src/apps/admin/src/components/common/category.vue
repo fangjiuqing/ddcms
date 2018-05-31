@@ -51,7 +51,7 @@
                 <label class="col-sm-2 label-on-left">名称</label>
                 <div class="col-sm-10">
                     <div class="form-group">
-                        <input class="form-control" v-model="modal_data.cat_name"  v-focus="modal_data.cat_name"  type="text" placeholder="分类名称">
+                        <input class="form-control" v-model="modal_data.cat_name" type="text" placeholder="分类名称">
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                 <label class="col-sm-2 label-on-left">排序</label>
                 <div class="col-sm-10">
                     <div class="form-group">
-                        <input class="form-control" v-model="modal_data.cat_sort"  v-focus="modal_data.cat_sort" type="text" placeholder="分类排序">
+                        <input class="form-control" v-model="modal_data.cat_sort" type="text" placeholder="分类排序">
                     </div>
                 </div>
             </div>
@@ -139,11 +139,18 @@ export default {
       this.$http.get('category/' + this.code, {id: id, parent: 1}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          this.modal_data = d.data
+          this.modal_data = d.data || this.modal_data
+          this.modal_open = true
         } else {
-          this.modal_data = []
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            if (d.code === 9999) {
+              this.$router.go(-1)
+            }
+          })
         }
-        this.modal_open = true
       })
     },
     save: function () {
@@ -153,10 +160,18 @@ export default {
       this.$http.save('category/' + this.code, this.modal_data).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          this.modal_data = d.data
+          this.modal_open = false
+          this.refresh()
+        } else {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            if (d.code === 9999) {
+              this.$router.go(-1)
+            }
+          })
         }
-        this.modal_open = false
-        this.refresh()
       })
     },
     refresh: function () {
@@ -171,9 +186,16 @@ export default {
       this.$http.list('category/' + this.code).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          this.rows = d.data
+          this.rows = d.data || []
         } else {
-          this.rows = []
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            if (d.code === 9999) {
+              this.$router.go(-1)
+            }
+          })
         }
       })
     },
@@ -196,16 +218,16 @@ export default {
             })
             this.refresh()
           } else {
-            this.$notify({
-              content: d.msg,
-              duration: 2000,
-              type: 'danger',
-              dismissible: false
+            this.$alert({
+              title: '系统提示',
+              content: d.msg
+            }, (msg) => {
+              if (d.code === 9999) {
+                this.$router.go(-1)
+              }
             })
           }
         })
-      }).catch(() => {
-        this.$notify('取消删除.')
       })
     }
   },

@@ -29,7 +29,7 @@ class customer_house_iface extends ubase_iface {
      * @param int       $pch_mode     用户户型
      * @param int       $pch_style    房型风格
      * @param decimal   $pch_area     总面积
-     * @param decimal       $pch_area_use 可用面积
+     * @param decimal   $pch_area_use 可用面积
      * @param int       $pch_floor    楼层
      * @param int       $pch_exists   是否现房
      * @param int       $pch_gtime    拿房时间

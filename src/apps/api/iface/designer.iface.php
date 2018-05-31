@@ -53,8 +53,8 @@ class designer_iface extends base_iface {
         # 设计师风格标签
         $stags = $this->data['styles'];
         if ( !empty($stags) ) {
-            if ( count($stags) > 3 ) {
-                $this->failure('风格标签最多不超过3个');
+            if ( count($stags) > 10 ) {
+                $this->failure('风格标签最多不超过10个');
             }
             $this->data['des_style_tags'] = '';
             foreach ( $stags as $v ) {
@@ -123,8 +123,6 @@ class designer_iface extends base_iface {
         foreach ($stags as $k => $v) {
             $out['styles'][] = $v;
         }
-        stat_helper::count(stat_helper::TYPE_DESIGNER, $id, stat_helper::is_mobile() ? stat_helper::VIA_WAP :
-            stat_helper::VIA_PC);
         $this->success('', $out);
     }
 
@@ -140,7 +138,8 @@ class designer_iface extends base_iface {
         $out['list'] = $tab->map(function ($row) use (&$region_ids) {
             $region_ids[$row['des_region0']] = 0;
             $region_ids[$row['des_region1']] = 0;
-            $row['stags'] = explode('#', $row['des_style_tags']);
+            $row['stags']     = explode('#', $row['des_style_tags']);
+            $row['des_cover'] = IMAGE_URL . $row['des_cover'] . '!500x309';
             return $row;
         })->get_all();
 
