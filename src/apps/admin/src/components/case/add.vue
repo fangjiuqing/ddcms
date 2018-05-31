@@ -395,6 +395,7 @@ export default {
           this.type = d.data.type || []
           this.layout = d.data.layout || []
           this.designer = d.data.designer || []
+          console.log(d.data)
         } else if (d.code === 9999) {
           this.$alert({
             title: '系统提示',

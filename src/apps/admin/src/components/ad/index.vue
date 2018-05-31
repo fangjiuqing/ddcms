@@ -1,5 +1,5 @@
 <template>
-  <div class="customer">
+  <div class="advert">
     <breadcrumbs :items="items">
       <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
         {{v.text}}
@@ -19,27 +19,25 @@
                 <tr>
                   <th class="text-left" width="100">广告名称</th>
                   <th class="text-center" width="80">广告状态</th>
-                  <th class="text-center" width="100">广告内容</th>
                   <th class="text-center" width="150">添加时间</th>
-                  <th class="text-center" width="120">操作</th>
+                  <th class="text-center" width="20">操作</th>
                 </tr>
               </thead>
               <tbody>
-                  <tr v-for="(v) in rows" :key="v.pc_id">
+                  <tr v-for="(v) in rows" :key="v.ad_id">
                     <td class="text-left">
-                      <span>{{v.pco_pc_name}}</span>
+                      <a @click="modify(v.ad_id)" class="text-default">
+                        <span>{{v.ad_name}}</span>
+                      </a>
                     </td>
                     <td class="text-center">
-                      <code>{{v.pco_type_name}}</code>
+                      <code>{{v.ad_status}}</code>
                     </td>
                     <td class="text-center">
-                      <small>{{v.pco_admin_name}}</small>
+                      <small>{{v.ad_adate|time('yyyy-mm-dd HH:MM')}}</small>
                     </td>
                     <td class="text-center">
-                      <small>{{v.pco_atime|time('yyyy-mm-dd HH:MM:ss')}}</small>
-                    </td>
-                    <td class="text-center">
-                      <btn class="btn btn-xs btn-success" @click="modifi(v.pc_id)"><i class="fa fa-pencil"></i></btn>
+                      <btn class="btn btn-xs btn-rose" @click="del(v.ad_id)"><i class="fa fa-trash-o"></i></btn>
                     </td>
                   </tr>
               </tbody>
@@ -49,44 +47,6 @@
         </div>
       </form>
     </div>
-    <modal v-model="modal_open" title="{modal_title}">
-      <div slot="title" class="text-left">
-        {{modal_title}}
-      </div>
-      <div slot="default">
-        <form action="" method="post" accept-charset="utf-8">
-          <div style="padding-right:80px;">
-            <div class="row">
-              <label class="col-sm-3 label-on-left">广告名称</label>
-              <div class="col-sm-9">
-                <div class="form-group">
-                  <input class="form-control" v-model="modal_data.pc_sn" type="text" placeholder="广告名称">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-sm-3 label-on-left">广告状态</label>
-              <div class="col-sm-9">
-                <div class="form-group">
-                  <input class="form-control" v-model="modal_data.pc_nick" type="text" placeholder="广告状态">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-sm-3 label-on-left">广告内容</label>
-              <div class="col-sm-9">
-                <div class="form-group">
-                  <input class="form-control" v-model="modal_data.pc_mobile" type="text" placeholder="广告内容">
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div slot="footer">
-        <btn @click="save" type="success" class="btn-sm">确认</btn>
-      </div>
-    </modal>
   </div>
 </template>
 
@@ -95,7 +55,7 @@ export default {
   name: 'Advert',
   metaInfo () {
     return {
-      title: '客户预约 - 道达智装'
+      title: '广告管理 - 道达智装'
     }
   },
   data () {
@@ -108,67 +68,21 @@ export default {
       rows: [],
       pn: 1,
       total: 1,
-      attrs: {},
-      modal_open: false,
-      modal_title: '',
-      modal_data: {}
+      attrs: {}
     }
   },
   methods: {
-    modifi (id) {
+    modify (id) {
       this.$router.push({
         path: '/advert/add',
         query: {id}
-      })
-    },
-    modify: function (id) {
-      this.$loading.show({
-        msg: '加载中 ...'
-      })
-      this.$http.get('customer', {id: id, attrs: 1}).then(d => {
-        this.$loading.hide()
-        if (d.code === 0) {
-          this.modal_data = d.data
-        }
-        this.modal_open = true
-      })
-      if (id === '0') {
-        this.modal_title = '新增账号'
-        this.modal_data = {}
-      } else {
-        this.modal_title = '编辑账号'
-      }
-    },
-    save: function () {
-      this.$loading.show({
-        msg: '加载中 ...'
-      })
-      this.$http.save('customer', this.modal_data).then(d => {
-        this.$loading.hide()
-        if (d.code === 0) {
-          this.modal_open = false
-          this.refresh()
-          this.$notify({
-            content: d.msg,
-            duration: 2000,
-            type: 'success',
-            dismissible: false
-          })
-        } else {
-          this.$notify({
-            content: d.msg,
-            duration: 2000,
-            type: 'danger',
-            dismissible: false
-          })
-        }
       })
     },
     refresh: function () {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.list('order', {pn: this.pn}).then(d => {
+      this.$http.list('advert', {pn: this.pn}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data.list
@@ -177,6 +91,35 @@ export default {
         } else {
           this.rows = []
         }
+      })
+    },
+    del: function (id) {
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$loading.hide()
+      this.$confirm({
+        title: '操作提示',
+        content: '此项将被永久删除。继续?',
+        okText: '确认',
+        cancelText: '取消'
+      }).then(() => {
+        this.$http.del('advert', {id: id}).then(d => {
+          if (d.code === 0) {
+            this.$notify({
+              type: 'success',
+              content: '删除成功.'
+            })
+            this.refresh()
+          } else {
+            this.$notify({
+              content: d.msg,
+              duration: 2000,
+              type: 'danger',
+              dismissible: false
+            })
+          }
+        })
       })
     }
   },
@@ -194,7 +137,7 @@ export default {
 }
 </script>
 <style>
-.customer, .app_mask {
+.advert, .app_mask {
   background: #fff;
 }
 </style>

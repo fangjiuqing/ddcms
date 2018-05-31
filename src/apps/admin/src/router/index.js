@@ -36,6 +36,7 @@ import DesignerAdd from '@/components/designer/add'
 import GoodsType from '@/components/store/goods/type'
 
 import Advert from '@/components/ad/index'
+import AdvertAdd from '@/components/ad/add'
 
 Vue.use(Router)
 Vue.use(Meta)
@@ -227,12 +228,17 @@ const router = new Router({
       path: '/store/goods/type',
       name: 'GoodsType',
       component: GoodsType
-    }, {
+    },
+    {
       path: '/advert',
       name: 'Advert',
       component: Advert
+    },
+    {
+      path: '/advert/add',
+      name: 'AdvertAdd',
+      component: AdvertAdd
     }
-
   ]
 })
 
