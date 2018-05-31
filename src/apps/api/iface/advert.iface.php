@@ -22,7 +22,7 @@ class advert_iface extends ubase_iface {
             }
             $out['row']             = $ad_ret;
         }
-        $out['ad_status']           = ad_helper::$ad_status;
+        $out['ad_status']           = json_encode(ad_helper::$ad_status);
         $this->success('操作成功', $out);
     }
     
