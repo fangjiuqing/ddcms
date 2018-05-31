@@ -33,18 +33,17 @@ class advert_iface extends ubase_iface {
         $ad_ret = $ad_tab->map(function ($row) {
             $row['ad_status']   = ad_helper::$ad_status[$row['ad_status']];
             $row['ad_desc']     = filter::json_unecsape($row['ad_desc']);
-            if (is_array($row['ad_desc'])) {
-                $row['ad_desc']['ad_image_label']    = IMAGE_URL . $row['ad_desc']['ad_image'] . '!500x309';
-            }
             return $row;
         })->order('ad_adate desc')->get_all();
         $arr = [];
         foreach ((array)$ad_ret as $k => $v) {
             $arr[$k]['ad_id']   = $v['ad_id'];
             $arr[$k]['ad_name'] = $v['ad_name'];
-            $arr[$k]['ad_status']   = ad_helper::$ad_status[$v['ad_status']] ?: '';
-            $arr[$k]['ad_url']  = $v['ad_desc']['ad_url'];
-            $arr[$k]['ad_image']    = IMAGE_URL . $v['ad_desc']['ad_image'] . '!500x309';
+            $arr[$k]['ad_status']   = $v['ad_status'];
+            if (is_array($v['ad_desc'])) {
+                $arr[$k]['ad_url']  = $v['ad_desc']['ad_url'];
+                $arr[$k]['ad_image']    = IMAGE_URL . $v['ad_desc']['ad_image'] . '!500x309';
+            }
         }
         $this->success('操作成功', [
             'list'      => array_values($arr),
