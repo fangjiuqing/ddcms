@@ -22,12 +22,7 @@ class advert_iface extends ubase_iface {
             }
             $out['row']             = $ad_ret;
         }
-        $ret = ad_helper::$ad_status;
-        $arr = [];
-        foreach ((array)$ret as $k => $v) {
-            $arr[$k] = [$k, $v];
-        }
-        $out['ad_status'] = $arr;
+        $out['ad_status'] = ad_helper::$ad_status;
         $this->success('操作成功', $out);
     }
     
