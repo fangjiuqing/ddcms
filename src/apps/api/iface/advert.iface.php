@@ -15,7 +15,6 @@ class advert_iface extends ubase_iface {
         $id = intval($this->data['id']);
         $ad_tab = OBJ('ad_table');
         if ($ad_ret = $ad_tab->get($id)) {
-            $ad_ret['ad_status']    = ad_helper::$ad_status[$ad_ret['ad_status']] ?: '';
             $ad_ret['ad_desc']      = filter::json_unecsape($ad_ret['ad_desc']);
             if (is_array($ad_ret['ad_desc'])) {
                 $ad_ret['ad_url']       = $ad_ret['ad_desc']['ad_url'];
