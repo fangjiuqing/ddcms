@@ -42,7 +42,11 @@ import StoreGoodsAttr from '@/components/store/goods/attr'
 import StoreGoodsCategory from '@/components/store/goods/category'
 import StoreGoodsCategoryAdd from '@/components/store/goods/category/add'
 
+import Shipping from '@/components/store/shipping'
+import ShippingAdd from '@/components/store/shipping/add'
+
 import Advert from '@/components/ad/index'
+import AdvertAdd from '@/components/ad/add'
 
 Vue.use(Router)
 Vue.use(Meta)
@@ -231,6 +235,16 @@ const router = new Router({
       component: DesignerAdd
     },
     {
+      path: '/store/shipping',
+      name: 'Shipping',
+      component: Shipping
+    },
+    {
+      path: '/store/shipping/add',
+      name: 'ShippingAdd',
+      component: ShippingAdd
+    },
+    {
       path: '/store/goods/type',
       name: 'StoreGoodsType',
       component: StoreGoodsType
@@ -264,6 +278,11 @@ const router = new Router({
       path: '/advert',
       name: 'Advert',
       component: Advert
+    },
+    {
+      path: '/advert/add',
+      name: 'AdvertAdd',
+      component: AdvertAdd
     }
   ]
 })

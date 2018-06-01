@@ -42,7 +42,6 @@ class index_iface extends base_iface {
                 'admin_id'         => $admin['admin_id'],
                 'admin_date_login' => REQUEST_TIME,
             ]);
-            admin_helper::add_log($admin['admin_id'], 'index/login', 1, "{$admin['admin_nick']}登录了系统");
             $this->success('登录成功');
         }
         admin_helper::add_log($admin['admin_id'], 'index/login', 1, '密码错误');

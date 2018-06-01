@@ -144,6 +144,11 @@ class admin_helper extends rgx {
                 'store/goods/attrs/list'    => '商品属性-列表',
                 'store/goods/attrs/save'    => '商品属性-更新',
                 'store/goods/attrs/del'     => '商品属性-删除',
+
+                'store/shipping/shipping/list' => '配送方式-列表',
+                'store/shipping/shipping/get'  => '配送方式-详情',
+                'store/shipping/shipping/save' => '配送方式-更新',
+                'store/shipping/shipping/del'  => '配送方式-删除',
             ]
         ]
     ];
