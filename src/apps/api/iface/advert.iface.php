@@ -16,10 +16,12 @@ class advert_iface extends ubase_iface {
         $ad_tab = OBJ('ad_table');
         if ($ad_ret = $ad_tab->get($id)) {
             $ad_ret['ad_status']    = ad_helper::$ad_status[$ad_ret['ad_status']] ?: '';
+            $ad_ret['ad_desc']      = filter::json_unecsape($ad_ret['ad_desc']);
             if (is_array($ad_ret['ad_desc'])) {
-                $ad_ret['ad_url']       = filter::json_unecsape($ad_ret['ad_desc'])['ad_url'];
-                $ad_ret['ad_image']     = IMAGE_URL . filter::json_unecsape($ad_ret['ad_desc'])['ad_image'] . '!500x309';
+                $ad_ret['ad_url']       = $ad_ret['ad_desc']['ad_url'];
+                $ad_ret['ad_image']     = IMAGE_URL . $ad_ret['ad_desc']['ad_image'] . '!500x309';
             }
+            unset($ad_ret['ad_desc']);
             $out['row']             = $ad_ret;
         }
         $out['ad_status'] = ad_helper::$ad_status;
@@ -41,11 +43,12 @@ class advert_iface extends ubase_iface {
         foreach ((array)$ad_ret as $k => $v) {
             $arr[$k]['ad_id']   = $v['ad_id'];
             $arr[$k]['ad_name'] = $v['ad_name'];
-            $arr[$k]['ad_status']   = $v['ad_status'];
+            $arr[$k]['ad_status']       = $v['ad_status'];
             if (is_array($v['ad_desc'])) {
-                $arr[$k]['ad_url']  = $v['ad_desc']['ad_url'];
+                $arr[$k]['ad_url']      = $v['ad_desc']['ad_url'];
                 $arr[$k]['ad_image']    = IMAGE_URL . $v['ad_desc']['ad_image'] . '!500x309';
             }
+            $arr[$k]['ad_adate']    = $v['ad_adate'];
         }
         $this->success('操作成功', [
             'list'      => array_values($arr),
@@ -64,7 +67,7 @@ class advert_iface extends ubase_iface {
         $this->data['ad_id']        = filter::int($this->data['ad_id']);
         $this->data['ad_name']      = filter::text($this->data['ad_name']);
         $this->data['ad_status']    = filter::int($this->data['ad_status']) ?: 0;
-        $this->data['ad_adate']     = REQUEST_TIME;
+        $this->data['ad_adate']     = filter::int($this->data['ad_adate']) ?: REQUEST_TIME;
         $this->data['ad_desc']      = filter::json_ecsape([
             'ad_url'   => $this->data['ad_url'],
             'ad_image' => $this->data['ad_image'],
