@@ -15,12 +15,15 @@ class advert_iface extends ubase_iface {
         $id = intval($this->data['id']);
         $ad_tab = OBJ('ad_table');
         if ($ad_ret = $ad_tab->get($id)) {
-            $ad_ret['ad_status']    = ad_helper::$ad_status[$ad_ret['ad_status']];
             $ad_ret['ad_desc']      = filter::json_unecsape($ad_ret['ad_desc']);
-            $ad_ret['ad_desc']['image'] = IMAGE_URL . $ad_ret['ad_desc']['image'] . '!500x309' ?: '';
+            if (is_array($ad_ret['ad_desc'])) {
+                $ad_ret['ad_url']       = $ad_ret['ad_desc']['ad_url'];
+                $ad_ret['ad_image']     = IMAGE_URL . $ad_ret['ad_desc']['ad_image'] . '!500x309';
+            }
+            unset($ad_ret['ad_desc']);
             $out['row']             = $ad_ret;
         }
-        $out['ad_status']           = ad_helper::$ad_status;
+        $out['ad_status'] = ad_helper::$ad_status;
         $this->success('操作成功', $out);
     }
     
@@ -33,13 +36,21 @@ class advert_iface extends ubase_iface {
         $ad_ret = $ad_tab->map(function ($row) {
             $row['ad_status']   = ad_helper::$ad_status[$row['ad_status']];
             $row['ad_desc']     = filter::json_unecsape($row['ad_desc']);
-            if (is_array($row['ad_desc'])) {
-                $row['ad_desc']['image']    = IMAGE_URL . $row['ad_desc']['image'] . '!500x309';
-            }
             return $row;
         })->order('ad_adate desc')->get_all();
+        $arr = [];
+        foreach ((array)$ad_ret as $k => $v) {
+            $arr[$k]['ad_id']   = $v['ad_id'];
+            $arr[$k]['ad_name'] = $v['ad_name'];
+            $arr[$k]['ad_status']       = $v['ad_status'];
+            if (is_array($v['ad_desc'])) {
+                $arr[$k]['ad_url']      = $v['ad_desc']['ad_url'];
+                $arr[$k]['ad_image']    = IMAGE_URL . $v['ad_desc']['ad_image'] . '!500x309';
+            }
+            $arr[$k]['ad_adate']    = $v['ad_adate'];
+        }
         $this->success('操作成功', [
-            'list'      => array_values($ad_ret),
+            'list'      => array_values($arr),
             'paging'    => $paging->to_array(),
         ]);
     }
@@ -52,19 +63,23 @@ class advert_iface extends ubase_iface {
      */
     public function save_action () {
         $ad_tab = OBJ('ad_table');
-        $arr = [];
-        foreach ($this->data as $v) {
-            $arr['ad_id']       = filter::int($v['id']);
-            $arr['ad_name']     = filter::text($v['name']);
-            $arr['ad_status']   = filter::int($v['status']) ?: 0;
-            $arr['ad_desc']     = filter::json_ecsape($v);
-            $arr['ad_adate']    = REQUEST_TIME;
-            $ad_tab->load($arr);
+        $this->data['ad_id']        = filter::int($this->data['ad_id']);
+        $this->data['ad_name']      = filter::text($this->data['ad_name']);
+        $this->data['ad_status']    = filter::int($this->data['ad_status']) ?: 0;
+        $this->data['ad_adate']     = filter::int($this->data['ad_adate']) ?: REQUEST_TIME;
+        $this->data['ad_desc']      = filter::json_ecsape([
+            'ad_url'   => $this->data['ad_url'],
+            'ad_image' => $this->data['ad_image'],
+        ]);
+        if ($ad_tab->load($this->data)) {
             $ad_ret = $ad_tab->save();
-            admin_helper::add_log($this->login['admin_id'], 'advert/save', '2', ($arr['ad_id'] ?
-                    '广告修改[' . $arr['ad_id'] : '广告新增[' . $ad_ret['row_id']) . '@' . $arr['ad_name'] . ']');
+            if ($ad_ret['code'] === 0) {
+                admin_helper::add_log($this->login['admin_id'], 'advert/save', '2', ($this->data['ad_id'] ?
+                    '广告修改[' . $this->data['ad_id'] : '广告新增[' . $ad_ret['row_id']) . '@' . $this->data['ad_name'] . ']');
+                $this->success('操作成功');
+            }
         }
-        $this->success('操作成功');
+        $this->failure($ad_tab->get_error_desc());
     }
     
     /**
