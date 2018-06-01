@@ -33,8 +33,12 @@ import CommunityAdd from '@/components/community/add'
 import Designer from '@/components/designer/index'
 import DesignerAdd from '@/components/designer/add'
 
+import StoreGoods from '@/components/store/goods'
+import StoreGoodsAdd from '@/components/store/goods/add'
+
 import StoreGoodsType from '@/components/store/goods/type'
 import StoreGoodsAttr from '@/components/store/goods/attr'
+
 import StoreGoodsCategory from '@/components/store/goods/category'
 import StoreGoodsCategoryAdd from '@/components/store/goods/category/add'
 
@@ -245,6 +249,16 @@ const router = new Router({
       path: '/store/goods/category/add',
       name: 'StoreGoodsCategoryAdd',
       component: StoreGoodsCategoryAdd
+    },
+    {
+      path: '/store/goods',
+      name: 'StoreGoods',
+      component: StoreGoods
+    },
+    {
+      path: '/store/goods/add',
+      name: 'StoreGoodsAdd',
+      component: StoreGoodsAdd
     },
     {
       path: '/advert',

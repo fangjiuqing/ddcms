@@ -122,7 +122,7 @@ export default {
         okText: '确认',
         cancelText: '取消'
       }).then(() => {
-        this.$http.del('goods/store/category', {id: id}).then(d => {
+        this.$http.del('store/goods/category', {id: id}).then(d => {
           if (d.code === 0) {
             this.$notify({
               type: 'success',

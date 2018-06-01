@@ -42,6 +42,11 @@ class category_helper extends rgx {
     const TYPE_LAYOUT           = 7;
 
     /**
+     * 商品类型
+     */
+    const TYPE_GOODS            = 10;
+
+    /**
      * 分类显示状态
      * @var [type]
      */

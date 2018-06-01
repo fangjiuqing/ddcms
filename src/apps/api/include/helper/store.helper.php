@@ -45,4 +45,33 @@ class store_helper extends rgx {
      * 可被筛选
      */
     const ATTR_FILTER_YES           = 2;
+
+    /**
+     * 获取商品类型
+     * @param  boolean $use_cache [description]
+     * @param  boolean $has_attrs [description]
+     * @return [type]             [description]
+     */
+    public static function get_goods_types ($use_cache = false, $has_attrs = false) {
+        $func = function () use ($has_attrs) {
+            $ret = OBJ('goods_type_table')->akey()->get_all();
+            if ($has_attrs) {
+                OBJ('goods_attr_table')->map(function ($row) use (&$ret) {
+                    $ret[$row['ga_type_id']]['attrs'][$row['ga_id']] = [
+                        'id'        => $row['ga_id'],
+                        'name'      => $row['ga_name'],
+                        'type'      => ['', 'input', 'select'][$row['ga_input_type']],
+                        'values'    => $row['ga_values'] ? explode("\n", $row['ga_values']) : []
+                    ];
+                    return null;
+                })->get_all([
+                    'ga_type_id'    => array_keys($ret ?: [0])
+                ]);
+            }
+            return $ret;
+        };
+        return $use_cache ? CACHE("store@types-" . ($has_attrs ? '-all-attrs' : '-all'), $func, 86400) : $func();
+    }
+
 }
+
