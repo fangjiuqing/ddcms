@@ -9,27 +9,37 @@
       <h5 class="block-h5">广告编辑</h5>
       <form action="" method="post" accept-charset="utf-8">
         <div class="row">
-           <div class="col-sm-5">
-              <label class="col-sm-3 label-on-left">广告名称</label>
-              <div class="form-group col-sm-9">
-                <input type="text" class="form-control" name="ad_name" placeholder="广告名称" v-model="rows.ad_name">
-              </div>
+          <div class="col-sm-5">
+            <label class="col-sm-3 label-on-left">广告名称</label>
+            <div class="form-group col-sm-9">
+              <input type="text" class="form-control" name="ad_name" placeholder="广告名称" v-model="form.ad_name">
             </div>
+          </div>
+          <div class="col-sm-5">
+            <label class="col-sm-3 label-on-left">广告路径</label>
+            <div class="form-group col-sm-9">
+              <input type="text" class="form-control" name="ad_url" placeholder="广告路径" v-model="form.ad_url">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5">
+            <label class="col-sm-3 label-on-left">广告状态</label>
             <div class="form-group col-sm-5">
-              <!-- <switches style="font-weight: 300" value="2" theme="bootstrap" color="success" text-enabled="发布" text-disabled="草稿"></switches> -->
-              <select v-model="rows.ad_status" class="form-control">
+              <select v-model="form.ad_status" class="form-control">
                 <option disabled value="0">未知状态</option>
-                <option v-for="(v, index) in model" v-bind:key="index" :value="v" v-html="v">
+                <option v-for="(v, index) in model" :key="index" :value="index">
                   {{v}}
                 </option>
               </select>
             </div>
+          </div>
         </div>
         <div class="row">
           <div class="col-sm-5">
             <label class="col-sm-3 label-on-left">广告图片</label>
             <img class="preview_cover" style="width: 200px; height: 200px;" :src="cover" @click="upload_cover">
-            <input type="hidden" v-model="cover">
+            <input type="hidden" v-model="form.ad_image">
           </div>
         </div>
         <div class="row">
@@ -43,7 +53,6 @@
 </template>
 
 <script>
-// import Switches from 'vue-switches'
 export default {
   name: 'AdvertAdd',
   metaInfo () {
@@ -51,7 +60,6 @@ export default {
       title: '广告新增 - 道达智装'
     }
   },
-  // components: {Switches},
   data () {
     return {
       items: [
@@ -60,10 +68,9 @@ export default {
         {text: '编辑', href: '#'}
       ],
       id: this.$route.query['id'] || 0,
-      rows: {
-        ad_status: ''
-      },
+      form: {},
       model: [],
+      selected: [],
       cover: require('@/assets/images/default_1x1.jpg'),
       extra: {}
     }
@@ -98,7 +105,7 @@ export default {
         type: 'success',
         dismissible: false
       })
-      this.rows.ad_desc.image = d.image
+      this.form.ad_image = d.image
       this.cover = d.thumb
     },
     on_cover_progress (e) {
@@ -156,12 +163,6 @@ export default {
         data: formData
       })
     },
-    modifi (id) {
-      this.$router.push({
-        path: '/advert/add',
-        query: {id}
-      })
-    },
     modify: function (id) {
       this.$loading.show({
         msg: '加载中 ...'
@@ -169,10 +170,9 @@ export default {
       this.$http.get('advert', {id: this.id || 0}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          this.rows = this.id ? d.data.row : {}
+          this.form = this.id ? d.data.row : {}
           this.model = d.data.ad_status
-          this.ad_status = this.model
-          this.cover = this.rows.ad_desc.image
+          this.cover = this.form.ad_image
           console.log(d.data)
         } else if (d.code === 9999) {
           this.$alert({
@@ -182,7 +182,7 @@ export default {
             this.$router.go(-1)
           })
         } else {
-          this.form = []
+          this.form = {}
         }
       })
     },
@@ -190,15 +190,24 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.save('advert', this.rows).then(d => {
+      this.$http.save('advert', this.form).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          this.refresh()
+          this.$router.push({
+            path: '/advert'
+          })
           this.$notify({
             content: d.msg,
             duration: 2000,
             type: 'success',
             dismissible: false
+          })
+        } else if (d.code === 9999) {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
           })
         } else {
           this.$notify({
