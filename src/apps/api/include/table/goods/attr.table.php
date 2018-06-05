@@ -76,13 +76,13 @@ class goods_attr_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
-        'ga_is_filter' => [
-            'name'               => 'ga_is_filter',
+        'ga_type' => [
+            'name'               => 'ga_type',
             'type'               => 'int',
             'field_type'         => 'tinyint',
             'min'                => 0,
             'max'                => 255,
-            'label'              => '是否可筛选',
+            'label'              => '属性类型',
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
@@ -109,7 +109,7 @@ class goods_attr_table extends table {
         'ga_name'         => '',
         'ga_input_type'   => 0,
         'ga_values'       => '',
-        'ga_is_filter'    => 0,
+        'ga_type'         => 0,
     ];
 
     /*
@@ -123,7 +123,7 @@ class goods_attr_table extends table {
         'ga_name'         => ['re\rgx\filter', 'char'],
         'ga_input_type'   => ['re\rgx\filter', 'int'],
         'ga_values'       => ['re\rgx\filter', 'char'],
-        'ga_is_filter'    => ['re\rgx\filter', 'int'],
+        'ga_type'         => ['re\rgx\filter', 'int'],
     ];
 
     /*

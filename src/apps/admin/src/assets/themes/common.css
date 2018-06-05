@@ -2947,3 +2947,7 @@ input:focus,textarea:focus,select:focus {
 .tab-pane .form-block {
   padding: 20px 0 0 0;
 }
+.form-input-row {
+  margin: 5px 0;
+  padding: 5px 0;
+}

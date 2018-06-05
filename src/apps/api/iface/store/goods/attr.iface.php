@@ -27,9 +27,9 @@ class store_goods_attr_iface extends ubase_iface {
      */
     public function get_action () {
         $this->success('', [
-            'row'       => OBJ('goods_attr_table')->get((int)$this->data['id']) ?: null,
-            'input'     => store_helper::$attr_input_type,
-            'filter'    => store_helper::$attr_filter,
+            'row'   => OBJ('goods_attr_table')->get((int)$this->data['id']) ?: null,
+            'input' => store_helper::$attr_input_type,
+            'type'  => store_helper::$attr_type,
         ]);
     }
 

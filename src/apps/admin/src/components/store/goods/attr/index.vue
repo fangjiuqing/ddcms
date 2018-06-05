@@ -31,8 +31,8 @@
                   </td>
                   <td>
                     <small>
-                      <code v-if="v.ga_is_filter === '2'">是</code>
-                      <span v-if="v.ga_is_filter === '1'" class="">否</span>
+                      <code v-if="v.ga_type === '2'">规格筛选</code>
+                      <span v-if="v.ga_type === '1'" class="">普通属性</span>
                     </small>
                   </td>
                   <td>
@@ -72,9 +72,9 @@
                 <label class="col-sm-2 label-on-left">筛选</label>
                 <div class="col-sm-9">
                     <div class="form-group">
-                        <select v-model="form.ga_is_filter" class="form-control">
+                        <select v-model="form.ga_type" class="form-control">
                           <option value="" disabled="">请选择</option>
-                          <option v-for="(v, k) in filter" v-bind:key="k" :value="k">
+                          <option v-for="(v, k) in types" v-bind:key="k" :value="k">
                             {{v}}
                           </option>
                         </select>
@@ -134,7 +134,8 @@ export default {
       input: {},
       filter: {},
       modalOpen: false,
-      modalTitle: ''
+      modalTitle: '',
+      types: {}
     }
   },
   methods: {
@@ -149,12 +150,12 @@ export default {
           this.form = d.data.row || {
             ga_id: 0,
             ga_type_id: this.type,
-            ga_is_filter: '',
+            ga_type: '',
             ga_input_type: '',
             ga_values: ''
           }
           this.input = d.data.input
-          this.filter = d.data.filter
+          this.types = d.data.type
           this.modalOpen = true
           this.modalTitle = d.data.row ? '编辑属性' : '新增属性'
         } else {

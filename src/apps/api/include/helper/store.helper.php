@@ -26,25 +26,24 @@ class store_helper extends rgx {
      */
     const ATTR_INPUT_SELECT         = 2;
 
-
     /**
      *  属性是否可以被筛选
      * @var [type]
      */
-    public static $attr_filter = [
-        1   => '否',
-        2   => '是'
+    public static $attr_type = [
+        1   => '普通属性',
+        2   => '规格筛选'
     ];
 
     /**
      * 不可被筛选
      */
-    const ATTR_FILTER_NO            = 1;
+    const ATTR_TYPE_NORMAL          = 1;
 
     /**
      * 可被筛选
      */
-    const ATTR_FILTER_YES           = 2;
+    const ATTR_TYPE_FILTER          = 2;
 
     /**
      * 获取商品类型
@@ -60,7 +59,8 @@ class store_helper extends rgx {
                     $ret[$row['ga_type_id']]['attrs'][$row['ga_id']] = [
                         'id'        => $row['ga_id'],
                         'name'      => $row['ga_name'],
-                        'type'      => ['', 'input', 'select'][$row['ga_input_type']],
+                        'input_type'    => ['', 'input', 'select'][$row['ga_input_type']],
+                        'type'      => $row['ga_type'],
                         'values'    => $row['ga_values'] ? explode("\n", $row['ga_values']) : []
                     ];
                     return null;
