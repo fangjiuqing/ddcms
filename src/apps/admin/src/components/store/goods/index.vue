@@ -148,14 +148,14 @@ export default {
     }
   },
   mounted: function () {
-    this.$store.state.left_active_key = '/material'
+    this.$store.state.left_active_key = '/store'
     this.refresh()
   },
   destroyed: function () {
     this.$loading.hide()
   },
   activated: function () {
-    this.$store.state.left_active_key = '/material'
+    this.$store.state.left_active_key = '/store'
     this.refresh()
   }
 }

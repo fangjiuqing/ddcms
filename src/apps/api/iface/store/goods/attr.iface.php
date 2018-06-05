@@ -49,7 +49,7 @@ class store_goods_attr_iface extends ubase_iface {
                 'msg'  => '未指定的商品类型',
                 'rule' => ['\\re\\rgx\\filter', 'is_positive_int']
             ],
-            'ga_is_filter' => [
+            'ga_type' => [
                 'code' => '101',
                 'msg'  => '请选择是否为筛选项',
                 'rule' => ['\\re\\rgx\\filter', 'is_positive_int']

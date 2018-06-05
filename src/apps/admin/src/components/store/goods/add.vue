@@ -58,7 +58,7 @@
         <div class="form-block">
           <div class="row">
             <div class="col-md-12">
-              <h5 class="block-h5">规格信息</h5>
+              <h5 class="block-h5">规格属性</h5>
             </div>
             <div class="col-md-9">
               <div class="row form-input-row">
@@ -72,6 +72,56 @@
                   </select>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-block" v-show="hasBaseAttrs">
+          <div class="row">
+            <div class="col-md-12">
+              <h5 class="block-h5">商品属性</h5>
+            </div>
+            <div class="col-md-9">
+              <div class="row form-input-row" v-for="(v, k) in baseAttrs" :key="k">
+                <label class="col-sm-2 field-label">{{v.name}}</label>
+                <div class="col-sm-10 input-label">
+                  <select v-model="baseAttrs[k]['value']" v-if="v.input_type === 'select'" class="form-control">
+                    <option disabled value="">请选择{{v.name}}</option>
+                    <option v-for="(opt, optKey) in v.values" :key="optKey" :value="optKey">
+                      {{opt}}
+                    </option>
+                  </select>
+                  <input class="form-control" v-if="v.input_type === 'input'" v-model="baseAttrs[k]['value']" type="text" placeholder="请输入">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-block" v-show="hasFilterAttrs">
+          <div class="row">
+            <div class="col-md-12">
+              <h5 class="block-h5">商品规格</h5>
+            </div>
+            <div class="col-md-12">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th class="text-center" :width="v['width'] || ''" v-for="(v, k) in filterAttrs" :key="k">{{v.name}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(gsv, gsk) in goodsSpecs" :key="gsk">
+                    <td v-for="(v, k) in gsv" :key="k" class="text-center">
+                      <select v-model="goodsSpecs[gsk][k]" v-if="filterAttrs[k].input_type === 'select'" class="form-control-xs">
+                        <option disabled value="">请选择{{v.name}}</option>
+                        <option v-for="(opt, optKey) in filterAttrs[k].values" :key="optKey" :value="optKey">
+                          {{opt}}
+                        </option>
+                      </select>
+                      <input class="form-control-xs" v-if="filterAttrs[k].input_type === 'input'" v-model="goodsSpecs[gsk][k]" type="text" :placeholder="'请输入' + filterAttrs[k].name">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -109,12 +159,63 @@ export default {
       brands: {},
       categories: {},
       goodsTypes: {},
-      baseAttrs: {}
+      baseAttrs: {},
+      hasBaseAttrs: false,
+      filterAttrs: {},
+      hasFilterAttrs: false,
+      goodsSpecs: {}
     }
   },
   methods: {
     selectGoodsType () {
-      this.baseAttrs = this.goodsTypes[this.form.goods_type_id].attrs
+      let attrs = this.goodsTypes[this.form.goods_type_id].attrs
+      this.filterAttrs = {}
+      this.baseAttrs = {}
+      this.titles = {}
+      for (let k of Object.keys(attrs)) {
+        if (attrs[k]['type'] === '1') {
+          this.baseAttrs[k] = attrs[k]
+        } else {
+          this.filterAttrs[k] = attrs[k]
+        }
+      }
+
+      this.hasBaseAttrs = Object.keys(this.baseAttrs).length > 0
+      this.hasFilterAttrs = Object.keys(this.filterAttrs).length > 0
+      if (this.hasFilterAttrs) {
+        this.filterAttrs['0_1_cover'] = {
+          name: '封面',
+          value: '',
+          input_type: 'image',
+          width: '15%'
+        }
+        this.filterAttrs['9_2_stocks'] = {
+          name: '库存',
+          value: '',
+          input_type: 'input',
+          width: '9%'
+        }
+        this.filterAttrs['9_5_price_cost'] = {
+          name: '成本价',
+          value: '',
+          input_type: 'input',
+          width: '9%'
+        }
+        this.filterAttrs['9_4_price'] = {
+          name: '售价',
+          value: '',
+          input_type: 'input',
+          width: '9%'
+        }
+        this.initGoodsSpecs()
+      }
+    },
+    initGoodsSpecs () {
+      let item = {}
+      for (let k of Object.keys(this.filterAttrs)) {
+        item[k] = ''
+      }
+      this.$set(this.$data.goodsSpecs, this.$util.rand_str(16), item)
     },
     querySupplier (query, done) {
       this.$http.list('store/supplier', {key: query}).then(d => {
