@@ -61,6 +61,7 @@ class store_helper extends rgx {
                         'name'      => $row['ga_name'],
                         'input_type'    => ['', 'input', 'select'][$row['ga_input_type']],
                         'type'      => $row['ga_type'],
+                        'value'     => '',
                         'values'    => $row['ga_values'] ? explode("\n", $row['ga_values']) : []
                     ];
                     return null;
