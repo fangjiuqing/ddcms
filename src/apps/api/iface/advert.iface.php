@@ -95,7 +95,8 @@ class advert_iface extends ubase_iface {
             }
             $ret = $tab->delete(['ad_id' => $id]);
             if ($ret['rows'] === 1) {
-                admin_helper::add_log($this->login['admin_id'], 'advert/del', '3', '删除广告[@' . $ad_ret['ad_name'] . ']');
+                admin_helper::add_log($this->login['admin_id'], 'advert/del', '3',
+                    '删除广告[' . $id . '@' . $ad_ret['ad_name'] . ']');
                 $this->success('操作成功');
             }
         }
