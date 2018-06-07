@@ -83,6 +83,13 @@ class public_store_user_addr_iface extends ubase_iface {
                     return !empty($v);
                 },
             ],
+            'ua_region1'    => [
+                'code'  => '103',
+                'msg'   => '请输入正确的地址',
+                'rule'  => function ($v) {
+                    return !empty($v);
+                },
+            ],
         ]);
         $tab    = OBJ('user_addr_table');
         //数据对比

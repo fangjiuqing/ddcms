@@ -56,4 +56,13 @@ class misc_iface extends base_iface {
             return $ret;
         }, -1));
     }
+    
+    /**
+     * 地址第四级列表
+     */
+    public function street_action () {
+        $this->success('', CACHE("region@tree-{$id}", function () use ($id) {
+            return OBJ('region_tb_table')->get_all(['region_parent' => intval($this->data['region_id'])]);
+        }, -1));
+    }
 }
