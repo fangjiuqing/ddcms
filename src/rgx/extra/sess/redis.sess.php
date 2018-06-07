@@ -43,7 +43,7 @@ class redis_sess extends sess {
      * @param string $sess_id
      * @throws exception
      */
-    public function __construct ($conf, $sess_name = null, $sess_id = null) {
+    public function __construct ($conf, $via = 'cookie', $sess_name = null, $sess_id = null) {
         if (!class_exists('\Redis', false)) {
             throw new exception(LANG('does not support', '\Redis '), exception::NOT_EXISTS);
         }
@@ -60,21 +60,44 @@ class redis_sess extends sess {
             throw new exception(LANG('config error', 'Redis'), exception::CONFIG_ERROR);
         }
 
-        // 域
-        $this->_uuid = empty($sess_id) ? (isset($_COOKIE[$this->_ckey]) ? $_COOKIE[$this->_ckey] : '') : $sess_id;
-        if (!preg_match('/^RS\d{1,3}\-[\w\-]+$/i', $this->_uuid)) {
-            // 新的 session 
-            $this->_uuid = 'RS' . sprintf('%03d-', explode('.', $_SERVER['SERVER_ADDR'])[0]) . 
-                            md5(app::get_ip() . $_SERVER['HTTP_USER_AGENT'] . mt_rand(1000000, 9999999));
+        if ($via == 'cookie') {
+            $this->_uuid = empty($sess_id) ? (isset($_COOKIE[$this->_ckey]) ? $_COOKIE[$this->_ckey] : '') : $sess_id;
         }
+        else if ($via == 'header') {
+            $this->_uuid = empty($sess_id) ? (
+                isset($_SERVER[strtoupper('http_' . $this->_ckey)]) ? $_SERVER[strtoupper('http_' . $this->_ckey)] : ''
+            ) : $sess_id;
+        }
+
+        if (!preg_match('/^RS\d{1,3}\-[\w\-]+$/i', $this->_uuid)) {
+            $this->_uuid = $this->generate_sess_id();
+        }
+
         // 更新 session 开始时间
         $this->set('RGX_DATE', REQUEST_TIME);
 
+        if ($via == 'cookie') {
+            // 更新 cookie ttl , + 30min
+            setcookie($this->_ckey, $this->_uuid, REQUEST_TIME + $this->_ttl , "/" , parent::get_domain());
+        }
+        else if ($via == 'header') {
+            header("{$this->_ckey}: {$this->_uuid}");
+        }
+
         header("Cache-control: private"); // 使用http头控制缓存
-        // 更新 cookie ttl , + 30min
-        setcookie($this->_ckey, $this->_uuid, REQUEST_TIME + $this->_ttl , "/" , parent::get_domain());
+
         // GC
         $this->gc();
+    }
+
+
+    /**
+     * 生成会话ID
+     * @return [type] [description]
+     */
+    public function generate_sess_id () {
+        return 'RS' . sprintf('%03d-', explode('.', $_SERVER['SERVER_ADDR'])[0]) . 
+                md5(app::get_ip() . $_SERVER['HTTP_USER_AGENT'] . mt_rand(1000000, 9999999));
     }
 
     /**

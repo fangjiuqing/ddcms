@@ -29,10 +29,9 @@ export default {
 
     // 请求预处理
     this.handle.interceptors.request.use((config) => {
+      config.headers.common['authkey'] = config.data['access_token'] || this.token
       if (config.method === 'post') {
-        config.data = config.data || {}
-        config.data['access_token'] = config.data['access_token'] || this.token
-        config.data = JSON.stringify(config.data)
+        config.data = JSON.stringify(config.data || {})
       }
       return config
     }, (error) => {
@@ -44,6 +43,10 @@ export default {
     this.handle.interceptors.response.use((res) => {
       if (res.status !== 200) {
         return Promise.reject(res)
+      } else {
+        if (res.headers.authkey) {
+          this.cache.set('access_token', res.headers.authkey)
+        }
       }
       return res
     }, (error) => {
@@ -57,10 +60,6 @@ export default {
       uri: uri,
       data: params
     }).then(d => {
-      if (d.access_token) {
-        this.token = d.access_token
-        this.cache.set('access_token', d.access_token)
-      }
       return d
     })
   },

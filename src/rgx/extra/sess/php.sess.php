@@ -19,27 +19,52 @@ class php_sess extends sess {
      * @param string $sess_id
      * @param array $extra
      */
-    public function __construct ($conf, $sess_name = null, $sess_id = null, $extra = []) {
+    public function __construct ($conf, $via = 'cookie', $sess_name = null, $sess_id = null, $extra = []) {
         $this->config = $conf;
         session_set_cookie_params($this->config['ttl'] ?: 1800 , '/', parent::get_domain());
-        $sess_name = $sess_name ? session_name($sess_name) : session_name();
+
+        // 自定义 session name 
+        if (!empty($sess_name)) {
+            session_name($sess_name);
+        }
+        else {
+            $sess_name = session_name();
+        }
+
+        // 启用已存在的会话
         if (!empty($sess_id)) {
             session_id($sess_id);
         }
-        else if (isset($_COOKIE[$sess_name]) && 
-                preg_match('/^RS\d{1,3}\-[\w\-]+$/i', $_COOKIE[$sess_name])) {
-            $sess_id = $_COOKIE[$sess_name];
-            session_id($_COOKIE[$sess_name]);
-        }
+        // 自动获取 & 创建sess_id
         else {
-            $sess_id = 'RS' . sprintf('%03d-', explode('.', $_SERVER['SERVER_ADDR'])[0]) . 
-                            md5(app::get_ip() . $_SERVER['HTTP_USER_AGENT'] . mt_rand(1000000, 9999999));
+            if ($via == 'header') {
+                $sess_id = $_SERVER[strtoupper('http_' . $sess_name)];
+            }
+            else if ($via == 'cookie') {
+                $sess_id = $_COOKIE[$sess_name];
+            }
+            $sess_id = $sess_id ?: $this->generate_sess_id();
             session_id($sess_id);
         }
+
+        if ($via != 'cookie') {
+            $extra['use_cookies'] = 0;
+            header("{$sess_name}: {$sess_id}");
+        }
+
         session_start($extra);
         if ($conf['cache']) {
             header("Cache-control: private"); // 使用http头控制缓存
         }
+    }
+
+    /**
+     * 生成会话ID
+     * @return [type] [description]
+     */
+    public function generate_sess_id () {
+        return 'RS' . sprintf('%03d-', explode('.', $_SERVER['SERVER_ADDR'])[0]) . 
+                md5(app::get_ip() . $_SERVER['HTTP_USER_AGENT'] . mt_rand(1000000, 9999999));
     }
 
     /**

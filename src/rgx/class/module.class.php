@@ -62,7 +62,7 @@ class module extends rgx {
      * @param array $opts
      */
     public function sess ($sess_name = null, $sess_id = null, $opts = []) {
-       $this->_sess = app::sess($sess_name, $sess_id);
+       $this->_sess = app::sess($sess_name, $sess_id, $opts);
     }
 
     /**

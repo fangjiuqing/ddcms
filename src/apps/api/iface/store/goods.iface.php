@@ -20,5 +20,19 @@ class store_goods_iface extends ubase_iface {
         $this->success('', $out);
     }
 
-
+    /**
+     * 商品保存
+     * @return [type] [description]
+     */
+    public function save_action () {
+        header("authkey: {$_SERVER['HTTP_AUTHKEY']}");
+        die;
+        $goods = $this->data['goods'];
+        $specs = $this->data['specs'];
+        // 保留键名
+        $reserved_keys = [
+            'id', '0cover', '0cover_url', 'price_cost', 'price_sale', 'stocks'
+        ];
+        var_dump($goods, $specs);
+    }
 }

@@ -26,5 +26,22 @@ return [
             'port'  => 6379,
             'db'    => 6
         ]
-   ]
+   ],
+
+   'sess'     => [
+        'type'      => 'redis',
+        // 默认通过 cookie 传递 ( 可选 cookie, header)
+        'via'       => 'header',
+        // 默认实现
+        'php'       => [
+            'ttl'   => 1800,
+        ],
+        // Redis 实现
+        'redis'     => [
+            'host'  => '188.server',
+            'port'  => 6379,
+            'db'    => 5,
+            'ttl'   => 1800
+        ]
+    ]
 ];

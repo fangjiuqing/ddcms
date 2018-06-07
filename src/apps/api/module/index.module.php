@@ -29,11 +29,11 @@ class index_module extends R\module {
         }
 
         // session
-        $sess_id = $this->params['access_token'];
+        $sess_id = $_SERVER['HTTP_AUTHKEY'];
         if (empty($sess_id) || !preg_match('/^RS\d{1,3}\-[\w\-]+$/i', $sess_id)) {
             $sess_id = null;
         }
-        $this->sess('access_token', $sess_id ?: null, ['use_cookies' => false]);
+        $this->sess('authkey', $sess_id ?: null);
 
         $login = $this->sess_get('admin_login') ?: null;
         if (!empty($login)) {

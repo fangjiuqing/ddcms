@@ -49,8 +49,8 @@
               </div>
             </div>
             <div class="col-md-3">
-              <img class="preview_cover" style="width:200px;height:150px;" :src="cover" @click="upload_cover">
-              <input type="hidden" name="mat_cover" v-model="form.mat_cover">
+              <img class="preview_cover" style="width:200px;height:200px;" :src="form.goods_cover_url || cover" @click="upload_cover">
+              <input type="hidden" name="mat_cover" v-model="form.goods_cover">
               <div class="clearfix"></div>
             </div>
           </div>
@@ -99,25 +99,37 @@
         <div class="form-block" v-show="hasFilterAttrs">
           <div class="row">
             <div class="col-md-12">
-              <h5 class="block-h5">商品规格</h5>
+              <h5 class="block-h5">商品规格
+                <btn class="btn btn-xs btn-info pull-right" @click="addGoodsSpecRow">添加</btn>
+                <div class="clearfix"></div>
+              </h5>
             </div>
             <div class="col-md-12">
               <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th class="text-center" :width="v['width'] || ''" v-for="(v, k) in filterAttrs" :key="k">{{v.name}}</th>
+                    <th class="text-center" :width="filterAttrs[v]['width'] || ''" v-for="(v, k) in sortFilterAttrs" v-if="filterAttrs[v].input_type !== 'none'" :key="k">{{filterAttrs[v].name}}</th>
+                    <th width="80"></th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="(gsv, gsk) in goodsSpecs" :key="gsk">
-                    <td v-for="(v, k) in gsv" :key="k" class="text-center">
-                      <select v-model="goodsSpecs[gsk][k]" v-if="filterAttrs[k].input_type === 'select'" class="form-control-xs">
-                        <option disabled value="">请选择{{v.name}}</option>
-                        <option v-for="(opt, optKey) in filterAttrs[k].values" :key="optKey" :value="optKey">
+                    <td v-for="(v, k) in Object.keys(gsv).sort()" :key="k" class="text-center" style="vertical-align: middle;" v-if="filterAttrs[v].input_type !== 'none'">
+                      <select v-model="goodsSpecs[gsk][v]" v-if="filterAttrs[v].input_type === 'select'" class="form-control-xs">
+                        <option disabled value="">请选择{{filterAttrs[v].name}}</option>
+                        <option v-for="(opt, optKey) in filterAttrs[v].values" :key="optKey" :value="optKey">
                           {{opt}}
                         </option>
                       </select>
-                      <input class="form-control-xs" v-if="filterAttrs[k].input_type === 'input'" v-model="goodsSpecs[gsk][k]" type="text" :placeholder="'请输入' + filterAttrs[k].name">
+                      <input class="form-control-xs" v-if="filterAttrs[v].input_type === 'input'" v-model="goodsSpecs[gsk][v]" type="text" :placeholder="'请输入' + filterAttrs[v].name">
+                      <div v-if="filterAttrs[v].input_type === 'image'">
+                        <img class="preview_cover" style="width: 100px; height: 100px;" :src="goodsSpecs[gsk][v + '_url'] || cover" @click="uploadGoodsCover(gsk, v)">
+                      </div>
+                    </td>
+                    <td class="text-center" style="vertical-align: middle;">
+                      <btn class="btn btn-xs btn-danger" @click="rmGoodsSpec(gsk)">
+                        <i class="fa fa-trash-o"></i>
+                      </btn>
                     </td>
                   </tr>
                 </tbody>
@@ -125,15 +137,18 @@
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12" style="margin:0 auto; float: none">
-            <btn type="success" v-on:click="save" class="btn btn-success pull-right">保存</btn>
+        <div class="form-block">
+          <div class="row">
+            <div class="col-md-12" style="margin:15px auto; float: none">
+              <btn type="success" @click="save" class="btn btn-success pull-right">保存</btn>
+            </div>
           </div>
         </div>
       </form>
     </div>
   </div>
 </template>
+
 <script>
 export default {
   name: 'StoreGoodsAdd',
@@ -150,7 +165,7 @@ export default {
         {text: '编辑', href: '#'}
       ],
       id: this.$route.query['id'] || 0,
-      cover: require('@/assets/images/default_4x3.jpg'),
+      cover: require('@/assets/images/default_1x1.jpg'),
       form: {
         goods_brand: '',
         goods_cat_id: '',
@@ -163,13 +178,66 @@ export default {
       hasBaseAttrs: false,
       filterAttrs: {},
       hasFilterAttrs: false,
-      goodsSpecs: {}
+      goodsSpecs: {},
+      curGoodsSpecKey: null
     }
   },
+
+  // computed
+  computed: {
+    sortFilterAttrs () {
+      return Object.keys(this.filterAttrs).sort()
+    }
+  },
+
+  // 方法
   methods: {
+    // 上传商品封面图片
+    uploadGoodsCover (parentKey, key) {
+      this.curGoodsSpecKey = {
+        parentKey, key
+      }
+      this.$uploader.select({
+        uri: 'upload/image',
+        el: this,
+        pre: 'cover'
+      })
+    },
+
+    // 删除列
+    rmGoodsSpec (key) {
+      this.$confirm({
+        title: '操作提示',
+        content: '确认删除该种商品?',
+        okText: '确认',
+        cancelText: '取消'
+      }).then(() => {
+        this.$delete(this.$data.goodsSpecs, key)
+      })
+    },
+
+    // 选择商品类型
     selectGoodsType () {
       let attrs = this.goodsTypes[this.form.goods_type_id].attrs
-      this.filterAttrs = {}
+      this.filterAttrs = {
+        'id': {
+          name: '编号',
+          value: 0,
+          input_type: 'none'
+        },
+        '0cover': {
+          name: '封面',
+          value: '',
+          input_type: 'image',
+          width: '100'
+        },
+        '0cover_url': {
+          name: '预览图',
+          value: '',
+          input_type: 'none',
+          width: '100'
+        }
+      }
       this.baseAttrs = {}
       this.titles = {}
       for (let k of Object.keys(attrs)) {
@@ -181,42 +249,41 @@ export default {
       }
 
       this.hasBaseAttrs = Object.keys(this.baseAttrs).length > 0
-      this.hasFilterAttrs = Object.keys(this.filterAttrs).length > 0
+      this.hasFilterAttrs = Object.keys(this.filterAttrs).length > 3
       if (this.hasFilterAttrs) {
-        this.filterAttrs['0_1_cover'] = {
-          name: '封面',
-          value: '',
-          input_type: 'image',
-          width: '15%'
-        }
-        this.filterAttrs['9_2_stocks'] = {
+        this.filterAttrs['stocks'] = {
           name: '库存',
           value: '',
           input_type: 'input',
-          width: '9%'
+          width: '100'
         }
-        this.filterAttrs['9_5_price_cost'] = {
+        this.filterAttrs['price_cost'] = {
           name: '成本价',
           value: '',
           input_type: 'input',
-          width: '9%'
+          width: '100'
         }
-        this.filterAttrs['9_4_price'] = {
+        this.filterAttrs['price_sale'] = {
           name: '售价',
           value: '',
           input_type: 'input',
-          width: '9%'
+          width: '100'
         }
-        this.initGoodsSpecs()
+        this.goodsSpecs = {}
+        this.addGoodsSpecRow()
       }
     },
-    initGoodsSpecs () {
+
+    // 初始化商品规格
+    addGoodsSpecRow () {
       let item = {}
-      for (let k of Object.keys(this.filterAttrs)) {
+      for (let k of Object.keys(this.filterAttrs).sort()) {
         item[k] = ''
       }
       this.$set(this.$data.goodsSpecs, this.$util.rand_str(16), item)
     },
+
+    // 搜搜供应商
     querySupplier (query, done) {
       this.$http.list('store/supplier', {key: query}).then(d => {
         if (d.code === 0) {
@@ -224,6 +291,8 @@ export default {
         }
       })
     },
+
+    // 上传错误时
     on_cover_error (msg) {
       this.$loading.hide()
       this.$notify({
@@ -233,11 +302,15 @@ export default {
         dismissible: false
       })
     },
+
+    // 上传开始时
     on_cover_start (e) {
       this.$loading.show({
         msg: '文件上传中, 已发送 0 % ...'
       })
     },
+
+    // 上传完成时
     on_cover_finish (d) {
       this.$loading.hide()
       this.$notify({
@@ -246,9 +319,20 @@ export default {
         type: 'success',
         dismissible: false
       })
-      this.form.mat_cover = d.image
-      this.mat_cover = d.thumb
+      // 子商品封面上传
+      if (this.curGoodsSpecKey !== null) {
+        let item = this.goodsSpecs[this.curGoodsSpecKey.parentKey]
+        item[this.curGoodsSpecKey.key] = d.image
+        item[this.curGoodsSpecKey.key + '_url'] = d.url
+        this.$set(this.$data.goodsSpecs, this.curGoodsSpecKey.parentKey, item)
+        this.curGoodsSpecKey = null
+      } else {
+        this.form.goods_cover = d.image
+        this.$set(this.$data.form, 'goods_cover_url', d.url)
+      }
     },
+
+    // 上传处理时
     on_cover_progress (e) {
       if (e) {
         this.$loading.show({
@@ -256,13 +340,18 @@ export default {
         })
       }
     },
+
+    // 上传商品封面图
     upload_cover () {
+      this.curGoodsSpecKey = null
       this.$uploader.select({
         uri: 'upload/image',
         el: this,
         pre: 'cover'
       })
     },
+
+    // 获取商品信息, 初始化编辑数据
     modify: function (id) {
       this.$loading.show({
         msg: '加载中 ...'
@@ -285,14 +374,15 @@ export default {
         }
       })
     },
+
+    // 保存数据
     save: function () {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.save('material', {
-        row: this.form,
-        attr_key: this.fields,
-        attr_val: this.rows
+      this.$http.save('store/goods', {
+        goods: this.form,
+        specs: this.goodsSpecs
       }).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
@@ -317,13 +407,19 @@ export default {
       })
     }
   },
+
+  // 挂载时
   mounted: function () {
     this.$store.state.left_active_key = '/store'
     this.modify()
   },
+
+  // 析构时
   destroyed: function () {
     this.$loading.hide()
   },
+
+  // 激活时
   activated: function () {
     this.$store.state.left_active_key = '/store'
   }

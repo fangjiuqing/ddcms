@@ -103,7 +103,7 @@ abstract class sess {
                 include ($file);
             }
             $class = __NAMESPACE__ . "\\" . $type . '_sess';
-            $sobj = new $class($conf[$conf['type']], $sess_name, $sess_id, $extra);
+            $sobj = new $class($conf[$conf['type']], $conf['via'] ?: 'cookie', $sess_name, $sess_id, $extra);
         }
         return $sobj;
     }
