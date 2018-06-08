@@ -193,7 +193,7 @@ class customer_table extends table {
             'min'                => 0,
             'max'                => 64,
             'label'              => '详细地址',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'pc_co_id' => [
@@ -223,7 +223,7 @@ class customer_table extends table {
             'min'                => 0,
             'max'                => 255,
             'label'              => '备注',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'pc_score' => [
