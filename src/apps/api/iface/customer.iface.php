@@ -19,6 +19,8 @@ class customer_iface extends ubase_iface {
             $region_ids[$row['pc_region0']] = 1;
             $region_ids[$row['pc_region1']] = 1;
             $region_ids[$row['pc_region2']] = 1;
+            $row['pc_region3_label']    = OBJ('region_tb_table')
+                ->get(['region_code' => $row['pc_region3']])['region_name'];
             $area_ids[$row['pc_co_id']] = 1;
             $row['via'] = core_helper::$customer_via[$row['pc_via']] ?: '未知';
             $row['status'] = core_helper::$customer_status[$row['pc_status']];
@@ -82,6 +84,7 @@ class customer_iface extends ubase_iface {
             $row['region0'] = $regions[$row['pc_region0']]['region_name'] ?: '';
             $row['region1'] = $regions[$row['pc_region1']]['region_name'] ?: '';
             $row['region2'] = $regions[$row['pc_region2']]['region_name'] ?: '';
+            $row['region3'] = OBJ('region_tb_table')->get(['region_code' => $row['pc_region3']])['region_name'];
             return $row;
         })->left_join('community_table', 'pc_co_id', 'pco_id')->get((int)$this->data['id']) ?: null;
         if (empty($ret['row'])) {

@@ -7,7 +7,7 @@ namespace re\rgx;
   + ----------------------------------------------------------------
   + @date 2018-03-05 11:05:11
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
-  + @cmd  php ./rgx/build.php --prefix=./apps/api
+  + @cmd  php rgx/build.php --prefix=./apps/api
   + @generator RGX v1.0.0.20171212_RC
   +-----------------------------------------------------------------
 */
@@ -43,7 +43,7 @@ class customer_table extends table {
             'min'                => 0,
             'max'                => 16,
             'label'              => '客户编号',
-            'allow_empty_string' => true,
+            'allow_empty_string' => false,
             'allow_null'         => false
         ],
         'pc_sid' => [
@@ -53,8 +53,8 @@ class customer_table extends table {
             'min'                => 0,
             'max'                => 18,
             'label'              => '身份证',
-            'allow_empty_string' => true,
-            'allow_null'         => true
+            'allow_empty_string' => false,
+            'allow_null'         => false
         ],
         'pc_nick' => [
             'name'               => 'pc_nick',
@@ -63,7 +63,7 @@ class customer_table extends table {
             'min'                => 0,
             'max'                => 32,
             'label'              => '客户姓名',
-            'allow_empty_string' => true,
+            'allow_empty_string' => false,
             'allow_null'         => false
         ],
         'pc_mobile' => [
@@ -103,7 +103,7 @@ class customer_table extends table {
             'min'                => 0,
             'max'                => 32,
             'label'              => '客服姓名',
-            'allow_empty_string' => true,
+            'allow_empty_string' => false,
             'allow_null'         => false
         ],
         'pc_atime' => [
@@ -176,6 +176,16 @@ class customer_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
+        'pc_region3' => [
+            'name'               => 'pc_region3',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => 'pc_region3',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
         'pc_addr' => [
             'name'               => 'pc_addr',
             'type'               => 'char',
@@ -183,7 +193,7 @@ class customer_table extends table {
             'min'                => 0,
             'max'                => 64,
             'label'              => '详细地址',
-            'allow_empty_string' => true,
+            'allow_empty_string' => false,
             'allow_null'         => false
         ],
         'pc_co_id' => [
@@ -213,7 +223,7 @@ class customer_table extends table {
             'min'                => 0,
             'max'                => 255,
             'label'              => '备注',
-            'allow_empty_string' => true,
+            'allow_empty_string' => false,
             'allow_null'         => false
         ],
         'pc_score' => [
@@ -259,6 +269,7 @@ class customer_table extends table {
         'pc_region0'      => 0,
         'pc_region1'      => 0,
         'pc_region2'      => 0,
+        'pc_region3'      => 0,
         'pc_addr'         => '',
         'pc_co_id'        => 0,
         'pc_gender'       => 0,
@@ -287,6 +298,7 @@ class customer_table extends table {
         'pc_region0'      => ['re\rgx\filter', 'int'],
         'pc_region1'      => ['re\rgx\filter', 'int'],
         'pc_region2'      => ['re\rgx\filter', 'int'],
+        'pc_region3'      => ['re\rgx\filter', 'int'],
         'pc_addr'         => ['re\rgx\filter', 'char'],
         'pc_co_id'        => ['re\rgx\filter', 'int'],
         'pc_gender'       => ['re\rgx\filter', 'int'],
@@ -300,7 +312,7 @@ class customer_table extends table {
       +--------------------------
     */
     public $unique_check = [
-        ['pc_mobile', 'pc_status_del']
+        
     ];
 
     /*
