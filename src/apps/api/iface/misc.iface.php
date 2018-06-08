@@ -61,8 +61,9 @@ class misc_iface extends base_iface {
      * 地址第四级列表
      */
     public function street_action () {
+        $id = intval($this->data['region_id']);
         $this->success('', CACHE("region@tree-{$id}", function () use ($id) {
-            return OBJ('region_tb_table')->get_all(['region_parent' => intval($this->data['region_id'])]);
+            return OBJ('region_tb_table')->get_all(['region_parent' => $id]);
         }, -1));
     }
 }

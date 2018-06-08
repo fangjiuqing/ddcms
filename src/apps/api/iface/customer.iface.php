@@ -115,6 +115,7 @@ class customer_iface extends ubase_iface {
         $this->data['pc_region0'] = filter::int($this->data['pc_region0']);
         $this->data['pc_region1'] = filter::int($this->data['pc_region1']);
         $this->data['pc_region2'] = filter::int($this->data['pc_region2']);
+        $this->data['pc_region3'] = filter::int($this->data['pc_region3']);
         $this->data['pc_addr'] = filter::normal($this->data['pc_addr']);
         $this->data['pc_co_id'] = filter::int($this->data['pc_co_id']);
         $this->data['pc_gender'] = filter::int($this->data['pc_gender']);
