@@ -233,8 +233,3 @@ export default {
   }
 }
 </script>
-<style>
-.customer, .app_mask {
-  background: #fff;
-}
-</style>
