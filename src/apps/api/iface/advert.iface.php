@@ -33,7 +33,7 @@ class advert_iface extends ubase_iface {
         $ad_tab = OBJ('ad_table');
         $paging = new paging_helper($ad_tab, $this->data['pn'] ?: 1, 12);
         $ad_ret = $ad_tab->map(function ($row) {
-            $row['ad_status_style'] = ['primary', 'info', 'success'][$row['ad_status']];
+            $row['ad_status_style'] = ['', 'text-primary', 'text-info', 'text-success'][$row['ad_status']];
             $row['ad_status']   = ad_helper::$ad_status[$row['ad_status']];
             $row['ad_desc']     = filter::json_unecsape($row['ad_desc']);
             return $row;
