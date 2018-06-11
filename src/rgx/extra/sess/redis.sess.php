@@ -37,6 +37,12 @@ class redis_sess extends sess {
     private $_ttl   = 1800;
 
     /**
+     * 传递方式
+     * @var string
+     */
+    private $_via = 'cookie';
+
+    /**
      * 架构函数
      * @param array  $conf
      * @param string $sess_name
@@ -50,7 +56,7 @@ class redis_sess extends sess {
         $this->_gc   = empty($conf['gc']) ? $this->_gc : $conf['gc'];
         $this->_ttl  = $conf['ttl'] ? intval($conf['ttl']) : $this->_ttl;
         $this->_ckey = empty($sess_name) ? session_name() : $sess_name;
-
+        $this->_via  = $via;
         $this->_redis = new \Redis();
         // connect
         if ($this->_redis->connect($conf['host'], $conf['port'])) {
@@ -60,10 +66,10 @@ class redis_sess extends sess {
             throw new exception(LANG('config error', 'Redis'), exception::CONFIG_ERROR);
         }
 
-        if ($via == 'cookie') {
+        if ($this->_via == 'cookie') {
             $this->_uuid = empty($sess_id) ? (isset($_COOKIE[$this->_ckey]) ? $_COOKIE[$this->_ckey] : '') : $sess_id;
         }
-        else if ($via == 'header') {
+        else if ($this->_via == 'header') {
             $this->_uuid = empty($sess_id) ? (
                 isset($_SERVER[strtoupper('http_' . $this->_ckey)]) ? $_SERVER[strtoupper('http_' . $this->_ckey)] : ''
             ) : $sess_id;
@@ -76,11 +82,11 @@ class redis_sess extends sess {
         // 更新 session 开始时间
         $this->set('RGX_DATE', REQUEST_TIME);
 
-        if ($via == 'cookie') {
-            // 更新 cookie ttl , + 30min
+        // 更新 cookie ttl , + 30min
+        if ($this->_via == 'cookie') {
             setcookie($this->_ckey, $this->_uuid, REQUEST_TIME + $this->_ttl , "/" , parent::get_domain());
         }
-        else if ($via == 'header') {
+        else if ($this->_via == 'header') {
             header("{$this->_ckey}: {$this->_uuid}");
         }
 
@@ -209,8 +215,10 @@ class redis_sess extends sess {
      */
     public function remove () {
         // 设置 cookie 过期
-        unset($_COOKIE[$this->_ckey]);
-        setcookie($this->_ckey, null, -1);
+        if ($this->_via == 'cookie') {
+            unset($_COOKIE[$this->_ckey]);
+            setcookie($this->_ckey, null, -1);
+        }
         $this->_redis->lRem('gc_task', $this->_uuid, 0);
         return $this->_redis->del($this->_uuid);
     }

@@ -90,9 +90,10 @@ class build {
      * 获取命令
      * @return string
      */
-    public function get_cmd () {
+    public function get_cmd ($act = 'app') {
         $ret = [
-            $_SERVER['PHP_SELF']
+            $_SERVER['PHP_SELF'],
+            $act
         ];
         foreach ((array)$this->argv as $k => $v) {
             if (!is_numeric($k)) {
@@ -358,7 +359,7 @@ class app_build extends build {
             "  + ---------------------------------------------------------------------",
             "  + @date      " . date('Y-m-d H:i:s', time()),
             "  + @generator RGX v{$this->version_code}.{$this->version_name}",
-            "  + @cmd       {$this->get_cmd()}",
+            "  + @cmd       " . $this->get_cmd('app'),
             "  +----------------------------------------------------------------------",
             "*/",
             "define('IN_RGX', true);",
@@ -401,6 +402,7 @@ class app_build extends build {
             "    }",
             "",
             "}",
+            ""
         ];
         $this->write_file(
             join(DIRECTORY_SEPARATOR, [$app['prefix'], 'module', 'index.module.php']), 
@@ -419,7 +421,8 @@ class app_build extends build {
             "   <body>",
             "       <h1>Hello world ...</h1>",
             "   </body>",
-            "</html>"
+            "</html>",
+            ""
         ];
         $this->write_file(
             join(DIRECTORY_SEPARATOR, [$app['prefix'], 'template', 'default', 'index.tpl.html']), 
@@ -438,7 +441,8 @@ class app_build extends build {
             "            'default' => 'host=127.0.0.1;port=3306;db=helo;user=root;passwd=;charset=utf8mb4;profiling=1',",
             "        ],",
             "   ],",
-            "];"
+            "];",
+            ""
         ];
         $this->write_file(
             join(DIRECTORY_SEPARATOR, [$app['prefix'], 'config', 'config.php']),
@@ -666,7 +670,7 @@ class table_build extends build {
             "  + ----------------------------------------------------------------",
             "  + @date " . date('Y-m-d H:i:s', time()),
             "  + @desc 若修改了表结构, 请使用下面的命令更新模型文件",
-            "  + @cmd  {$this->get_cmd()}",
+            "  + @cmd  " . $this->get_cmd('table'),
             "  + @generator RGX v{$this->version_code}.{$this->version_name}",
             "  +-----------------------------------------------------------------",
             "*/",
@@ -732,6 +736,7 @@ class table_build extends build {
             "    public \$validate = [];",
             "",
             "}",
+            ""
         ]);
 
         // 非强制更新且文件存在
@@ -776,7 +781,7 @@ class table_build extends build {
                         "public \$filter = [{$this->eol}        -*-filter-*-{$this->eol}    ];", $table_tpl);
                 $table_tpl = preg_replace('/public \$unique_check = \[[^;]+?\];/is',
                         "public \$unique_check = [{$this->eol}        -*-unique_check-*-{$this->eol}    ];", $table_tpl);
-                $table_tpl = preg_replace('/@cmd (.+?)\n/is', "@cmd  {$this->get_cmd()}" . PHP_EOL, $table_tpl);
+                $table_tpl = preg_replace('/@cmd (.+?)\n/is', "@cmd  " . $this->get_cmd('table') . PHP_EOL, $table_tpl);
                 $table_tpl = preg_replace('/@update (.+?)\n/is', "@update " . date('Y-m-d H:i:s', time()) . PHP_EOL, $table_tpl);
             }
         }
@@ -1118,4 +1123,3 @@ chdir(__DIR__);
 date_default_timezone_set('PRC');
 
 (new build())->run();
-

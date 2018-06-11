@@ -7,7 +7,7 @@ namespace re\rgx;
   + ----------------------------------------------------------------
   + @date 2018-05-21 11:32:25
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
-  + @cmd  php rgx/build.php --prefix=./apps/api
+  + @cmd  php rgx/build.php table --prefix=./apps/api
   + @generator RGX v1.0.0.20171212_RC
   +-----------------------------------------------------------------
 */
@@ -99,11 +99,21 @@ class goods_spec_table extends table {
         'gs_stock' => [
             'name'               => 'gs_stock',
             'type'               => 'int',
-            'field_type'         => 'smallint',
+            'field_type'         => 'int',
             'min'                => 0,
-            'max'                => 65535,
+            'max'                => 4294967295,
             'label'              => '库存数',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
+            'allow_null'         => false
+        ],
+        'gs_stat_sale' => [
+            'name'               => 'gs_stat_sale',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '已售出',
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
     ];
@@ -132,6 +142,7 @@ class goods_spec_table extends table {
         'gs_price_cost'   => 0.00,
         'gs_cover'        => '',
         'gs_stock'        => 0,
+        'gs_stat_sale'    => 0,
     ];
 
     /*
@@ -148,6 +159,7 @@ class goods_spec_table extends table {
         'gs_price_cost'   => ['re\rgx\filter', 'float'],
         'gs_cover'        => ['re\rgx\filter', 'char'],
         'gs_stock'        => ['re\rgx\filter', 'int'],
+        'gs_stat_sale'    => ['re\rgx\filter', 'int'],
     ];
 
     /*

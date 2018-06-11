@@ -7,7 +7,7 @@ namespace re\rgx;
   + ----------------------------------------------------------------
   + @date 2018-05-21 11:32:17
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
-  + @cmd  php rgx/build.php --prefix=./apps/api
+  + @cmd  php rgx/build.php table --prefix=./apps/api
   + @generator RGX v1.0.0.20171212_RC
   +-----------------------------------------------------------------
 */
@@ -93,7 +93,7 @@ class goods_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '总库存',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'goods_cover' => [
@@ -113,7 +113,7 @@ class goods_table extends table {
             'min'                => 0,
             'max'                => 64,
             'label'              => '关键字',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'goods_adate' => [
@@ -153,7 +153,7 @@ class goods_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '浏览总数',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'goods_stat_sale' => [
@@ -163,7 +163,47 @@ class goods_table extends table {
             'min'                => 0,
             'max'                => 4294967295,
             'label'              => '售出总数',
+            'allow_empty_string' => true,
+            'allow_null'         => false
+        ],
+        'goods_brand' => [
+            'name'               => 'goods_brand',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => 0,
+            'max'                => 4294967295,
+            'label'              => '商品品牌',
             'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'goods_unit' => [
+            'name'               => 'goods_unit',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 8,
+            'label'              => '库存单位',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'goods_stat_count' => [
+            'name'               => 'goods_stat_count',
+            'type'               => 'int',
+            'field_type'         => 'smallint',
+            'min'                => 0,
+            'max'                => 65535,
+            'label'              => '下属商品数',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
+        'goods_stat_count' => [
+            'name'               => 'goods_status',
+            'type'               => 'int',
+            'field_type'         => 'tinyint',
+            'min'                => 0,
+            'max'                => 255,
+            'label'              => '商品状态',
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
     ];
@@ -198,6 +238,10 @@ class goods_table extends table {
         'goods_admin_id'      => 0,
         'goods_stat_view'     => 0,
         'goods_stat_sale'     => 0,
+        'goods_brand'         => 0,
+        'goods_unit'          => '',
+        'goods_stat_count'    => 0,
+        'goods_status'        => 0,
     ];
 
     /*
@@ -220,6 +264,10 @@ class goods_table extends table {
         'goods_admin_id'      => ['re\rgx\filter', 'int'],
         'goods_stat_view'     => ['re\rgx\filter', 'int'],
         'goods_stat_sale'     => ['re\rgx\filter', 'int'],
+        'goods_brand'         => ['re\rgx\filter', 'int'],
+        'goods_unit'          => ['re\rgx\filter', 'char'],
+        'goods_stat_count'    => ['re\rgx\filter', 'int'],
+        'goods_status'        => ['re\rgx\filter', 'int'],
     ];
 
     /*

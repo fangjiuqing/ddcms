@@ -27,10 +27,12 @@ class store_goods_category_iface extends category_iface {
         );
         if ($this->data['parent']) {
             $out['parent_options'] = category_helper::get_options($this->type_id, 0, $this->data['id']);
-            array_unshift($out['parent_options'], ['cat_id' => 0, 'cat_name' => '作为一级分类', 'cat_level' => 0]);
-            foreach ((array)$out['parent_options'] as $k => $v) {
-                $out['parent_options'][$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . $v['cat_name'];
-            }
+            array_unshift($out['parent_options'], [
+                'cat_id'    => 0, 
+                'cat_name'  => '作为一级分类', 
+                'cat_level' => 0, 
+                'space'     => '作为一级分类'
+            ]);
         }
         $out['cat_parent'] = intval($out['cat_parent']);
         $out['status_options'] = category_helper::$status;

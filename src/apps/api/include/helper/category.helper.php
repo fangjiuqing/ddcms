@@ -88,7 +88,11 @@ class category_helper extends rgx {
         $ret = $tab->order('cat_level asc,cat_sort desc')->get_all([
             'cat_type'  => $type_id
         ]);
-        return self::to_tree($ret, 1);
+        $ret = self::to_tree($ret, 1);
+        foreach ((array)$ret as $k => $v) {
+            $ret[$k]['space'] = str_repeat('&nbsp;&nbsp;&nbsp;', $v['cat_level']) . '╰&nbsp;' . $v['cat_name'];
+        }
+        return $ret;
     }
 
     /**

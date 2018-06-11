@@ -67,14 +67,15 @@ export default {
   name: 'StoreGoods',
   metaInfo () {
     return {
-      title: '材料管理 - 道达智装'
+      title: '商品管理 - 道达智装'
     }
   },
   data () {
     return {
       items: [
         {text: '首页', to: '/'},
-        {text: '材料', to: '/material'},
+        {text: '商城', to: '/store'},
+        {text: '商品', href: '/store/goods'},
         {text: '列表', href: '#'}
       ],
       rows: [],
@@ -86,7 +87,7 @@ export default {
   methods: {
     modify (id) {
       this.$router.push({
-        path: '/material/add',
+        path: '/store/goods/add',
         query: {id}
       })
     },
@@ -94,7 +95,7 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.list('material', {pn: this.pn}).then(d => {
+      this.$http.list('store/goods', {pn: this.pn}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.rows = d.data.list

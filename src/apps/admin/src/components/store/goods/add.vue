@@ -1,7 +1,7 @@
 <template>
   <div class="case">
     <breadcrumbs :items="items">
-      <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
+      <breadcrumb-item v-for="(v, i) in items" :key="i" :active="i === items.length - 1" :to="{path: v.to}" >
         {{v.text}}
       </breadcrumb-item>
     </breadcrumbs>
@@ -12,7 +12,7 @@
             <div class="col-md-12">
               <h5 class="block-h5">基本信息</h5>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-8">
               <div class="row form-input-row">
                 <label class="col-sm-2 field-label">商品名称</label>
                 <div class="col-sm-10 input-label">
@@ -24,7 +24,18 @@
                 <div class="col-sm-10 input-label">
                   <select v-model="form.goods_cat_id"  name="goods_cat_id" class="form-control">
                     <option disabled value="">请选择所属分类</option>
-                    <option v-for="(v) in categories" v-bind:key="v.cat_id" :value="v.cat_id" v-html="v.space">
+                    <option v-for="(v) in categories" :key="v.cat_id" :value="v.cat_id" v-html="v.space">
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="row form-input-row">
+                <label class="col-sm-2 field-label">上下架</label>
+                <div class="col-sm-10 input-label">
+                  <select v-model="form.goods_status"  name="goods_brand" class="form-control">
+                    <option disabled value="">请选择售卖状态</option>
+                    <option v-for="(v, k) in goodsStatus" :key="k" :value="v">
+                      {{v}}
                     </option>
                   </select>
                 </div>
@@ -34,7 +45,7 @@
                 <div class="col-sm-10 input-label">
                   <select v-model="form.goods_brand"  name="goods_brand" class="form-control">
                     <option disabled value="">请选择所属品牌</option>
-                    <option v-for="(v) in brands" v-bind:key="v.pb_id" :value="v.pb_id">
+                    <option v-for="(v) in brands" :key="v.pb_id" :value="v.pb_id">
                       {{v.pb_name}}
                     </option>
                   </select>
@@ -47,9 +58,15 @@
                   <typeahead v-model="form.goods_supplier_id" target="#input-5" :async-function="querySupplier" item-key="sup_realname" />
                 </div>
               </div>
+              <div class="row form-input-row">
+                <label class="col-sm-2 field-label">商品单位</label>
+                <div class="col-sm-10 input-label">
+                  <input class="form-control" name="goods_unit" v-model="form.goods_unit" type="text" placeholder="商品单位">
+                </div>
+              </div>
             </div>
-            <div class="col-md-3">
-              <img class="preview_cover" style="width:200px;height:200px;" :src="form.goods_cover_url || cover" @click="upload_cover">
+            <div class="col-md-4">
+              <img class="preview_cover" style="width:240px;height:240px;" :src="form.goods_cover_url || cover" @click="upload_cover">
               <input type="hidden" name="mat_cover" v-model="form.goods_cover">
               <div class="clearfix"></div>
             </div>
@@ -66,7 +83,7 @@
                 <div class="col-sm-10 input-label">
                   <select v-model="form.goods_type_id" @change="selectGoodsType" class="form-control">
                     <option disabled value="">请选择商品类型</option>
-                    <option v-for="(v, k) in goodsTypes" v-bind:key="k" :value="k">
+                    <option v-for="(v, k) in goodsTypes" :key="k" :value="k">
                       {{v.gt_name}}
                     </option>
                   </select>
@@ -86,7 +103,7 @@
                 <div class="col-sm-10 input-label">
                   <select v-model="baseAttrs[k]['value']" v-if="v.input_type === 'select'" class="form-control">
                     <option disabled value="">请选择{{v.name}}</option>
-                    <option v-for="(opt, optKey) in v.values" :key="optKey" :value="optKey">
+                    <option v-for="(opt, optKey) in v.values" :key="optKey" :value="opt">
                       {{opt}}
                     </option>
                   </select>
@@ -117,7 +134,7 @@
                     <td v-for="(v, k) in Object.keys(gsv).sort()" :key="k" class="text-center" style="vertical-align: middle;" v-if="filterAttrs[v].input_type !== 'none'">
                       <select v-model="goodsSpecs[gsk][v]" v-if="filterAttrs[v].input_type === 'select'" class="form-control-xs">
                         <option disabled value="">请选择{{filterAttrs[v].name}}</option>
-                        <option v-for="(opt, optKey) in filterAttrs[v].values" :key="optKey" :value="optKey">
+                        <option v-for="(opt, optKey) in filterAttrs[v].values" :key="optKey" :value="opt">
                           {{opt}}
                         </option>
                       </select>
@@ -169,7 +186,8 @@ export default {
       form: {
         goods_brand: '',
         goods_cat_id: '',
-        goods_type_id: ''
+        goods_type_id: '',
+        goods_status: ''
       },
       brands: {},
       categories: {},
@@ -179,7 +197,8 @@ export default {
       filterAttrs: {},
       hasFilterAttrs: false,
       goodsSpecs: {},
-      curGoodsSpecKey: null
+      curGoodsSpecKey: null,
+      goodsStatus: {}
     }
   },
 
@@ -222,6 +241,11 @@ export default {
       this.filterAttrs = {
         'id': {
           name: '编号',
+          value: 0,
+          input_type: 'none'
+        },
+        'sale': {
+          name: '售出数',
           value: 0,
           input_type: 'none'
         },
@@ -272,6 +296,10 @@ export default {
         this.goodsSpecs = {}
         this.addGoodsSpecRow()
       }
+    },
+
+    initGoodsSpec () {
+      // a
     },
 
     // 初始化商品规格
@@ -361,9 +389,15 @@ export default {
         if (d.code === 0) {
           this.form = d.data.row || this.form
           this.cover = this.form['goods_cover'] || this.cover
-          this.categories = d.data.category || {}
+          this.categories = d.data.categories || {}
           this.brands = d.data.brands
           this.goodsTypes = d.data.types || {}
+          this.goodsStatus = d.data.status || {}
+          if (this.form.goods_type_id) {
+            this.selectGoodsType()
+            this.baseAttrs = d.data.attrs
+            this.goodsSpecs = d.data.specs
+          }
         } else if (d.code === 9999) {
           this.$alert({
             title: '系统提示',
@@ -382,12 +416,13 @@ export default {
       })
       this.$http.save('store/goods', {
         goods: this.form,
-        specs: this.goodsSpecs
+        specs: this.goodsSpecs,
+        attrs: this.baseAttrs
       }).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
           this.$router.push({
-            path: '/material'
+            path: '/store/goods'
           })
         } else if (d.code === 9999) {
           this.$alert({

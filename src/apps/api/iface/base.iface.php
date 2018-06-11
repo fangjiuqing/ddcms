@@ -91,9 +91,10 @@ class base_iface extends rgx {
      * @return [type]        [description]
      */
     public function verify ($rules, $ref = null) {
+        $ref = is_string($ref) ? $this->data[$ref] : (empty($ref) ? $this->data : $ref);
         foreach ($rules as $k => $rule) {
             $result = true;
-            $value  = ($ref ? $ref[$k] : $this->data[$k]) ?: null;
+            $value  = $ref[$k] ?: null;
             //  跳过可为空的字段
             if ($rule['allow_empty'] && ($value == '' || $value == null)) {
                 continue;
@@ -109,7 +110,7 @@ class base_iface extends rgx {
             }
 
             if (!$result) {
-                $this->failure($rule['msg'], $rule['code'], ['via' => $k]);
+                $this->failure($rule['msg'], isset($rule['code']) ? $rule['code'] : 1, ['via' => $k]);
             }
         }
     }

@@ -1649,18 +1649,27 @@ class table extends rgx {
             if (!empty($fields_name)) {
                 $tab->where($where);
                 $pri_key = $this->_primary_key['key'];
-                if (!is_string($pri_key)) {
-                    throw new exception(LANG('does not support', 
-                                LANG('unique index validate', $this->get_name())),
-                                exception::NOT_SUPPORT, 'table');
+                // 联合主键
+                if (is_array($pri_key)) {
+                    foreach ((array)$pri_key as $field) {
+                        $tab->where("{$field} != '" . ($this->data[$field] ?: '') . "'");
+                    }
+                    $count = $tab->count();
+                    // 插入操作
+                    if (($op_action == self::OP_INSERT && $count) || ($op_action == self::OP_UPDATE && $count > 1)) {
+                        $this->_error_msg[$fields[0]] = isset($this->unique_msg[join('-', $fields)]) ?
+                                $this->unique_msg[join('-', $fields)] : 
+                                LANG('duplicate entry not allow', join(' - ', $fields_name));
+                    }
                 }
-                if (isset($this->data[$pri_key]) && $this->data[$pri_key]) {
+                // 单主键
+                else if (is_string($pri_key) && isset($this->data[$pri_key]) && $this->data[$pri_key]) {
                     $tab->where("{$pri_key} != {$this->data[$pri_key]}");
-                }
-                if ($tab->count()) {
-                    $this->_error_msg[$fields[0]] = isset($this->unique_msg[join('-', $fields)]) ?
-                            $this->unique_msg[join('-', $fields)] : 
-                            LANG('duplicate entry not allow', join(' - ', $fields_name));
+                    if ($tab->count()) {
+                        $this->_error_msg[$fields[0]] = isset($this->unique_msg[join('-', $fields)]) ?
+                                $this->unique_msg[join('-', $fields)] : 
+                                LANG('duplicate entry not allow', join(' - ', $fields_name));
+                    }
                 }
             }
         }

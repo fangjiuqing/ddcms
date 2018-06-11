@@ -8,6 +8,25 @@ namespace re\rgx;
 class store_helper extends rgx {
 
     /**
+     * 商品属性 - 上下架
+     * @var [type]
+     */
+    public static $goods_status = [
+        1   => '下架',
+        2   => '上架'
+    ];
+
+    /**
+     * 下架
+     */
+    const GOODS_STATUS_SALEOUT      = 1;
+
+    /**
+     * 上架 (在售)
+     */
+    const GOODS_STATUS_ONSALE       = 2;
+
+    /**
      * 属性输入方式
      * @var [type]
      */
@@ -74,5 +93,29 @@ class store_helper extends rgx {
         return $use_cache ? CACHE("store@types-" . ($has_attrs ? '-all-attrs' : '-all'), $func, 86400) : $func();
     }
 
-}
+    /**
+     * 获取商品属性
+     * @param  [type]  $type_id [description]
+     * @param  integer $type    [description]
+     * @return [type]           [description]
+     */
+    public static function get_attrs ($type_id, $type = 0) {
+        $tab = OBJ('goods_attr_table')->where([
+            'ga_type_id'        => (int)$type_id
+        ]);
+        if ($type > 0) {
+            $tab->where("ga_type = " . intval($type));
+        }
+        return $tab->akey()->map(function ($row) {
+            return [
+                'id'        => $row['ga_id'],
+                'name'      => $row['ga_name'],
+                'input_type'    => ['', 'input', 'select'][$row['ga_input_type']],
+                'type'      => $row['ga_type'],
+                'value'     => '',
+                'values'    => $row['ga_values'] ? explode("\n", $row['ga_values']) : []
+            ];
+        })->get_all();
+    }
 
+}

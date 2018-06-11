@@ -2,7 +2,7 @@
   <input type="file" name="fileUpload" style="display:none" @change="onFileChange" ref="simple_upload_input">
 </template>
 
-<script type="text/babel">
+<script>
 export default {
   name: 'fileupload',
   data () {
@@ -48,6 +48,7 @@ export default {
       let vm = this
       var xhr = new XMLHttpRequest()
       xhr.open('POST', this.el.$http.gateway)
+      xhr.setRequestHeader('authkey', this.el.$cache.get('access_token'))
       this.$refs.simple_upload_input.value = ''
       xhr.onloadstart = function (e) {
         vm.emitter('start', e)
@@ -74,8 +75,7 @@ export default {
       this.file = files[0]
       let formData = new FormData()
       formData.append('raw', JSON.stringify({
-        'uri': this.opts.uri,
-        'access_token': this.el.$sess.access_token
+        'uri': this.opts.uri
       }))
       formData.append('file', this.file)
       this.post(formData)
