@@ -43,6 +43,7 @@ class advert_iface extends ubase_iface {
             $arr[$k]['ad_id']   = $v['ad_id'];
             $arr[$k]['ad_name'] = $v['ad_name'];
             $arr[$k]['ad_status']       = $v['ad_status'];
+            $arr[$k]['ad_status_style'] = $v['ad_status_style'];
             if (is_array($v['ad_desc'])) {
                 $arr[$k]['ad_url']      = $v['ad_desc']['ad_url'];
                 $arr[$k]['ad_image']    = IMAGE_URL . $v['ad_desc']['ad_image'] . '!500x309';
