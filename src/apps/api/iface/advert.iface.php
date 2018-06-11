@@ -14,16 +14,15 @@ class advert_iface extends ubase_iface {
     public function get_action () {
         $id = intval($this->data['id']);
         $ad_tab = OBJ('ad_table');
-        if ($ad_ret = $ad_tab->get($id)) {
-            $ad_ret['ad_desc']      = filter::json_unecsape($ad_ret['ad_desc']);
-            if (is_array($ad_ret['ad_desc'])) {
-                $ad_ret['ad_url']       = $ad_ret['ad_desc']['ad_url'];
-                $ad_ret['ad_image']     = IMAGE_URL . $ad_ret['ad_desc']['ad_image'] . '!500x309';
-            }
-            unset($ad_ret['ad_desc']);
-            $out['row']             = $ad_ret;
+        $ad_ret = $ad_tab->get($id);
+        $ad_ret['ad_desc']  = filter::json_unecsape($ad_ret['ad_desc']);
+        if (is_array($ad_ret['ad_desc'])) {
+            $ad_ret['ad_url']   = $ad_ret['ad_desc']['ad_url'];
+            $ad_ret['ad_image'] = IMAGE_URL . $ad_ret['ad_desc']['ad_image'] . '!500x309';
         }
-        $out['ad_status'] = ad_helper::$ad_status;
+        unset($ad_ret['ad_desc']);
+        $out['row'] = $ad_ret;
+        $out['ad_status']   = ad_helper::$ad_status;
         $this->success('操作成功', $out);
     }
     
