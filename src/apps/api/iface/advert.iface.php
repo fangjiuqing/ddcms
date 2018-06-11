@@ -67,6 +67,9 @@ class advert_iface extends ubase_iface {
         $this->data['ad_name']      = filter::text($this->data['ad_name']);
         $this->data['ad_status']    = filter::int($this->data['ad_status']) ?: 0;
         $this->data['ad_adate']     = filter::int($this->data['ad_adate']) ?: REQUEST_TIME;
+        if (strpos($this->data['ad_image'], ':')) {
+            $this->data['ad_image'] = substr($this->data['ad_image'], 30);
+        }
         $this->data['ad_desc']      = filter::json_ecsape([
             'ad_url'   => $this->data['ad_url'],
             'ad_image' => $this->data['ad_image'],
