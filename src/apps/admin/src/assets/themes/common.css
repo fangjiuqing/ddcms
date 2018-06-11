@@ -164,7 +164,7 @@ a {
 .app_main {
     margin-top: 50px;
     margin-left: 170px;
-    padding-right: 0px;
+    padding: 10px;
 }
 
 .breadcrumb {
@@ -173,7 +173,7 @@ a {
 }
 
 .app_page {
-  margin-right: 10px;
+  background: #fff;
 }
 
 .alert {
