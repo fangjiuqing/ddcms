@@ -87,9 +87,6 @@ class customer_iface extends ubase_iface {
             $row['region3'] = OBJ('region_tb_table')->get(['region_code' => $row['pc_region3']])['region_name'];
             return $row;
         })->left_join('community_table', 'pc_co_id', 'pco_id')->get((int)$this->data['id']) ?: null;
-        if (empty($ret['row'])) {
-            $this->failure('该客户不存在');
-        }
         $ret['row']['pc_co_name']   = $ret['row']['pco_name'];
         $ret['type']    = core_helper::$order_type;
         $ret['status']  = core_helper::$customer_status;
