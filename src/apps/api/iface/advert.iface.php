@@ -75,7 +75,6 @@ class advert_iface extends ubase_iface {
             'ad_url'   => $this->data['ad_url'],
             'ad_image' => $this->data['ad_image'],
         ]);
-        dump($this->data);
         if ($ad_tab->load($this->data)) {
             $ad_ret = $ad_tab->save();
             if ($ad_ret['code'] === 0) {
