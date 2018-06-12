@@ -20,7 +20,7 @@
             <h5 class="text-left">
               <btn class="btn btn-xs btn-rose pull-right" @click="del(v.goods_id)"><i class="fa fa-trash-o"></i></btn>
               <small :class="v.status_class">「 {{v.status}} 」</small>
-              <a title="编辑" @click="modify(v.goods_id)">
+              <a title="编辑" @click="modify(v.goods_id)" :class="v.status_class">
                 {{v.goods_name}}
               </a>
             </h5>
@@ -92,7 +92,9 @@
             </div>
           </div>
           <div class="col-md-12" style="margin-top:15px;">
+
             <div v-show="v.spec_show">
+              <hr v-if="v.specs">
               <div class="media" v-for="(s, sk) in v.specs" :key="sk" >
                 <div class="media-left">
                   <a href="#">

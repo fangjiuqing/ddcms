@@ -196,7 +196,7 @@ class goods_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
-        'goods_stat_count' => [
+        'goods_status' => [
             'name'               => 'goods_status',
             'type'               => 'int',
             'field_type'         => 'tinyint',
