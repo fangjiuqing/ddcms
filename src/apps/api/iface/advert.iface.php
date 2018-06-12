@@ -21,9 +21,8 @@ class advert_iface extends ubase_iface {
             $ad_ret['ad_image'] = IMAGE_URL . $ad_ret['ad_desc']['ad_image'] . '!500x309';
         }
         unset($ad_ret['ad_desc']);
-        if (!empty($ad_ret)) {
-            $out['row'] = $ad_ret;
-        }
+        $ad_ret['nan']  = '';   //无意义的数据
+        $out['row'] = $ad_ret;
         $out['ad_status']   = ad_helper::$ad_status;
         $this->success('操作成功', $out);
     }
