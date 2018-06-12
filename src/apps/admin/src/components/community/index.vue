@@ -43,7 +43,7 @@
           </div>
         </div>
         <div class="clearfix"></div>
-        <pagination v-model="pn" :total-page="total" @change="refresh" size="sm"/>
+        <pagination v-model="pn" v-if="total > 1" :total-page="total" @change="refresh" size="sm"/>
       </div>
     </div>
   </div>

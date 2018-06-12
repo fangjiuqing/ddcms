@@ -5,7 +5,7 @@
         {{v.text}}
       </breadcrumb-item>
       <breadcrumb-item active class="pull-right">
-        <a @click="modify('0')" class="btn btn-xs btn-info pull-right">
+        <a @click="modifi('0')" class="btn btn-xs btn-info pull-right">
           <i class="fa fa-plus-square"></i> 新增
         </a>
       </breadcrumb-item>
@@ -69,70 +69,10 @@
             </div>
           </div>
           <div class="clearfix"></div>
-          <pagination v-model="pn" :total-page="total" @change="refresh" size="sm"/>
+          <pagination v-model="pn" v-if="total > 1" :total-page="total" @change="refresh" size="sm"/>
         </div>
       </form>
     </div>
-    <modal v-model="modal_open" title="{modal_title}">
-      <div slot="title" class="text-left">
-        {{modal_title}}
-      </div>
-      <div slot="default">
-        <form action="" method="post" accept-charset="utf-8">
-          <div style="padding-right:80px;">
-            <div class="row">
-              <label class="col-sm-3 label-on-left">客户编号</label>
-              <div class="col-sm-9">
-                <div class="form-group">
-                  <input class="form-control" v-model="modal_data.pc_sn" type="text" placeholder="客户编号">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-sm-3 label-on-left">客户姓名</label>
-              <div class="col-sm-9">
-                <div class="form-group">
-                  <input class="form-control" v-model="modal_data.pc_nick" type="text" placeholder="客户姓名">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-sm-3 label-on-left">电话</label>
-              <div class="col-sm-9">
-                <div class="form-group">
-                  <input class="form-control" v-model="modal_data.pc_mobile" type="text" placeholder="联系电话">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-sm-3 label-on-left">所在地</label>
-              <div class="col-sm-9">
-                <div class="form-group">
-                  <v-distpicker :province="modal_data.pc_region0_label" :city="modal_data.pc_region1_label" :area="modal_data.pc_region2_label" @selected="onSelected"></v-distpicker>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-sm-3 label-on-left">详细地址</label>
-              <div class="col-sm-9">
-                <input class="form-control" v-model="modal_data.pc_addr" type="text" placeholder="详细地址">
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-sm-3 label-on-left">小区</label>
-              <div class="col-sm-9">
-                <div class="form-group">
-                  <input class="form-control" v-model="modal_data.pc_co_id" type="text" placeholder="小区">
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div slot="footer">
-        <btn @click="save" type="success" class="btn-sm">确认</btn>
-      </div>
-    </modal>
   </div>
 </template>
 
@@ -153,20 +93,18 @@ export default {
         {text: '客户', to: '/customer'},
         {text: '列表', href: '#'}
       ],
+      form: {},
       rows: [],
       pn: 1,
       total: 1,
-      attrs: {},
-      modal_open: false,
-      modal_title: '',
-      modal_data: {}
+      attrs: {}
     }
   },
   methods: {
     onSelected (d) {
-      this.modal_data.pc_region0 = d.province.code
-      this.modal_data.pc_region1 = d.city.code
-      this.modal_data.pc_region2 = d.area.code
+      this.form.pc_region0 = d.province.code
+      this.form.pc_region1 = d.city.code
+      this.form.pc_region2 = d.area.code
     },
     modifi (id) {
       this.$router.push({
@@ -181,25 +119,17 @@ export default {
       this.$http.get('customer', {id: id, attrs: 1}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          this.modal_data = d.data
+          this.form = d.data
         }
-        this.modal_open = true
       })
-      if (id === '0') {
-        this.modal_title = '新增账号'
-        this.modal_data = {}
-      } else {
-        this.modal_title = '编辑账号'
-      }
     },
     save: function () {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.save('customer', this.modal_data).then(d => {
+      this.$http.save('customer', this.form).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          this.modal_open = false
           this.refresh()
           this.$notify({
             content: d.msg,
@@ -228,7 +158,7 @@ export default {
           this.pn = d.data.paging.pn
           this.total = d.data.paging.max
         } else {
-          this.rows = []
+          this.rows = {}
         }
       })
     },
@@ -276,12 +206,9 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .distpicker-address-wrapper select {
   max-width: 115px!important;
-}
-.customer {
-  background: #fff;
 }
 .customer-row {
   margin-bottom: 20px;

@@ -1,13 +1,17 @@
 <template>
-  <div class="customer">
+  <div class="advert">
     <breadcrumbs :items="items">
       <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
         {{v.text}}
       </breadcrumb-item>
     </breadcrumbs>
     <div class="app_page">
-      <h5 class="block-h5">广告编辑</h5>
-      <form action="" method="post" accept-charset="utf-8">
+      <div class="form-block">
+        <div class="row">
+          <h5 class="block-h5">广告内容</h5>
+        </div>
+      </div>
+      <div class="form-block">
         <div class="row">
           <div class="col-sm-5">
             <label class="col-sm-3 label-on-left">广告名称</label>
@@ -26,7 +30,7 @@
           <div class="col-sm-5">
             <label class="col-sm-3 label-on-left">广告状态</label>
             <div class="form-group col-sm-5">
-              <select v-model="form.ad_status" class="form-control">
+              <select v-model="form.ad_status" class="form-control status">
                 <option disabled value="0">未知状态</option>
                 <option v-for="(v, index) in model" :key="index" :value="index">
                   {{v}}
@@ -38,16 +42,18 @@
         <div class="row">
           <div class="col-sm-5">
             <label class="col-sm-3 label-on-left">广告图片</label>
-            <img class="preview_cover" style="width: 200px; height: 200px;" :src="cover" @click="upload_cover">
+            <img class="preview_cover" style="width: 300px; height: 200px;" :src="cover" @click="upload_cover">
             <input type="hidden" v-model="form.ad_image">
           </div>
         </div>
+      </div>
+      <div class="form-block">
         <div class="row">
-          <div class="col-md-10" style="margin:0 auto; float: none">
+          <div class="col-md-12" style="margin:15px auto; float: none">
             <btn type="success" v-on:click="save" class="btn btn-success pull-right">保存</btn>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>
@@ -69,9 +75,8 @@ export default {
       ],
       id: this.$route.query['id'] || 0,
       form: {},
-      model: [],
-      selected: [],
-      cover: require('@/assets/images/default_1x1.jpg'),
+      model: {},
+      cover: require('@/assets/images/default_4x3.jpg'),
       extra: {}
     }
   },
@@ -170,19 +175,18 @@ export default {
       this.$http.get('advert', {id: this.id || 0}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          this.form = this.id ? d.data.row : {}
+          this.form = d.data.row || this.form
           this.model = d.data.ad_status
           this.cover = this.form.ad_image
-          console.log(d.data)
-        } else if (d.code === 9999) {
+        } else {
           this.$alert({
-            title: '系统提示',
+            title: '操作提示',
             content: d.msg
           }, (msg) => {
-            this.$router.go(-1)
+            if (d.code === 9999) {
+              this.$router.go(-1)
+            }
           })
-        } else {
-          this.form = {}
         }
       })
     },
@@ -233,8 +237,15 @@ export default {
   }
 }
 </script>
-<style>
-.customer, .app_mask {
+<style scoped>
+.advert {
   background: #fff;
+}
+.status {
+  width: 180%;
+}
+.preview_cover {
+  float: left;
+  margin-left: 15px;
 }
 </style>
