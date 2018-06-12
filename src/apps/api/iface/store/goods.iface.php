@@ -11,7 +11,58 @@ class store_goods_iface extends ubase_iface {
      * @return [type] [description]
      */
     public function list_action () {
+        $tab = OBJ('goods_table');
+        $paging = new paging_helper($tab, $this->data['pn'] ?: 1, 12);
+        $tab->akey()->order('goods_udate desc');
 
+        $admin_ids = $brand_ids = $supplier_ids = [];
+
+        $out['rows'] = $tab->map(function ($row) use (&$admin_ids, &$brand_ids, &$supplier_ids) {
+            $admin_ids[$row['goods_admin_id']] = 0;
+            $brand_ids[$row['goods_brand']] = 0;
+            $supplier_ids[$row['goods_supplier_id']] = 0;
+            $row['status'] = store_helper::$goods_status[$row['goods_status']];
+            $row['status_class'] = $row['goods_status'] == store_helper::GOODS_STATUS_SALEOUT ? 'text-danger' : 'text-success';
+            $row['spec_show'] = false;
+            return $row;
+        })->get_all() ?: null;
+
+        // 记录存在
+        if($out['rows']) {
+            OBJ('goods_spec_table')->map(function ($row) use (&$out) {
+                $row['attrs'] = explode('#', substr($row['gs_attr'], 1, -1));
+                $out['rows'][$row['gs_goods_id']]['specs'][] = $row;
+            })->get_all([
+                'gs_goods_id'   => array_keys($out['rows'] ?: [0])
+            ]);
+        }
+
+        // 分页数据
+        $out['attrs']['paging'] = $paging->to_array();
+
+        // 商品类别
+        $out['attrs']['categories'] = category_helper::get_rows(category_helper::TYPE_GOODS, true);
+
+        // 相关品牌
+        $out['attrs']['brands'] = OBJ('brand_table')->akey()->get_all([
+            'pb_id'     => array_keys($brand_ids ?: [0])
+        ]);
+
+        // 相关供应商
+        $out['attrs']['suppliers'] = OBJ('supplier_table')->akey()->get_all([
+            'sup_id'     => array_keys($supplier_ids ?: [0])
+        ]);
+
+        // 相关渠道负责人
+        $out['attrs']['admins'] = OBJ('admin_table')->akey('admin_id')->fields('admin_id,admin_nick')->get_all([
+            'admin_id'  => array_keys($admin_ids ?: [0])
+        ]);
+
+        // 附件地址
+        $out['attrs']['upload_url'] = UPLOAD_URL;
+        $out['attrs']['image_url'] = IMAGE_URL;
+
+        $this->success('', $out);
     }
 
     /**
@@ -95,6 +146,12 @@ class store_goods_iface extends ubase_iface {
             ],
             'goods_brand' => [
                 'msg'  => '请选择所属品牌',
+                'rule' => function ($v) {
+                    return filter::is_positive_int($v);
+                }
+            ],
+            'goods_status' => [
+                'msg'  => '请选择商品上下架状态',
                 'rule' => function ($v) {
                     return filter::is_positive_int($v);
                 }
@@ -186,7 +243,8 @@ class store_goods_iface extends ubase_iface {
         $gstab = OBJ('goods_spec_table');
         // 商品规格
         foreach ((array)$specs as $spec_key => $spec) {
-            $goods['goods_price'] = min($goods['goods_price'], $spec['price_sale']);
+            $goods['goods_price'] = $goods['goods_price'] ? 
+                    min($goods['goods_price'], $spec['price_sale']) : $spec['price_sale'];
             $goods['goods_stock'] += $spec['stocks'];
             $goods['goods_stat_count'] += 1;
             $row = [
@@ -251,7 +309,8 @@ class store_goods_iface extends ubase_iface {
         $goods_tab->update([
             'goods_id'      => $goods['goods_id'],
             'goods_price'   => $goods['goods_price'],
-            'goods_stock'   => $goods['goods_stock']
+            'goods_stock'   => $goods['goods_stock'],
+            'goods_stat_count'  => $goods['goods_stat_count']
         ]);
         $this->success('操作成功');
     }

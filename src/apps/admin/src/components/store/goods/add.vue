@@ -34,7 +34,7 @@
                 <div class="col-sm-10 input-label">
                   <select v-model="form.goods_status"  name="goods_brand" class="form-control">
                     <option disabled value="">请选择售卖状态</option>
-                    <option v-for="(v, k) in goodsStatus" :key="k" :value="v">
+                    <option v-for="(v, k) in goodsStatus" :key="k" :value="k">
                       {{v}}
                     </option>
                   </select>

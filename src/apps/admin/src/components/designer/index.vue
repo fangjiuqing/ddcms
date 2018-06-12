@@ -268,7 +268,7 @@ export default {
   }
   .info-val {
     text-align: left;
-    width: 150px;
+    width: 140px;
   }
   .design-info-content {
     padding: 10px 3px; border: 1px solid #ddd;
