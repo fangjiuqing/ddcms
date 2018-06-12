@@ -11,52 +11,124 @@
       </breadcrumb-item>
     </breadcrumbs>
     <div class="app_page">
-      <form action="/" id="profile_form" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
-        <div class="app_content">
-          <div class="case-list">
-            <div class="media case-row" v-for="(v) in rows" :key="v.mat_id">
-              <div class="media-left">
-                <img :src="attrs.upload_url + v.mat_cover" alt="" class="case-list-cover">
+      <div class="app_content">
+        <div class="row goods-row" v-for="(v) in rows" :key="v.goods_id">
+          <div class="col-md-2">
+              <img :src="attrs.upload_url + v.goods_cover" class="cover">
+          </div>
+          <div class="col-md-10">
+            <h5 class="text-left">
+              <btn class="btn btn-xs btn-rose pull-right" @click="del(v.goods_id)"><i class="fa fa-trash-o"></i></btn>
+              <small :class="v.status_class">「 {{v.status}} 」</small>
+              <a title="编辑" @click="modify(v.goods_id)" :class="v.status_class">
+                {{v.goods_name}}
+              </a>
+            </h5>
+            <div class="row">
+              <div class="col-md-4">
+                <dl class="dl-horizontal dl-common">
+                  <dt><small>类别</small></dt>
+                  <dd>
+                    <a @click="setFilter('cat', v.goods_cat_id)">
+                      <small>{{attrs.categories[v.goods_cat_id]['cat_name']}}</small>
+                    </a>
+                  </dd>
+                  <dt><small>供应商</small></dt>
+                  <dd>
+                    <a @click="setFilter('supplier', v.goods_supplier_id)" class="common-cutstr">
+                      <small>{{attrs.suppliers[v.goods_supplier_id]['sup_realname']}}</small>
+                    </a>
+                  </dd>
+                  <dt><small>规格数</small></dt>
+                  <dd>
+                    <span class="">{{v.goods_stat_count}}</span>
+                    <a class="pull-right" @click="v.spec_show = !v.spec_show">
+                      <small class="text-success">查看</small>
+                    </a>
+                  </dd>
+                </dl>
               </div>
-              <div class="media-body">
-                <h5>
-                  <btn class="btn btn-xs btn-rose pull-right" @click="del(v.mat_id)"><i class="fa fa-trash-o"></i></btn>
-                  <a title="编辑材料" @click="modify(v.mat_id)">{{v.mat_name}}</a>
-                </h5>
-                <p class="text-left">
-                  <span>
-                    <small>价格 : </small>
-                    <code>{{v.mat_min_price}}</code>
-                    <small> ~ </small>
-                    <code>{{v.mat_min_price}}</code>
-                  </span>
-                  <span class="separator"></span>
-                  <span>
-                    <small>库存 : </small> <code>{{v.mat_stocks}}</code>
-                  </span>
-                </p>
-                <p class="text-left">
-                  <span>
-                    <small>类别/品牌 : </small> <code>{{attrs.cat[v.mat_cat_id]['cat_name']}}</code>
-                  </span>
-                  <span class="separator"></span>
-                  <span>
-                    <code>{{attrs.brands[v.mat_brand_id]['pb_name']}}</code>
-                  </span>
-                </p>
-                <p class="text-left">
-                  <span>
-                    <code>{{attrs.admins[v.mat_buyer_id]['admin_nick']}}</code>
-                  </span>
-                  <span class="separator"></span>
-                  <small>{{v.mat_atime|time('yyyy-mm-dd HH:MM:ss')}}</small>
-                </p>
+              <div class="col-md-4">
+                <dl class="dl-horizontal dl-common">
+                  <dt><small>品牌</small></dt>
+                  <dd>
+                    <a @click="setFilter('brand', v.goods_brand)">
+                      <small>{{attrs.brands[v.goods_brand]['pb_name']}}</small>
+                    </a>
+                  </dd>
+                  <dt><small>售价</small></dt>
+                  <dd>
+                    <span class="text-rose">
+                      <small>￥</small>
+                      {{v.goods_price}}
+                    </span>
+                  </dd>
+                  <dt><small>库存</small></dt>
+                  <dd>
+                    <span class="">{{v.goods_stock}}</span>
+                    <small>{{v.goods_unit}}</small>
+                  </dd>
+                </dl>
+              </div>
+              <div class="col-md-4">
+                <dl class="dl-horizontal dl-common">
+                  <dt><small>已售出</small></dt>
+                  <dd>
+                    <span class="">{{v.goods_stat_sale}}</span>
+                  </dd>
+                  <dt><small>浏览数</small></dt>
+                  <dd>
+                    <span class="">{{v.goods_stat_view}}</span>
+                  </dd>
+                  <dt><small>维护人</small></dt>
+                  <dd>
+                    <a @click="setFilter('admin', v.goods_admin_id)">
+                      <small>{{attrs.admins[v.goods_admin_id]['admin_nick']}}</small>
+                    </a>
+                    <small> ( {{v.goods_udate|time('yy-mm-dd HH:MM')}} )</small>
+                  </dd>
+                </dl>
               </div>
             </div>
           </div>
+<<<<<<< HEAD
           <pagination v-model="pn" v-if="total > 1" :total-page="total" @change="refresh" size="sm"/>
+=======
+          <div class="col-md-12" style="margin-top:15px;">
+
+            <div v-show="v.spec_show">
+              <hr v-if="v.specs">
+              <div class="media" v-for="(s, sk) in v.specs" :key="sk" >
+                <div class="media-left">
+                  <a href="#">
+                    <img class="media-object" :src="attrs.upload_url + s.gs_cover" style="width: 64px; height: 64px;border-radius: 3px;">
+                  </a>
+                </div>
+                <div class="media-body">
+                  <h6 class="media-heading text-left">{{s.attrs.join('  ')}}</h6>
+                  <p class="text-left" style="margin-bottom: 3px">
+                    <small>售价</small>
+                    <span class="text-rose">
+                      <small>￥</small>
+                      {{s.gs_price}}
+                    </span>
+                  </p>
+                  <p class="text-left">
+                    <small>库存</small>
+                    <span class="text-info">
+                      {{s.gs_stat_sale}} / {{s.gs_stock}}
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <hr >
+            <div class="clearfix"></div>
+          </div>
+>>>>>>> 76d3fae697ca6c943366984df88fa1d2edb81972
         </div>
-      </form>
+        <pagination v-model="pn" v-if="total > 1" :total-page="total" @change="refresh" size="sm"/>
+      </div>
     </div>
   </div>
 </template>
@@ -91,6 +163,9 @@ export default {
         query: {id}
       })
     },
+    setFilter (key, val) {
+      console.log(key, val)
+    },
     refresh: function () {
       this.$loading.show({
         msg: '加载中 ...'
@@ -98,7 +173,7 @@ export default {
       this.$http.list('store/goods', {pn: this.pn}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          this.rows = d.data.list
+          this.rows = d.data.rows || null
           this.pn = d.data.attrs['paging']['pn'] || 1
           this.total = d.data.attrs['paging']['max'] || 1
           this.attrs = d.data.attrs
@@ -161,3 +236,16 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .goods-row .cover {
+    margin-top: 5px;
+    max-width: 110%;
+    max-height: 100%;
+    border-radius: 3px;
+  }
+  .goods-row h5 {
+    margin-top: 0;
+    padding-top: 0;
+    line-height: normal;
+  }
+</style>

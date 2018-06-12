@@ -140,8 +140,3 @@ export default {
   }
 }
 </script>
-<style>
-.advert, .app_mask {
-  background: #fff;
-}
-</style>
