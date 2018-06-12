@@ -18,10 +18,10 @@
               <thead>
                 <tr>
                   <th class="text-left" width="100">广告名称</th>
-                  <th class="text-center" width="80">广告状态</th>
-                  <th class="text-center" width="100">路径</th>
-                  <!-- <th class="text-center" width="80">添加时间</th> -->
-                  <th class="text-center" width="20">操作</th>
+                  <th class="text-left" width="80">广告状态</th>
+                  <th class="text-left" width="100">路径</th>
+                  <th class="text-left" width="80">添加时间</th>
+                  <th class="text-left" width="20">操作</th>
                 </tr>
               </thead>
               <tbody>
@@ -31,22 +31,22 @@
                         <span>{{v.ad_name}}</span>
                       </a>
                     </td>
-                    <td class="text-center">
-                      <code>{{v.ad_status}}</code>
+                    <td class="text-left">
+                      <small :class="v.ad_status_style">{{v.ad_status}}</small>
                     </td>
-                    <td class="text-center">
-                      <code class="text-success">{{v.ad_url}}</code>
+                    <td class="text-left">
+                      <code class="text-info">{{v.ad_url}}</code>
                     </td>
-                    <!-- <td class="text-center">
+                    <td class="text-left">
                       <small>{{v.ad_adate|time('yyyy-mm-dd HH:MM')}}</small>
-                    </td> -->
-                    <td class="text-center">
+                    </td>
+                    <td class="text-left">
                       <btn class="btn btn-xs btn-rose" @click="del(v.ad_id)"><i class="fa fa-trash-o"></i></btn>
                     </td>
                   </tr>
               </tbody>
             </table>
-            <pagination v-model="pn" :total-page="total" @change="refresh" size="sm"/>
+            <pagination v-model="pn" v-if="total > 1" :total-page="total" @change="refresh" size="sm"/>
           </div>
         </div>
       </form>
