@@ -237,7 +237,6 @@ export default {
   }
 }
 </script>
-<<<<<<< HEAD
 <style scoped>
 .advert {
   background: #fff;
@@ -250,5 +249,3 @@ export default {
   margin-left: 15px;
 }
 </style>
-=======
->>>>>>> 76d3fae697ca6c943366984df88fa1d2edb81972
