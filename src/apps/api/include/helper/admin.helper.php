@@ -155,7 +155,17 @@ class admin_helper extends rgx {
                 'store/shipping/shipping/save' => '配送方式-更新',
                 'store/shipping/shipping/del'  => '配送方式-删除',
             ]
-        ]
+        ],
+        [
+            'name'      => '广告管理',
+            'actions'   => [
+                'advert/get'                => '广告详情',
+                'advert/list'               => '广告列表',
+                'advert/save'               => '广告更新',
+                'advert/del'                => '广告删除',
+            ]
+        ],
+
     ];
 
     /**
