@@ -14,7 +14,7 @@
       <div class="app_content">
         <div class="row goods-row" v-for="(v) in rows" :key="v.goods_id">
           <div class="col-md-2">
-              <img :src="attrs.upload_url + v.goods_cover" class="cover">
+              <img :src="attrs.image_url + v.goods_cover" class="cover">
           </div>
           <div class="col-md-10">
             <h5 class="text-left">
@@ -98,7 +98,7 @@
                 <div class="media" v-for="(s, sk) in v.specs" :key="sk" >
                   <div class="media-left">
                     <a href="#">
-                      <img class="media-object" :src="attrs.upload_url + s.gs_cover" style="width: 64px; height: 64px;border-radius: 3px;">
+                      <img class="media-object" :src="attrs.image_url + s.gs_cover" style="width: 64px; height: 64px;border-radius: 3px;">
                     </a>
                   </div>
                   <div class="media-body">
