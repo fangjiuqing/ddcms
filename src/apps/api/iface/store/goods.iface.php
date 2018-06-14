@@ -109,7 +109,7 @@ class store_goods_iface extends ubase_iface {
             $out['attrs'] = $base_attrs;
         }
         $out['row'] = $goods ?: null;
-        $out['row']['goods_desc']   = filter::json_unecsape(OBJ('goods_desc_table')->get(['gd_id' => (int)
+        $out['row']['goods_desc']   = htmlspecialchars_decode(OBJ('goods_desc_table')->get(['gd_id' => (int)
             $this->data['id']])['gd_desc']);
         $out['brands'] = OBJ('brand_table')->get_all() ?: null;
         $out['categories'] = category_helper::get_options(category_helper::TYPE_GOODS, 0, 0);
