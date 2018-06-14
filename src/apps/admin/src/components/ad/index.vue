@@ -1,5 +1,5 @@
 <template>
-  <div class="advert">
+  <div class="case">
     <breadcrumbs :items="items">
       <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
         {{v.text}}
@@ -14,12 +14,12 @@
       <form action="/" id="profile_form" class="form-horizontal ng-untouched ng-pristine ng-valid" method="post" novalidate="">
         <div class="app_content">
           <div class="content table-responsive">
-            <table class="table table-striped">
+            <table class="table">
               <thead>
                 <tr>
                   <th class="text-left" width="100">广告名称</th>
                   <th class="text-left" width="80">广告状态</th>
-                  <th class="text-left" width="100">路径</th>
+                  <th class="text-left" width="100">链接</th>
                   <th class="text-left" width="80">添加时间</th>
                   <th class="text-left" width="20">操作</th>
                 </tr>
@@ -128,14 +128,14 @@ export default {
     }
   },
   mounted: function () {
-    this.$store.state.left_active_key = '/advert'
+    this.$store.state.left_active_key = '/operate'
     this.refresh()
   },
   destroyed: function () {
     this.$loading.hide()
   },
   activated: function () {
-    this.$store.state.left_active_key = '/advert'
+    this.$store.state.left_active_key = '/operate'
     this.refresh()
   }
 }

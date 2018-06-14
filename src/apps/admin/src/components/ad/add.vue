@@ -20,9 +20,9 @@
             </div>
           </div>
           <div class="col-sm-5">
-            <label class="col-sm-3 label-on-left">广告路径</label>
+            <label class="col-sm-3 label-on-left">链接</label>
             <div class="form-group col-sm-9">
-              <input type="text" class="form-control" name="ad_url" placeholder="广告路径" v-model="form.ad_url">
+              <input type="text" class="form-control" name="ad_url" placeholder="链接" v-model="form.ad_url">
             </div>
           </div>
         </div>
@@ -242,7 +242,7 @@ export default {
   background: #fff;
 }
 .status {
-  width: 180%;
+  width: 190%;
 }
 .preview_cover {
   float: left;
