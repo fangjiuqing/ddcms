@@ -89,7 +89,6 @@ class store_goods_iface extends ubase_iface {
                     'price_cost'    => $row['gs_price_cost'],
                     'price_sale'    => $row['gs_price'],
                     'status'    => $row['gs_status'],
-                    'status_lab'    => store_goods_helper::$spec_status[$row['gs_status']],
                 ];
             })->get_all([
                 'gs_goods_id'   => $goods['goods_id']
