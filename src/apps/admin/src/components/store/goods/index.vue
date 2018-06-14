@@ -91,9 +91,6 @@
               </div>
             </div>
           </div>
-<<<<<<< HEAD
-          <pagination v-model="pn" v-if="total > 1" :total-page="total" @change="refresh" size="sm"/>
-=======
           <div class="col-md-12" style="margin-top:15px;">
 
             <div v-show="v.spec_show">
@@ -125,7 +122,6 @@
             <hr >
             <div class="clearfix"></div>
           </div>
->>>>>>> 76d3fae697ca6c943366984df88fa1d2edb81972
         </div>
         <pagination v-model="pn" v-if="total > 1" :total-page="total" @change="refresh" size="sm"/>
       </div>

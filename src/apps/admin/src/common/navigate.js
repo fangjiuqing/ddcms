@@ -90,6 +90,12 @@ export default {
           name: '小区管理',
           icon: 'fa fa-building',
           active: false
+        },
+        {
+          url: '/advert',
+          name: '广告管理',
+          icon: 'fa fa-file-audio-o',
+          active: false
         }
       ]
     },
@@ -132,25 +138,6 @@ export default {
           url: '/store/shipping',
           name: '配送管理',
           icon: 'fa fa-truck',
-          active: false
-        }
-      ]
-    },
-    {
-      url: '/advert',
-      name: '广告管理',
-      icon: 'fa fa-audio-description',
-      children: [
-        {
-          url: '/advert',
-          name: '广告列表',
-          icon: 'fa fa-file-audio-o',
-          active: false
-        },
-        {
-          url: '/advert-content',
-          name: '广告内容',
-          icon: 'fa fa-inbox',
           active: false
         }
       ]
