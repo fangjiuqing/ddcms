@@ -1,59 +1,60 @@
 <template>
-  <div class="advert">
+  <div class="case">
     <breadcrumbs :items="items">
       <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
         {{v.text}}
       </breadcrumb-item>
     </breadcrumbs>
     <div class="app_page">
-      <div class="form-block">
-        <div class="row">
-          <h5 class="block-h5">广告内容</h5>
-        </div>
-      </div>
-      <div class="form-block">
-        <div class="row">
-          <div class="col-sm-5">
-            <label class="col-sm-3 label-on-left">广告名称</label>
-            <div class="form-group col-sm-9">
-              <input type="text" class="form-control" name="ad_name" placeholder="广告名称" v-model="form.ad_name">
+      <form action="" method="post" accept-charset="utf-8">
+        <div class="form-block">
+          <div class="row">
+            <div class="col-md-12">
+              <h5 class="block-h5">基本信息</h5>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-sm-5">
+              <label class="col-sm-3 label-on-left">广告名称</label>
+              <div class="form-group col-sm-9">
+                <input type="text" class="form-control" name="ad_name" placeholder="广告名称" v-model="form.ad_name">
+              </div>
+            </div>
+            <div class="col-sm-5">
+              <label class="col-sm-3 label-on-left">链接</label>
+              <div class="form-group col-sm-9">
+                <input type="text" class="form-control" name="ad_url" placeholder="链接" v-model="form.ad_url">
+              </div>
+            </div>
+            <div class="col-sm-5">
+              <label class="col-sm-3 label-on-left">广告状态</label>
+              <div class="form-group col-sm-9">
+                <select v-model="form.ad_status" class="form-control status">
+                  <option disabled value="0">未知状态</option>
+                  <option v-for="(v, index) in model" :key="index" :value="index">
+                    {{v}}
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
-          <div class="col-sm-5">
-            <label class="col-sm-3 label-on-left">链接</label>
-            <div class="form-group col-sm-9">
-              <input type="text" class="form-control" name="ad_url" placeholder="链接" v-model="form.ad_url">
+          <div class="row">
+            <div class="col-sm-5">
+              <label class="col-sm-3 label-on-left">广告图片</label>
+              <div class="col-sm-9">
+                <img class="preview_cover" style="width: 300px; height: 200px;" :src="cover" @click="upload_cover">
+                <input type="hidden" v-model="form.ad_image">
+              </div>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-sm-5">
-            <label class="col-sm-3 label-on-left">广告状态</label>
-            <div class="form-group col-sm-5">
-              <select v-model="form.ad_status" class="form-control status">
-                <option disabled value="0">未知状态</option>
-                <option v-for="(v, index) in model" :key="index" :value="index">
-                  {{v}}
-                </option>
-              </select>
+        <div class="form-block">
+          <div class="row">
+            <div class="col-md-12" style="margin:15px auto; float: none">
+              <btn type="success" v-on:click="save" class="btn btn-success pull-right">保存</btn>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-sm-5">
-            <label class="col-sm-3 label-on-left">广告图片</label>
-            <img class="preview_cover" style="width: 300px; height: 200px;" :src="cover" @click="upload_cover">
-            <input type="hidden" v-model="form.ad_image">
-          </div>
-        </div>
-      </div>
-      <div class="form-block">
-        <div class="row">
-          <div class="col-md-12" style="margin:15px auto; float: none">
-            <btn type="success" v-on:click="save" class="btn btn-success pull-right">保存</btn>
-          </div>
-        </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
@@ -225,27 +226,20 @@ export default {
     }
   },
   mounted: function () {
-    this.$store.state.left_active_key = '/advert'
+    this.$store.state.left_active_key = '/operate'
     this.modify()
   },
   destroyed: function () {
     this.$loading.hide()
   },
   activated: function () {
-    this.$store.state.left_active_key = '/advert'
+    this.$store.state.left_active_key = '/operate'
     this.modify()
   }
 }
 </script>
 <style scoped>
-.advert {
-  background: #fff;
-}
-.status {
-  width: 190%;
-}
 .preview_cover {
   float: left;
-  margin-left: 15px;
 }
 </style>

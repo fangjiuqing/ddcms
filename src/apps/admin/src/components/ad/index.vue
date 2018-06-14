@@ -17,11 +17,11 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th class="text-left" width="100">广告名称</th>
-                  <th class="text-left" width="80">广告状态</th>
-                  <th class="text-left" width="100">链接</th>
-                  <th class="text-left" width="80">添加时间</th>
-                  <th class="text-left" width="20">操作</th>
+                  <th class="text-left" width="25%">广告名称</th>
+                  <th class="text-left" width="30%">链接</th>
+                  <th class="text-left" width="5%">广告状态</th>
+                  <th class="text-left" width="15%">添加时间</th>
+                  <th class="text-left" width="5%">操作</th>
                 </tr>
               </thead>
               <tbody>
@@ -32,10 +32,10 @@
                       </a>
                     </td>
                     <td class="text-left">
-                      <small :class="v.ad_status_style">{{v.ad_status}}</small>
+                      <code class="text-info">{{v.ad_url}}</code>
                     </td>
                     <td class="text-left">
-                      <code class="text-info">{{v.ad_url}}</code>
+                      <small :class="v.ad_status_style">{{v.ad_status}}</small>
                     </td>
                     <td class="text-left">
                       <small>{{v.ad_adate|time('yyyy-mm-dd HH:MM')}}</small>
