@@ -87,7 +87,9 @@ class store_goods_iface extends ubase_iface {
                     '0cover_url'=> UPLOAD_URL . $row['gs_cover'],
                     'stocks'    => $row['gs_stock'],
                     'price_cost'    => $row['gs_price_cost'],
-                    'price_sale'    => $row['gs_price']
+                    'price_sale'    => $row['gs_price'],
+                    'status'    => $row['gs_status'],
+                    'status_lab'    => store_goods_helper::$spec_status[$row['gs_status']],
                 ];
             })->get_all([
                 'gs_goods_id'   => $goods['goods_id']
@@ -108,10 +110,13 @@ class store_goods_iface extends ubase_iface {
             $out['attrs'] = $base_attrs;
         }
         $out['row'] = $goods ?: null;
+        $out['row']['goods_desc']   = filter::json_unecsape(OBJ('goods_desc_table')->get(['gd_id' => (int)
+            $this->data['id']])['gd_desc']);
         $out['brands'] = OBJ('brand_table')->get_all() ?: null;
         $out['categories'] = category_helper::get_options(category_helper::TYPE_GOODS, 0, 0);
         $out['types'] = store_helper::get_goods_types(false, true);
         $out['status'] = store_helper::$goods_status;
+        $out['spec_status'] = store_goods_helper::$spec_status;
         $this->success('', $out);
     }
 
@@ -225,6 +230,17 @@ class store_goods_iface extends ubase_iface {
 
         $goods['goods_id'] = $goods['goods_id'] ?: $ret['row_id'];
 
+        $spce_desc['gd_id']   = $goods['goods_id'];
+        $spce_desc['gd_desc']   = filter::html($goods['goods_desc']);
+        if (!OBJ('goods_desc_table')->load($spce_desc)) {
+            $this->failure($goods_tab->get_error_desc());
+        }
+    
+        $ret = OBJ('goods_desc_table')->save($goods);
+        if ($ret['code'] !== 0) {
+            $this->failure($ret['msg']);
+        }
+        
         // 商品属性
         $base_attrs = $filter_attrs = [];
         foreach ((array)$attrs as $k => $v) {
@@ -256,7 +272,8 @@ class store_goods_iface extends ubase_iface {
                 'gs_price_source'   => floatval($spec['price_sale']),
                 'gs_price_cost'     => floatval($spec['price_cost']),
                 'gs_stock'          => $spec['stocks'],
-                'gs_stat_sale'      => (int)$spec['sale']
+                'gs_stat_sale'      => (int)$spec['sale'],
+                'gs_status'         => (int)$spec['status'] ?: store_goods_helper::NS_STATUS,
             ];
             if ($row['gs_price'] <= 0) {
                 store_goods_helper::remove($goods['goods_id']);
