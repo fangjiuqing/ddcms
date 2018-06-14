@@ -14,7 +14,7 @@
       <div class="app_content">
         <div class="row goods-row" v-for="(v) in rows" :key="v.goods_id">
           <div class="col-md-2">
-              <img :src="attrs.upload_url + v.goods_cover" class="cover">
+              <img :src="attrs.image_url + v.goods_cover" class="cover">
           </div>
           <div class="col-md-10">
             <h5 class="text-left">
@@ -43,7 +43,7 @@
                   <dd>
                     <span class="">{{v.goods_stat_count}}</span>
                     <a class="pull-right" @click="v.spec_show = !v.spec_show">
-                      <small class="text-success">查看</small>
+                      <small class="text-success">{{v.spec_show ? '收起' : '查看'}}</small>
                     </a>
                   </dd>
                 </dl>
@@ -92,33 +92,34 @@
             </div>
           </div>
           <div class="col-md-12" style="margin-top:15px;">
-
-            <div v-show="v.spec_show">
-              <hr v-if="v.specs">
-              <div class="media" v-for="(s, sk) in v.specs" :key="sk" >
-                <div class="media-left">
-                  <a href="#">
-                    <img class="media-object" :src="attrs.upload_url + s.gs_cover" style="width: 64px; height: 64px;border-radius: 3px;">
-                  </a>
-                </div>
-                <div class="media-body">
-                  <h6 class="media-heading text-left">{{s.attrs.join('  ')}}</h6>
-                  <p class="text-left" style="margin-bottom: 3px">
-                    <small>售价</small>
-                    <span class="text-rose">
-                      <small>￥</small>
-                      {{s.gs_price}}
-                    </span>
-                  </p>
-                  <p class="text-left">
-                    <small>库存</small>
-                    <span class="text-info">
-                      {{s.gs_stat_sale}} / {{s.gs_stock}}
-                    </span>
-                  </p>
+            <transition name="slide-fade">
+              <div v-show="v.spec_show">
+                <hr v-if="v.specs">
+                <div class="media" v-for="(s, sk) in v.specs" :key="sk" >
+                  <div class="media-left">
+                    <a href="#">
+                      <img class="media-object" :src="attrs.image_url + s.gs_cover" style="width: 64px; height: 64px;border-radius: 3px;">
+                    </a>
+                  </div>
+                  <div class="media-body">
+                    <h6 class="media-heading text-left">{{s.attrs.join('  ')}}</h6>
+                    <p class="text-left" style="margin-bottom: 3px">
+                      <small>售价</small>
+                      <span class="text-rose">
+                        <small>￥</small>
+                        {{s.gs_price}}
+                      </span>
+                    </p>
+                    <p class="text-left">
+                      <small>库存</small>
+                      <span class="text-info">
+                        {{s.gs_stat_sale}} / {{s.gs_stock}}
+                      </span>
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </transition>
             <hr >
             <div class="clearfix"></div>
           </div>
@@ -243,5 +244,15 @@ export default {
     margin-top: 0;
     padding-top: 0;
     line-height: normal;
+  }
+  .slide-fade-enter-active {
+    transition: all .3s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .1s ease;
+  }
+  .slide-fade-enter, .slide-fade-leave-to {
+    transform: translateX(5px);
+    opacity: 0;
   }
 </style>

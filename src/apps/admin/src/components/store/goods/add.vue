@@ -195,7 +195,8 @@ export default {
     return {
       items: [
         {text: '首页', to: '/'},
-        {text: '材料', to: '/material'},
+        {text: '商城', to: '/store'},
+        {text: '商品', to: '/store/goods'},
         {text: '编辑', href: '#'}
       ],
       id: this.$route.query['id'] || 0,

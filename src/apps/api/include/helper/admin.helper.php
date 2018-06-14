@@ -136,6 +136,11 @@ class admin_helper extends rgx {
         [
             'name'      => '商城管理',
             'actions'   => [
+                'store/goods/list'          => '商品列表',
+                'store/goods/get'           => '商品详情',
+                'store/goods/save'          => '商品更新',
+                'store/goods/del'           => '商品删除',
+
                 'store/goods/type/list'     => '商品类型-列表',
                 'store/goods/type/get'      => '商品类型-详情',
                 'store/goods/type/save'     => '商品类型-更新',
@@ -150,7 +155,17 @@ class admin_helper extends rgx {
                 'store/shipping/shipping/save' => '配送方式-更新',
                 'store/shipping/shipping/del'  => '配送方式-删除',
             ]
-        ]
+        ],
+        [
+            'name'      => '广告管理',
+            'actions'   => [
+                'advert/get'                => '广告详情',
+                'advert/list'               => '广告列表',
+                'advert/save'               => '广告更新',
+                'advert/del'                => '广告删除',
+            ]
+        ],
+
     ];
 
     /**
