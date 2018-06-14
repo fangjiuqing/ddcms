@@ -273,7 +273,7 @@ class store_goods_iface extends ubase_iface {
                 'gs_price_cost'     => floatval($spec['price_cost']),
                 'gs_stock'          => $spec['stocks'],
                 'gs_stat_sale'      => (int)$spec['sale'],
-                'gs_status'         => array_search($spec['status'], store_goods_helper) ?:NS_STATUS,
+                'gs_status'         => array_search($spec['status'], store_goods_helper::$spec_status) ?:NS_STATUS,
             ];
             if ($row['gs_price'] <= 0) {
                 store_goods_helper::remove($goods['goods_id']);
