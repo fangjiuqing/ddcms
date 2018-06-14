@@ -256,19 +256,19 @@ export default {
     font-size: 85%;margin-bottom: 20px;
   }
   .designer-info p {
-    line-height: 32px;
+    line-height: 25px;
   }
   .info-key,.info-val{
     display: block;
-    float: left;
   }
   .info-key {
+    float: left;
     text-align: right;
     width: 80px;
   }
   .info-val {
     text-align: left;
-    width: 140px;
+    margin-left: 90px;
   }
   .design-info-content {
     padding: 10px 3px; border: 1px solid #ddd;
