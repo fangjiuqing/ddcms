@@ -164,7 +164,7 @@
             <div class="col-md-12" style="padding-top: 15px;">
               <vue-editor ref="editor" id="editor"
                 useCustomImageHandler
-                @imageAdded="uploadEditorImage">
+                @imageAdded="uploadEditorImage" v-model="form.goods_desc">
               </vue-editor>
             </div>
           </div>
@@ -216,7 +216,8 @@ export default {
       hasFilterAttrs: false,
       goodsSpecs: {},
       curGoodsSpecKey: null,
-      goodsStatus: {}
+      goodsStatus: {},
+      specStatus: {}
     }
   },
 
@@ -284,7 +285,7 @@ export default {
           value: '',
           input_type: 'select',
           width: '100',
-          values: this.goodsStatus
+          values: this.specStatus
         }
       }
       this.baseAttrs = {}
@@ -333,7 +334,6 @@ export default {
       for (let k of Object.keys(this.filterAttrs).sort()) {
         item[k] = ''
       }
-      console.log(item)
       this.$set(this.$data.goodsSpecs, this.$util.rand_str(16), item)
     },
 
@@ -468,6 +468,7 @@ export default {
           this.brands = d.data.brands
           this.goodsTypes = d.data.types || {}
           this.goodsStatus = d.data.status || {}
+          this.specStatus = d.data.spec_status || {}
           if (this.form.goods_type_id) {
             this.selectGoodsType()
             this.baseAttrs = d.data.attrs
@@ -535,3 +536,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.quillWrapper {
+  max-width: 1000px;
+}
+</style>

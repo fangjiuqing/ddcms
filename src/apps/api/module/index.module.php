@@ -19,6 +19,9 @@ class index_module extends R\module {
      * @return [type] [description]
      */
     public function index_action () {
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+            $this->ajax_success('helo');
+        }
         $this->params = json_decode(isset($_POST['raw']) ? $_POST['raw'] : file_get_contents('php://input'), 1);
         if (json_last_error() > 0 || empty($this->params)) {
             $this->ajax_failure('invalid request', 999);
