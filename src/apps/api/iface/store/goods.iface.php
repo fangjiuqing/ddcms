@@ -80,6 +80,7 @@ class store_goods_iface extends ubase_iface {
             $base_attrs = store_helper::get_attrs($goods['goods_type_id'], 1);
             $filter_attrs = store_helper::get_attrs($goods['goods_type_id'], 2);
             $specs = OBJ('goods_spec_table')->akey()->map(function ($row) {
+                $status = store_goods_helper::$spec_status[$row['gs_status']];
                 return [
                     'id'        => $row['gs_id'],
                     'sale'      => $row['gs_stat_sale'],
@@ -88,7 +89,7 @@ class store_goods_iface extends ubase_iface {
                     'stocks'    => $row['gs_stock'],
                     'price_cost'    => $row['gs_price_cost'],
                     'price_sale'    => $row['gs_price'],
-                    'status'    => $row['gs_status'],
+                    'status'    => $status,
                 ];
             })->get_all([
                 'gs_goods_id'   => $goods['goods_id']
