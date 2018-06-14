@@ -116,6 +116,16 @@ class goods_spec_table extends table {
             'allow_empty_string' => true,
             'allow_null'         => false
         ],
+        'gs_status' => [
+            'name'               => 'gs_status',
+            'type'               => 'int',
+            'field_type'         => 'tinyint',
+            'min'                => -128,
+            'max'                => 127,
+            'label'              => '上下架状态: 1下架/2上架',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
     ];
 
     /*
@@ -143,6 +153,7 @@ class goods_spec_table extends table {
         'gs_cover'        => '',
         'gs_stock'        => 0,
         'gs_stat_sale'    => 0,
+        'gs_status'       => 1,
     ];
 
     /*
@@ -160,6 +171,7 @@ class goods_spec_table extends table {
         'gs_cover'        => ['re\rgx\filter', 'char'],
         'gs_stock'        => ['re\rgx\filter', 'int'],
         'gs_stat_sale'    => ['re\rgx\filter', 'int'],
+        'gs_status'       => ['re\rgx\filter', 'int'],
     ];
 
     /*

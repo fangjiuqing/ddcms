@@ -6,7 +6,12 @@ namespace re\rgx;
  */
 class store_goods_helper extends rgx {
 
-
+    public static $spec_status  = [
+        1   => '已上架',
+        2   => '已下架',
+    ];
+    const NS_STATUS = 1;
+    
     /**
      * 删除商品
      * @param  [type] $goods_id [description]

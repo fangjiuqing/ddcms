@@ -7,7 +7,7 @@ namespace re\rgx;
   + ----------------------------------------------------------------
   + @date 2018-05-21 11:32:25
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
-  + @cmd  php rgx/build.php --prefix=./apps/api
+  + @cmd  php rgx/build.php table --prefix=./apps/api
   + @generator RGX v1.0.0.20171212_RC
   +-----------------------------------------------------------------
 */
@@ -42,7 +42,7 @@ class goods_attr_table extends table {
             'field_type'         => 'int',
             'min'                => 0,
             'max'                => 4294967295,
-            'label'              => '类型ID',
+            'label'              => '对应类型ID',
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
