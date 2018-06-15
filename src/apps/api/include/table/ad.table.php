@@ -7,7 +7,7 @@ namespace re\rgx;
   + ----------------------------------------------------------------
   + @date 2018-05-21 16:15:43
   + @desc 若修改了表结构, 请使用下面的命令更新模型文件
-  + @cmd  php rgx/build.php --prefix=./apps/api
+  + @cmd  php rgx/build.php table --prefix=./apps/api
   + @generator RGX v1.0.0.20171212_RC
   +-----------------------------------------------------------------
 */
@@ -46,6 +46,16 @@ class ad_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
+        'ad_location' => [
+            'name'               => 'ad_location',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 64,
+            'label'              => 'ad_location',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
         'ad_status' => [
             'name'               => 'ad_status',
             'type'               => 'int',
@@ -76,6 +86,16 @@ class ad_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
+        'ad_udate' => [
+            'name'               => 'ad_udate',
+            'type'               => 'int',
+            'field_type'         => 'int',
+            'min'                => -2147483648,
+            'max'                => 2147483647,
+            'label'              => 'ad_udate',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
     ];
 
     /*
@@ -96,9 +116,11 @@ class ad_table extends table {
     public $defaults = [
         'ad_id'       => 0,
         'ad_name'     => '',
+        'ad_location' => '',
         'ad_status'   => 0,
         'ad_desc'     => '',
         'ad_adate'    => 0,
+        'ad_udate'    => 0,
     ];
 
     /*
@@ -109,9 +131,11 @@ class ad_table extends table {
     public $filter = [
         'ad_id'       => ['re\rgx\filter', 'int'],
         'ad_name'     => ['re\rgx\filter', 'char'],
+        'ad_location' => ['re\rgx\filter', 'char'],
         'ad_status'   => ['re\rgx\filter', 'int'],
         'ad_desc'     => ['re\rgx\filter', 'char'],
         'ad_adate'    => ['re\rgx\filter', 'int'],
+        'ad_udate'    => ['re\rgx\filter', 'int'],
     ];
 
     /*

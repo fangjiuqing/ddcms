@@ -33,15 +33,16 @@ class advert_iface extends ubase_iface {
         $ad_tab = OBJ('ad_table');
         $paging = new paging_helper($ad_tab, $this->data['pn'] ?: 1, 12);
         $ad_ret = $ad_tab->map(function ($row) {
-            $row['ad_status_style'] = ['', 'text-primary', 'text-info', 'text-success'][$row['ad_status']];
+            $row['ad_status_style'] = ['', 'text-denger', 'text-success'][$row['ad_status']];
             $row['ad_status']   = ad_helper::$ad_status[$row['ad_status']];
             $row['ad_desc']     = filter::json_unecsape($row['ad_desc']);
             return $row;
-        })->order('ad_adate desc')->get_all();
+        })->order('ad_udate desc')->get_all();
         $arr    = [];
         foreach ((array)$ad_ret as $k => $v) {
             $arr[$k]['ad_id']   = $v['ad_id'];
             $arr[$k]['ad_name'] = $v['ad_name'];
+            $arr[$k]['ad_location'] = $v['ad_location'];
             $arr[$k]['ad_status']       = $v['ad_status'];
             $arr[$k]['ad_status_style'] = $v['ad_status_style'];
             if (is_array($v['ad_desc'])) {
@@ -49,6 +50,7 @@ class advert_iface extends ubase_iface {
                 $arr[$k]['ad_image']    = IMAGE_URL . $v['ad_desc']['ad_image'] . '!500x309';
             }
             $arr[$k]['ad_adate']    = $v['ad_adate'];
+            $arr[$k]['ad_udate']    = $v['ad_udate'];
         }
         $this->success('操作成功', [
             'list'      => array_values($arr),
@@ -66,10 +68,29 @@ class advert_iface extends ubase_iface {
         $ad_tab = OBJ('ad_table');
         $this->data['ad_id']        = filter::int($this->data['ad_id']);
         $this->data['ad_name']      = filter::text($this->data['ad_name']);
-        $this->data['ad_status']    = filter::int($this->data['ad_status']) ?: 0;
+        $this->data['ad_location']  = filter::normal($this->data['ad_location']);
+        $this->data['ad_status']    = filter::int($this->data['ad_status']) ?: 1;
         $this->data['ad_adate']     = filter::int($this->data['ad_adate']) ?: REQUEST_TIME;
+        $this->data['ad_udate']    = REQUEST_TIME;
+        $this->verify([
+            'ad_name'   => [
+                'code'  => 101,
+                'msg'   => '请输入正确的广告名称',
+                'rule'  => function ($v) {
+                    return !empty($v);
+                }
+            ],
+            'ad_location'   => [
+                'code'  => 102,
+                'msg'   => '请输入正确的广告位置',
+                'rule'  => function ($v) {
+                    return !empty($v);
+                }
+            ]
+        ]);
         if (strpos($this->data['ad_image'], ':')) {
             $this->data['ad_image'] = substr($this->data['ad_image'], 30);
+            $this->data['ad_image'] = substr($this->data['ad_image'], 0, -8);
         }
         $this->data['ad_desc']      = filter::json_ecsape([
             'ad_url'   => $this->data['ad_url'],
