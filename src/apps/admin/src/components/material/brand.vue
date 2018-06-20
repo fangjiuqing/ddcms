@@ -47,42 +47,35 @@
         {{modal_title}}
       </div>
       <div slot="default">
-        <form action="" method="post" accept-charset="utf-8">
-          <div style="padding-right:30px;">
-            <div class="row">
-                <label class="col-sm-3 label-on-left">名称</label>
-                <div class="col-sm-9">
-                    <div class="form-group">
-                        <input class="form-control" v-model="modal_data.pb_name" type="text" placeholder="品牌名称">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-sm-3 label-on-left">类型</label>
-                <div class="col-sm-9">
-                    <div class="form-group">
-                        <select v-model="modal_data.pb_type" class="form-control">
-                          <option v-for="(v, k) in attrs.type" v-bind:key="k" :value="k">
-                            {{v}}
-                          </option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <label class="col-sm-3 label-on-left">所属供应商</label>
-                <div class="col-sm-9">
-                    <div class="form-group">
-                        <select v-model="modal_data.pb_sup_id" class="form-control">
-                          <option v-for="(v) in suppliers" v-bind:key="v.sup_id" :value="v.sup_id">
-                            {{v.sup_realname}}
-                          </option>
-                        </select>
-                    </div>
-                </div>
+        <div style="padding-right:30px;">
+          <div class="row">
+              <label class="col-sm-3 label-on-left">名称</label>
+              <div class="col-sm-9">
+                  <div class="form-group">
+                      <input class="form-control" v-model="modal_data.pb_name" type="text" placeholder="品牌名称">
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <label class="col-sm-3 label-on-left">类型</label>
+              <div class="col-sm-9">
+                  <div class="form-group">
+                      <select v-model="modal_data.pb_type" class="form-control">
+                        <option v-for="(v, k) in attrs.type" v-bind:key="k" :value="k">
+                          {{v}}
+                        </option>
+                      </select>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+            <label class="col-sm-3 label-on-left">所属供应商</label>
+            <div class="col-sm-9  input-label">
+              <input id="input-5" class="form-control" type="text" placeholder="所属供应商">
+              <typeahead v-model="modal_data.pb_sup_id" target="#input-5" :async-function="querySupplier" item-key="sup_realname" />
             </div>
           </div>
-        </form>
+        </div>
       </div>
       <div slot="footer">
         <btn @click="save" type="success" class="btn-sm">确认</btn>
@@ -110,11 +103,21 @@ export default {
       attrs: {},
       modal_open: false,
       modal_title: '',
-      modal_data: {},
+      modal_data: {
+        pb_sup_id: {}
+      },
       suppliers: []
     }
   },
   methods: {
+    // 搜搜供应商
+    querySupplier (query, done) {
+      this.$http.list('store/supplier', {key: query}).then(d => {
+        if (d.code === 0) {
+          done(d.data.list)
+        }
+      })
+    },
     modify: function (id) {
       this.modal_open = true
       if (id === '0') {
@@ -125,13 +128,12 @@ export default {
       this.$loading.show({
         msg: '加载中 ...'
       })
-      this.$http.get('material/brand', {id: id, attrs: 1}).then(d => {
+      this.$http.get('material/brand', {id: id}).then(d => {
         this.$loading.hide()
         if (d.code === 0) {
-          this.modal_data = d.data
-          this.suppliers = d.data.attrs.supplier
+          this.modal_data = d.data.row || {pb_sup_id: null}
         } else {
-          this.modal_data = []
+          this.modal_data = {pb_sup_id: null}
         }
         this.modal_open = true
       })

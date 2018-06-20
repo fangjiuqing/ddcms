@@ -73,7 +73,7 @@ class goods_attr_table extends table {
             'min'                => 0,
             'max'                => 512,
             'label'              => '取值',
-            'allow_empty_string' => false,
+            'allow_empty_string' => true,
             'allow_null'         => false
         ],
         'ga_type' => [

@@ -31,6 +31,8 @@ class store_goods_iface extends ubase_iface {
         if($out['rows']) {
             OBJ('goods_spec_table')->map(function ($row) use (&$out) {
                 $row['attrs'] = explode('#', substr($row['gs_attr'], 1, -1));
+                $row['status'] = store_helper::$goods_status[$row['gs_status']];
+                $row['status_class'] = $row['gs_status'] == store_helper::GOODS_STATUS_SALEOUT ? 'text-danger' : 'text-success';
                 $out['rows'][$row['gs_goods_id']]['specs'][] = $row;
             })->get_all([
                 'gs_goods_id'   => array_keys($out['rows'] ?: [0])
@@ -71,50 +73,79 @@ class store_goods_iface extends ubase_iface {
      */
     public function get_action () {
         $out = [];
-        $goods = OBJ('goods_table')->get((int)$this->data['id']);
-        if ($goods) {
-            $goods['goods_supplier_id'] = OBJ('supplier_table')->fields('sup_id,sup_realname')->get(
-                (int)$goods['goods_supplier_id']
-            );
-            $goods['goods_cover_url'] = UPLOAD_URL . $goods['goods_cover'];
-            $base_attrs = store_helper::get_attrs($goods['goods_type_id'], 1);
-            $filter_attrs = store_helper::get_attrs($goods['goods_type_id'], 2);
-            $specs = OBJ('goods_spec_table')->akey()->map(function ($row) {
-                $status = store_goods_helper::$spec_status[$row['gs_status']];
-                return [
-                    'id'        => $row['gs_id'],
-                    'sale'      => $row['gs_stat_sale'],
-                    '0cover'    => $row['gs_cover'],
-                    '0cover_url'=> UPLOAD_URL . $row['gs_cover'],
-                    'stocks'    => $row['gs_stock'],
-                    'price_cost'    => $row['gs_price_cost'],
-                    'price_sale'    => $row['gs_price'],
-                    'status'    => $status,
-                ];
-            })->get_all([
-                'gs_goods_id'   => $goods['goods_id']
-            ]);
-            OBJ('goods_spec_attr_table')->map(function ($g) use (&$base_attrs, &$specs) {
-                // base
-                if ($g['gsa_type'] == '1') {
-                    $base_attrs[$g['gsa_attr_id']]['value'] = $g['gas_value'];
-                }
-                else if ($g['gsa_type'] == '2') {
-                    $specs[$g['gsa_spec_id']][$g['gsa_attr_id']] = $g['gas_value'];
-                }
-                return null;
-            })->get_all([
-                'gsa_goods_id'  => $goods['goods_id']
-            ]);
-            $out['specs'] = $specs;
-            $out['attrs'] = $base_attrs;
+
+        // 配置请求返回
+        if ($this->data['action'] == 'config') {
+            $goods = OBJ('goods_table')->fields('goods_id,goods_name,goods_status')->get((int)$this->data['id']);
+            if (!empty($goods)) {
+                OBJ('goods_spec_table')->map(function ($row) use (&$goods) {
+                    $goods['specs'][$row['gs_id']] = [
+                        'gs_name'           => explode('#', substr($row['gs_attr'], 1, -1)),
+                        'gs_price'          => $row['gs_price'],
+                        'gs_price_source'   => $row['gs_price_source'],
+                        'gs_price_cost'     => $row['gs_price_cost'],
+                        'gs_stock'          => $row['gs_stock'],
+                        'gs_status'         => $row['gs_status']
+                    ];
+                    return null;
+                })->get_all([
+                    'gs_goods_id'   => $goods['goods_id']
+                ]);
+            }
+            $out['row'] = $goods;
         }
-        $out['row'] = $goods ?: null;
-        $out['row']['goods_desc']   = htmlspecialchars_decode(OBJ('goods_desc_table')->get(['gd_id' => (int)
-            $this->data['id']])['gd_desc']);
-        $out['brands'] = OBJ('brand_table')->get_all() ?: null;
-        $out['categories'] = category_helper::get_options(category_helper::TYPE_GOODS, 0, 0);
-        $out['types'] = store_helper::get_goods_types(false, true);
+
+        // 编辑请求返回
+        else {
+            $goods = OBJ('goods_table')->get((int)$this->data['id']);
+            if ($goods) {
+                $goods['goods_supplier_id'] = OBJ('supplier_table')->fields('sup_id,sup_realname')->get(
+                    (int)$goods['goods_supplier_id']
+                );
+                $goods['goods_cover_url'] = UPLOAD_URL . $goods['goods_cover'];
+                $base_attrs = store_helper::get_attrs($goods['goods_type_id'], 1);
+                $filter_attrs = store_helper::get_attrs($goods['goods_type_id'], 2);
+                $specs = OBJ('goods_spec_table')->akey()->map(function ($row) {
+                    $status = store_goods_helper::$spec_status[$row['gs_status']];
+                    return [
+                        'id'        => $row['gs_id'],
+                        'sale'      => $row['gs_stat_sale'],
+                        '0cover'    => $row['gs_cover'],
+                        '0cover_url'=> UPLOAD_URL . $row['gs_cover'],
+                        'stocks'    => $row['gs_stock'],
+                        'price_cost'    => $row['gs_price_cost'],
+                        'price_sale'    => $row['gs_price'],
+                        'status'    => $status,
+                    ];
+                })->get_all([
+                    'gs_goods_id'   => $goods['goods_id']
+                ]);
+                OBJ('goods_spec_attr_table')->map(function ($g) use (&$base_attrs, &$specs) {
+                    // base
+                    if ($g['gsa_type'] == '1') {
+                        $base_attrs[$g['gsa_attr_id']]['value'] = $g['gas_value'];
+                    }
+                    else if ($g['gsa_type'] == '2') {
+                        $specs[$g['gsa_spec_id']][$g['gsa_attr_id']] = $g['gas_value'];
+                    }
+                    return null;
+                })->get_all([
+                    'gsa_goods_id'  => $goods['goods_id']
+                ]);
+                $out['specs'] = $specs;
+                $out['attrs'] = $base_attrs;
+                $goods['goods_desc']   = htmlspecialchars_decode(
+                    OBJ('goods_desc_table')->fields('gd_desc')->fetch([
+                        'gd_id' => $goods['goods_id']
+                    ]) ?: '', 
+                    ENT_QUOTES
+                );
+            }
+            $out['row'] = $goods ?: null;
+            $out['brands'] = OBJ('brand_table')->get_all() ?: null;
+            $out['categories'] = category_helper::get_options(category_helper::TYPE_GOODS, 0, 0);
+            $out['types'] = store_helper::get_goods_types(false, true);
+        }
         $out['status'] = store_helper::$goods_status;
         $out['spec_status'] = store_goods_helper::$spec_status;
         $this->success('', $out);

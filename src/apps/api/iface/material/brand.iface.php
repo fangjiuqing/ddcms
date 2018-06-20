@@ -13,10 +13,12 @@ class material_brand_iface extends ubase_iface {
     public function get_action () {
         $this->data['id'] = intval($this->data['id']);
         $out = OBJ('brand_table')->get($this->data['id']);
-        if ($this->data['attrs']) {
-            $out['attrs']['supplier'] = OBJ('supplier_table')->fields('sup_id,sup_realname')->get_all();
+        if (!empty($out)) {
+            $out['pb_sup_id'] = OBJ('supplier_table')->fields('sup_id,sup_realname')->get($this->data['id']);
         }
-        $this->success('', $out);
+        $this->success('', [
+            'row'   => $out ?: null
+        ]);
     }
 
     /**

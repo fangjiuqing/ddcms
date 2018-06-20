@@ -11,32 +11,32 @@
           <tab title="基本信息">
             <div class="form-block">
               <div class="row">
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                   <label class="col-sm-3 label-on-left">客户姓名</label>
                   <div class="form-group col-sm-9">
                     <input type="text" class="form-control" name="pc_nick" v-model="form.pc_nick" placeholder="客户姓名">
                   </div>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                   <label class="col-sm-3 label-on-left">客户编号</label>
                   <div class="form-group col-sm-9">
                     <input type="text" class="form-control" name="pc_sn" v-model="form.pc_sn" placeholder="客户编号">
                   </div>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                   <label class="col-sm-3 label-on-left">客户性别</label>
                   <div class="form-group col-sm-9 text-left" style="padding-top:10px;">
                     <p-check class="p-default p-round" v-model="form.pc_gender" true-value="1">先生</p-check>
                     <p-check class="p-default p-round p-fill" v-model="form.pc_gender" true-value="2">女士</p-check>
                   </div>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                   <label class="col-sm-3 label-on-left">手机号</label>
                   <div class="form-group col-sm-9">
                     <input type="text" class="form-control" name="pc_mobile" v-model="form.pc_mobile" placeholder="手机号" >
                   </div>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                   <label class="col-sm-3 label-on-left">客户来源</label>
                   <div class="form-group col-sm-9">
                     <select v-model="form.pc_via" class="form-control">
@@ -47,7 +47,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                   <label class="col-sm-3 label-on-left">客户状态</label>
                   <div class="form-group col-sm-9">
                     <select v-model="form.pc_status" class="form-control">
@@ -59,26 +59,26 @@
                   </div>
                 </div>
                 <div class="row address">
-                  <div class="col-sm-5">
+                  <div class="col-sm-6">
                     <label class="col-sm-3 label-on-left">所在地</label>
                     <div class="form-group col-sm-9">
                       <v-distpicker :province="form.region0" :city="form.region1" :area="form.region2" @selected="onSelected"></v-distpicker>
                     </div>
                   </div>
-                  <div class="col-sm-5">
+                  <div class="col-sm-6">
                     <label class="col-sm-3 label-on-left">乡镇/街道</label>
-                    <select v-model="form.pc_region3" class="street">
+                    <select v-model="form.pc_region3" class="form-control street">
                       <option v-for="(item, index) in this.street" :key="index" :value="item.region_code">{{item.region_name}}</option>
                     </select>
                   </div>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                   <label class="col-sm-3 label-on-left">详细地址</label>
                   <div class="form-group col-sm-9">
                     <input type="text" class="form-control" name="pc_addr" v-model="form.pc_addr" placeholder="详细地址">
                   </div>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                   <section>
                     <label for="input-5" class="label-on-left col-sm-3 ">小区</label>
                     <div class="form-group col-sm-9">
@@ -95,7 +95,7 @@
                     </div>
                   </section>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                   <label class="col-sm-3 label-on-left">身份证</label>
                   <div class="form-group col-sm-9">
                     <input type="text" class="form-control" name="pc_sid" v-model="form.pc_sid" placeholder="身份证码">

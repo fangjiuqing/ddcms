@@ -1,5 +1,5 @@
 <template>
-  <div class="customer">
+  <div class="case">
     <breadcrumbs :items="items">
       <breadcrumb-item v-for="(v, i) in items" v-bind:key="i" :active="i === items.length - 1" :to="{path: v.to}" >
         {{v.text}}
