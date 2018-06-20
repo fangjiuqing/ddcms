@@ -46,6 +46,16 @@ class goods_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
+        'goods_sn' => [
+            'name'               => 'goods_sn',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 16,
+            'label'              => 'goods_sn',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
         'goods_cat_id' => [
             'name'               => 'goods_cat_id',
             'type'               => 'int',
@@ -226,6 +236,7 @@ class goods_table extends table {
     public $defaults = [
         'goods_id'            => 0,
         'goods_name'          => '',
+        'goods_sn'            => '',
         'goods_cat_id'        => 0,
         'goods_price'         => 0.00,
         'goods_supplier_id'   => 0,
@@ -252,6 +263,7 @@ class goods_table extends table {
     public $filter = [
         'goods_id'            => ['re\rgx\filter', 'int'],
         'goods_name'          => ['re\rgx\filter', 'char'],
+        'goods_sn'            => ['re\rgx\filter', 'char'],
         'goods_cat_id'        => ['re\rgx\filter', 'int'],
         'goods_price'         => ['re\rgx\filter', 'float'],
         'goods_supplier_id'   => ['re\rgx\filter', 'int'],

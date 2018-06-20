@@ -126,6 +126,16 @@ class goods_spec_table extends table {
             'allow_empty_string' => false,
             'allow_null'         => false
         ],
+        'gs_sn' => [
+            'name'               => 'gs_sn',
+            'type'               => 'char',
+            'field_type'         => 'varchar',
+            'min'                => 0,
+            'max'                => 16,
+            'label'              => 'gs_sn',
+            'allow_empty_string' => false,
+            'allow_null'         => false
+        ],
     ];
 
     /*
@@ -154,6 +164,7 @@ class goods_spec_table extends table {
         'gs_stock'        => 0,
         'gs_stat_sale'    => 0,
         'gs_status'       => 1,
+        'gs_sn'           => '',
     ];
 
     /*
@@ -172,6 +183,7 @@ class goods_spec_table extends table {
         'gs_stock'        => ['re\rgx\filter', 'int'],
         'gs_stat_sale'    => ['re\rgx\filter', 'int'],
         'gs_status'       => ['re\rgx\filter', 'int'],
+        'gs_sn'           => ['re\rgx\filter', 'char'],
     ];
 
     /*

@@ -66,8 +66,8 @@ class public_store_user_invoice_iface extends ubase_iface {
         $this->data['in_region2']  = filter::int($this->data['in_region2']) ?: 110111;
         $this->data['in_address']  = filter::normal($this->data['in_address']) ?: '填充假数据';
     
-        $this->data['in_atime'] = REQUEST_TIME;
-        $this->data['in_utime'] = $this->data['in_utime'] ?: REQUEST_TIME;
+        $this->data['in_atime'] = $this->data['in_atime'] ?: REQUEST_TIME;
+        $this->data['in_utime'] = REQUEST_TIME;
         $this->data['in_status']   = $this->data['in_status'] ?: store_user_invoice_helper::APPLY_STATUS;
         $tab    = OBJ('invoice_table');
         if ($this->data['in_title_type'] === 2) {

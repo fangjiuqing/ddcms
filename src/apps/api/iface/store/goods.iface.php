@@ -116,6 +116,7 @@ class store_goods_iface extends ubase_iface {
                         'price_cost'    => $row['gs_price_cost'],
                         'price_sale'    => $row['gs_price'],
                         'status'    => $status,
+                        'sn'        => $row['gs_sn'],
                     ];
                 })->get_all([
                     'gs_goods_id'   => $goods['goods_id']
@@ -196,6 +197,12 @@ class store_goods_iface extends ubase_iface {
                 'msg'  => '请上传商品封面图片',
                 'rule' => filter::$rules['require']
             ],
+            'goods_sn'    => [
+                'msg'  => '请输入商品编号',
+                'rule' => function ($v) {
+                    return !empty($v);
+                }
+            ],
         ], $goods);
 
         $attr_list = store_helper::get_attrs($goods['goods_type_id']);
@@ -222,6 +229,12 @@ class store_goods_iface extends ubase_iface {
                     'msg'  => '请上传规格商品封面图片',
                     'rule' => filter::$rules['require']
                 ],
+                'sn'     => [
+                    'msg'  => '请输入商品规格编号',
+                    'rule' => function ($v) {
+                        return !empty($v);
+                    }
+                ]
             ], $v);
 
             foreach ($v as $key => $val) {
@@ -240,6 +253,7 @@ class store_goods_iface extends ubase_iface {
         }
 
         $goods['goods_id'] = intval($goods['goods_id']);
+        $goods['goods_sn'] = filter::normal($goods['goods_sn']);
         $goods['goods_admin_id'] = $this->login['admin_id'];
         $goods['goods_price'] = 0;
         $goods['goods_stock'] = 0;
@@ -296,6 +310,7 @@ class store_goods_iface extends ubase_iface {
             $goods['goods_stat_count'] += 1;
             $row = [
                 'gs_id'             => (int)$spec['id'],
+                'gs_sn'             => filter::normal($spec['sn']),
                 'gs_attr'           => [],
                 'gs_goods_id'       => $goods['goods_id'],
                 'gs_cover'          => $spec['0cover'],

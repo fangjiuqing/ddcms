@@ -71,7 +71,7 @@ class advert_iface extends ubase_iface {
         $this->data['ad_location']  = filter::normal($this->data['ad_location']);
         $this->data['ad_status']    = filter::int($this->data['ad_status']) ?: 1;
         $this->data['ad_adate']     = filter::int($this->data['ad_adate']) ?: REQUEST_TIME;
-        $this->data['ad_udate']    = REQUEST_TIME;
+        $this->data['ad_udate'] = REQUEST_TIME;
         $this->verify([
             'ad_name'   => [
                 'code'  => 101,
