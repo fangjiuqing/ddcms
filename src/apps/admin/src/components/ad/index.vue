@@ -19,8 +19,9 @@
                 <tr>
                   <th class="text-left" width="25%">广告名称</th>
                   <th class="text-left" width="30%">链接</th>
-                  <th class="text-left" width="5%">广告状态</th>
+                  <th class="text-left" width="10%">广告状态</th>
                   <th class="text-left" width="15%">添加时间</th>
+                  <th class="text-left" width="10%">广告标识</th>
                   <th class="text-left" width="5%">操作</th>
                 </tr>
               </thead>
@@ -39,6 +40,9 @@
                     </td>
                     <td class="text-left">
                       <small>{{v.ad_adate|time('yyyy-mm-dd HH:MM')}}</small>
+                    </td>
+                    <td class="text-left">
+                      <small>{{v.ad_location}}</small>
                     </td>
                     <td class="text-left">
                       <btn class="btn btn-xs btn-rose" @click="del(v.ad_id)"><i class="fa fa-trash-o"></i></btn>

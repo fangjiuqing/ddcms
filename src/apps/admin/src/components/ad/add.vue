@@ -36,6 +36,12 @@
                 </select>
               </div>
             </div>
+            <div class="col-sm-5">
+              <label class="col-sm-3 label-on-left">广告标识</label>
+              <div class="form-group col-sm-9">
+                <input type="text" class="form-control" name="ad_name" placeholder="广告标识" v-model="form.ad_location">
+              </div>
+            </div>
           </div>
           <div class="row">
             <div class="col-sm-5">
