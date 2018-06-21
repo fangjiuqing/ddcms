@@ -12,7 +12,10 @@ class designer_help_case_iface extends ubase_iface {
         ]);
         $tab->fields('case_id, case_title, case_cover')->order('case_id desc')->limit(10);
         $this->success('', [
-            'list'  => $tab->get_all()
+            'list'  => $tab->map(function ($row) {
+                $row['case_cover']  = IMAGE_URL . $row['case_cover'] . '!500x309';
+                return $row;
+            })->get_all()
         ]);
     }
 }
