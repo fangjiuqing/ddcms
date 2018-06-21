@@ -300,6 +300,13 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 export default {
   name: 'home',
+  metaInfo () {
+    const title = '智装系列 - 道达智装'
+    return {
+      title: title,
+      meta: [{vmid: 'keywords', name: 'keywords', content: title}]
+    }
+  },
   data () {
     return {
       ind: 0,
