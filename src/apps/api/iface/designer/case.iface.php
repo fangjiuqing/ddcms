@@ -19,6 +19,7 @@ class designer_case_iface extends ubase_iface {
             $row['case_is_primary'] = $row['case_is_primary'] ? true : false;
             return $row;
         })->get_all([
+            'case_is_primary'   => 1,
             'case_designer_id'  => (int)$this->data['id']
         ]);
         $this->success('', [
