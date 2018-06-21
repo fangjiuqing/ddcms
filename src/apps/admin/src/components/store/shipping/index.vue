@@ -60,7 +60,8 @@ export default {
         {text: '配送管理', to: '/store/shipping'},
         {text: '列表', href: '#'}
       ],
-      rows: []
+      rows: [],
+      total: ''
     }
   },
   methods: {
