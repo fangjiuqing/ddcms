@@ -49,7 +49,7 @@ class public_case_iface extends base_iface {
                     $row['type'] = $types[$row['case_type_id']]['cat_name'];
                     $row['toggle'] = false;
                     return $row;
-                })->order('case_id desc')->limit(5)->get_all([
+                })->order('case_id desc')->limit(6)->get_all([
                     'case_cat_id'   => $v['sub_ids'] ?: [0]
                 ]);
                 unset($cats[$k]['sub_ids']);
