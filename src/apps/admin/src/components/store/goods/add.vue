@@ -20,6 +20,12 @@
                 </div>
               </div>
               <div class="row form-input-row">
+                <label class="col-sm-2 field-label">商品编号</label>
+                <div class="col-sm-10 input-label">
+                  <input class="form-control" name="goods_sn" v-model="form.goods_sn" type="text" placeholder="商品编号">
+                </div>
+              </div>
+              <div class="row form-input-row">
                 <label class="col-sm-2 field-label">所属分类</label>
                 <div class="col-sm-10 input-label">
                   <select v-model="form.goods_cat_id"  name="goods_cat_id" class="form-control">
@@ -138,7 +144,7 @@
                           {{opt}}
                         </option>
                       </select>
-                      <input class="form-control-xs" v-if="filterAttrs[v].input_type === 'input'" v-model="goodsSpecs[gsk][v]" type="text" :placeholder="'请输入' + filterAttrs[v].name">
+                      <input class="form-control-xs" v-if="filterAttrs[v].input_type === 'input'" v-model="goodsSpecs[gsk][v]" type="text" :placeholder="filterAttrs[v].name">
                       <div v-if="filterAttrs[v].input_type === 'image'">
                         <img class="preview_cover" style="width: 100px; height: 100px;" :src="goodsSpecs[gsk][v + '_url'] || cover" @click="uploadGoodsCover(gsk, v)">
                       </div>
@@ -286,6 +292,12 @@ export default {
           input_type: 'select',
           width: '100',
           values: this.specStatus
+        },
+        'sn': {
+          name: '编号',
+          value: '',
+          input_type: 'input',
+          width: '200'
         }
       }
       this.baseAttrs = {}
@@ -305,19 +317,19 @@ export default {
           name: '库存',
           value: '',
           input_type: 'input',
-          width: '100'
+          width: '90'
         }
         this.filterAttrs['price_cost'] = {
           name: '成本价',
           value: '',
           input_type: 'input',
-          width: '100'
+          width: '90'
         }
         this.filterAttrs['price_sale'] = {
           name: '售价',
           value: '',
           input_type: 'input',
-          width: '100'
+          width: '90'
         }
         this.goodsSpecs = {}
         this.addGoodsSpecRow()
@@ -334,6 +346,7 @@ export default {
       for (let k of Object.keys(this.filterAttrs).sort()) {
         item[k] = ''
       }
+      console.log(item)
       this.$set(this.$data.goodsSpecs, this.$util.rand_str(16), item)
     },
 
