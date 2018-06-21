@@ -263,6 +263,7 @@ export default {
     // 选择商品类型
     selectGoodsType () {
       let attrs = this.goodsTypes[this.form.goods_type_id].attrs
+      console.log(attrs, this.form.goods_type_id, this.goodsTypes)
       this.filterAttrs = {
         'id': {
           name: '编号',
@@ -311,7 +312,7 @@ export default {
       }
 
       this.hasBaseAttrs = Object.keys(this.baseAttrs).length > 0
-      this.hasFilterAttrs = Object.keys(this.filterAttrs).length > 4
+      this.hasFilterAttrs = Object.keys(this.filterAttrs).length > 6
       if (this.hasFilterAttrs) {
         this.filterAttrs['stocks'] = {
           name: '库存',
@@ -336,10 +337,6 @@ export default {
       }
     },
 
-    initGoodsSpec () {
-      // a
-    },
-
     // 初始化商品规格
     addGoodsSpecRow () {
       let item = {}
@@ -350,7 +347,7 @@ export default {
       this.$set(this.$data.goodsSpecs, this.$util.rand_str(16), item)
     },
 
-    // 搜搜供应商
+    // 搜索供应商
     querySupplier (query, done) {
       this.$http.list('store/supplier', {key: query}).then(d => {
         if (d.code === 0) {
