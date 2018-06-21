@@ -279,7 +279,28 @@ export default {
       this.modal.open = true
     },
 
-    saveConfig () {},
+    // 保存配置
+    saveConfig () {
+      this.$loading.show({
+        msg: '加载中 ...'
+      })
+      this.$http.set('store/goods', {
+        goods: this.modal.row
+      }).then(d => {
+        this.$loading.hide()
+        if (d.code === 0) {
+          this.modal.open = false
+          this.refresh()
+        } else if (d.code === 9999) {
+          this.$alert({
+            title: '系统提示',
+            content: d.msg
+          }, (msg) => {
+            this.$router.go(-1)
+          })
+        }
+      })
+    },
 
     // 刷新数据
     refresh: function () {
@@ -308,17 +329,17 @@ export default {
 
     // 删除商品记录
     del: function (id) {
-      this.$loading.show({
-        msg: '加载中 ...'
-      })
-      this.$loading.hide()
       this.$confirm({
         title: '操作提示',
         content: '此项将被永久删除。继续?',
         okText: '确认',
         cancelText: '取消'
       }).then(() => {
+        this.$loading.show({
+          msg: '加载中 ...'
+        })
         this.$http.del('material', {id: id}).then(d => {
+          this.$loading.hide()
           if (d.code === 0) {
             this.$notify({
               type: 'success',

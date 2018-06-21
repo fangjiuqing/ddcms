@@ -69,4 +69,27 @@ class store_goods_attr_iface extends ubase_iface {
         }
         $this->failure($tab->get_error_desc());
     }
+
+    /**
+     * 删除属性
+     * @return [type] [description]
+     */
+    public function del_action () {
+        $id = (int)$this->data['id'];
+        if (OBJ('goods_spec_attr_table')->where([
+                'gsa_attr_id'   => $id,
+                'gsa_type'      => store_helper::ATTR_TYPE_FILTER
+            ])->count() > 0) {
+            $this->failure('请先删除相关商品');
+        }
+        // 删除属性记录
+        OBJ('goods_attr_table')->delete([
+            'ga_id'         => $id
+        ]);
+        // 删除关联的属性记录
+        OBJ('goods_spec_attr_table')->delete([
+            'gsa_attr_id'   => $id
+        ]);
+        $this->success('删除成功');
+    }
 }
