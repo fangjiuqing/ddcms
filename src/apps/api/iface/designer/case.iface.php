@@ -13,11 +13,13 @@ class designer_case_iface extends ubase_iface {
     public function list_action () {
         $des  = OBJ('designer_table')->fields('des_id,des_name')->get((int)$this->data['id']);
         $case = OBJ('case_table')->akey('case_id')->fields([
-            'case_id', 'case_title', 'case_is_primary', 'case_designer_id'
+            'case_id', 'case_title', 'case_is_primary', 'case_designer_id', 'case_cover',
         ])->order('case_id desc')->map(function ($row) {
+            $row['case_cover']  = IMAGE_URL . $row['case_cover'] . '!500x309';
             $row['case_is_primary'] = $row['case_is_primary'] ? true : false;
             return $row;
         })->get_all([
+            'case_is_primary'   => 1,
             'case_designer_id'  => (int)$this->data['id']
         ]);
         $this->success('', [
