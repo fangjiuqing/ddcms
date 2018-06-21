@@ -88,6 +88,13 @@ class designer_iface extends base_iface {
         $out['row'] = OBJ('designer_table')->get($id) ?: [];
         $out['attrs'] = $out['stags'] = null;
         $region_ids = [];
+
+        # 风格标签
+        $styles = category_helper::get_rows(category_helper::TYPE_STYLE, 1);
+        foreach ( $styles as $k => $v ) {
+            if ( !$v['cat_id'] ) continue;
+            $out['stags'][$k]['name'] = $v['cat_name'];
+        }
         if ($out['row']) {
             $out['row']['des_about'] = htmlspecialchars_decode($out['row']['des_about'], ENT_QUOTES);
             $out['row']['cover'] = IMAGE_URL . $out['row']['des_cover'] . '!500x309';
@@ -103,13 +110,13 @@ class designer_iface extends base_iface {
             $out['row']['province'] = $regions[$out['row']['des_region0']]['region_name'];
             $out['row']['city'] = $regions[$out['row']['des_region1']]['region_name'];
             # 风格标签
-            if ( $out['row']['des_style_tags'] ) {
-                $styles = category_helper::get_rows(category_helper::TYPE_STYLE, 1);
-                foreach ( $styles as $k => $v ) {
-                    if ( !$v['cat_id'] ) continue;
-                    $out['stags'][$k]['name'] = $v['cat_name'];
-                }
-            }
+            // if ( $out['row']['des_style_tags'] ) {
+            //     $styles = category_helper::get_rows(category_helper::TYPE_STYLE, 1);
+            //     foreach ( $styles as $k => $v ) {
+            //         if ( !$v['cat_id'] ) continue;
+            //         $out['stags'][$k]['name'] = $v['cat_name'];
+            //     }
+            // }
             # 获奖情况
             if ( $out['row']['des_awards'] ) {
                 foreach (explode('#' , $out['row']['des_awards']) as $k => $v) {
