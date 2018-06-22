@@ -1,14 +1,20 @@
 <template>
 <div class="foot">
   <ul class="list">
-    <li>关于我们</li>
-    <li>联系我们</li>
     <li>
-      <a>
-        加入我们
-      </a>
+      <a href="javascript:;">关于我们</a>
     </li>
-    <li>意见反馈</li>
+    <li>
+      <a href="javascript:;">联系我们</a>
+    </li>
+    <li>
+      <router-link :to="{name: 'join-us'}">
+        加入我们
+      </router-link>
+    </li>
+    <li>
+      <a href="javascript:;">意见反馈</a>
+    </li>
   </ul>
   <p class="line"></p>
   <p class="copy">Copyright ®2018 小管家智能芯片科技（上海）有限公司 版权所有沪ICP备15007819号-1</p>
@@ -29,9 +35,11 @@ export default {
   }
   .list li {
     display: inline-block;
+    margin-right: 26px;
+  }
+  .list li a {
     font-size: 14px;
     color: #ffffff;
-    margin-right: 26px;
   }
   .list li:last-child {
     margin-right: 0;

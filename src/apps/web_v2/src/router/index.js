@@ -13,6 +13,7 @@ import personalTailor from '@/components/personalTailor'
 import caseDetail from '@/components/caseDetail'
 import designerDetail from '@/components/designerDetail'
 import classDetail from '@/components/classDetail'
+import joinUs from '@/components/joinUs'
 
 Vue.use(Router)
 Vue.use(Meta)
@@ -79,6 +80,11 @@ export default new Router({
       path: '/classDetail',
       name: 'class-detail',
       component: classDetail
+    },
+    {
+      path: '/joinUs',
+      name: 'join-us',
+      component: joinUs
     }
   ],
   scrollBehavior (to, from, savedPosition) {
