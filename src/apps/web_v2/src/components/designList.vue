@@ -83,7 +83,7 @@
                     </div>
                     <ul class="work">
                       <li v-for="ite in item.case_images" :key="ite.index">
-                        <img :src="ite.lg" alt="">
+                        <img :src="ite.sm" alt="">
                       </li>
                     </ul>
                   </div>
@@ -122,6 +122,13 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 export default {
   name: 'designList',
+  metaInfo () {
+    const title = '设计名家 - 道达智装'
+    return {
+      title: title,
+      meta: [{vmid: 'keywords', name: 'keywords', content: title}]
+    }
+  },
   data () {
     return {
       sort: [
@@ -308,9 +315,9 @@ export default {
   methods: {
     getImg: function () {
       this.$http.post('public/designer/index', {}).then(d => {
-        // console.log('designerList=========', d.msg)
+        // console.log('designerList=========', d)
         if (d.code === 0) {
-          this.detail = this.detail.concat(d.msg.list)
+          this.detail = this.detail.concat(d.data.list)
         } else {
         }
       })
@@ -552,13 +559,18 @@ export default {
   line-height: 30px;
 }
 .work {
-  display: flex;
-  justify-content: space-between;
+  /* display: flex;
+  justify-content: space-between; */
 }
 .work li {
   width: 145px;
   height: 101px;
+  float: left;
+  margin-right: 20px;
   overflow: hidden;
+}
+.work li:nth-child(4n+4) {
+  margin-right: 0;
 }
 .work li img {
   width: 145px;

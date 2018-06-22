@@ -2,17 +2,19 @@
   <div class="service">
     <Head></Head>
     <div class="allservice">
-      <div class="serviceBanner"></div>
-      <div class="appointment">
-        <p class="gold">预约定制金牌服务</p>
-        <input type="text" placeholder="所在地址" class="address">
-        <input type="text" placeholder="您的姓名" class="name">
-        <input type="text" placeholder="您的电话" class="phone">
-        <div class="read">
-          <input type="checkbox" class="checkbox"><span>我已阅读并接受<p>《装修常见问题条款》</p></span>
+      <!--<div class="serviceBanner"></div>-->
+      <div class="rig">
+        <div class="appointment">
+          <p class="gold">预约定制金牌服务</p>
+          <input type="text" placeholder="所在地址" class="address">
+          <input type="text" placeholder="您的姓名" class="name">
+          <input type="text" placeholder="您的电话" class="phone">
+          <div class="read">
+            <input title="checkbox" type="checkbox" class="checkbox"/><p>我已阅读并接受<span>《装修常见问题条款》</span></p>
+          </div>
+          <p class="gain" @click="showPanel">立即预约</p>
+          <p class="gainService">已有 <span>2425</span>人获得金牌服务</p>
         </div>
-        <p class="gain" @click="showPanel">立即预约</p>
-        <p class="gainService">已有 <span>2425</span>人获得金牌服务</p>
       </div>
     </div>
     <div class="free">
@@ -90,9 +92,9 @@
       </div>
     </div>
     <p class="quote" @click="showPanel">立即预约报价</p>
-    <foot></foot>
-    <sideBar></sideBar>
-    <Price :panelShow.sync="panelShow"></Price>
+    <foot/>
+    <sideBar/>
+    <Price :panelShow.sync="panelShow"/>
   </div>
 </template>
 <script>
@@ -189,21 +191,26 @@ export default {
 <style scoped>
   .allservice {
     position: relative;
-    margin-top: 71px;
-  }
-  .serviceBanner {
     height: 500px;
     background: url("../assets/service/banner.png")  no-repeat center 0;
+    margin: 71px auto 0;
+  }
+  .rig {
+    width: 1010px;
+    height: 400px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
   }
   .appointment {
     width: 340px;
     height: 400px;
     background-color: #ffffff;
     position: absolute;
-    right: 115px;
-    top: 0;
-    bottom: 0;
-    margin: auto 0;
+    right: 0;
   }
   .gold {
     font-size: 30px;
@@ -255,14 +262,14 @@ export default {
     margin: 0 3px 0 0;
     vertical-align: middle;
   }
-  .appointment span {
+  .read p {
     vertical-align: middle;
     font-size: 12px;
     color: #b5b5b6;
-  }
-  .appointment span p {
-    color: #d42f31;
     display: inline-block;
+  }
+  .read span {
+    color: #d42f31;
   }
   .gain {
     width: 240px;

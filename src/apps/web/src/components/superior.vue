@@ -2,14 +2,7 @@
   <div class="entity">
     <Head></Head>
     <div class="top">
-      <div class="banner"></div>
-      <!--<img class="banner" src="../assets/superior/photo.png" alt="">-->
-      <span class="health">严苛标准只为您的健康</span>
-      <p class="purpose">为了给业主一个健康安全的家，道达智装在家具板材以及涂料的选择与加工制作方面精益求精，追求实用性和安全性。
-        所选橱柜，整屋定制柜供应商为国内或国际知名品牌。供应商具有"高精度，高效率，高质量"的智能化机器设备，贴心的设计安装团队以及
-      专门的售后保障团队。</p>
-      <p class="standard">所选家具板材甲醛含量均达到国标级标准（GB18580-2001）。所选石英石台面均获得GREENGUARD（美国室内质量空气认证），
-      NSF（美国卫生食品安全认证），ISFA（美国实体面材协会会员）认证。努力给您和您的家人一个健康的环境。</p>
+      <img class="banner" src="../assets/superior/photo.png" alt="">
     </div>
     <div class="guarantee">
       <h3>智装工艺标准化</h3>
@@ -100,36 +93,13 @@ export default {
   margin-top: 71px;
 }
 .banner {
-  height: 500px;
-  background: url("../assets/superior/photo.png") no-repeat center 0;
-}
-.health {
-  font-size: 40px;
-  color: #fff;
-  font-weight: bold;
-  position: absolute;
-  top: 15%;
-  left: 50%;
-  transform: translate(-50%,-15%);
+  width: 100%;
 }
 .top > p {
   position: absolute;
   font-size: 20px;
   color: #fff;
   line-height: 40px;
-}
-.purpose {
-  width: 916px;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%,-35%);
-}
-.standard {
-  /*top: 65%;*/
-  width: 916px;
-  left: 50%;
-  bottom: 86px;
-  transform: translateX(-50%);
 }
 
 .guarantee {
@@ -138,14 +108,14 @@ export default {
   margin-top: 76px;
 }
 h3 {
-  font-size: 2vw;
+  font-size: 40px;
   color: #111;
   text-align: center;
   margin: 76px 0 15px 0;
 }
 .subhead {
   width: 100%;
-  font-size: 1vw;
+  font-size: 16px;
   color: #595757;
   text-align: center;
 }

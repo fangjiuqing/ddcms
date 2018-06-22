@@ -1,9 +1,8 @@
 <template>
   <div class="new-box">
-    <p class="new-word">
-      <img src="../assets/personalTailor/word2.png" alt="">&nbsp;&nbsp;&nbsp;&nbsp;
-      <img src="../assets/personalTailor/word1.png" alt="">
-    </p>
+    <div class="new-word">
+      <h1>未来新家 炫动体验 更多功能空间 等你来发现</h1>
+    </div>
     <p class="new-look">
       <!-- <ul class="new-list">
         <li v-for="(v, k) in icons" :key="k">
@@ -109,6 +108,10 @@ export default {
 }
 .new-word {
   padding: 116px 0 27px;
+}
+h1 {
+  font-size: 60px;
+  color: #ffffff;
 }
 .new-list {
   height: 57px;

@@ -1,7 +1,7 @@
 <template>
 <div class="classroom">
   <Head></Head>
-  <div class="classBanner"></div>
+  <img src="../assets/class/banner.png" class="classBanner"/>
   <!--<div class="conten">-->
     <!--<swiper class="list" :options="swiperOption" ref="mySwiper">-->
       <!--<swiper-slide v-for="(item, index) in banners" :key="index">-->
@@ -162,8 +162,8 @@ export default {
 
 <style scoped>
 .classBanner {
-  height: 420px;
-  background: url("../assets/class/banner.png")  no-repeat center 0;
+  /*height: 420px;*/
+  width: 100%;
   margin-top: 71px;
 }
 .conten {

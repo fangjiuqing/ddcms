@@ -200,6 +200,13 @@ import sofa5 from '../assets/personalTailor/sofa5.png'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 export default {
   name: 'personal-tailor',
+  metaInfo () {
+    const title = '私人定制 - 道达智装'
+    return {
+      title: title,
+      meta: [{vmid: 'keywords', name: 'keywords', content: title}]
+    }
+  },
   data () {
     return {
       type: false,

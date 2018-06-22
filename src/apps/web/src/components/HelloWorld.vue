@@ -1,16 +1,16 @@
 <template>
   <div>
-    <sideBar></sideBar>
-    <Head></Head>
-    <index></index>
-    <chose></chose>
-    <quality></quality>
-    <Advert></Advert>
-    <strict></strict>
-    <famous></famous>
-    <standard></standard>
-    <owner></owner>
-    <foot></foot>
+    <sideBar/>
+    <Head/>
+    <index/>
+    <chose/>
+    <quality/>
+    <Advert/>
+    <strict/>
+    <famous/>
+    <standard/>
+    <owner/>
+    <foot/>
   </div>
 </template>
 
