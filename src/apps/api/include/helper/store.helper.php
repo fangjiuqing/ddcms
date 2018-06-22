@@ -73,7 +73,6 @@ class store_helper extends rgx {
     public static function get_goods_types ($use_cache = false, $has_attrs = false) {
         $func = function () use ($has_attrs) {
             $ret = OBJ('goods_type_table')->akey()->get_all();
-            var_dump($ret);
             if ($has_attrs) {
                 OBJ('goods_attr_table')->map(function ($row) use (&$ret) {
                     $ret[$row['ga_type_id']]['attrs'][$row['ga_id']] = [
