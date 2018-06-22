@@ -85,8 +85,7 @@
       </div>
       <div slot="default">
         <div class="row">
-          <label class="col-sm-2 label-on-left">代表作品</label>
-          <div class="col-sm-9  input-label symbol">
+          <div class="col-sm-9 input-label symbol">
             <input id="input-5" class="form-control" type="text" placeholder="代表作品">
             <typeahead v-model="modal_data.des_id" target="#input-5" :async-function="querydes" item-key="case_title">
               <template slot="item" slot-scope="props">
@@ -104,9 +103,11 @@
           <ul class="list clearfix">
             <li v-for="(v, k) in cases" :key="k">
               <div class="content-case">
-                <b class="remove" @click="removeArea(v.case_id)">x</b>
                 <img :src="v.case_cover" alt="" width="120px" height="100px">
-                <span>{{v.case_title}}</span>
+                <div class="tit-remove">
+                  <span>{{v.case_title}}</span>
+                  <btn class="btn btn-xs btn-rose remove"  @click="removeArea(v.case_id)"><i class="fa fa-trash-o"></i></btn>
+                </div>
               </div>
             </li>
           </ul>
@@ -326,6 +327,7 @@ export default {
   }
 .symbol {
   margin-bottom: 50px;
+  margin-left: 60px;
 }
 .list {
   list-style: none;
@@ -349,17 +351,16 @@ export default {
   align-items: center;
 }
 .content-case img {
-  margin: 0 10px;
+  margin: 10px 10px 0 10px;
 }
-.content-case span {
-  margin: 10px 0;
+.tit-remove {
+  width: 100%;
+  margin: 15px 0 10px 15px;
+  text-align: left;
 }
-.remove {
-  font-size: 18px;
-  line-height: 18px;
-  color: red;
-  text-align: right;
-  cursor: pointer;
-  align-self: flex-end;
+.tit-remove .remove {
+  float: right;
+  margin-top: -5px;
+  margin-right: 15px;
 }
 </style>
