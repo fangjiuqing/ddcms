@@ -42,9 +42,8 @@ class public_designer_iface extends base_iface {
                 $row['toggle'] = false;
                 return $row;
             })->get_all();
-
             $out['paging'] = $paging;
-            $this->success($out);
+            return $out;
         }, 30));
     }
 
