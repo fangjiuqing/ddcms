@@ -125,7 +125,7 @@ export default {
         {
           url: '/store/goods/type',
           name: '商品类型',
-          icon: 'fa fa-cog',
+          icon: 'fa fa-soccer-ball-o',
           active: false
         },
         {

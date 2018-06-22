@@ -84,14 +84,33 @@
         {{modal_title}} <small style="font-weight: 300"> - 代表作设置</small>
       </div>
       <div slot="default">
-        <form action="" method="post" accept-charset="utf-8">
-          <div style="padding-right:80px;text-align:left">
-            <div v-for="(v, k) in cases" :key="k" class="case-row">
-              <label style="font-weight: 300;width:100%;cursor:pointer">
-                <input type="checkbox" v-model="cases[k]['case_is_primary']"> &nbsp;{{v.case_title}}
-              </label>
-            </div>
+        <div class="row">
+          <div class="col-sm-9 input-label symbol">
+            <input id="input-5" class="form-control" type="text" placeholder="代表作品">
+            <typeahead v-model="modal_data.des_id" target="#input-5" :async-function="querydes" item-key="case_title">
+              <template slot="item" slot-scope="props">
+                <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}" :key="index">
+                  <a role="button" @click="queryd(props.select, item)">
+                    <img width="22px" height="22px" :src="item.case_cover + '&s=40'">
+                    <span v-html="props.highlight(item)"></span>
+                  </a>
+                </li>
+              </template>
+            </typeahead>
           </div>
+        </div>
+        <form action="" method="post" accept-charset="utf-8">
+          <ul class="list clearfix">
+            <li v-for="(v, k) in cases" :key="k">
+              <div class="content-case">
+                <img :src="v.case_cover" alt="" width="120px" height="100px">
+                <div class="tit-remove">
+                  <span>{{v.case_title}}</span>
+                  <btn class="btn btn-xs btn-rose remove"  @click="removeArea(v.case_id)"><i class="fa fa-trash-o"></i></btn>
+                </div>
+              </div>
+            </li>
+          </ul>
         </form>
       </div>
       <div slot="footer">
@@ -123,10 +142,32 @@ export default {
       total: 1,
       modal_open: false,
       modal_title: '',
-      cases: {}
+      cases: {},
+      modal_data: {
+        des_id: {}
+      },
+      choseKey: ''
     }
   },
   methods: {
+    chose (key) {
+      this.choseKey = key
+    },
+    queryd (callback, item) {
+      callback(item)
+      this.choseKey = item.case_id
+      this.$set(this.$data.cases, this.choseKey, item)
+    },
+    removeArea (areaId) {
+      this.$delete(this.$data.cases, areaId)
+    },
+    querydes (query, done) {
+      this.$http.list('designer/help/case', {key: query}).then(d => {
+        if (d.code === 0) {
+          done(d.data.list)
+        }
+      })
+    },
     caseSet () {
       this.$loading.show({
         msg: '加载中 ...'
@@ -158,6 +199,7 @@ export default {
           this.modal_title = d.data.des['des_name']
           this.modal_open = true
           this.cases = d.data.list
+          // this.case_d = d.data.list
         } else if (d.code === 9999) {
           this.$alert({
             title: '系统提示',
@@ -283,4 +325,42 @@ export default {
   .div-bottom-border {
     border-right: 1px dashed #ddd
   }
+.symbol {
+  margin-bottom: 50px;
+  margin-left: 60px;
+}
+.list {
+  list-style: none;
+}
+.clearfix:after{
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.list li {
+  float: left;
+  padding: 0 15px 20px 15px;
+}
+.content-case {
+  border: 1px solid #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.content-case img {
+  margin: 10px 10px 0 10px;
+}
+.tit-remove {
+  width: 100%;
+  margin: 15px 0 10px 15px;
+  text-align: left;
+}
+.tit-remove .remove {
+  float: right;
+  margin-top: -5px;
+  margin-right: 15px;
+}
 </style>
