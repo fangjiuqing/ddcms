@@ -10,7 +10,7 @@ class designer_help_case_iface extends ubase_iface {
                 return "{$k} like '{$key}%'";
             }
         ]);
-        $tab->fields('case_id, case_title, case_cover')->order('case_id desc')->limit(10);
+        $tab->fields('case_id, case_title, case_cover, case_designer_id')->order('case_id desc')->limit(10);
         $this->success('', [
             'list'  => $tab->map(function ($row) {
                 $row['case_cover']  = IMAGE_URL . $row['case_cover'] . '!500x309';
