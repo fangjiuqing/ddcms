@@ -2,35 +2,35 @@
   <div class="construction">
     <Head></Head>
     <div class="promise">
-      <div class="banner"></div>
-      <!--<img class="banner" src="../assets/construction/banner.png" alt="">-->
-      <span class="health">精湛工艺，承诺5年质保</span>
-      <p class="experience">道达智装服务团队具备行业内数十年的施工实践经验，根据
-        中国建筑特性对施工工艺不断沉淀、创新，先后引入德系、日系等工艺
-        体系，同时企业不断研发新型施工解决方案，为消费者提供行业尖端装饰施工方案</p>
-      <div class="certificate">
-        <ul class="list">
-          <li>
-            <p>防潮防结霜</p>
-            <img src="../assets/construction/banner2.png" alt="" class="patent">
-          </li>
-          <li>
-            <p>吊顶防开裂</p>
-            <img src="../assets/construction/banner2.png" alt="" class="patent">
-          </li>
-          <li>
-            <p>地面防下沉</p>
-            <img src="../assets/construction/banner2.png" alt="" class="patent">
-          </li>
-        </ul>
-        <ul class="rule">
-          <li>47条安全施工条例</li>
-          <li>19条文明施工纪律</li>
-          <li>28项现场保护规范</li>
-          <li>50位雇佣项目经理</li>
-          <li>376位整遍施工工匠</li>
-        </ul>
-      </div>
+      <!--<div class="banner"></div>-->
+      <img class="banner" src="../assets/construction/banner1.png" alt="">
+      <!--<span class="health">精湛工艺，承诺5年质保</span>-->
+      <!--<p class="experience">道达智装服务团队具备行业内数十年的施工实践经验，根据-->
+        <!--中国建筑特性对施工工艺不断沉淀、创新，先后引入德系、日系等工艺-->
+        <!--体系，同时企业不断研发新型施工解决方案，为消费者提供行业尖端装饰施工方案</p>-->
+      <!--<div class="certificate">-->
+        <!--<ul class="list">-->
+          <!--<li>-->
+            <!--<p>防潮防结霜</p>-->
+            <!--<img src="../assets/construction/banner2.png" alt="" class="patent">-->
+          <!--</li>-->
+          <!--<li>-->
+            <!--<p>吊顶防开裂</p>-->
+            <!--<img src="../assets/construction/banner2.png" alt="" class="patent">-->
+          <!--</li>-->
+          <!--<li>-->
+            <!--<p>地面防下沉</p>-->
+            <!--<img src="../assets/construction/banner2.png" alt="" class="patent">-->
+          <!--</li>-->
+        <!--</ul>-->
+        <!--<ul class="rule">-->
+          <!--<li>47条安全施工条例</li>-->
+          <!--<li>19条文明施工纪律</li>-->
+          <!--<li>28项现场保护规范</li>-->
+          <!--<li>50位雇佣项目经理</li>-->
+          <!--<li>376位整遍施工工匠</li>-->
+        <!--</ul>-->
+      <!--</div>-->
     </div>
     <ul class="show">
       <li class="floorWater" v-for="(items, index) in photo" :key="index">
@@ -193,8 +193,9 @@ export default {
     margin-top: 71px;
   }
   .banner {
-    height: 800px;
-    background: url("../assets/construction/banner.png")  no-repeat center 0;
+    /*height: 800px;*/
+    width: 100%;
+    /*background: url("../assets/construction/banner.png")  no-repeat center 0;*/
   }
   .health {
     font-size: 40px;

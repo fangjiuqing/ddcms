@@ -2,7 +2,7 @@
   <div class="case">
     <Head></Head>
     <div class="customization">
-      <div class="caseBanner"></div>
+      <img src="../assets/cash/banner.png" class="caseBanner"/>
     </div>
     <div class="master">
       <h1 class="head">INTERNATIONAL&nbsp;MASTER</h1>
@@ -300,10 +300,10 @@ export default {
       this.$http.post('public/designer/index', {}).then(d => {
         // console.log('designerList=========', d.msg)
         if (d.code === 0) {
-          this.list1 = this.list1.concat(d.msg.list[0])
-          this.list1 = this.list1.concat(d.msg.list[1])
-          this.list1 = this.list1.concat(d.msg.list[2])
-          this.list1 = this.list1.concat(d.msg.list[3])
+          this.list1 = this.list1.concat(d.data.list[0])
+          this.list1 = this.list1.concat(d.data.list[1])
+          this.list1 = this.list1.concat(d.data.list[2])
+          this.list1 = this.list1.concat(d.data.list[3])
         } else {
         }
       })
@@ -321,8 +321,7 @@ export default {
     margin-top: 71px;
   }
   .caseBanner {
-    height: 500px;
-    background: url("../assets/cash/banner.png")  no-repeat center 0;
+    width: 100%;
   }
   .master {
     width: 100%;
@@ -544,8 +543,9 @@ export default {
   }
   .caseList {
     width: 998px;
-    height: 334px;
+    height: 310px;
     margin: 0 auto;
+    overflow: hidden;
   }
   .caseList li {
     width: 245px;

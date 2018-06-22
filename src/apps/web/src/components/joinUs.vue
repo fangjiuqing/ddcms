@@ -1,9 +1,9 @@
 <template>
   <div class="join">
-    <Head></Head>
+    <Head/>
     <div class="joinH">
-      <div class="banner"></div>
-      <!--<img src="../assets/joinUs/banner.png" alt="" class="bannerH">-->
+      <!--<div class="banner"></div>-->
+      <img src="../assets/joinUs/banner.png" alt="" class="banner">
       <div class="joinC">
         <p class="nice">诚聘英才 加入我们</p>
         <p class="recruit">Recruit our talents to join us</p>
@@ -265,8 +265,9 @@ export default {
     margin-top: 71px;
   }
   .banner {
-    height: 420px;
-    background: url('../assets/joinUs/banner.png') no-repeat;
+    /*height: 420px;*/
+    width: 100%;
+    /*background: url('../assets/joinUs/banner.png') no-repeat;*/
   }
   .joinC {
     width: 412px;

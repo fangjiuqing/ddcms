@@ -174,7 +174,7 @@ export default {
   #inner .swiper-slide {
     text-align: center;
     font-size: 18px;
-  / / background: red;
+    /* background: red; */
     width: 800px;
     /* Center slide text vertically */
     display: -webkit-box;

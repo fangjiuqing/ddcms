@@ -230,12 +230,12 @@ export default {
     },
     getImg: function () {
       this.$http.post('public/case/index', {}).then(d => {
-        // console.log('gather=========', d.data)
+        // console.log('gather=========', d.data[2].list)
         if (d.code === 0) {
           // for (let i = 0; i < d.data.length; i++) {
           this.img1 = this.img1.concat(d.data[0].list)
           this.img2 = this.img2.concat(d.data[1].list)
-          this.img3 = this.img3.concat(d.data[2].list)
+          this.img3 = this.img3.concat(d.data[2].list.slice(0, 4))
           this.nice = d.data[0].list.length !== 0 ? d.data[0].cat_name : ''
           this.ni = d.data[1].list.length !== 0 ? d.data[1].cat_name : ''
           this.rec = d.data[2].list.length !== 0 ? d.data[2].cat_name : ''
@@ -258,8 +258,8 @@ export default {
     width: 100%;
     border-top: 1px solid lightgray;
     padding-top: 30px;
-    position: relative;
     margin-top: 71px;
+    position: relative;
   }
   .conte {
     width: 1050px;
@@ -322,7 +322,7 @@ export default {
     text-align: left;
   }
   .ni {
-    margin: 0;
+    margin: 34px 0 0;
   }
   .change {
     font-size: 16px;
@@ -337,18 +337,18 @@ export default {
     float: right;
   }
   .change:after {
-    content: '';
+    /* content: '';
     display: inline-block;
     width: 20px;
     height: 20px;
     background: url("../assets/gather/change.png") no-repeat;
     background-size: 20px;
     vertical-align:middle;
-    margin-left: 9px;
+    margin-left: 9px; */
   }
   .list1 {
     width: 1050px;
-    height: 400px;
+    height: 331px;
     margin: 34px 0 0;
     overflow: hidden;
   }
