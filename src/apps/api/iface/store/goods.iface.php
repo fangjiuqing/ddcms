@@ -80,6 +80,7 @@ class store_goods_iface extends ubase_iface {
             if (!empty($goods)) {
                 OBJ('goods_spec_table')->map(function ($row) use (&$goods) {
                     $goods['specs'][$row['gs_id']] = [
+                        'gs_id'             => $row['gs_id'],
                         'gs_name'           => explode('#', substr($row['gs_attr'], 1, -1)),
                         'gs_price'          => $row['gs_price'],
                         'gs_price_source'   => $row['gs_price_source'],
@@ -376,5 +377,46 @@ class store_goods_iface extends ubase_iface {
             'goods_stat_count'  => $goods['goods_stat_count']
         ]);
         $this->success('操作成功');
+    }
+
+    /**
+     * 快速设置
+     */
+    public function set_action () {
+        $goods = $this->data['goods'];
+        if (empty($goods) || empty($goods['specs']) || !is_array($goods['specs'])) {
+            $this->failure('请指定商品规格信息');
+        }
+
+        if (!isset(store_helper::$goods_status[$goods['goods_status']])) {
+            $this->failure('无效的商品售卖状态值');
+        }
+
+        // 验证
+        foreach ((array)$goods['specs'] as $v) {
+            if (min($v['gs_price'], $v['gs_id'], $v['gs_price_source'], $v['gs_price_cost']) <= 0) {
+                $this->failure('无效的商品规格配置值');
+            }
+            if (!isset(store_helper::$goods_status[$v['gs_status']])) {
+                $this->failure('无效的商品规格售卖状态值');
+            }
+        }
+
+        OBJ('goods_table')->update([
+            'goods_id'      => $goods['goods_id'],
+            'goods_status'  => $goods['goods_status']
+        ]);
+
+        foreach ($goods['specs'] as $v) {
+            OBJ('goods_spec_table')->update([
+                'gs_id'             => $v['gs_id'],
+                'gs_price'          => $v['gs_price'],
+                'gs_price_cost'     => $v['gs_price_cost'],
+                'gs_price_source'   => $v['gs_price_source'],
+                'gs_status'         => $v['gs_status'],
+                'gs_stock'          => $v['gs_stock']
+            ]);
+        }
+        $this->success('更新成功');
     }
 }

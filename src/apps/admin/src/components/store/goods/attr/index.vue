@@ -43,7 +43,7 @@
                   </td>
                   <td class="text-left"><small>{{v.ga_values.replace(/\s+/g, ', ')}}</small></td>
                   <td>
-                    <btn class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></btn>
+                    <btn class="btn btn-xs btn-danger" @click="remove(v.ga_id)"><i class="fa fa-trash-o"></i></btn>
                   </td>
                 </tr>
               </tbody>
@@ -139,6 +139,39 @@ export default {
     }
   },
   methods: {
+    // 删除属性
+    remove (id) {
+      this.$confirm({
+        title: '操作提示',
+        content: '确认删除该属性?',
+        okText: '确认',
+        cancelText: '取消'
+      }).then(() => {
+        this.$loading.show({
+          msg: '加载中 ...'
+        })
+        this.$http.del('store/goods/attr', {id: id}).then(d => {
+          this.$loading.hide()
+          if (d.code === 0) {
+            this.$notify({
+              type: 'success',
+              content: '删除成功.',
+              duration: 2000,
+              dismissible: false
+            })
+            this.refresh()
+          } else {
+            this.$notify({
+              content: d.msg,
+              duration: 2000,
+              type: 'danger',
+              dismissible: false
+            })
+          }
+        })
+      })
+    },
+
     // 编辑
     modify (attrID) {
       this.$loading.show({
