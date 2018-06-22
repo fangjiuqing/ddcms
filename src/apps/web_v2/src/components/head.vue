@@ -4,7 +4,9 @@
       <div class="nav-foot">
         <div class="mid">
           <div class="logo">
-            <img src="../assets/home/logo.png">
+            <router-link :to="{name: 'home'}" class="ho">
+              <img src="../assets/home/logo.png">
+            </router-link>
           </div>
           <ul class="menu" @mouseleave="hidden">
             <li v-for="(menuItem, index) in tabParams" :key="index" class="menu-index" @mouseenter="tab(menuItem, index)" :class="{active:index == num}">
@@ -13,15 +15,17 @@
                   {{menuItem.title}}
                 </router-link>
               </span>
-              <!--<ul class="sub-menu" v-show="index === num" v-if="show">-->
-                <!--<li v-for="(subMenu, index) in menuItem.children" :key="index" class="two">-->
-                  <!--<img :src="subMenu.img" alt="">-->
-                  <!--<p>-->
-                    <!--{{subMenu.tTitle}}-->
-                    <!--<span>{{subMenu.price}}</span>-->
-                  <!--</p>-->
-                <!--</li>-->
-              <!--</ul>-->
+              <ul class="sub-menu" v-show="index === num" v-if="show">
+                <li v-for="(subMenu, index) in menuItem.children" :key="index" class="two">
+                  <!-- <img :src="subMenu.img" alt=""> -->
+                  <router-link :to="{name: subMenu.en}">
+                    <p>
+                      {{subMenu.tTitle}}
+                      <span>{{subMenu.price}}</span>
+                    </p>
+                  </router-link>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -31,9 +35,9 @@
 </template>
 <script>
 import $ from 'jquery'
-import future1 from '../assets/home/future1.png'
-import future2 from '../assets/home/future2.png'
-import future3 from '../assets/home/future3.png'
+// import future1 from '../assets/home/future1.png'
+// import future2 from '../assets/home/future2.png'
+// import future3 from '../assets/home/future3.png'
 export default {
   name: 'head2',
   data () {
@@ -47,28 +51,23 @@ export default {
       tabParams: [
         {
           title: '智装系列',
-          en: 'home'
+          en: 'home',
+          children: [
+            {
+              // img: future3,
+              tTitle: '私人定制',
+              en: 'personal-tailor'
+              // price: '999元/平'
+            },
+            {
+              tTitle: '省心整装',
+              en: 'personal-tailor'
+            }
+          ]
         },
         {
           title: '精品案例',
-          en: 'gather',
-          children: [
-            {
-              img: future3,
-              tTitle: '梦想',
-              price: '999元/平'
-            },
-            {
-              img: future2,
-              tTitle: '智慧',
-              price: '1299元/平'
-            },
-            {
-              img: future1,
-              tTitle: '未来',
-              price: '1999元/平'
-            }
-          ]
+          en: 'gather'
         },
         {
           title: '设计名家',
@@ -151,6 +150,9 @@ export default {
 }
 </script>
 <style scoped>
+  .ho {
+    border-bottom: 0!important;
+  }
   .head {
     padding-top: 88px;
     box-sizing: border-box;
@@ -246,7 +248,7 @@ export default {
   }
   .two p {
     color: #666666;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 20px;
   }
   .two span {

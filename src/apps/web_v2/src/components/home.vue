@@ -73,25 +73,25 @@
       <p class="subtitle">高端定制，个性设计。合适你的，才是最好的</p>
       <ul class="prive">
         <li v-for="(item, index) in privates" :key="index" :class="{act: index === indexs}" @click="tabss(index)">
-          {{item.tab}}
+          {{item.cat_name}}
         </li>
       </ul>
       <ul class="privates">
         <li v-for="(items, index) in privates" :key="index" v-show="index === indexs">
           <ul class="lis">
-            <li v-for="(item, index) in items.img" :key="index" @mouseenter="show(item)" @mouseleave="show(item)">
-              <img :src="item.image" alt="">
+            <li v-for="(item, index) in items.list" :key="index" @mouseenter="show(item)" @mouseleave="show(item)">
+              <img :src="item.case_cover_lg" alt="">
               <transition name="fade">
-                <a class="tasking" v-show="item.toggle">
+                <router-link class="tasking" :to="{ name: 'caseDetail', query: { caseId: item.case_id }}" v-show="item.toggle">
                   <div>
-                    <p>{{items.title}}</p>
+                    <p>{{item.case_title}}</p>
                     <div class="yuan">
-                      <span>面积：{{items.area}}</span>
-                      <span class="price">造价：{{items.price}}</span>
+                      <span>面积：{{item.case_area}}</span>
+                      <span class="price">造价：{{item.case_price}}</span>
                       <div class="detail">查看详情</div>
                     </div>
                   </div>
-                </a>
+                </router-link>
               </transition>
             </li>
           </ul>
@@ -226,10 +226,10 @@ import reason4 from '../assets/home/reason/reason4.png'
 import office1 from '../assets/home/office/office1.png'
 import office2 from '../assets/home/office/office2.png'
 import intelligent from '../assets/home/intelligent/intelligent.png'
-import private1 from '../assets/home/private/private1.png'
-import private2 from '../assets/home/private/private2.png'
-import private3 from '../assets/home/private/private3.png'
-import private4 from '../assets/home/private/private4.png'
+// import private1 from '../assets/home/private/private1.png'
+// import private2 from '../assets/home/private/private2.png'
+// import private3 from '../assets/home/private/private3.png'
+// import private4 from '../assets/home/private/private4.png'
 import standard1 from '../assets/home/standard/standard1.png'
 import standard2 from '../assets/home/standard/standard2.png'
 import standard3 from '../assets/home/standard/standard3.png'
@@ -393,56 +393,56 @@ export default {
         }
       ],
       privates: [
-        {
-          title: '宝华海湾城',
-          area: '120平米(3室2厅)',
-          price: '40万',
-          toggle: false,
-          img: [
-            {
-              image: private3,
-              toggle: false
-            },
-            {
-              image: private2,
-              toggle: false
-            },
-            {
-              image: private1,
-              toggle: false
-            },
-            {
-              image: private4,
-              toggle: false
-            }
-          ],
-          tab: '别墅大宅'
-        },
-        {
-          title: '宝华海湾城',
-          area: '120平米(3室2厅)',
-          price: '40万',
-          toggle: false,
-          img: [
-            {
-              image: private2,
-              toggle: false
-            },
-            {
-              image: private1,
-              toggle: false
-            },
-            {
-              image: private3,
-              toggle: false
-            },
-            {
-              image: private4,
-              toggle: false
-            }
-          ],
-          tab: '公寓案例'
-        }
+        // {
+        //   title: '宝华海湾城',
+        //   area: '120平米(3室2厅)',
+        //   price: '40万',
+        //   toggle: false,
+        //   img: [
+        //     {
+        //       image: private3,
+        //       toggle: false
+        //     },
+        //     {
+        //       image: private2,
+        //       toggle: false
+        //     },
+        //     {
+        //       image: private1,
+        //       toggle: false
+        //     },
+        //     {
+        //       image: private4,
+        //       toggle: false
+        //     }
+        //   ],
+        //   tab: '别墅大宅'
+        // },
+        // {
+        //   title: '宝华海湾城',
+        //   area: '120平米(3室2厅)',
+        //   price: '40万',
+        //   toggle: false,
+        //   img: [
+        //     {
+        //       image: private2,
+        //       toggle: false
+        //     },
+        //     {
+        //       image: private1,
+        //       toggle: false
+        //     },
+        //     {
+        //       image: private3,
+        //       toggle: false
+        //     },
+        //     {
+        //       image: private4,
+        //       toggle: false
+        //     }
+        //   ],
+        //   tab: '公寓案例'
+        // }
         // {
         //   title: '宝华海湾城',
         //   area: '120平米(3室2厅)',
@@ -695,7 +695,20 @@ export default {
       }, 500).parent().parent().siblings().find('.layer .p1').stop().animate({left: '10px'}, 500).siblings('.p2').stop().animate({
         right: '-200%'
       }, 500)
+    },
+    getImg: function () {
+      this.$http.post('public/case/index', {}).then(d => {
+        // console.log('gather=========', d.data)
+        if (d.code === 0) {
+          this.privates = this.privates.concat(d.data[0])
+          this.privates = this.privates.concat(d.data[1])
+        } else {
+        }
+      })
     }
+  },
+  created () {
+    this.getImg()
   },
   mounted () {
     $('.material ul li.curr').animate({width: '840px'}, 500)
@@ -954,6 +967,7 @@ export default {
     border-bottom: 2px solid #d42f31;
   }
   .privates {
+    height: 692px;
     margin-top: 34px;
     overflow: hidden;
   }
