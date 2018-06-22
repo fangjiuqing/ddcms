@@ -27,7 +27,7 @@
             </ol>
           </div>
           <img v-if="items.upshow === false" src="../assets/joinUs/up.png" alt="" class="upDown">
-          <img v-else="" src="../assets/joinUs/down.png" alt="" class="upDown">
+          <img v-else src="../assets/joinUs/down.png" alt="" class="upDown">
           <span class="online">网上招聘渠道</span>
           <span class="email">HR邮箱直投</span>
         </div>
