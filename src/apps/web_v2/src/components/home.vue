@@ -198,12 +198,90 @@
     <div class="order">
       <p>现在预约智装方案，即可领取<span>¥1000</span>现金抵用券，另有<span>1V1</span>VIP服务</p>
       <div class="tele">
-        <span class="number"><input type="text" placeholder="请输入您的手机号" :maxlength="11" /></span>
-        <span class="program">预约智装方案</span>
+        <!-- <span class="number"><input type="text" placeholder="请输入您的手机号" :maxlength="11" /></span> -->
+        <span class="program" @click="login">预约智装方案</span>
         <span class="phone"></span>
         <div class="right">
           <span class="nu">400-855-7785</span>
           <span class="time">服务时间：9:00～20:00</span>
+        </div>
+      </div>
+    </div>
+    <div class="content" v-show="loginin">
+      <div class="taskings" @click="fal"></div>
+      <div class="confirm">
+        <div class="online">
+          <h3>手机号登录</h3>
+          <form action="" class="formdata">
+            <p class="sm" @click="fals">使用短信验证登录</p>
+            <div class="chose">
+              <input type="text" placeholder="请输入手机号" class="acreage">
+              <input type="text" placeholder="请输入您的密码" class="acreage acr">
+            </div>
+            <div class="auto">
+              <input type="checkbox"><span>下次自动登录</span>
+            </div>
+            <p class="forget">忘记密码</p>
+            <div class="submit">
+              <button>登陆</button>
+            </div>
+            <ul class="loginin">
+              <li></li>
+              <li></li>
+              <li></li>
+              <p>手机快捷注册</p>
+            </ul>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="content" v-show="register">
+      <div class="taskings" @click="reg"></div>
+      <div class="confirm">
+        <div class="online">
+          <h3>手机号注册</h3>
+          <form action="" class="formdata">
+            <p class="sm" @click="regis">直接登录</p>
+            <div class="chose">
+              <input type="text" placeholder="请输入手机号" class="acreage">
+              <input type="text" placeholder="请输入短信验证码" class="acreage"><span>获取验证码</span>
+              <input type="text" placeholder="请输入您的密码" class="acreage">
+            </div>
+            <div class="submit sub">
+              <button>注册</button>
+            </div>
+            <div class="auto agree">
+              <input type="checkbox"><span>我同意《服务条款》和《道达隐私政策》</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="content" v-show="logining">
+      <div class="taskings" @click="logi"></div>
+      <div class="confirm">
+        <div class="online">
+          <h3>手机号登录</h3>
+          <form action="" class="formdata">
+            <p class="sm" @click="logs">使用密码验证登录</p>
+            <div class="chose">
+              <input type="text" placeholder="请输入手机号" class="acreage">
+              <input type="text" placeholder="请输入短信验证码" class="acreage"><span>获取验证码</span>
+            </div>
+            <div class="auto">
+              <input type="checkbox"><span>下次自动登录</span>
+            </div>
+            <p class="forget">忘记密码</p>
+            <div class="submit">
+              <button>登陆</button>
+            </div>
+            <ul class="loginin">
+              <li></li>
+              <li></li>
+              <li></li>
+              <p>手机快捷注册</p>
+            </ul>
+          </form>
         </div>
       </div>
     </div>
@@ -314,6 +392,9 @@ export default {
       indexs: 0,
       indexss: 0,
       owners: 0,
+      loginin: false,
+      logining: false,
+      register: false,
       banners: [
         banner1, banner2, banner3
       ],
@@ -667,6 +748,33 @@ export default {
     },
     show (item) {
       item.toggle = !item.toggle
+    },
+    login () {
+      this.loginin = true
+    },
+    fal () {
+      this.loginin = false
+    },
+    logi () {
+      this.logining = false
+    },
+    fals () {
+      this.logining = true
+      this.loginin = false
+    },
+    logs () {
+      this.logining = false
+      this.loginin = true
+    },
+    regist () {
+      this.register = true
+    },
+    reg () {
+      this.register = false
+    },
+    regis () {
+      this.register = false
+      this.loginin = true
     },
     mate (index, e) {
       this.indexss = index
@@ -1502,13 +1610,16 @@ export default {
     /*border: 1px solid #58b195;*/
   }
   .program {
+    width: 355px;
+    height: 50px;
+    background-color: #ce292c;
+    box-shadow: 0 10px 23px 0 rgba(221, 106, 106, 0.3);
+    border-radius: 25px;
+    border: solid 1px rgba(144, 144, 144, 0.18);
     font-size: 16px;
-    color: #fff;
-    line-height: 48px;
-    border-top-right-radius: 23px;
-    border-bottom-right-radius: 23px;
-    background-color: #d42f31;
-    box-shadow: 0 3px 17px 0 rgba(221, 106, 106, 0.4);
+    color: #ffffff;
+    line-height: 50px;
+    cursor: pointer;
   }
   .phone {
     width: 63px;
@@ -1551,4 +1662,149 @@ export default {
     line-height: 40px;
     color: #ffffff;
   }
+
+  /*登录弹窗*/
+  .confirm {
+    z-index: 9999;
+    width: 450px;
+    height: 446px;
+    background-color: #f3ede7;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin: -223px 0 0 -225px;
+  }
+  .online {
+    padding: 20px 32px 0 32px;
+  }
+  .online h3 {
+    font-size: 24px;
+    color: #3e3a39;
+    text-align: left;
+    margin: 21px 0 7px;
+  }
+  .sm {
+    font-size: 14px;
+    color: #666666;
+    cursor: pointer;
+    float: right;
+  }
+  .formdata {
+    text-align: left;
+    font-size: 0;
+    overflow: hidden;
+  }
+  .chose {
+    box-sizing: border-box;
+  }
+  input {
+    box-sizing: border-box;
+    border: 0 none;
+    outline: none;
+    padding: 0 0 0 12px;
+  }
+  .acreage {
+    box-sizing: border-box;
+    width: 386px;
+    height: 50px;
+    margin-bottom: 12px;
+  }
+  .acreage:nth-child(1) {
+    margin-top: 20px;
+  }
+  .acreage:nth-child(2) {
+    width: 257px;
+  }
+  .acr {
+    width: 386px!important;
+  }
+  .chose span {
+    width: 129px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 16px;
+    color: #595757;
+    display: inline-block;
+    background-color: #fafafa;
+    cursor: pointer;
+  }
+  .auto {
+    float: left;
+    font-size: 16px;
+  }
+  .auto input {
+    vertical-align: middle;
+  }
+  .auto span {
+    font-size: 12px;
+    color: #898989;
+    vertical-align: middle;
+  }
+  .agree {
+    margin-top: 21px;
+  }
+  .forget {
+    float: right;
+    color: red;
+    font-size: 16px;
+  }
+  .submit {
+    display: flex;
+    justify-content: center;
+    margin-top: 48px;
+  }
+  .sub {
+    margin-top: 36px;
+  }
+  .submit button{
+    width: 386px;
+    height: 46px;
+    font-size: 14px;
+    border: 0;
+    outline: none;
+    color: #fff;
+    cursor: pointer;
+    background-color: #d42f31;
+  }
+  .loginin {
+    margin: 42px 0 0 21px;
+    overflow: hidden;
+  }
+  .loginin li {
+    width: 35px;
+    height: 29px;
+    display: inline-block;
+    margin-right: 31px;
+    background-size: 35px 29px;
+    cursor: pointer;
+  }
+  .loginin li:nth-child(1) {
+    background: url("../assets/home/weixin.png") no-repeat;
+  }
+  .loginin li:nth-child(2) {
+    background: url("../assets/home/qq.png") no-repeat;
+  }
+  .loginin li:nth-child(3) {
+    background: url("../assets/home/weibo.png") no-repeat;
+  }
+  .loginin p {
+    font-size: 14px;
+    color: #999999;
+    line-height: 29px;
+    float: right;
+  }
+  .taskings {
+    position: fixed;
+    z-index: 9998;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  /*注册弹窗*/
 </style>
