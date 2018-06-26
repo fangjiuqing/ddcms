@@ -10,6 +10,7 @@ import http from './common/http'
 import cache from './common/cache'
 import sess from './common/sess'
 import VueImg from 'v-img'
+import VTooltip from 'v-tooltip'
 
 // 接口配置
 if (process.env.NODE_ENV !== 'development') {
@@ -19,6 +20,7 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 Vue.config.productionTip = false
+Vue.use(VTooltip)
 Vue.use(VueAwesomeSwiper)
 Vue.use(VueLazyload, {
   preLoad: 1, // 预加载高度的比例

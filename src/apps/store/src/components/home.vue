@@ -3,7 +3,9 @@
     <div class="black">
       <div class="nav">
         <div class="rl">
-          <span>登录</span>
+          <router-link :to="{name: 'personal'}">
+            <span>登录</span>
+          </router-link>
           <span>注册</span>
         </div>
       </div>
