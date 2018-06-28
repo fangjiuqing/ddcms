@@ -16,13 +16,15 @@ class public_designer_iface extends base_iface {
 
             $out['list'] = $tab->map(function ($row) {
                 # 案例图片
-                $designer_cases = OBJ('case_table')->fields('case_cover')->get_all(['case_designer_id' => $row['des_id']]);
+                $designer_cases = OBJ('case_table')->fields('case_id, case_cover')->get_all(['case_designer_id' =>
+                                                                                               $row['des_id']]);
                 if ( !empty($designer_cases) ) {
                     $nums = 0;
                     foreach ( $designer_cases as $v ) {
                         if ($nums == 4) break;
                         $row['case_images'][$nums]['lg'] = IMAGE_URL . $v['case_cover'];
                         $row['case_images'][$nums]['sm'] = IMAGE_URL . $v['case_cover'] . '!500x309';
+                        $row['case_images'][$nums]['case_id']   = $v['case_id'];
                         $nums++;
                     }
                 }
@@ -42,9 +44,9 @@ class public_designer_iface extends base_iface {
                 $row['toggle'] = false;
                 return $row;
             })->get_all();
-            $out['paging'] = $paging;
+            $out['paging'] = $paging->to_array();
             return $out;
-        }, 30));
+        }, 600));
     }
 
     public function get_action () {
