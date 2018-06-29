@@ -50,9 +50,9 @@ class public_store_goods_iface extends base_iface {
             })->get_all(['cat_parent' => $row['cat_id']]);
     
             //获取当前一级(二级, 三级)分类下的商品
-            $row['goods']   = $goods_tab->order('goods_cat_id asc, goods_stat_sale desc')->limit(9)->map(function
-            ($row) {
-                $row['goods_cover'] = IMAGEURL . $row['goods_cover'] . '!500x309';
+            $row['goods']   = $goods_tab->order('goods_cat_id asc, goods_stat_sale desc')->limit(9)
+                ->map(function ($row) {
+                $row['goods_cover'] = IMAGE_URL . $row['goods_cover'] . '!500x309';
                 return $row;
             })->get_all([
                 'goods_cat_id'  => $all_ids,
