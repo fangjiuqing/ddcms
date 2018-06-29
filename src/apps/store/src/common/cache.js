@@ -1,7 +1,7 @@
 export default {
   pre: '',
   install: function (v, opt) {
-    this.key = 'pfm'
+    this.pre = 'XGJ'
     v.prototype.$cache = this
   },
   get_key: function (k) {
