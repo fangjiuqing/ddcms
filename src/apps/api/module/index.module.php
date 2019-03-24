@@ -63,7 +63,7 @@ class index_module extends R\module {
 
         try {
             $obj = R\OBJ($iface, true, [
-                'mod'   => $this, 
+                'mod'   => $this,
                 'data'  => $this->params['data'] ?: [],
                 'login' => $login
             ]);

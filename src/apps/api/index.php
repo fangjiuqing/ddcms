@@ -1,41 +1,21 @@
 <?php
 /*
-  +----------------------------------------------------------------------
-  + admin app entry file
-  + ---------------------------------------------------------------------
-  + @date      2018-02-28 17:25:54
-  + @generator RGX v1.0.0.20171212_RC
-  + @cmd       php rgx/build.php --prefix=./apps/api
-  +----------------------------------------------------------------------
+  +-------------------------------------------------------
+  + default App entry file
+  + ------------------------------------------------------
+  + @update 2017-07-19 11:42:55
+  + @cmd /bin/php ./rgx/./build.php -c -d=../www -i=www -n=default -id=../include/
+  +-------------------------------------------------------
 */
-define('IN_RGX', true);
-
-// app run mode, value is debug, normal, full
+chdir(__DIR__);
+define('IN_RGX',   true);
 define('RUN_MODE', 'debug');
-
-// app version
 define('APP_VER', '1.0.0');
-
-// abbr
-define('DS', DIRECTORY_SEPARATOR);
-
-// app ID
-define('APP_ID', 'api');
-
-// app name
+define('DS',       DIRECTORY_SEPARATOR);
+define('NS',       'com\\default_api');
+define('APP_ID',   'www');
 define('APP_NAME', 'default');
-
-// app root path
 define('APP_PATH', realpath('./') . DS);
-
-// includes table models, helper classes, phar and other files
-define('INC_PATH', realpath('include') . DS);
-
-// includes runtime, template cache, data cache, attachments and other files
+define('INC_PATH', realpath('./include') . DS);
 define('DATA_PATH', realpath('data') . DS);
-
-// app namespace
-define('NS', 'com\\default_api');
-
-// load bootstrap file
 include('../../rgx/rgx.php');
